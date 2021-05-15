@@ -33,7 +33,6 @@ class MyEditText : AppCompatEditText {
             val fontType = myPreferences.getInt(Define.CURRENT_FONT,1)
 
             if (fontType == 0) {
-
                 //set default font
             } else if (fontType == 1) {
                 val tf = Typeface.createFromAsset(context.assets, "fonts/Roboto-Regular.ttf")

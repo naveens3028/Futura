@@ -11,9 +11,6 @@ import androidx.core.content.ContextCompat
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.helper.TextDrawable
 
-/**
- * Created by Parthiban on 09/09/2016.
- */
 object FontManager {
 
     val FONTAWESOME = "fonts/MaterialIcons3-Regular.ttf"

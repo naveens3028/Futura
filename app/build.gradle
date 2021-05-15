@@ -57,5 +57,7 @@ dependencies {
     kapt 'androidx.annotation:annotation:1.2.0'
     //pretty time
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+    //scalable size
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
 
 }

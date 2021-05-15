@@ -1,21 +1,27 @@
 package com.trisys.rn.baseapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
+import com.androidnetworking.common.Priority
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
 import com.trisys.rn.baseapp.helper.BottomNavigationBehavior
+import com.trisys.rn.baseapp.network.NetworkHelper
+import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var homeTabViewAdapter : HomeTabViewAdapter
     lateinit var bottomNavigationBehavior: BottomNavigationBehavior
+    lateinit var networkHelper:NetworkHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -32,6 +38,13 @@ class MainActivity : AppCompatActivity() {
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
         toggle.syncState()
+
+        networkHelper = NetworkHelper(this)
+
+        val params = HashMap<String,String>()
+        params.put("","")
+        networkHelper.call(networkHelper.GET,"",params,Priority.HIGH,"login",this)
+
     }
 
     override fun onStart() {
@@ -68,5 +81,36 @@ class MainActivity : AppCompatActivity() {
             }
         }
         viewPager.registerOnPageChangeCallback(pageChangeCallback)
+
+        navigationView.setOnNavigationItemSelectedListener(
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.navigation_home -> {
+                        viewPager.currentItem = 0
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.navigation_learn -> {
+                        viewPager.currentItem = 1
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.navigation_live -> {
+                        viewPager.currentItem = 2
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.navigation_test -> {
+                        viewPager.currentItem = 3
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.navigation_doubts -> {
+                        viewPager.currentItem = 4
+                        return@OnNavigationItemSelectedListener true
+                    }
+                }
+                false
+            })
+    }
+
+    override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+
     }
 }
