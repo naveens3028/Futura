@@ -19,9 +19,11 @@
             android:gravity="center_vertical"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
+            android:background="@color/window_background"
             app:contentInsetStartWithNavigation="0dp"
             app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Small"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium">
+            app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:theme="@style/MyActionBarTheme">
 
         </com.google.android.material.appbar.MaterialToolbar>
     </LinearLayout>

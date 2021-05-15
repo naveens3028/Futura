@@ -10,4 +10,9 @@
 
     <color name="tab_select_color">#c43829</color>
     <color name="tab_default_color">#6c6c6c</color>
+    <color name="toolbar_text">#FF6200EE</color>
+    <color name="window_background">#FFFFFFFF</color>
+
+
+
 </resources>
