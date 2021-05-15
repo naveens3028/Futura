@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">UpMyRanks</string>
+
+
+    <string name="errorCode0">No response from UpMyRanks, please try again.</string>
+    <string name="errorCode503">Something went wrong, please try again. </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

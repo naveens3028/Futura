@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_24px"
+        android:title="home"
+        android:contentDescription="Home"
+        android:importantForAccessibility="yes"
+        app:showAsAction="always|withText"/>
+    <item
+        android:id="@+id/navigation_learn"
+        android:icon="@drawable/ic_home_24px"
+        android:title="learn"
+        android:contentDescription="News Papers"
+        android:importantForAccessibility="yes"
+        app:showAsAction="always|withText"/>
+
+
+    <item
+        android:id="@+id/navigation_live"
+        android:icon="@drawable/ic_home_24px"
+        android:title="live"
+        app:showAsAction="always|withText"/>
+
+    <item
+        android:id="@+id/navigation_test"
+        android:icon="@drawable/ic_home_24px"
+        android:title="Test"
+        android:contentDescription="Cricket"
+        android:importantForAccessibility="yes"
+        app:showAsAction="always|withText"/>
+
+    <item
+     android:id="@+id/navigation_doubts"
+     android:icon="@drawable/ic_home_24px"
+     android:title="Doubts"
+     android:visible="true"
+     app:showAsAction="ifRoom"/>
+</menu>
