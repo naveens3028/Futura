@@ -5,4 +5,11 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="navigation_drawer_width">250dp</dimen>
+    <dimen name="sfl_activity_horizontal_margin">16dp</dimen>
+    <dimen name="sfl_activity_vertical_margin">16dp</dimen>
+
+    <dimen name="sfl_global_keyline_xs">8dp</dimen>
+    <dimen name="sfl_global_keyline_s">16dp</dimen>
+    <dimen name="sfl_global_keyline_m">32dp</dimen>
+    <dimen name="sfl_global_keyline_l">72dp</dimen>
 </resources>

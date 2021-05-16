@@ -9,6 +9,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-
-
+    <string name="sfl_default_placeholder_empty">No data here.</string>
+    <string name="sfl_default_placeholder_offline">You are offline.</string>
+    <string name="sfl_retry">Retry</string>
 </resources>
