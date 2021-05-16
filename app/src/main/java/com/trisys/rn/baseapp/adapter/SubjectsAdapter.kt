@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.GlideApp
 import com.trisys.rn.baseapp.Model.Subjects
 import com.trisys.rn.baseapp.R
 import com.vpnews24.utils.ImageLoader
@@ -21,7 +20,7 @@ class SubjectsAdapter(val context: Context, val subjects: ArrayList<Subjects>) :
             val subjectTxt = itemView.findViewById(R.id.subjecttxt) as TextView
             val subjectImg = itemView.findViewById(R.id.subjectimg) as ImageView
             subjectTxt.text = user.subjects
-            GlideApp.with(context).load(user.subjectLogo).into(subjectImg)
+            imageloader.setImage(context, user.subjectLogo!!,subjectImg)
         }
     }
 

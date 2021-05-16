@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.Model.Subjects
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.adapter.CourseAdapter
 import com.trisys.rn.baseapp.adapter.SubjectsAdapter
+import kotlinx.android.synthetic.main.fragment_learn.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,8 +31,10 @@ class LearnFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var recycler: RecyclerView
+    private lateinit var subjectRecycler: RecyclerView
+    private lateinit var courseRecycler: RecyclerView
     private var subjectList = ArrayList<Subjects>()
+    private var courseList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,17 +60,36 @@ class LearnFragment : Fragment() {
         subjectList.add(Subjects("Chemistry", R.drawable.chemistry))
         subjectList.add(Subjects("Biology", R.drawable.biology))
         subjectList.add(Subjects("Mathematics", R.drawable.maths))
-        /*subjectList.add("Chemistry")
-        subjectList.add("Biology")
-        subjectList.add("Mathematics")*/
 
-        val recyclerView = view.findViewById(R.id.recyclerview) as RecyclerView
+        courseList.add("NCERT")
+        courseList.add("NEET")
+        courseList.add("JEE MAINS")
+
+        subjectRecycler = view.findViewById(R.id.recyclerview) as RecyclerView
+        courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
+
+        subjectCall()
+        courseCall()
+
+    }
+
+    private fun subjectCall(){
         //adding a layoutmanager
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
+        subjectRecycler.layoutManager = GridLayoutManager(context, 2)
         val adapter = SubjectsAdapter(context!!,subjectList)
 
         //now adding the adapter to recyclerview
-        recyclerView.adapter = adapter
+        subjectRecycler.adapter = adapter
+    }
+
+    @SuppressLint("WrongConstant")
+    private fun courseCall(){
+        //adding a layoutmanager
+        courseRecycler.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+        val adapter = CourseAdapter(courseList)
+
+        //now adding the adapter to recyclerview
+        courseRecycler.adapter = adapter
     }
 
     companion object {

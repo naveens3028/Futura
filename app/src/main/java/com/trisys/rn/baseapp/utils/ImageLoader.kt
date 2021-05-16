@@ -12,7 +12,7 @@ import com.trisys.rn.baseapp.GlideApp
 
 object ImageLoader {
 
-    fun setImage(context: Context, url: String, imageView: ImageView){
+    fun setImage(context: Context, url: Int, imageView: ImageView){
         GlideApp.with(context).load(url).into(imageView)
     }
 

@@ -8,55 +8,17 @@
     android:padding="30dp"
     tools:context=".fragment.HomeFragment">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardview"
+        app:cardCornerRadius="10dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/cardview"
-            android:layout_centerHorizontal="true"
-            app:cardCornerRadius="20dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:background="#AB673AB7"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:text="NCERT" />
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:background="#33D3A0"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:layout_marginLeft="3dp"
-                android:clickable="true"
-                android:text="NEET" />
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:background="#FAE109"
-                android:layout_marginLeft="3dp"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:clickable="true"
-                android:textStyle="bold"
-                android:text="JEE MAINS" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewcourse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="50dp"
