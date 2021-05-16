@@ -20,6 +20,7 @@
     <string name="the_otp_has_been_sent_to_your_mobile_number_and_email_address">The OTP has been sent to \n Your mobile number and email address</string>
     <string name="didn_t_get_the_otp">Didn\'t get the OTP?</string>
     <string name="resend"><u>Resend</u></string>
+    <string name="otp_hint">__</string>
 
 
 </resources>

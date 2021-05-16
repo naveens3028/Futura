@@ -1,7 +1,6 @@
 package com.trisys.rn.baseapp.onBoarding.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -24,7 +22,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         continueButton.setOnClickListener {
             fragmentManager?.beginTransaction()
-                ?.replace(R.id.container, OTPFragment())
+                ?.replace(R.id.container, OTPFragment())?.addToBackStack(null)
                 ?.commitAllowingStateLoss()
         }
     }
