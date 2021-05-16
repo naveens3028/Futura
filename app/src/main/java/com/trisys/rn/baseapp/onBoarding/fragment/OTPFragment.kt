@@ -144,4 +144,3 @@ class OTPFragment : Fragment() {
     }
 
 }
-
