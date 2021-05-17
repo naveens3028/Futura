@@ -15,5 +15,10 @@
     <color name="divider_color">#aac2c2c2</color>
     <color name="notification_badge">#FFEB3B</color>
 
+    <color name="carolina_blue">#1C96DB</color>
+    <color name="alice_blue">#EEF4FA</color>
+    <color name="light_ray">#D2D7DC</color>
+    <color name="davys_grey">#54585D</color>
+
 
 </resources>
