@@ -39,7 +39,7 @@ class SplashScreenActivity : AppCompatActivity() {
         }, 3000)
     }
 
-    fun startAnimation() {
+    private fun startAnimation() {
         val animationZoomIn = AnimationUtils.loadAnimation(this, R.anim.zoom_in)
         splashScreenImage.startAnimation(animationZoomIn)
         val animationSlideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down)
