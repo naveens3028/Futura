@@ -26,5 +26,6 @@
             android:theme="@style/MyActionBarTheme">
 
         </com.google.android.material.appbar.MaterialToolbar>
+
     </LinearLayout>
 </com.google.android.material.appbar.AppBarLayout>

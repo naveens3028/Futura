@@ -7,7 +7,6 @@
     tools:context=".onBoarding.LoginActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/loginImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitStart"
@@ -15,7 +14,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/rounded_rect_top_left_corner_white"
