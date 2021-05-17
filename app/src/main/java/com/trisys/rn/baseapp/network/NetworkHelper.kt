@@ -6,9 +6,9 @@ import com.androidnetworking.error.ANError
 import org.json.JSONObject
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.BuildConfig
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
-import com.trisys.rn.baseapp.BuildConfig
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.utils.Utils
 

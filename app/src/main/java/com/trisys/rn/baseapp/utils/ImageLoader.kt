@@ -8,15 +8,12 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.load.MultiTransformation
 import com.trisys.rn.baseapp.GlideApp
-import com.trisys.rn.baseapp.R
-
 
 object ImageLoader {
 
     fun setImage(context: Context, url: String, imageView: ImageView){
-        GlideApp.with(context).load(url).into(imageView);
+        GlideApp.with(context).load(url).into(imageView)
     }
 
     fun loadFit(context: Context, url: String, imageView: ImageView) {
@@ -30,8 +27,8 @@ object ImageLoader {
                 .override(imageView.measuredWidth,imageView.measuredHeight)
                 //.placeholder(R.drawable.placeholder)
                 .transforms(CenterCrop(),RoundedCorners(14))
-                .into(imageView);
- }
+                .into(imageView)
+    }
 
     fun load(context: Context, url: String, imageView: ImageView) {
 
