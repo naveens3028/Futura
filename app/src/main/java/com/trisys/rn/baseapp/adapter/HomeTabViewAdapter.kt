@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.trisys.rn.baseapp.fragment.HomeFragment
+import com.trisys.rn.baseapp.fragment.LearnFragment
 
 
 /**
@@ -20,7 +21,7 @@ class HomeTabViewAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
         if(position == 0){
             return HomeFragment.newInstance("","");
         }else if(position == 1) {
-            return HomeFragment.newInstance("","");
+            return LearnFragment.newInstance("","");
         }else if(position == 2) {
             return HomeFragment.newInstance("","");
         }else if(position == 3) {
