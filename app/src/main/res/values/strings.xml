@@ -9,6 +9,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="learn_fragment">Learn fragment</string>
+    <string name="neet">NEET</string>
+    <string name="jee">JEE MAINS</string>
+    <string name="ncert">NCERT</string>
 
 
 

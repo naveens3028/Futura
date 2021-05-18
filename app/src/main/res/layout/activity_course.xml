@@ -14,7 +14,6 @@
                 android:id="@+id/coursetxt"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="3dp"
                 android:background="#AB673AB7"
                 android:textColor="@color/white"
                 android:gravity="center"
