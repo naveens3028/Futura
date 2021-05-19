@@ -14,15 +14,19 @@ import com.trisys.rn.baseapp.Model.Subjects
 import com.trisys.rn.baseapp.R
 import com.vpnews24.utils.ImageLoader
 
-class SubjectsAdapter(val context: Context, val subjects: ArrayList<Subjects>, var subjectClickListener: SubjectClickListener) :
+class SubjectsAdapter(
+    val context: Context,
+    val subjects: ArrayList<Subjects>,
+    var subjectClickListener: SubjectClickListener
+) :
     RecyclerView.Adapter<SubjectsAdapter.ViewHolder>() {
 
     val imageloader = ImageLoader
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val subjectTxt = itemView.findViewById(R.id.subjecttxt) as TextView
-            val subjectImg = itemView.findViewById(R.id.subjectimg) as ImageView
-            val cardview = itemView.findViewById(R.id.cardsubject) as CardView
+        val subjectTxt = itemView.findViewById(R.id.subjecttxt) as TextView
+        val subjectImg = itemView.findViewById(R.id.subjectimg) as ImageView
+        val cardview = itemView.findViewById(R.id.cardsubject) as CardView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,7 +36,7 @@ class SubjectsAdapter(val context: Context, val subjects: ArrayList<Subjects>, v
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.subjectTxt.text= (subjects.get(position).subjects)
+        holder.subjectTxt.text = (subjects.get(position).subjects)
         imageloader.setImage(context, subjects.get(position).subjectLogo!!, holder.subjectImg)
 
         when (holder.subjectTxt.text) {
@@ -91,8 +95,8 @@ class SubjectsAdapter(val context: Context, val subjects: ArrayList<Subjects>, v
 
     }
 
-    fun Int.dpToPixels(context: Context):Float = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,this.toFloat(),context.resources.displayMetrics
+    fun Int.dpToPixels(context: Context): Float = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
     )
 
     override fun getItemCount(): Int {

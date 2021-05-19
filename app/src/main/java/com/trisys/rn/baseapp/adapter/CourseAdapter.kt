@@ -40,7 +40,12 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
                 if (Index == 1) {
-                    holder.subjectTxt.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                    holder.subjectTxt.setBackgroundColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.white
+                        )
+                    )
                     holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
                 }
             }
@@ -55,7 +60,12 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
 
                 if (Index == 0) {
-                    holder.subjectTxt.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                    holder.subjectTxt.setBackgroundColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.white
+                        )
+                    )
                     holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
                 }
             }
@@ -69,7 +79,12 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
 
                 if (Index == 2) {
-                    holder.subjectTxt.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                    holder.subjectTxt.setBackgroundColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.white
+                        )
+                    )
                     holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
                 }
             }

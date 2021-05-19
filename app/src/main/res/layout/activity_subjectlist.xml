@@ -57,7 +57,7 @@
                 android:id="@+id/imgplay"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_play"/>
+                android:src="@drawable/ic_play_logo"/>
 
             <TextView
                 android:layout_width="32dp"

@@ -31,7 +31,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/_16sdp"
         android:layout_height="@dimen/_16sdp"
-        android:src="@drawable/ic_play"
+        android:src="@drawable/ic_play_logo"
         app:layout_constraintBottom_toBottomOf="@+id/videoStatus"
         app:layout_constraintEnd_toEndOf="@+id/videoStatus"
         app:layout_constraintStart_toStartOf="@+id/videoStatus"

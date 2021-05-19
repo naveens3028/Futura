@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -105,31 +104,37 @@ class LearnFragment : Fragment(), SubjectClickListener {
         subjectListCall()
     }
 
-    private fun subjectCall(){
+    private fun subjectCall() {
         //adding a layoutmanager
         subjectRecycler.layoutManager = GridLayoutManager(context, 2)
-        val adapter = SubjectsAdapter(context!!,subjectList,this)
+        val adapter = SubjectsAdapter(context!!, subjectList, this)
 
         //now adding the adapter to recyclerview
         subjectRecycler.adapter = adapter
     }
 
     @SuppressLint("WrongConstant")
-    private fun courseCall(){
+    private fun courseCall() {
         courseRecycler.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
 
-        courseRecycler.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
-        val adapter = CourseAdapter(context!!,courseList)
+        courseRecycler.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                LinearLayoutManager.HORIZONTAL
+            )
+        )
+        val adapter = CourseAdapter(context!!, courseList)
 
         //now adding the adapter to recyclerview
         courseRecycler.adapter = adapter
     }
 
     @SuppressLint("WrongConstant")
-    private fun subjectListCall(){
+    private fun subjectListCall() {
         //adding a layoutmanager
-        subjectRecyclerList.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        val adapter = SubjectListAdapter(context!!,chapterList)
+        subjectRecyclerList.layoutManager =
+            LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+        val adapter = SubjectListAdapter(context!!, chapterList)
 
         //now adding the adapter to recyclerview
         subjectRecyclerList.adapter = adapter

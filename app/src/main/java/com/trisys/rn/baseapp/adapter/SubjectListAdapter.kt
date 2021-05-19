@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 
@@ -18,12 +17,13 @@ class SubjectListAdapter(val context: Context, val chaptersList: ArrayList<Strin
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.activity_subjectlist, parent, false)
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.activity_subjectlist, parent, false)
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.chapternametxt.text= (chaptersList.get(position))
+        holder.chapternametxt.text = (chaptersList.get(position))
 
     }
 
