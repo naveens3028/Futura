@@ -12,6 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cardview"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="5dp"
+        android:outlineAmbientShadowColor="@color/davys_grey"
+        android:focusableInTouchMode="true"
         app:cardCornerRadius="10dp">
 
     <androidx.recyclerview.widget.RecyclerView
