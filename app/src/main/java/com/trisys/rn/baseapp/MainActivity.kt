@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
             )
         }
 
+
         //Assign Drawer properties
         val drawer = findViewById<DrawerLayout>(R.id.drawer)
         val toggle = ActionBarDrawerToggle(

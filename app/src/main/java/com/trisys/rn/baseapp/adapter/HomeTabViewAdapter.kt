@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.trisys.rn.baseapp.fragment.HomeFragment
 import com.trisys.rn.baseapp.fragment.LearnFragment
+import com.trisys.rn.baseapp.fragment.LiveFragment
 
 
 /**
@@ -18,16 +19,16 @@ class HomeTabViewAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
     }
 
     override fun createFragment(position: Int): Fragment {
-        if(position == 0){
-            return HomeFragment.newInstance("","");
-        }else if(position == 1) {
-            return LearnFragment.newInstance("","");
-        }else if(position == 2) {
-            return HomeFragment.newInstance("","");
-        }else if(position == 3) {
-            return HomeFragment.newInstance("","");
-        }else{
-            return HomeFragment.newInstance("","");
+        if (position == 0) {
+            return HomeFragment.newInstance("", "");
+        } else if (position == 1) {
+            return LearnFragment.newInstance("", "");
+        } else if (position == 2) {
+            return LiveFragment()
+        } else if (position == 3) {
+            return HomeFragment.newInstance("", "");
+        } else {
+            return HomeFragment.newInstance("", "");
         }
     }
 }
