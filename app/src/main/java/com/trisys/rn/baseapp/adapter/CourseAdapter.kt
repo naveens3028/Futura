@@ -8,9 +8,12 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
+import java.util.*
 
 class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
     RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
+
+    var Index = 0
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subjectTxt = itemView.findViewById(R.id.coursetxt) as TextView
@@ -22,10 +25,13 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+
         holder.subjectTxt.text = courseList.get(position)
 
         when (holder.subjectTxt.text) {
             "NEET" -> {
+
                 holder.subjectTxt.setBackgroundColor(
                     ContextCompat.getColor(
                         context,
@@ -33,6 +39,10 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
                     )
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
+                if (Index == 1) {
+                    holder.subjectTxt.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                    holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
+                }
             }
 
             "NCERT" -> {
@@ -44,6 +54,10 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
 
+                if (Index == 0) {
+                    holder.subjectTxt.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                    holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
+                }
             }
             "JEE MAINS" -> {
                 holder.subjectTxt.setBackgroundColor(
@@ -54,14 +68,16 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
 
+                if (Index == 2) {
+                    holder.subjectTxt.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                    holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
+                }
             }
         }
-
         holder.subjectTxt.setOnClickListener {
-            holder.subjectTxt.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
-            holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
+            Index = position
+            notifyDataSetChanged()
         }
-
     }
 
     override fun getItemCount(): Int {

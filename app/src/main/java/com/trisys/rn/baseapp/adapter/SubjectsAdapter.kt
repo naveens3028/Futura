@@ -40,7 +40,7 @@ class SubjectsAdapter(val context: Context, val subjects: ArrayList<Subjects>, v
                 holder.cardview.setCardBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.bluishgreen
+                        R.color.purple_300
                     )
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
@@ -53,7 +53,7 @@ class SubjectsAdapter(val context: Context, val subjects: ArrayList<Subjects>, v
                 holder.cardview.setCardBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.blue
+                        R.color.yellow
                     )
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
@@ -65,7 +65,7 @@ class SubjectsAdapter(val context: Context, val subjects: ArrayList<Subjects>, v
                 holder.cardview.setCardBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.yellow
+                        R.color.bio_pink
                     )
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
@@ -78,7 +78,7 @@ class SubjectsAdapter(val context: Context, val subjects: ArrayList<Subjects>, v
                 holder.cardview.setCardBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.yellow
+                        R.color.bluishgreen
                     )
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))

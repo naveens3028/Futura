@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +19,7 @@ import com.trisys.rn.baseapp.adapter.CourseAdapter
 import com.trisys.rn.baseapp.adapter.SubjectClickListener
 import com.trisys.rn.baseapp.adapter.SubjectListAdapter
 import com.trisys.rn.baseapp.adapter.SubjectsAdapter
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,6 +35,7 @@ class LearnFragment : Fragment(), SubjectClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var pageNo: Int? = null
     private lateinit var subjectRecycler: RecyclerView
     private lateinit var courseRecycler: RecyclerView
     private lateinit var subjectRecyclerList: RecyclerView
@@ -60,6 +63,16 @@ class LearnFragment : Fragment(), SubjectClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        pageNo = 1
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // in here you can do logic when backPress is clicked
+                //pageNo = 1
+                courseRecycler.visibility = View.VISIBLE
+                subjectRecycler.visibility = View.VISIBLE
+                subjectRecyclerList.visibility = View.GONE
+            }
+        })
         subjectRecycler = view.findViewById(R.id.recyclerview) as RecyclerView
         courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
         subjectRecyclerList = view.findViewById(R.id.recyclerviewsubjectslist) as RecyclerView
@@ -143,6 +156,7 @@ class LearnFragment : Fragment(), SubjectClickListener {
     }
 
     override fun onSubjectClicked(isClicked: Boolean) {
+        pageNo = 2
         courseRecycler.visibility = View.GONE
         subjectRecycler.visibility = View.GONE
         subjectRecyclerList.visibility = View.VISIBLE
