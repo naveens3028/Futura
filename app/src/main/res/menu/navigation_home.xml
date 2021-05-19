@@ -11,7 +11,7 @@
         app:showAsAction="always|withText"/>
     <item
         android:id="@+id/navigation_learn"
-        android:icon="@drawable/ic_home_24px"
+        android:icon="@drawable/ic_learn"
         android:title="Learn"
         android:contentDescription="News Papers"
         android:importantForAccessibility="yes"
@@ -20,13 +20,13 @@
 
     <item
         android:id="@+id/navigation_live"
-        android:icon="@drawable/ic_home_24px"
+        android:icon="@drawable/ic_live"
         android:title="Live"
         app:showAsAction="always|withText"/>
 
     <item
         android:id="@+id/navigation_test"
-        android:icon="@drawable/ic_home_24px"
+        android:icon="@drawable/ic_test"
         android:title="Test"
         android:contentDescription="Cricket"
         android:importantForAccessibility="yes"
@@ -34,7 +34,7 @@
 
     <item
      android:id="@+id/navigation_doubts"
-     android:icon="@drawable/ic_home_24px"
+     android:icon="@drawable/ic_doubts"
      android:title="Doubts"
      android:visible="true"
      app:showAsAction="ifRoom"/>
