@@ -22,7 +22,7 @@
             android:background="@color/window_background"
             app:contentInsetStartWithNavigation="0dp"
             app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Small"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:titleTextAppearance="@style/TitleBarTextAppearance"
             android:theme="@style/MyActionBarTheme">
 
         </com.google.android.material.appbar.MaterialToolbar>

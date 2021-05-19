@@ -1,0 +1,42 @@
+package com.trisys.rn.baseapp.adapter
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.trisys.rn.baseapp.Model.SubTopicItem
+import com.trisys.rn.baseapp.R
+import kotlinx.android.synthetic.main.row_sub_topics_title.view.*
+
+class SubTopicsTitleAdapter(
+    val context: Context,
+    private val subTopicTitleItems: ArrayList<SubTopicItem>
+) : RecyclerView.Adapter<SubTopicsTitleAdapter.ViewHolder>() {
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v =
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.row_sub_topics_title, parent, false)
+        return ViewHolder(v)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        val subTopicTitle = subTopicTitleItems[position]
+
+        if (holder.adapterPosition == 0)
+            holder.itemView.selected.visibility = View.VISIBLE
+
+        holder.itemView.subject.text = subTopicTitle.subject
+
+
+    }
+
+    override fun getItemCount(): Int {
+        return subTopicTitleItems.size
+    }
+}

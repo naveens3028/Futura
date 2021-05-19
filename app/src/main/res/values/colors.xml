@@ -20,5 +20,12 @@
     <color name="light_ray">#D2D7DC</color>
     <color name="davys_grey">#54585D</color>
 
+    <color name="plump_purple">#594BB4</color>
+    <color name="blue_munsell">#228FAB</color>
+    <color name="satin_sheen_gold">#CC9A30</color>
+    <color name="super_pink">#C36797</color>
+
+    <color name="medium_sea_green">#5CB164</color>
+    <color name="bittersweet">#F97363</color>
 
 </resources>
