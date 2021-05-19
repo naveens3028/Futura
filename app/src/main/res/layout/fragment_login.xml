@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container"
+    tools:context=".onBoarding.fragment.LoginFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/emailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:background="@drawable/rounded_circle_filled"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/email_address"
+                android:inputType="textEmailAddress"
+                android:maxLength="1"
+                android:padding="@dimen/_10sdp"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textColor="@color/carolina_blue"
+                android:textColorHint="@color/light_ray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/mobileNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:background="@drawable/rounded_circle_filled"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/mobile_number"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:padding="@dimen/_10sdp"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textColorHint="@color/light_ray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailAddress" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/forgetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/forgot_password"
+                android:textColor="@color/carolina_blue"
+                android:textSize="@dimen/_12sdp"
+                app:fontFamily="@font/roboto_regular"
+                app:layout_constraintEnd_toEndOf="@+id/mobileNumber"
+                app:layout_constraintTop_toBottomOf="@+id/mobileNumber" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/continueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:backgroundTint="@color/carolina_blue"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/continue_label"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:cornerRadius="@dimen/_6sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/forgetPassword" />
+
+            <TextView
+                android:id="@+id/orConnectWith"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/or_connect_with"
+                android:textColor="@color/davys_grey"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/continueButton" />
+
+            <View
+                android:id="@+id/google"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_margin="@dimen/_15sdp"
+                android:background="@drawable/rounded_circle_filled"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/orConnectWith"
+                app:layout_constraintWidth_percent="0.4" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/googleLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_google"
+                app:layout_constraintBottom_toBottomOf="@+id/google"
+                app:layout_constraintEnd_toEndOf="@+id/google"
+                app:layout_constraintEnd_toStartOf="@+id/googleText"
+                app:layout_constraintStart_toStartOf="@+id/google"
+                app:layout_constraintTop_toTopOf="@+id/google" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/googleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/google"
+                android:textColor="@color/davys_grey"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/googleLogo"
+                app:layout_constraintEnd_toEndOf="@+id/google"
+                app:layout_constraintStart_toEndOf="@+id/googleLogo"
+                app:layout_constraintTop_toTopOf="@+id/googleLogo" />
+
+
+            <View
+                android:id="@+id/facebook"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_margin="@dimen/_15sdp"
+                android:background="@drawable/rounded_circle_filled"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/google"
+                app:layout_constraintTop_toBottomOf="@+id/orConnectWith"
+                app:layout_constraintWidth_percent="0.4" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/facebookLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_facebook"
+                app:layout_constraintBottom_toBottomOf="@+id/facebook"
+                app:layout_constraintEnd_toEndOf="@+id/facebook"
+                app:layout_constraintEnd_toStartOf="@+id/facebookText"
+                app:layout_constraintStart_toStartOf="@+id/facebook"
+                app:layout_constraintTop_toTopOf="@+id/facebook" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/facebookText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/facebook"
+                android:textColor="@color/davys_grey"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/facebookLogo"
+                app:layout_constraintEnd_toEndOf="@+id/facebook"
+                app:layout_constraintStart_toEndOf="@+id/facebookLogo"
+                app:layout_constraintTop_toTopOf="@+id/facebookLogo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

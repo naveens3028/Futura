@@ -1,6 +1,11 @@
 package com.trisys.rn.baseapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,12 +14,14 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.androidnetworking.common.Priority
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
 import com.trisys.rn.baseapp.helper.BottomNavigationBehavior
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.layout_notification_icon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 
@@ -108,9 +115,33 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 }
                 false
             })
+
+
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        try {
+            menuInflater.inflate(R.menu.menu_home, menu)
+            val item1 = menu.findItem(R.id.action_menu_notification).actionView.findViewById(R.id.layoutNotification) as RelativeLayout
+            item1.setOnClickListener {
+                startActivity(Intent(this, NotificationsActivity::class.java))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+//            R.id.action_menu_notification -> {
+//
+//                return true
+//            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 }
