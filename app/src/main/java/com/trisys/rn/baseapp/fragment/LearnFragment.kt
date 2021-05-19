@@ -167,5 +167,4 @@ class LearnFragment : Fragment(), SubjectClickListener {
         subjectRecyclerList.visibility = View.VISIBLE
     }
 
-
 }

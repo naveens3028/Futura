@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.trisys.rn.baseapp.MainActivity
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.onBoarding.LoginActivity
 import kotlinx.android.synthetic.main.fragment_otp.*
 
 class OTPFragment : Fragment() {
@@ -62,8 +61,8 @@ class OTPFragment : Fragment() {
         }
 
         continueButton.setOnClickListener {
-            val intent = Intent (getActivity(), MainActivity::class.java)
-            getActivity()?.startActivity(intent)
+            val intent = Intent(activity, MainActivity::class.java)
+            activity?.startActivity(intent)
         }
 
         otp1.addTextChangedListener(object : TextWatcher {

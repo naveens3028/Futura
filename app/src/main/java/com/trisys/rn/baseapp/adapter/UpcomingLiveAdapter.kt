@@ -1,7 +1,6 @@
 package com.trisys.rn.baseapp.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.GlideApp
 import com.trisys.rn.baseapp.Model.UpcomingLiveItem
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.learn.LearnActivity
 import kotlinx.android.synthetic.main.row_upcoming_live.view.*
 
 class UpcomingLiveAdapter(
@@ -29,10 +27,6 @@ class UpcomingLiveAdapter(
         val upcomingLive = upcomingLiveItems[position]
         holder.itemView.subject.text = upcomingLive.subject
         GlideApp.with(context).load(upcomingLive.imageID).into(holder.itemView.upcomingImg)
-        holder.itemView.upcomingImg.setOnClickListener {
-            val intent = Intent(context, LearnActivity::class.java)
-            context.startActivity(intent)
-        }
     }
 
     override fun getItemCount(): Int {
