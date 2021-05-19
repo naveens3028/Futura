@@ -5,14 +5,14 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_24px"
-        android:title="home"
+        android:title="Home"
         android:contentDescription="Home"
         android:importantForAccessibility="yes"
         app:showAsAction="always|withText"/>
     <item
         android:id="@+id/navigation_learn"
         android:icon="@drawable/ic_home_24px"
-        android:title="learn"
+        android:title="Learn"
         android:contentDescription="News Papers"
         android:importantForAccessibility="yes"
         app:showAsAction="always|withText"/>
@@ -21,7 +21,7 @@
     <item
         android:id="@+id/navigation_live"
         android:icon="@drawable/ic_home_24px"
-        android:title="live"
+        android:title="Live"
         app:showAsAction="always|withText"/>
 
     <item
