@@ -1,5 +1,6 @@
 package com.trisys.rn.baseapp.onBoarding.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.trisys.rn.baseapp.MainActivity
 import com.trisys.rn.baseapp.R
 import kotlinx.android.synthetic.main.fragment_otp.*
 
@@ -56,6 +58,11 @@ class OTPFragment : Fragment() {
                 }
             }
             false
+        }
+
+        continueButton.setOnClickListener {
+            val intent = Intent(activity, MainActivity::class.java)
+            activity?.startActivity(intent)
         }
 
         otp1.addTextChangedListener(object : TextWatcher {

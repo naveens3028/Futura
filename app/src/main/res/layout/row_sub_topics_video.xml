@@ -31,7 +31,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/_16sdp"
         android:layout_height="@dimen/_16sdp"
-        android:src="@drawable/ic_play"
+        android:src="@drawable/ic_play_black"
         app:layout_constraintBottom_toBottomOf="@+id/videoStatus"
         app:layout_constraintEnd_toEndOf="@+id/videoStatus"
         app:layout_constraintStart_toStartOf="@+id/videoStatus"
@@ -41,8 +41,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_12sdp"
-        android:maxLines="2"
         android:ellipsize="end"
+        android:maxLines="2"
         android:text="Important identities in trigonometry and it's applications"
         android:textColor="@color/davys_grey"
         android:textSize="@dimen/_14sdp"

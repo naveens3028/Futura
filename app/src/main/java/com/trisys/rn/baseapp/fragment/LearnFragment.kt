@@ -5,11 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.Model.Subjects
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.adapter.CourseAdapter
+import com.trisys.rn.baseapp.adapter.SubjectClickListener
+import com.trisys.rn.baseapp.adapter.SubjectListAdapter
 import com.trisys.rn.baseapp.adapter.SubjectsAdapter
 
 
@@ -23,12 +30,17 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class LearnFragment : Fragment() {
+class LearnFragment : Fragment(), SubjectClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var recycler: RecyclerView
+    private var pageNo: Int? = null
+    private lateinit var subjectRecycler: RecyclerView
+    private lateinit var courseRecycler: RecyclerView
+    private lateinit var subjectRecyclerList: RecyclerView
     private var subjectList = ArrayList<Subjects>()
+    private var courseList = ArrayList<String>()
+    private var chapterList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,21 +62,82 @@ class LearnFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        pageNo = 1
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // in here you can do logic when backPress is clicked
+                //pageNo = 1
+                courseRecycler.visibility = View.VISIBLE
+                subjectRecycler.visibility = View.VISIBLE
+                subjectRecyclerList.visibility = View.GONE
+            }
+        })
+        subjectRecycler = view.findViewById(R.id.recyclerview) as RecyclerView
+        courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
+        subjectRecyclerList = view.findViewById(R.id.recyclerviewsubjectslist) as RecyclerView
+
         subjectList.add(Subjects("Physics", R.drawable.physics))
         subjectList.add(Subjects("Chemistry", R.drawable.chemistry))
         subjectList.add(Subjects("Biology", R.drawable.biology))
         subjectList.add(Subjects("Mathematics", R.drawable.maths))
-        /*subjectList.add("Chemistry")
-        subjectList.add("Biology")
-        subjectList.add("Mathematics")*/
 
-        val recyclerView = view.findViewById(R.id.recyclerview) as RecyclerView
+        courseList.add("NCERT")
+        courseList.add("NEET")
+        courseList.add("JEE MAINS")
+
+        chapterList.apply {
+            this.add("Physics World")
+            this.add("Law of Motions")
+            this.add("Conservation of Energy")
+            this.add("Heat and Temperature")
+            this.add("Wave Energy")
+            this.add("Kinematics")
+            this.add("Dynamics: Forces and Motion")
+            this.add("Impulse and Momentum")
+            this.add("Astronomy")
+            this.add("Electricity and Electrical Energy")
+            this.add("Nature and Behavior of Light")
+        }
+
+        subjectCall()
+        courseCall()
+        subjectListCall()
+    }
+
+    private fun subjectCall() {
         //adding a layoutmanager
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
-        val adapter = SubjectsAdapter(context!!,subjectList)
+        subjectRecycler.layoutManager = GridLayoutManager(context, 2)
+        val adapter = SubjectsAdapter(context!!, subjectList, this)
 
         //now adding the adapter to recyclerview
-        recyclerView.adapter = adapter
+        subjectRecycler.adapter = adapter
+    }
+
+    @SuppressLint("WrongConstant")
+    private fun courseCall() {
+        courseRecycler.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+
+        courseRecycler.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                LinearLayoutManager.HORIZONTAL
+            )
+        )
+        val adapter = CourseAdapter(context!!, courseList)
+
+        //now adding the adapter to recyclerview
+        courseRecycler.adapter = adapter
+    }
+
+    @SuppressLint("WrongConstant")
+    private fun subjectListCall() {
+        //adding a layoutmanager
+        subjectRecyclerList.layoutManager =
+            LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+        val adapter = SubjectListAdapter(context!!, chapterList)
+
+        //now adding the adapter to recyclerview
+        subjectRecyclerList.adapter = adapter
     }
 
     companion object {
@@ -86,4 +159,12 @@ class LearnFragment : Fragment() {
                 }
             }
     }
+
+    override fun onSubjectClicked(isClicked: Boolean) {
+        pageNo = 2
+        courseRecycler.visibility = View.GONE
+        subjectRecycler.visibility = View.GONE
+        subjectRecyclerList.visibility = View.VISIBLE
+    }
+
 }

@@ -36,11 +36,11 @@ class LearnActivity : AppCompatActivity() {
         subTopicList.add(SubTopicItem("Biology"))
 
         val titleRecyclerView = titleRecycler
-        val titleAdapter = SubTopicsTitleAdapter(this!!, subTopicList)
+        val titleAdapter = SubTopicsTitleAdapter(this, subTopicList)
         titleRecyclerView.adapter = titleAdapter
 
         val subTopicsRecyclerView = supTopicRecycler
-        val subTopicListAdapter = SubTopicsAdapter(this!!, subTopicList)
+        val subTopicListAdapter = SubTopicsAdapter(this, subTopicList)
         subTopicsRecyclerView.adapter = subTopicListAdapter
 
     }
