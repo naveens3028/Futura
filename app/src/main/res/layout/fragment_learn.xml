@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/cardview"
         app:cardUseCompatPadding="true"
+        android:layout_centerHorizontal="true"
         app:cardElevation="5dp"
         android:outlineAmbientShadowColor="@color/davys_grey"
         android:focusableInTouchMode="true"
@@ -20,16 +21,22 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewcourse"
+        android:nestedScrollingEnabled="false"
+        tools:listitem="@layout/activity_course"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="50dp"
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
+        android:nestedScrollingEnabled="false"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cardview"/>
+        android:layout_below="@+id/cardview"
+        tools:listitem="@layout/activity_subjects"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewsubjectslist"
