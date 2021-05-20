@@ -121,6 +121,7 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:itemCount="3"
+                        tools:layout_editor_absoluteX="0dp"
                         tools:listitem="@layout/row_sub_topics_video" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
