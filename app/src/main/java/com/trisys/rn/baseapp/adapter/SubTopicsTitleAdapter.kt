@@ -14,6 +14,9 @@ class SubTopicsTitleAdapter(
     private val subTopicTitleItems: ArrayList<SubTopicItem>
 ) : RecyclerView.Adapter<SubTopicsTitleAdapter.ViewHolder>() {
 
+    var previousPosition = -1
+    var currentPosition = 0
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 
@@ -28,10 +31,27 @@ class SubTopicsTitleAdapter(
 
         val subTopicTitle = subTopicTitleItems[position]
 
-        if (holder.adapterPosition == 0)
-            holder.itemView.selected.visibility = View.VISIBLE
 
         holder.itemView.subject.text = subTopicTitle.subject
+
+        if (currentPosition == position) {
+            holder.itemView.selected.visibility = View.VISIBLE
+        } else {
+            holder.itemView.selected.visibility = View.GONE
+        }
+
+        holder.itemView.setOnClickListener {
+            if (currentPosition == holder.adapterPosition) {
+                currentPosition = -1
+                previousPosition = -1
+                notifyItemChanged(holder.adapterPosition)
+            } else {
+                previousPosition = currentPosition
+                currentPosition = holder.adapterPosition
+                if (previousPosition != -1) notifyItemChanged(previousPosition)
+                notifyItemChanged(currentPosition)
+            }
+        }
 
 
     }
