@@ -20,7 +20,6 @@ import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
 import com.trisys.rn.baseapp.helper.BottomNavigationBehavior
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_notification_icon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -39,20 +38,9 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
-        supportActionBar!!.setHomeActionContentDescription("Navigation Menu")
-        val actionbar: ActionBar? = supportActionBar
-        actionbar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(
-                Utils.getFontDrawableIcon(
-                    applicationContext,
-                    "menu",
-                    R.color.white,
-                    30f
-                )
-            )
-        }
-
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.title = "Hi, John"
 
         //Assign Drawer properties
         val drawer = findViewById<DrawerLayout>(R.id.drawer)

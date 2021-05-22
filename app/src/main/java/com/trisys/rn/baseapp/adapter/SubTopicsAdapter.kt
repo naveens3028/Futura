@@ -26,7 +26,6 @@ class SubTopicsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder.adapterPosition == 0)
             holder.itemView.divider.visibility = View.GONE
-
     }
 
     override fun getItemCount(): Int {

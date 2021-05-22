@@ -14,3 +14,12 @@ data class CompletedLiveItem(
 data class SubTopicItem(
     var subject: String? = null,
 )
+
+data class StudyItem(
+    var subject: String? = null,
+    var lesson: String? = null,
+    var count: String? = null,
+    var imageID: Int = 0,
+    var progress: Int = 0,
+    var color: Int = 0,
+)

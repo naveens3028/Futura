@@ -20,7 +20,7 @@
 
     <item
         android:id="@+id/navigation_live"
-        android:icon="@drawable/ic_live"
+        android:icon="@drawable/ic_live_stream"
         android:title="Live"
         app:showAsAction="always|withText"/>
 
