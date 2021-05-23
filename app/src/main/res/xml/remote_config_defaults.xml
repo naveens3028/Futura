@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>base_url</key>
+        <value>http://65.2.90.171</value>
+    </entry>
+
+    <entry>
+        <key>base_path</key>
+        <value>/app/api/v1/</value>
+    </entry>
+
+</defaultsMap>

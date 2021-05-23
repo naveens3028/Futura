@@ -17,6 +17,7 @@ class LoginActivity : AppCompatActivity() {
                 .add(R.id.container, LoginFragment()).addToBackStack(null)
                 .commitAllowingStateLoss()
         }
+
     }
 
     //Implement for fragment pop operation

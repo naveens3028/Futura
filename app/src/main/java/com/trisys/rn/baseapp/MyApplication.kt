@@ -16,6 +16,7 @@ class MyApplication: MultiDexApplication() {
             .addInterceptor(GzipRequestInterceptor())
             .build()
 
+
         AndroidNetworking.initialize(getApplicationContext(),okHttpClient);
         MultiDex.install(this)
     }

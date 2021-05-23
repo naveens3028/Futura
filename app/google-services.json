@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1079916578156",
+    "project_id": "upmyranks-51c5f",
+    "storage_bucket": "upmyranks-51c5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079916578156:android:93c3cd1fddd8eeabed1f49",
+        "android_client_info": {
+          "package_name": "com.trisys.rn.baseapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079916578156-5f95ih25fsseg92f605megbbhdf6iies.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfHkIEgFmSrj00H3IZQX14ycj398q1_Gs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079916578156-5f95ih25fsseg92f605megbbhdf6iies.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
