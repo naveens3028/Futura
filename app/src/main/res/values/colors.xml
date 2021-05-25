@@ -19,16 +19,18 @@
     <color name="blue">#CE3F86DC</color>
     <color name="notification_badge">#FFEB3B</color>
 
-    <color name="carolina_blue">#1C96DB</color>
+    <color name="text_color">#464C51</color>
+
+    <color name="carolina_blue">#1D97DB</color>
     <color name="alice_blue">#EEF4FA</color>
-    <color name="light_ray">#D2D7DC</color>
-    <color name="davys_grey">#54585D</color>
+    <color name="platinum">#E5E5E5</color>
+    <color name="charcoal">#464C51</color>
     <color name="bio_pink">#C4D5396E</color>
 
-    <color name="plump_purple">#594BB4</color>
-    <color name="blue_munsell">#228FAB</color>
-    <color name="satin_sheen_gold">#CC9A30</color>
-    <color name="super_pink">#C36797</color>
+    <color name="blue_violet_crayola">#594BB4</color>
+    <color name="caribbean_green">#1FCBAB</color>
+    <color name="safety_yellow">#EBD00A</color>
+    <color name="light_coral">#F88383</color>
 
     <color name="medium_sea_green">#5CB164</color>
     <color name="bittersweet">#F97363</color>

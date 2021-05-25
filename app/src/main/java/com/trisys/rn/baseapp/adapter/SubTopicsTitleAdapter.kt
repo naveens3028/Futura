@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.Model.SubTopicItem
+import com.trisys.rn.baseapp.model.SubTopicItem
 import com.trisys.rn.baseapp.R
 import kotlinx.android.synthetic.main.row_sub_topics_title.view.*
 

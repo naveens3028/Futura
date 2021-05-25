@@ -26,5 +26,10 @@
     <string name="sfl_default_placeholder_empty">No data here.</string>
     <string name="sfl_default_placeholder_offline">You are offline.</string>
     <string name="sfl_retry">Retry</string>
+    <string name="studying">Studying</string>
+    <string name="search_hint">What would you like to learn today? Search here.</string>
+    <string name="upcoming_live_sessions">Upcoming Live Sessions</string>
+    <string name="performance_analysis">Performance Analysis</string>
+    <string name="scheduled_live_sessions">Scheduled Live Sessions</string>
 
 </resources>

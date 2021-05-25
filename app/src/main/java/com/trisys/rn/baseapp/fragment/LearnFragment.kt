@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.Model.Subjects
+import com.trisys.rn.baseapp.model.Subjects
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.CourseAdapter
 import com.trisys.rn.baseapp.adapter.SubjectClickListener

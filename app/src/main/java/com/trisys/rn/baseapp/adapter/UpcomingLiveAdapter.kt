@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.GlideApp
-import com.trisys.rn.baseapp.Model.UpcomingLiveItem
+import com.trisys.rn.baseapp.model.UpcomingLiveItem
 import com.trisys.rn.baseapp.R
 import kotlinx.android.synthetic.main.row_upcoming_live.view.*
 

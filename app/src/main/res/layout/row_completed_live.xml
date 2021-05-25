@@ -3,9 +3,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_40sdp"
-    app:cardCornerRadius="@dimen/_8sdp"
+    android:layout_height="@dimen/_80sdp"
     android:layout_margin="@dimen/_8sdp"
+    app:cardCornerRadius="@dimen/_16sdp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -16,37 +16,63 @@
         android:layout_height="match_parent">
 
         <View
-            android:id="@+id/iconBackground"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/mathematics"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/backgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:id="@+id/icon"
-            app:layout_constraintTop_toTopOf="@+id/iconBackground"
-            app:layout_constraintEnd_toEndOf="@+id/iconBackground"
-            app:layout_constraintStart_toStartOf="@+id/iconBackground"
-            app:layout_constraintBottom_toBottomOf="@+id/iconBackground"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subject"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Mathematics"
-            android:textColor="@color/davys_grey"
-            android:textSize="@dimen/_16sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundColor"
+            app:layout_constraintEnd_toStartOf="@+id/icon"
+            app:layout_constraintStart_toStartOf="@+id/backgroundColor"
+            app:layout_constraintTop_toTopOf="@+id/backgroundColor" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/_12sdp"
+            android:layout_height="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:src="@drawable/live_white"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundColor"
+            app:layout_constraintEnd_toStartOf="@+id/date"
+            app:layout_constraintTop_toTopOf="@+id/backgroundColor" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:text="Mar 12,\n9:45am"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundColor"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundColor"
+            app:layout_constraintTop_toTopOf="@+id/backgroundColor" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lesson"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/_6sdp"
+            android:layout_marginVertical="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/backgroundColor"
+            app:layout_constraintTop_toBottomOf="@+id/backgroundColor" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

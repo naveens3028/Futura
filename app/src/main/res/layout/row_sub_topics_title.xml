@@ -24,7 +24,7 @@
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:text="Mathematics"
-            android:textColor="@color/davys_grey"
+            android:textColor="@color/charcoal"
             android:textSize="@dimen/_16sdp" />
 
     </androidx.cardview.widget.CardView>

@@ -15,7 +15,7 @@
         app:cardUseCompatPadding="true"
         android:layout_centerHorizontal="true"
         app:cardElevation="5dp"
-        android:outlineAmbientShadowColor="@color/davys_grey"
+        android:outlineAmbientShadowColor="@color/charcoal"
         android:focusableInTouchMode="true"
         app:cardCornerRadius="10dp">
 
