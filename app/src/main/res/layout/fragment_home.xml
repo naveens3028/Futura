@@ -103,7 +103,7 @@
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
                         android:clipToPadding="true"
                         android:background="@color/window_background"
                         app:layout_constraintTop_toTopOf="parent"
@@ -153,9 +153,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tabView">
-
-            </FrameLayout>
+                app:layout_constraintTop_toBottomOf="@+id/tabView"/>
 
             <Space
                 android:layout_width="match_parent"

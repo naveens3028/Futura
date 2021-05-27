@@ -4,10 +4,7 @@ package com.trisys.rn.baseapp.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.trisys.rn.baseapp.fragment.HomeFragment
-import com.trisys.rn.baseapp.fragment.LearnFragment
-import com.trisys.rn.baseapp.fragment.LiveFragment
-import com.trisys.rn.baseapp.fragment.TestFragment
+import com.trisys.rn.baseapp.fragment.*
 
 
 /**
@@ -29,7 +26,7 @@ class HomeTabViewAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
         } else if (position == 3) {
             return TestFragment()
         } else {
-            return TestFragment()
+            return DoubtFragment()
         }
     }
 }

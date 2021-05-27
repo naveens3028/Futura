@@ -31,5 +31,19 @@
     <string name="upcoming_live_sessions">Upcoming Live Sessions</string>
     <string name="performance_analysis">Performance Analysis</string>
     <string name="scheduled_live_sessions">Scheduled Live Sessions</string>
+    <string name="video">Video</string>
+    <string name="study_material">Study Material</string>
+    <string name="ask_your_doubts_here">Ask Your Doubts here..</string>
+    <string name="up_next">Up Next</string>
+    <string name="notes">Notes</string>
+    <string name="others">Others</string>
+    <string name="completed_sessions">Completed Sessions</string>
+    <string name="pending">Pending</string>
+    <string name="clarified">Clarified</string>
+    <string name="ask_your_doubts">Ask Your Doubts</string>
+    <string name="submit">Submit</string>
+    <string name="add_attachment">Add Attachment</string>
+    <string name="need_clarity">Need Clarity</string>
+    <string name="understood">Understood</string>
 
 </resources>

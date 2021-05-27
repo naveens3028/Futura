@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +53,7 @@ class SubTopicsTitleAdapter(
                 notifyItemChanged(currentPosition)
             }
         }
-
+        Log.d("s2s "," " + holder.itemView.subjectCard.cardBackgroundColor )
 
     }
 

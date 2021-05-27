@@ -1,4 +1,4 @@
-package com.trisys.rn.baseapp.learn
+package com.trisys.rn.baseapp.doubt
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,40 +9,23 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.NotificationsActivity
-import com.trisys.rn.baseapp.adapter.SubTopicsAdapter
-import com.trisys.rn.baseapp.adapter.SubTopicsTitleAdapter
-import com.trisys.rn.baseapp.model.SubTopicItem
-import kotlinx.android.synthetic.main.activity_learn.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.row_file_name.*
 
-
-class LearnActivity : AppCompatActivity() {
-    private var subTopicList = ArrayList<SubTopicItem>()
+class DoubtClarificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_learn)
+        setContentView(R.layout.activity_doubt_clarification)
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        actionBar?.title = "Mathematical Physics"
+        actionBar?.title = "Doubt"
 
-
-        subTopicList.add(SubTopicItem("Trigonometry"))
-        subTopicList.add(SubTopicItem("Basics of Trigonometry & Trigonometry"))
-        subTopicList.add(SubTopicItem("T3 Star"))
-        subTopicList.add(SubTopicItem("Biology"))
-
-        val titleRecyclerView = titleRecycler
-        val titleAdapter = SubTopicsTitleAdapter(this, subTopicList)
-        titleRecyclerView.adapter = titleAdapter
-
-        val subTopicsRecyclerView = supTopicRecycler
-        val subTopicListAdapter = SubTopicsAdapter(this, subTopicList)
-        subTopicsRecyclerView.adapter = subTopicListAdapter
-
+        fileName.text = "Important basic elements"
+        fileIcon.setBackgroundResource(R.drawable.ic_pdf)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

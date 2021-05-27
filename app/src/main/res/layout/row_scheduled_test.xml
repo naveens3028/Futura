@@ -103,7 +103,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/takeTest" />
 
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/takeTest"
             android:layout_width="wrap_content"
@@ -119,7 +118,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

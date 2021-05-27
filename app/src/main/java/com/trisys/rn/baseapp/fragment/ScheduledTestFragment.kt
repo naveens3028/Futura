@@ -36,7 +36,7 @@ class ScheduledTestFragment : Fragment() {
         )
         scheduledTestList.add(
             ScheduledTestItem(
-                "NEET Mains Test2",
+                "NEET Test2",
                 "17th Mar, 9:30AM",
                 "120", "1h 25m",
                 R.color.light_coral
@@ -44,7 +44,7 @@ class ScheduledTestFragment : Fragment() {
         )
         scheduledTestList.add(
             ScheduledTestItem(
-                "NCERT Mains Test2",
+                "NCERT Test2",
                 "19th Mar, 9:30AM",
                 "120", "1h 25m",
                 R.color.blue_violet_crayola
@@ -52,7 +52,7 @@ class ScheduledTestFragment : Fragment() {
         )
         scheduledTestList.add(
             ScheduledTestItem(
-                "NEET Mains Test3",
+                "JEE Mains Test3",
                 "19th Mar, 9:30AM",
                 "120", "1h 25m",
                 R.color.caribbean_green

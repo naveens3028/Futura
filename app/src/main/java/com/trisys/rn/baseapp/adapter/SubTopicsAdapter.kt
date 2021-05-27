@@ -1,12 +1,14 @@
 package com.trisys.rn.baseapp.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.model.SubTopicItem
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.learn.LearnVideoActivity
+import com.trisys.rn.baseapp.model.SubTopicItem
 import kotlinx.android.synthetic.main.row_sub_topics_video.view.*
 
 class SubTopicsAdapter(
@@ -26,6 +28,10 @@ class SubTopicsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder.adapterPosition == 0)
             holder.itemView.divider.visibility = View.GONE
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, LearnVideoActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

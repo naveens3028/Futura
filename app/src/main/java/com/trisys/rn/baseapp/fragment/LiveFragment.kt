@@ -1,21 +1,26 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.model.CompletedLiveItem
-import com.trisys.rn.baseapp.model.UpcomingLiveItem
+import com.google.android.material.tabs.TabLayout
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
-import com.trisys.rn.baseapp.adapter.UpcomingLiveAdapter
+import com.trisys.rn.baseapp.adapter.StudyAdapter
+import com.trisys.rn.baseapp.model.StudyItem
+import com.trisys.rn.baseapp.model.UpcomingLiveItem
+import kotlinx.android.synthetic.main.fragment_live.*
 
 class LiveFragment : Fragment() {
 
     private var upcomingLiveList = ArrayList<UpcomingLiveItem>()
-    private var completedLiveList = ArrayList<CompletedLiveItem>()
+    private var studyList = ArrayList<StudyItem>()
+    private lateinit var fragment: Fragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,47 +38,68 @@ class LiveFragment : Fragment() {
         upcomingLiveList.add(UpcomingLiveItem("Chemistry", R.drawable.mathematics))
         upcomingLiveList.add(UpcomingLiveItem("Biology", R.drawable.mathematics))
 
+        fragment = UpcomingLiveFragment()
+        Log.d("s2s","saravana 3")
+        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
+        fragmentTransaction?.replace(R.id.liveFrameLayout, fragment)
+        fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        fragmentTransaction?.commit()
+        Log.d("s2s","saravana 4")
 
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Chemistry",
-                "",
-                "L2 -Chemical Reaction and Periodic Table",
-                R.color.safety_yellow
-            )
-        )
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Physics",
-                "",
-                "L3 - Universe, Galaxy and Solar System",
-                R.color.blue_violet_crayola
-            )
-        )
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Biology",
-                "",
-                "L4 - Digestive System and Human Brain",
-                R.color.light_coral
-            )
-        )
-        completedLiveList.add(
-            CompletedLiveItem(
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> {
+                        fragment = UpcomingLiveFragment()
+                        Log.d("s2s","saravana 1")
+                    }
+                    1 -> {
+                        fragment = UpcomingLiveFragment()
+                        Log.d("s2s","saravana 2")
+                    }
+                }
+                val fm: FragmentManager? = activity?.supportFragmentManager
+                val ft = fm?.beginTransaction()
+                ft?.replace(R.id.frameLayout, fragment)
+                ft?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                ft?.commit()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
+        //Sample Data
+        studyList.add(
+            StudyItem(
                 "Mathematics",
-                "", "L5 - Trigonometry and Functions",
-                R.color.caribbean_green
+                "L2 - Functions and Binary Operations",
+                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.caribbean_green
+            )
+        )
+        studyList.add(
+            StudyItem(
+                "Physics", "L2 - Functions and Binary Operations",
+                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.blue_violet_crayola
+            )
+        )
+        studyList.add(
+            StudyItem(
+                "Chemistry", "L2 - Functions and Binary Operations",
+                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.safety_yellow
+            )
+        )
+        studyList.add(
+            StudyItem(
+                "Biology", "L2 - Functions and Binary Operations",
+                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.light_coral
             )
         )
 
-        val upcomingLiveRecyclerView = view.findViewById(R.id.upcomingLiveRecycler) as RecyclerView
-        upcomingLiveRecyclerView.smoothScrollToPosition(0)
-        val upcomingLiveAdapter = UpcomingLiveAdapter(requireContext(), upcomingLiveList)
-        upcomingLiveRecyclerView.adapter = upcomingLiveAdapter
+        val studyRecyclerView = view.findViewById(R.id.studyRecycler) as RecyclerView
+        val studyAdapter = StudyAdapter(requireContext(), studyList)
+        studyRecyclerView.adapter = studyAdapter
 
-        val completedLiveRecyclerView =
-            view.findViewById(R.id.completedLiveRecycler) as RecyclerView
-        val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
-        completedLiveRecyclerView.adapter = completedLiveAdapter
     }
 }

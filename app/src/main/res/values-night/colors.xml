@@ -15,6 +15,7 @@
     <color name="divider_color">#aac2c2c2</color>
 
     <color name="text_color">#FFFFFF</color>
-
+    <color name="triangle_color">#414141</color>
+    <color name="border_color">#414141</color>
 
 </resources>

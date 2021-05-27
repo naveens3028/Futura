@@ -20,6 +20,8 @@
     <color name="notification_badge">#FFEB3B</color>
 
     <color name="text_color">#464C51</color>
+    <color name="triangle_color">#FFFFFFFF</color>
+    <color name="border_color">#EEF4FA</color>
 
     <color name="carolina_blue">#1D97DB</color>
     <color name="alice_blue">#EEF4FA</color>
@@ -32,7 +34,8 @@
     <color name="safety_yellow">#EBD00A</color>
     <color name="light_coral">#F88383</color>
 
-    <color name="medium_sea_green">#5CB164</color>
+    <color name="emerald">#00C27A</color>
     <color name="bittersweet">#F97363</color>
+    <color name="mikado_yellow">#FFC300</color>
 
 </resources>

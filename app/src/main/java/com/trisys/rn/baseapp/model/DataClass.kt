@@ -1,5 +1,9 @@
 package com.trisys.rn.baseapp.model
 
+enum class FileType {
+    PDF, IMAGE
+}
+
 data class UpcomingLiveItem(
     var subject: String? = null,
     var imageID: Int = 0
@@ -30,5 +34,17 @@ data class ScheduledTestItem(
     var date: String? = null,
     var mark: String? = null,
     var duration: String? = null,
+    var color: Int = 0,
+)
+
+data class FileNameItem(
+    var fileName: String? = null,
+    var fileType: FileType? = null,
+)
+
+data class ClarifiedDoubtItem(
+    var title: String? = null,
+    var subTitle: String? = null,
+    var date: String? = null,
     var color: Int = 0,
 )
