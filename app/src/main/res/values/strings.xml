@@ -26,5 +26,7 @@
     <string name="sfl_default_placeholder_empty">No data here.</string>
     <string name="sfl_default_placeholder_offline">You are offline.</string>
     <string name="sfl_retry">Retry</string>
+    <string name="overall_performance">Overall Performance</string>
+    <string name="rank_out_of">Out of 30 Students</string>
 
 </resources>

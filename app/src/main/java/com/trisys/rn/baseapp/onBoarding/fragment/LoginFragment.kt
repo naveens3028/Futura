@@ -68,7 +68,10 @@ class LoginFragment : Fragment(),OnNetworkResponse {
             }
 
         continueButton.setOnClickListener {
-            requestLogin()
+           // requestLogin()
+            fragmentManager?.beginTransaction()
+                ?.replace(R.id.container, OTPFragment())?.addToBackStack(null)
+                ?.commitAllowingStateLoss()
         }
     }
 
