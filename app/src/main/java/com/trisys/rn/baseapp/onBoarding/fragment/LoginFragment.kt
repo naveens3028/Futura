@@ -20,30 +20,22 @@ import com.trisys.rn.baseapp.utils.Define
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
-class LoginFragment : Fragment(),OnNetworkResponse {
+class LoginFragment : Fragment(), OnNetworkResponse {
 
-    lateinit var mRemoteConfig:FirebaseRemoteConfig
-    lateinit var networkHelper:NetworkHelper
+    lateinit var mRemoteConfig: FirebaseRemoteConfig
+    lateinit var networkHelper: NetworkHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mRemoteConfig = Firebase.remoteConfig
         networkHelper = NetworkHelper(requireContext())
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        continueButton.setOnClickListener {
-            fragmentManager?.beginTransaction()
-                ?.replace(R.id.container, OTPFragment())?.addToBackStack(null)
-                ?.commitAllowingStateLoss()
-        }
     }
 
     override fun onStart() {
@@ -59,11 +51,15 @@ class LoginFragment : Fragment(),OnNetworkResponse {
                 if (task.isSuccessful) {
                     val updated = task.result
                     Log.d("LoginFragment", "Config params updated: $updated")
-                    Toast.makeText(requireContext(), "Fetch and activate succeeded",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(), "Fetch and activate succeeded",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    Toast.makeText(requireContext(), "Fetch failed",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(), "Fetch failed",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -75,22 +71,27 @@ class LoginFragment : Fragment(),OnNetworkResponse {
         }
     }
 
-    fun requestLogin(){
-        val params = HashMap<String,String>()
-        params.put("loginDevice","mobile")
-        params.put("userName","qr1001")
-        params.put("password","upmyranks123")
+    private fun requestLogin() {
+        val params = HashMap<String, String>()
+        params.put("loginDevice", "mobile")
+        params.put("userName", "qr1001")
+        params.put("password", "upmyranks123")
 
-        val url = mRemoteConfig.getString(Define.BASE_URL)+ mRemoteConfig.getString(Define.BASE_PATH)+Config.Login
-        networkHelper.call(networkHelper.POST,url,params,Priority.HIGH,"login",this)
+        val url =
+            mRemoteConfig.getString(Define.BASE_URL) + mRemoteConfig.getString(Define.BASE_PATH) + Config.Login
+        networkHelper.call(networkHelper.POST, url, params, Priority.HIGH, "login", this)
 
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if(responseCode == networkHelper.responseSuccess && tag.equals("login")){
-            Toast.makeText(requireContext(),"login successful", Toast.LENGTH_LONG).show()
-        }else{
-            Toast.makeText(requireContext(),"login successful", Toast.LENGTH_LONG).show()
+        if (responseCode == networkHelper.responseSuccess && tag.equals("login")) {
+            Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
+
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.container, OTPFragment()).addToBackStack(null)
+                .commitAllowingStateLoss()
+        } else {
+            Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
         }
     }
 

@@ -14,5 +14,7 @@
     <color name="window_background">#FF000000</color>
     <color name="divider_color">#aac2c2c2</color>
 
+    <color name="text_color">#FFFFFF</color>
+
 
 </resources>

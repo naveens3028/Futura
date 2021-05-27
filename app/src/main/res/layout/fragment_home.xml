@@ -22,8 +22,8 @@
                 android:background="@drawable/rounded_circle_filled"
                 android:gravity="center|start"
                 android:padding="@dimen/_8sdp"
-                android:text="What would you like to learn today? Search here."
-                android:textColor="@color/davys_grey"
+                android:text="@string/search_hint"
+                android:textColor="@color/charcoal"
                 android:textSize="@dimen/_10sdp"
                 app:drawableEndCompat="@drawable/ic_search"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -33,10 +33,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Studying"
-                android:textColor="@color/davys_grey"
+                android:text="@string/studying"
                 android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search" />
 
@@ -56,46 +55,15 @@
                 tools:listitem="@layout/row_study" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/upcomingLive"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:drawableEnd="@drawable/ic_live_stream"
-                android:drawableTint="@color/davys_grey"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Upcoming Live Sessions"
-                android:textColor="@color/davys_grey"
-                android:textSize="@dimen/_16sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/studyRecycler" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/upcomingLiveLiveRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:nestedScrollingEnabled="false"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/upcomingLive"
-                tools:itemCount="3"
-                tools:listitem="@layout/row_completed_live" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/performanceAnalysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Performance Analysis"
-                android:textColor="@color/davys_grey"
+                android:text="@string/performance_analysis"
                 android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/upcomingLiveLiveRecycler" />
+                app:layout_constraintTop_toBottomOf="@+id/studyRecycler" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/layoutChart"
@@ -106,7 +74,6 @@
                 android:layout_marginBottom="@dimen/_15sdp"
                 app:cardCornerRadius="@dimen/_4sdp"
                 app:cardUseCompatPadding="true"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/performanceAnalysis">
@@ -118,6 +85,83 @@
                     android:layout_margin="@dimen/_5sdp" />
 
             </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tabView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_20sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutChart">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="true"
+                        android:background="@color/window_background"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tabGravity="fill"
+                        app:tabIndicatorColor="@color/carolina_blue"
+                        app:tabIndicatorGravity="stretch"
+                        app:tabMaxWidth="0dp"
+                        app:tabMode="fixed"
+                        app:tabPaddingEnd="10dp"
+                        app:tabPaddingStart="10dp"
+                        app:tabSelectedTextColor="@android:color/white"
+                        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                        app:tabTextColor="@color/carolina_blue">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/upcoming_live_sessions" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/scheduled_live_sessions" />
+
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                    <View
+                        android:id="@+id/line"
+                        android:layout_width="@dimen/_3sdp"
+                        android:layout_height="0dp"
+                        android:elevation="@dimen/_4sdp"
+                        android:background="@color/window_background"
+                        app:layout_constraintBottom_toBottomOf="@+id/tabLayout"
+                        app:layout_constraintEnd_toEndOf="@+id/tabLayout"
+                        app:layout_constraintStart_toStartOf="@+id/tabLayout"
+                        app:layout_constraintTop_toTopOf="@+id/tabLayout" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tabView">
+
+            </FrameLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_25sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

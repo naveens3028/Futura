@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
@@ -15,10 +17,10 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.trisys.rn.baseapp.Model.CompletedLiveItem
-import com.trisys.rn.baseapp.Model.StudyItem
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
 import com.trisys.rn.baseapp.adapter.StudyAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -26,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
 
     private var studyList = ArrayList<StudyItem>()
-    private var completedLiveList = ArrayList<CompletedLiveItem>()
+    private lateinit var fragment: Fragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,62 +43,62 @@ class HomeFragment : Fragment() {
 
         initChart()
 
+        fragment = UpcomingLiveFragment()
+        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
+        fragmentTransaction?.replace(R.id.frameLayout, fragment)
+        fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        fragmentTransaction?.commit()
+
+
+        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> fragment = UpcomingLiveFragment()
+                    1 -> fragment = ScheduledTestFragment()
+                }
+                val fm: FragmentManager? = activity?.supportFragmentManager
+                val ft = fm?.beginTransaction()
+                ft?.replace(R.id.frameLayout, fragment)
+                ft?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                ft?.commit()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
+
         //Sample Data
         studyList.add(
             StudyItem(
                 "Mathematics",
                 "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.blue_munsell
+                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.caribbean_green
             )
         )
         studyList.add(
             StudyItem(
                 "Physics", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.plump_purple
+                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.blue_violet_crayola
             )
         )
         studyList.add(
             StudyItem(
                 "Chemistry", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.satin_sheen_gold
+                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.safety_yellow
             )
         )
         studyList.add(
             StudyItem(
                 "Biology", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.super_pink
-            )
-        )
-
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Chemistry",
-                R.drawable.chemistry,
-                R.color.satin_sheen_gold
-            )
-        )
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Physics",
-                R.drawable.physics,
-                R.color.plump_purple
-            )
-        )
-        completedLiveList.add(CompletedLiveItem("Biology", R.drawable.biology, R.color.super_pink))
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Mathematics",
-                R.drawable.maths,
-                R.color.blue_munsell
+                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.light_coral
             )
         )
 
         val studyRecyclerView = view.findViewById(R.id.studyRecycler) as RecyclerView
-        val studyAdapter = StudyAdapter(context!!, studyList)
+        val studyAdapter = StudyAdapter(requireContext(), studyList)
         studyRecyclerView.adapter = studyAdapter
 
-        val completedLiveAdapter = CompletedLiveAdapter(context!!, completedLiveList)
-        upcomingLiveLiveRecycler.adapter = completedLiveAdapter
     }
 
     private fun initChart() {
@@ -112,7 +114,7 @@ class HomeFragment : Fragment() {
         val vl = LineDataSet(dataset1, "Your Score")
         vl.setDrawValues(false)
         vl.setDrawFilled(false)
-        vl.color = ContextCompat.getColor(context!!, R.color.medium_sea_green)
+        vl.color = ContextCompat.getColor(requireContext(), R.color.medium_sea_green)
         vl.lineWidth = 2f
         vl.setDrawCircles(false)
         vl.setDrawHighlightIndicators(false)
@@ -130,7 +132,7 @@ class HomeFragment : Fragment() {
         vl2.setDrawFilled(false)
         vl2.setDrawCircles(false)
         vl2.lineWidth = 2f
-        vl2.color = ContextCompat.getColor(context!!, R.color.bittersweet)
+        vl2.color = ContextCompat.getColor(requireContext(), R.color.bittersweet)
         vl2.setDrawHighlightIndicators(false)
 
         val xLabel: ArrayList<String> = ArrayList()
@@ -144,7 +146,7 @@ class HomeFragment : Fragment() {
         chartData.addDataSet(vl)
         chartData.addDataSet(vl2)
 
-        val tf = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+        val tf = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
 
         lineChart.setTouchEnabled(true)
         lineChart.setPinchZoom(true)
@@ -165,10 +167,10 @@ class HomeFragment : Fragment() {
         lineChart.legend.typeface = tf
         lineChart.xAxis.typeface = tf
         lineChart.axisLeft.typeface = tf
-        lineChart.legend.textColor = ContextCompat.getColor(context!!, R.color.davys_grey)
-        lineChart.axisLeft.textColor = ContextCompat.getColor(context!!, R.color.davys_grey)
-        lineChart.xAxis.textColor = ContextCompat.getColor(context!!, R.color.davys_grey)
-        lineChart.legend.textColor = ContextCompat.getColor(context!!, R.color.davys_grey)
+        lineChart.legend.textColor = ContextCompat.getColor(requireContext(), R.color.text_color)
+        lineChart.axisLeft.textColor = ContextCompat.getColor(requireContext(), R.color.text_color)
+        lineChart.xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.text_color)
+        lineChart.legend.textColor = ContextCompat.getColor(requireContext(), R.color.text_color)
         lineChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         lineChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         lineChart.legend.orientation = Legend.LegendOrientation.HORIZONTAL

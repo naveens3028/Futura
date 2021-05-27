@@ -44,7 +44,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:text="Important identities in trigonometry and it's applications"
-        android:textColor="@color/davys_grey"
+        android:textColor="@color/charcoal"
         android:textSize="@dimen/_14sdp"
         app:layout_constraintBottom_toBottomOf="@+id/videoStatus"
         app:layout_constraintEnd_toEndOf="parent"

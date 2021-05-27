@@ -7,7 +7,7 @@ import android.view.MenuItem
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import com.trisys.rn.baseapp.Model.SubTopicItem
+import com.trisys.rn.baseapp.model.SubTopicItem
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.SubTopicsAdapter

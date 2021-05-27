@@ -15,7 +15,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/window_background</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="fontFamily">@font/roboto_regular</item>
-        <!-- Customize your theme here. -->
+        <!-- Text Customization -->
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:fontFamily">@font/news_gothic</item>
     </style>
 </resources>

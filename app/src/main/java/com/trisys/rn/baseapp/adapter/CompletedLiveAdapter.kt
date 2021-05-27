@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.GlideApp
-import com.trisys.rn.baseapp.Model.CompletedLiveItem
+import com.trisys.rn.baseapp.model.CompletedLiveItem
 import com.trisys.rn.baseapp.R
 import kotlinx.android.synthetic.main.row_completed_live.view.*
 
@@ -27,8 +26,8 @@ class CompletedLiveAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val completedLive = completedLiveItems[position]
         holder.itemView.subject.text = completedLive.subject
-        holder.itemView.iconBackground.setBackgroundColor(context.getColor(completedLive.color))
-        GlideApp.with(context).load(completedLive.imageID).into(holder.itemView.icon)
+        holder.itemView.backgroundColor.setBackgroundColor(context.getColor(completedLive.color))
+        holder.itemView.lesson.text = completedLive.lesson
     }
 
     override fun getItemCount(): Int {

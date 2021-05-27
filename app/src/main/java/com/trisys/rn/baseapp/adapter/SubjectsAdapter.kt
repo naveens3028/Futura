@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.Model.Subjects
+import com.trisys.rn.baseapp.model.Subjects
 import com.trisys.rn.baseapp.R
 import com.vpnews24.utils.ImageLoader
 
