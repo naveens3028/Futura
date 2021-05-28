@@ -1,14 +1,452 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/_12sdp"
     tools:context=".fragment.TestFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/overallperfromance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/overall_performance"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_14sdp" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalscr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/overallperfromance"
+        android:scrollIndicators="top">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/overallperfromance"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:outlineAmbientShadowColor="@color/divider_color"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardElevation="5dp"
+            android:visibility="visible"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/imgstud"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:src="@drawable/students" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_toRightOf="@id/imgstud"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/overall_performance"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ranktxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toRightOf="@id/rank"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="RANK"
+                    android:textColor="@color/redtext"
+                    android:textSize="@dimen/_10sdp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/rank_img_rlt"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:layout_toRightOf="@id/ranktxt">
+
+                    <ImageView
+                        android:id="@+id/imgrank"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/rank" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/mark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="30"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_18sdp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/rankoutof"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rank"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_toRightOf="@id/imgstud"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/rank_out_of"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_below="@id/imgstud"
+                    android:layout_alignEnd="@id/ranktxt"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@color/divider_color" />
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rank_img_rlt"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_20sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/crdavgscore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/yellow"
+                        app:cardCornerRadius="@dimen/_10sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/averagescore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:padding="@dimen/_5sdp"
+                            android:text="78.05%"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_14sdp" />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/averagescoretxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/crdavgscore"
+                        android:layout_alignEnd="@id/crdavgscore"
+                        android:fontFamily="@font/roboto_bold"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Your Average score"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_8sdp"
+                        android:textStyle="bold" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/crdavgclassscore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        app:cardBackgroundColor="@color/purple_300"
+                        app:cardCornerRadius="@dimen/_10sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/averageclassscore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:padding="@dimen/_5sdp"
+                            android:text="78.05%"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/averageclassscoretxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/crdavgclassscore"
+                        android:layout_alignStart="@id/crdavgclassscore"
+                        android:layout_alignEnd="@id/crdavgclassscore"
+                        android:fontFamily="@font/roboto_bold"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Class Average score"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_8sdp"
+                        android:textStyle="bold" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/crdavgtopperscore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        app:cardBackgroundColor="@color/medium_sea_green"
+                        app:cardCornerRadius="@dimen/_10sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/averagetopperscore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:padding="@dimen/_5sdp"
+                            android:text="78.05%"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/avgtopperscoretxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/crdavgtopperscore"
+                        android:layout_alignStart="@id/crdavgtopperscore"
+                        android:layout_alignEnd="@id/crdavgtopperscore"
+                        android:fontFamily="@font/roboto_bold"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Topper Average score"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_8sdp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_below="@+id/overallperfromance"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:outlineAmbientShadowColor="@color/divider_color"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lineCharttest"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_160sdp"
+                android:layout_margin="@dimen/_5sdp" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/overallperfromance"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:outlineAmbientShadowColor="@color/divider_color"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_20sdp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Total Tests Scheduled"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:textStyle="bold"
+                    android:text="10"/>
+
+                </RelativeLayout>
+
+                <ProgressBar
+                android:id="@+id/totaltestscheduled"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="wrap_content"
+                    android:progressTint="@color/blue"
+                android:progress="10"
+                android:max="10"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Total Tests Attempted"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:textStyle="bold"
+                        android:text="6/10"/>
+
+                </RelativeLayout>
+
+                <ProgressBar
+                    android:id="@+id/totaltestattempted"
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_gravity=""
+                    android:layout_height="wrap_content"
+                    android:progress="6"
+                    android:progressTint="@color/medium_sea_green"
+                    android:max="10"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_30sdp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Total Tests Unattempted"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:textStyle="bold"
+                        android:text="3/10"/>
+
+                </RelativeLayout>
+
+                <ProgressBar
+                    android:progressTint="@color/bittersweet"
+                    android:id="@+id/totaltestunattempted"
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="wrap_content"
+                    android:progress="3"
+                    android:max="10"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/horizontalscr"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tabView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_20sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/window_background"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabIndicatorColor="@color/carolina_blue"
+                    app:tabIndicatorGravity="stretch"
+                    app:tabMode="fixed"
+                    app:tabPaddingEnd="10dp"
+                    app:tabPaddingStart="10dp"
+                    app:tabSelectedTextColor="@android:color/white"
+                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                    app:tabTextColor="@color/carolina_blue">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/test_txt" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/practice_txt" />
+
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="@dimen/_3sdp"
+                    android:layout_height="0dp"
+                    android:background="@color/window_background"
+                    android:elevation="@dimen/_4sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tabLayout"
+                    app:layout_constraintEnd_toEndOf="@+id/tabLayout"
+                    app:layout_constraintStart_toStartOf="@+id/tabLayout"
+                    app:layout_constraintTop_toTopOf="@+id/tabLayout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <FrameLayout
+            android:id="@+id/frameLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabView">
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
