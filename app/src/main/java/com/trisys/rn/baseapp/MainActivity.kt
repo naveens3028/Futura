@@ -61,8 +61,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         params.put("", "")
         networkHelper.call(networkHelper.GET, "", params, Priority.HIGH, "login", this)
 
-
-
     }
 
     private fun listeners() {
@@ -81,7 +79,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onStart() {
         super.onStart()
-
         bottomNavigationBehavior = BottomNavigationBehavior()
         val layoutParams = navigationView.layoutParams as CoordinatorLayout.LayoutParams
         layoutParams.behavior = bottomNavigationBehavior

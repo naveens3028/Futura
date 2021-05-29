@@ -83,7 +83,6 @@
             app:layout_constraintStart_toStartOf="@+id/markIcon" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/durationIcon"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
             android:src="@drawable/timer"
