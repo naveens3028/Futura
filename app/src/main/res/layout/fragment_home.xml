@@ -39,20 +39,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/studyRecycler"
+            <com.trisys.rn.baseapp.helper.NestedScrollableHost
+                android:id="@+id/studyRecyclerParent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/StudyLabel"
-                tools:itemCount="3"
-                tools:listitem="@layout/row_study" />
+                app:layout_constraintTop_toBottomOf="@id/StudyLabel">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/studyRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/row_study" />
+            </com.trisys.rn.baseapp.helper.NestedScrollableHost>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/performanceAnalysis"
@@ -63,7 +69,7 @@
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/studyRecycler" />
+                app:layout_constraintTop_toBottomOf="@+id/studyRecyclerParent" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/layoutChart"
@@ -104,8 +110,8 @@
                         android:id="@+id/tabLayout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_30sdp"
-                        android:clipToPadding="true"
                         android:background="@color/window_background"
+                        android:clipToPadding="true"
                         app:layout_constraintTop_toTopOf="parent"
                         app:tabGravity="fill"
                         app:tabIndicatorColor="@color/carolina_blue"
@@ -135,8 +141,8 @@
                         android:id="@+id/line"
                         android:layout_width="@dimen/_3sdp"
                         android:layout_height="0dp"
-                        android:elevation="@dimen/_4sdp"
                         android:background="@color/window_background"
+                        android:elevation="@dimen/_4sdp"
                         app:layout_constraintBottom_toBottomOf="@+id/tabLayout"
                         app:layout_constraintEnd_toEndOf="@+id/tabLayout"
                         app:layout_constraintStart_toStartOf="@+id/tabLayout"
@@ -153,7 +159,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tabView"/>
+                app:layout_constraintTop_toBottomOf="@+id/tabView" />
 
             <Space
                 android:layout_width="match_parent"
