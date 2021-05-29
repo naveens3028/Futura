@@ -99,7 +99,7 @@ class TestFragment : Fragment() {
         val vl = LineDataSet(dataset1, "Your Score")
         vl.setDrawValues(false)
         vl.setDrawFilled(false)
-        vl.color = ContextCompat.getColor(requireContext(), R.color.medium_sea_green)
+        vl.color = ContextCompat.getColor(requireContext(), R.color.caribbean_green)
         vl.lineWidth = 2f
         vl.setDrawCircles(false)
         vl.setDrawHighlightIndicators(false)

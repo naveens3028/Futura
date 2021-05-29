@@ -208,7 +208,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        app:cardBackgroundColor="@color/medium_sea_green"
+                        app:cardBackgroundColor="@color/caribbean_green"
                         app:cardCornerRadius="@dimen/_10sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -334,7 +334,7 @@
                     android:layout_gravity=""
                     android:layout_height="wrap_content"
                     android:progress="6"
-                    android:progressTint="@color/medium_sea_green"
+                    android:progressTint="@color/caribbean_green"
                     android:max="10"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
@@ -386,7 +386,6 @@
             android:id="@+id/tabView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
             app:cardCornerRadius="@dimen/_20sdp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
