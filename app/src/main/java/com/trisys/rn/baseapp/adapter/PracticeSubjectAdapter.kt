@@ -24,8 +24,8 @@ class PracticeSubjectAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val scheduledTest = scheduledTestItems[position]
-        holder.itemView.pracsubjtxt.text = scheduledTest.pracSubjects
-        holder.itemView.markspractxt.text = scheduledTest.marks.toString()
+        holder.itemView.pracsubjtxt.text = scheduledTest.subjectPractice
+        holder.itemView.markspractxt.text = scheduledTest.subjectPracticeMarks
 
         when (holder.itemView.pracsubjtxt.text){
 

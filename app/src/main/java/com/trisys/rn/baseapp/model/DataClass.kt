@@ -48,3 +48,9 @@ data class ClarifiedDoubtItem(
     var date: String? = null,
     var color: Int = 0,
 )
+
+data class PracticeSubjects(
+    var subjectPractice: String? = null,
+    var subjectPracticeMarks: String? = null
+
+)
