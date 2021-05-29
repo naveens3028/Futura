@@ -18,6 +18,7 @@
         <!-- Text Customization -->
         <item name="android:textColor">@color/text_color</item>
         <item name="android:fontFamily">@font/news_gothic</item>
+
     </style>
 
 </resources>

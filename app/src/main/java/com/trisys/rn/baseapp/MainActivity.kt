@@ -86,8 +86,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         homeTabViewAdapter = HomeTabViewAdapter(this)
         viewPager.adapter = homeTabViewAdapter
         viewPager.offscreenPageLimit = 3
-
-
         val pageChangeCallback: ViewPager2.OnPageChangeCallback =
             object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -138,8 +136,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 }
                 false
             })
-
-
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
@@ -177,11 +173,16 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onBackPressed() {
         //Back event handled when drawer open
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+        when {
+            drawer.isDrawerOpen(GravityCompat.START) -> {
+                drawer.closeDrawer(GravityCompat.START)
+            }
+            viewPager.currentItem != 0 -> {
+                viewPager.setCurrentItem(0, true)
+            }
+            else -> {
+                this.finish()
+            }
         }
     }
-
 }
