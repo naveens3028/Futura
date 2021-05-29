@@ -3,8 +3,9 @@ package com.trisys.rn.baseapp.model
 enum class FileType {
     PDF, IMAGE
 }
+
 enum class QuestionType {
-    ATTEMPT, NOT_ATTEMPT,MARK_FOR_REVIEW, NOT_VISITED
+    ATTEMPT, NOT_ATTEMPT, MARK_FOR_REVIEW, NOT_VISITED
 }
 
 data class UpcomingLiveItem(
@@ -65,5 +66,10 @@ data class PracticeTopicItem(
 
 data class QuestionNumberItem(
     var questionNumber: Int = 0,
-    var questionType: QuestionType,
+    var questionType: QuestionType
+)
+
+data class PracticeSubjects(
+    var subjectPractice: String? = null,
+    var subjectPracticeMarks: String? = null
 )
