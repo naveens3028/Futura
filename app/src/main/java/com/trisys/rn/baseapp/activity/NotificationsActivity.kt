@@ -14,6 +14,7 @@ class NotificationsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Notifications"
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         stateful.showEmpty()
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
