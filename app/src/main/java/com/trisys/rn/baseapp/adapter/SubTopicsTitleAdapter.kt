@@ -53,8 +53,6 @@ class SubTopicsTitleAdapter(
                 notifyItemChanged(currentPosition)
             }
         }
-        Log.d("s2s "," " + holder.itemView.subjectCard.cardBackgroundColor )
-
     }
 
     override fun getItemCount(): Int {

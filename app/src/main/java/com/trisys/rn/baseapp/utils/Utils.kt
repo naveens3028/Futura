@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.utils
 
-import android.content.*
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
@@ -10,9 +11,10 @@ import android.util.TypedValue
 import com.trisys.rn.baseapp.BuildConfig
 import com.trisys.rn.baseapp.helper.TextDrawable
 import org.ocpsoft.prettytime.PrettyTime
-import java.io.*
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 object Utils {
 

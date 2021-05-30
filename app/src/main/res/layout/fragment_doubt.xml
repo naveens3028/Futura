@@ -24,7 +24,6 @@
                 android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/noOfDoubtsValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
@@ -64,7 +63,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/noOfDoubtsProgress" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/doubtsClarifiedValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="05"
@@ -106,7 +104,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/doubtsClarifiedProgress" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/doubtsPendingValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="05"
@@ -196,7 +193,6 @@
                 </com.google.android.material.tabs.TabLayout>
 
                 <View
-                    android:id="@+id/line"
                     android:layout_width="@dimen/_3sdp"
                     android:layout_height="0dp"
                     android:background="@color/window_background"

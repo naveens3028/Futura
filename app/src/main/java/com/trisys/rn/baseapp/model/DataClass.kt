@@ -4,6 +4,10 @@ enum class FileType {
     PDF, IMAGE
 }
 
+enum class QuestionType {
+    ATTEMPT, NOT_ATTEMPT, MARK_FOR_REVIEW, NOT_VISITED
+}
+
 data class UpcomingLiveItem(
     var subject: String? = null,
     var imageID: Int = 0
@@ -49,8 +53,23 @@ data class ClarifiedDoubtItem(
     var color: Int = 0,
 )
 
+data class PracticeSubjectItem(
+    var subject: String? = null,
+    var progressValue: Double = 0.0,
+    var practiceTopicItem: ArrayList<PracticeTopicItem>,
+)
+
+data class PracticeTopicItem(
+    var topic: String? = null,
+    var isSelected: Boolean = false,
+)
+
+data class QuestionNumberItem(
+    var questionNumber: Int = 0,
+    var questionType: QuestionType
+)
+
 data class PracticeSubjects(
     var subjectPractice: String? = null,
     var subjectPracticeMarks: String? = null
-
 )

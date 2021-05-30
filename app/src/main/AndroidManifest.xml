@@ -15,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UpMyRanks"
         android:usesCleartextTraffic="true">
-        <activity android:name=".doubt.DoubtClarificationActivity"></activity>
+        <activity android:name=".practiceTest.StartPracticeActivity"></activity>
+        <activity android:name=".practiceTest.SelectedTopicActivity" />
+        <activity android:name=".practiceTest.TestTopicActivity" />
+        <activity android:name=".doubt.DoubtClarificationActivity" />
         <activity android:name=".doubt.AskDoubtActivity" />
         <activity android:name=".learn.LearnVideoActivity" />
         <activity android:name=".learn.LearnActivity" />
@@ -38,13 +41,7 @@
         <activity android:name=".activity.NotificationsActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
