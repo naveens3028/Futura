@@ -45,6 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_12sdp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Instruction"
                     app:layout_constraintTop_toBottomOf="@id/heading"
                     android:textSize="@dimen/_16sdp" />
@@ -174,6 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_12sdp"
                     android:text="Notes"
+                    android:fontFamily="@font/roboto_regular"
                     app:layout_constraintTop_toBottomOf="@id/iconconstr"
                     android:textSize="@dimen/_13sdp" />
 
