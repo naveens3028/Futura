@@ -61,8 +61,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         params.put("", "")
         networkHelper.call(networkHelper.GET, "", params, Priority.HIGH, "login", this)
 
-
-
     }
 
     private fun listeners() {
@@ -77,7 +75,10 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         headerLayout.close.setOnClickListener {
             drawer.closeDrawer(GravityCompat.START)
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
         bottomNavigationBehavior = BottomNavigationBehavior()
         val layoutParams = navigationView.layoutParams as CoordinatorLayout.LayoutParams
         layoutParams.behavior = bottomNavigationBehavior
@@ -85,12 +86,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         homeTabViewAdapter = HomeTabViewAdapter(this)
         viewPager.adapter = homeTabViewAdapter
         viewPager.offscreenPageLimit = 3
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
         val pageChangeCallback: ViewPager2.OnPageChangeCallback =
             object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -141,8 +136,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 }
                 false
             })
-
-
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
@@ -180,12 +173,16 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onBackPressed() {
         //Back event handled when drawer open
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
-        }else if(viewPager.currentItem != 0) {
-            viewPager.setCurrentItem(0, true)
-        }else {
-            this.finish()
+        when {
+            drawer.isDrawerOpen(GravityCompat.START) -> {
+                drawer.closeDrawer(GravityCompat.START)
+            }
+            viewPager.currentItem != 0 -> {
+                viewPager.setCurrentItem(0, true)
+            }
+            else -> {
+                this.finish()
+            }
         }
     }
 }

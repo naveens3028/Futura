@@ -1,7 +1,6 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,25 +43,17 @@ class LiveFragment : Fragment() {
         upcomingLiveList.add(UpcomingLiveItem("Biology", R.drawable.mathematics))
 
         fragment = UpcomingLiveFragment()
-        Log.d("s2s","saravana 3")
         val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
         fragmentTransaction?.replace(R.id.liveFrameLayout, fragment)
         fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         fragmentTransaction?.commit()
-        Log.d("s2s","saravana 4")
 
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
-                    0 -> {
-                        fragment = UpcomingLiveFragment()
-                        Log.d("s2s","saravana 1")
-                    }
-                    1 -> {
-                        fragment = UpcomingLiveFragment()
-                        Log.d("s2s","saravana 2")
-                    }
+                    0 -> fragment = UpcomingLiveFragment()
+                    1 -> fragment = UpcomingLiveFragment()
                 }
                 val fm: FragmentManager? = activity?.supportFragmentManager
                 val ft = fm?.beginTransaction()
