@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crd_createprac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardUseCompatPadding="true"
+        app:cardBackgroundColor="@color/carolina_blue"
+        >
+
+        <ImageView
+            android:id="@+id/imgcreatettest"
+            android:padding="@dimen/_10sdp"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/createpractice"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_10sdp"
+            android:text="Create Practice Test"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/white"/>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/performance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Performance Overview"
+        android:layout_below="@+id/crd_createprac"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/_16sdp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/practiceRecyclerView"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/performance"
+        android:nestedScrollingEnabled="false"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="3"
+        tools:listitem="@layout/practice_layout" />
+
+</RelativeLayout>
