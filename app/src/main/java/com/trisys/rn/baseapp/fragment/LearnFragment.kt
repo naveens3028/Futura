@@ -63,7 +63,7 @@ class LearnFragment : Fragment(), SubjectClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         pageNo = 1
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // in here you can do logic when backPress is clicked
                 //pageNo = 1
@@ -107,7 +107,7 @@ class LearnFragment : Fragment(), SubjectClickListener {
     private fun subjectCall() {
         //adding a layoutmanager
         subjectRecycler.layoutManager = GridLayoutManager(context, 2)
-        val adapter = SubjectsAdapter(context!!, subjectList, this)
+        val adapter = SubjectsAdapter(requireContext(), subjectList, this)
 
         //now adding the adapter to recyclerview
         subjectRecycler.adapter = adapter
@@ -123,7 +123,7 @@ class LearnFragment : Fragment(), SubjectClickListener {
                 LinearLayoutManager.HORIZONTAL
             )
         )
-        val adapter = CourseAdapter(context!!, courseList)
+        val adapter = CourseAdapter(requireContext(), courseList)
 
         //now adding the adapter to recyclerview
         courseRecycler.adapter = adapter
@@ -134,7 +134,7 @@ class LearnFragment : Fragment(), SubjectClickListener {
         //adding a layoutmanager
         subjectRecyclerList.layoutManager =
             LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        val adapter = SubjectListAdapter(context!!, chapterList)
+        val adapter = SubjectListAdapter(requireContext(), chapterList)
 
         //now adding the adapter to recyclerview
         subjectRecyclerList.adapter = adapter
