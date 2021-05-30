@@ -19,6 +19,7 @@
         <activity android:name=".doubt.AskDoubtActivity" />
         <activity android:name=".learn.LearnVideoActivity" />
         <activity android:name=".learn.LearnActivity" />
+        <activity android:name=".activity.TakeTestActivity" />
         <activity
             android:name=".onBoarding.LoginActivity"
             android:screenOrientation="portrait"

@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.ScheduledTestAdapter
+import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.model.ScheduledTestItem
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 
-class ScheduledTestFragment : Fragment() {
+class ScheduledTestFragment : Fragment(), TestClickListener {
 
     private var scheduledTestList = ArrayList<ScheduledTestItem>()
 
@@ -59,8 +60,12 @@ class ScheduledTestFragment : Fragment() {
             )
         )
 
-        val completedLiveAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList)
+        val completedLiveAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList, this)
         recycler.adapter = completedLiveAdapter
+    }
+
+    override fun onTestClicked(isClicked: Boolean) {
+       // TODO("Not yet implemented")
     }
 
 }

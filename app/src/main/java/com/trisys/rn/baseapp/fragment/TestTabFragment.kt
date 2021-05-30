@@ -1,18 +1,22 @@
 package com.trisys.rn.baseapp.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.TakeTestActivity
 import com.trisys.rn.baseapp.adapter.ScheduledTestAdapter
+import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.model.ScheduledTestItem
 import com.trisys.rn.baseapp.model.SubTopicItem
 import kotlinx.android.synthetic.main.fragment_test_tab.*
 
 
-class TestTabFragment : Fragment() {
+class TestTabFragment : Fragment() , TestClickListener{
 
     private var studyList = ArrayList<SubTopicItem>()
     private var scheduledTestList = ArrayList<ScheduledTestItem>()
@@ -65,8 +69,13 @@ class TestTabFragment : Fragment() {
         )
 
 
-        val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList)
+        val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList,this)
         scheduleTestRecyclerView.adapter = studyAdapter
 
+    }
+
+    override fun onTestClicked(isClicked: Boolean) {
+        val intent = Intent(requireContext(), TakeTestActivity::class.java)
+        startActivity(intent)
     }
 }
