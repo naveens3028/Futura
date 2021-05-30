@@ -20,6 +20,7 @@ class TestTabFragment : Fragment() , TestClickListener{
 
     private var studyList = ArrayList<SubTopicItem>()
     private var scheduledTestList = ArrayList<ScheduledTestItem>()
+    private var checkVisible: Boolean? = false
 
 
     override fun onCreateView(
@@ -71,6 +72,16 @@ class TestTabFragment : Fragment() , TestClickListener{
 
         val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList,this)
         scheduleTestRecyclerView.adapter = studyAdapter
+
+        arrowscheduled.setOnClickListener {
+            if (checkVisible == false) {
+                scheduleTestRecyclerView.visibility = View.GONE
+                checkVisible = true
+            }else{
+                scheduleTestRecyclerView.visibility = View.VISIBLE
+                checkVisible = false
+            }
+        }
 
     }
 
