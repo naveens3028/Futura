@@ -18,15 +18,15 @@ class HomeTabViewAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
 
     override fun createFragment(position: Int): Fragment {
         if (position == 0) {
-            return HomeFragment()
+            return HomeFragment.newInstance("","")
         } else if (position == 1) {
-            return LearnFragment.newInstance("", "");
+            return LearnFragment.newInstance("", "")
         } else if (position == 2) {
-            return LiveFragment()
+            return LiveFragment.newInstance("", "")
         } else if (position == 3) {
-            return TestFragment()
+            return TestFragment.newInstance("", "")
         } else {
-            return DoubtFragment()
+            return DoubtFragment.newInstance("", "")
         }
     }
 }
