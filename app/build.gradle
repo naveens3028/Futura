@@ -83,8 +83,6 @@ dependencies {
     //volley
     implementation("com.android.volley:volley:1.2.0")
 
-    //dot indicator
-    implementation "ru.tinkoff.scrollingpagerindicator:scrollingpagerindicator:1.0.6"
     //percentage bar
     implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }
