@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
