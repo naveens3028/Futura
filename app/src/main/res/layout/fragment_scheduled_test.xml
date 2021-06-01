@@ -13,7 +13,7 @@
         android:layout_margin="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_8sdp"
-        android:nestedScrollingEnabled="false"
+        android:overScrollMode="never"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="3"

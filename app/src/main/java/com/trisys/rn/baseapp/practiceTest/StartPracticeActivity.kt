@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 
 
 class StartPracticeActivity : AppCompatActivity() {
-    val questionNumberItem = ArrayList<QuestionNumberItem>()
+    private  val questionNumberItem = ArrayList<QuestionNumberItem>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_practice)
@@ -35,42 +35,8 @@ class StartPracticeActivity : AppCompatActivity() {
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         actionBar?.title = "Create Practice"
 
-        saveForLater.setOnClickListener {
-            showDialog()
-        }
     }
 
-    private fun showDialog() {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.setContentView(R.layout.dialog_jump_to_questions)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window!!.setGravity(Gravity.CENTER)
-        dialog.window!!.attributes.gravity = Gravity.CENTER
-        dialog.window!!.setLayout(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
-        dialog.close.setOnClickListener {
-            dialog.cancel()
-            dialog.hide()
-        }
-        questionNumberItem.add(QuestionNumberItem(1, QuestionType.ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(2, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(3, QuestionType.MARK_FOR_REVIEW))
-        questionNumberItem.add(QuestionNumberItem(4, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(5, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(6, QuestionType.ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(7, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(8, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(9, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(10, QuestionType.ATTEMPT))
-        val questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem)
-        dialog.questionNumber.adapter = questionNumberAdapter
-        dialog.show()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         try {

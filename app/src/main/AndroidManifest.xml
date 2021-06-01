@@ -15,7 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UpMyRanks"
         android:usesCleartextTraffic="true">
-        <activity android:name=".practiceTest.StartPracticeActivity"></activity>
+        <activity android:name=".practiceTest.TestReviewActivity"
+            android:label="Today Test Review"/>
+        <activity
+            android:name=".practiceTest.TodayTestActivity"
+            android:label="Today Test" />
+        <activity android:name=".practiceTest.StartPracticeActivity" />
         <activity android:name=".practiceTest.SelectedTopicActivity" />
         <activity android:name=".practiceTest.TestTopicActivity" />
         <activity android:name=".doubt.DoubtClarificationActivity" />

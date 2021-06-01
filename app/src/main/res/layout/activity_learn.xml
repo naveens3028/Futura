@@ -87,7 +87,6 @@
                 app:layout_constraintEnd_toStartOf="@+id/pendingVideo"
                 app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
 
-
             <View
                 android:id="@+id/pendingVideo"
                 android:layout_width="@dimen/_25sdp"
@@ -99,35 +98,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
 
-            <androidx.core.widget.NestedScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/supTopicRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/_12sdp"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/subTopicTitle">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/supTopicRecycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="true"
-                        android:nestedScrollingEnabled="false"
-                        android:orientation="vertical"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:itemCount="3"
-                        tools:layout_editor_absoluteX="0dp"
-                        tools:listitem="@layout/row_sub_topics_video" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.core.widget.NestedScrollView>
-
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subTopicTitle"
+                tools:itemCount="3"
+                tools:listitem="@layout/row_sub_topics_video" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

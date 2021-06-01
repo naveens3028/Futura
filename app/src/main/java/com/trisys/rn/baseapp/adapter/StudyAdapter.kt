@@ -34,12 +34,6 @@ class StudyAdapter(
         holder.itemView.progressBar.progress = studyItem.progress
         holder.itemView.backgroundLayout.setBackgroundColor(context.getColor(studyItem.color))
         GlideApp.with(context).load(studyItem.imageID).into(holder.itemView.studyImg)
-
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, TestTopicActivity::class.java)
-            context.startActivity(intent)
-        }
-
     }
 
     override fun getItemCount(): Int {
