@@ -7,23 +7,53 @@ import android.view.MenuItem
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.adapter.SubjectListAdapter
+import kotlinx.android.synthetic.main.activity_chapter.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
-class TakeTestActivity : AppCompatActivity() {
+class ChapterActivity : AppCompatActivity() {
+
+    private var chapterList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_take_test)
+        setContentView(R.layout.activity_chapter)
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        actionBar?.title = "Doubt"
+        actionBar?.title = "Learn"
 
+        chapterList.apply {
+            this.add("Physics World")
+            this.add("Law of Motions")
+            this.add("Conservation of Energy")
+            this.add("Heat and Temperature")
+            this.add("Wave Energy")
+            this.add("Kinematics")
+            this.add("Dynamics: Forces and Motion")
+            this.add("Impulse and Momentum")
+            this.add("Astronomy")
+            this.add("Electricity and Electrical Energy")
+            this.add("Nature and Behavior of Light")
+        }
 
+        subjectListCall()
+
+    }
+
+    private fun subjectListCall() {
+        //adding a layoutmanager
+        recyclerviewsubjectslist.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val adapter = SubjectListAdapter(this, chapterList)
+
+        //now adding the adapter to recyclerview
+        recyclerviewsubjectslist.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
