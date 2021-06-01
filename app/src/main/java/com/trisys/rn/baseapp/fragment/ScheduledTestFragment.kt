@@ -1,11 +1,13 @@
 package com.trisys.rn.baseapp.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.TakeTestActivity
 import com.trisys.rn.baseapp.adapter.ScheduledTestAdapter
 import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.model.ScheduledTestItem
@@ -51,21 +53,15 @@ class ScheduledTestFragment : Fragment(), TestClickListener {
                 R.color.blue_violet_crayola
             )
         )
-        scheduledTestList.add(
-            ScheduledTestItem(
-                "JEE Mains Test3",
-                "19th Mar, 9:30AM",
-                "120", "1h 25m",
-                R.color.caribbean_green
-            )
-        )
+        scheduledTestList.add(ScheduledTestItem("JEE Mains Test3", "19th Mar, 9:30AM", "120", "1h 25m", R.color.caribbean_green))
 
         val completedLiveAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList, this)
         recycler.adapter = completedLiveAdapter
     }
 
     override fun onTestClicked(isClicked: Boolean) {
-       // TODO("Not yet implemented")
+        val intent = Intent(requireContext(), TakeTestActivity::class.java)
+        startActivity(intent)
     }
 
 }

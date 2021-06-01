@@ -43,7 +43,7 @@
             android:layout_margin="@dimen/_15sdp"
             app:spanCount="4"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
