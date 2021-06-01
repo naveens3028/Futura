@@ -61,6 +61,13 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         params.put("", "")
         networkHelper.call(networkHelper.GET, "", params, Priority.HIGH, "login", this)
 
+        bottomNavigationBehavior = BottomNavigationBehavior()
+        val layoutParams = navigationView.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.behavior = bottomNavigationBehavior
+
+        homeTabViewAdapter = HomeTabViewAdapter(this)
+        viewPager.adapter = homeTabViewAdapter
+        viewPager.offscreenPageLimit = 3
     }
 
     private fun listeners() {
@@ -79,13 +86,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onStart() {
         super.onStart()
-        bottomNavigationBehavior = BottomNavigationBehavior()
-        val layoutParams = navigationView.layoutParams as CoordinatorLayout.LayoutParams
-        layoutParams.behavior = bottomNavigationBehavior
 
-        homeTabViewAdapter = HomeTabViewAdapter(this)
-        viewPager.adapter = homeTabViewAdapter
-        viewPager.offscreenPageLimit = 3
         val pageChangeCallback: ViewPager2.OnPageChangeCallback =
             object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
