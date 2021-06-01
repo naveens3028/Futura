@@ -21,7 +21,7 @@ class TakeTestActivity : AppCompatActivity() {
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        actionBar?.title = "Doubt"
+        actionBar?.title = "Take Test"
 
 
     }
