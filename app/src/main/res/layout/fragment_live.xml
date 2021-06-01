@@ -25,20 +25,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/studyRecycler"
+            <com.trisys.rn.baseapp.helper.NestedScrollableHost
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/recyclerScroll"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/StudyLabel"
-                tools:itemCount="3"
-                tools:listitem="@layout/row_study" />
+                app:layout_constraintTop_toBottomOf="@id/StudyLabel">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/studyRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/row_study" />
+
+            </com.trisys.rn.baseapp.helper.NestedScrollableHost>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/tabView"
@@ -48,7 +55,7 @@
                 app:cardCornerRadius="@dimen/_20sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/studyRecycler">
+                app:layout_constraintTop_toBottomOf="@+id/recyclerScroll">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

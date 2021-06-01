@@ -8,6 +8,8 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.practiceTest.TodayTestActivity
+import kotlinx.android.synthetic.main.activity_take_test.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class TakeTestActivity : AppCompatActivity() {
@@ -21,7 +23,12 @@ class TakeTestActivity : AppCompatActivity() {
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        actionBar?.title = "Doubt"
+        actionBar?.title = "Take Test"
+
+        takeTest.setOnClickListener {
+            val intent = Intent(this, TodayTestActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

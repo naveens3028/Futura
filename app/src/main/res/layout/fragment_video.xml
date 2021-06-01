@@ -84,7 +84,7 @@
                 android:drawableEnd="@drawable/ic_doubt"
                 android:padding="@dimen/_12sdp"
                 android:text="@string/ask_your_doubts_here"
-                android:textColor="@color/text_color"
+                android:textColor="@color/charcoal"
                 android:textSize="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@+id/nextVideoCard" />
 

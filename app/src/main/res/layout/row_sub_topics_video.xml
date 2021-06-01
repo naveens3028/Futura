@@ -24,6 +24,8 @@
         android:rotation="180"
         app:indicatorColor="@color/bittersweet"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider"
         app:trackColor="@color/alice_blue"
         app:trackThickness="@dimen/_2sdp" />
@@ -45,7 +47,7 @@
         android:maxLines="2"
         android:text="Important identities in trigonometry and it's applications"
         android:textColor="@color/text_color"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/_12sdp"
         app:layout_constraintBottom_toBottomOf="@+id/videoStatus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/videoStatus"

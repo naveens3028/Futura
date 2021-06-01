@@ -50,13 +50,7 @@ class UpcomingLiveFragment : Fragment() {
                 R.color.light_coral
             )
         )
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Mathematics",
-                "", "L5 - Trigonometry and Functions",
-                R.color.caribbean_green
-            )
-        )
+        completedLiveList.add(CompletedLiveItem("Mathematics", "", "L5 - Trigonometry and Functions", R.color.caribbean_green))
 
         val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
         recycler.adapter = completedLiveAdapter

@@ -58,6 +58,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
                     tools:listitem="@layout/row_study" />
+
             </com.trisys.rn.baseapp.helper.NestedScrollableHost>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -116,10 +117,7 @@
                         app:tabGravity="fill"
                         app:tabIndicatorColor="@color/carolina_blue"
                         app:tabIndicatorGravity="stretch"
-                        app:tabMaxWidth="0dp"
                         app:tabMode="fixed"
-                        app:tabPaddingEnd="10dp"
-                        app:tabPaddingStart="10dp"
                         app:tabSelectedTextColor="@android:color/white"
                         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                         app:tabTextColor="@color/carolina_blue">
@@ -132,16 +130,16 @@
                         <com.google.android.material.tabs.TabItem
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/scheduled_live_sessions" />
+                            android:text="@string/scheduled_test" />
 
 
                     </com.google.android.material.tabs.TabLayout>
 
                     <View
-                        android:layout_width="@dimen/_3sdp"
+                        android:layout_width="@dimen/_4sdp"
                         android:layout_height="0dp"
+                        android:elevation="@dimen/_1sdp"
                         android:background="@color/window_background"
-                        android:elevation="@dimen/_4sdp"
                         app:layout_constraintBottom_toBottomOf="@+id/tabLayout"
                         app:layout_constraintEnd_toEndOf="@+id/tabLayout"
                         app:layout_constraintStart_toStartOf="@+id/tabLayout"

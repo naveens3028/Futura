@@ -73,3 +73,13 @@ data class PracticeSubjects(
     var subjectPractice: String? = null,
     var subjectPracticeMarks: String? = null
 )
+
+data class QuestionItem(
+    var question: String? = null,
+    var chooseList: ArrayList<AnswerChooseItem>
+)
+
+data class AnswerChooseItem(
+    var answer: String? = null,
+    var isSelected: Boolean = false,
+)
