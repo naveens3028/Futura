@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.row_scheduled_test.view.*
 
 class ScheduledTestAdapter(
     val context: Context,
-    private val scheduledTestItems: ArrayList<ScheduledTestItem>
+    private val scheduledTestItems: ArrayList<ScheduledTestItem>,
+    private var testClickListener: TestClickListener
 ) : RecyclerView.Adapter<ScheduledTestAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -31,6 +32,10 @@ class ScheduledTestAdapter(
         holder.itemView.marks.text = scheduledTest.mark
         holder.itemView.date.text = scheduledTest.date
         holder.itemView.duration.text = scheduledTest.duration
+
+        holder.itemView.takeTest.setOnClickListener {
+            testClickListener.onTestClicked(true)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -10,22 +10,24 @@
         android:id="@+id/scheduleTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/scheduled_test"
             android:layout_weight="1"
             android:textSize="@dimen/_14sdp"
             android:layout_margin="@dimen/_5sdp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=">"
-            android:textAlignment="center"
-            android:layout_weight="1"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/arrowscheduled"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/downarrow" />
 
     </LinearLayout>
 
@@ -41,11 +43,11 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="3"
         tools:listitem="@layout/row_completed_live" />
+
     <LinearLayout
         android:id="@+id/attemptedTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
         android:orientation="horizontal">
 
         <TextView
@@ -55,19 +57,19 @@
             android:layout_weight="1"
             android:textSize="@dimen/_14sdp"
             android:layout_margin="@dimen/_5sdp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=">"
-            android:textAlignment="center"
-            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:src="@drawable/downarrow" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/unAttemptedTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
         android:orientation="horizontal">
 
         <TextView
@@ -77,12 +79,12 @@
             android:layout_weight="1"
             android:textSize="@dimen/_14sdp"
             android:layout_margin="@dimen/_5sdp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=">"
-            android:textAlignment="center"
-            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:src="@drawable/downarrow" />
 
     </LinearLayout>
 
