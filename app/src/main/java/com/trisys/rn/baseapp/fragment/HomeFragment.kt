@@ -33,7 +33,6 @@ class HomeFragment : Fragment() {
 
 
     private var studyList = ArrayList<StudyItem>()
-    private lateinit var fragment: Fragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,31 +46,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initChart()
-
-        fragment = UpcomingLiveFragment()
-        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-        fragmentTransaction?.replace(R.id.frameLayout, fragment)
-        fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction?.commit()
-
-
-        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.position) {
-                    0 -> fragment = UpcomingLiveFragment()
-                    1 -> fragment = ScheduledTestFragment()
-                }
-                val fm: FragmentManager? = activity?.supportFragmentManager
-                val ft = fm?.beginTransaction()
-                ft?.replace(R.id.frameLayout, fragment)
-                ft?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                ft?.commit()
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
-
 
         //Sample Data
         studyList.add(
@@ -103,6 +77,26 @@ class HomeFragment : Fragment() {
         val studyRecyclerView = view.findViewById(R.id.studyRecycler) as RecyclerView
         val studyAdapter = StudyAdapter(requireContext(), studyList)
         studyRecyclerView.adapter = studyAdapter
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        childFragmentManager.beginTransaction().replace(R.id.frameLayout, UpcomingLiveFragment.newInstance("","")).commit()
+
+        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 ->
+                        childFragmentManager.beginTransaction().replace(R.id.frameLayout, UpcomingLiveFragment.newInstance("","")).commit()
+                    1 ->
+                        childFragmentManager.beginTransaction().replace(R.id.frameLayout, ScheduledTestFragment.newInstance("","")).commit()
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
 
     }
 
