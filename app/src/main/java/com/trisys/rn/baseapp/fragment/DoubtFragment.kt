@@ -27,17 +27,6 @@ class DoubtFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_doubt, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
-        askDoubt.setOnClickListener {
-            val intent = Intent(requireContext(), AskDoubtActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
     override fun onStart() {
         super.onStart()
         childFragmentManager.beginTransaction().replace(R.id.doubtFrameLayout, ClarifiedFragment.newInstance("","")).commit()

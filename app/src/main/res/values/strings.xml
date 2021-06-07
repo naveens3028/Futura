@@ -28,6 +28,7 @@
     <string name="studying">Studying</string>
     <string name="search_hint">What would you like to learn today? Search here.</string>
     <string name="upcoming_live_sessions">Upcoming Live Sessions</string>
+    <string name="currently_live_sessions">Currently Live Sessions</string>
     <string name="performance_analysis">Performance Analysis</string>
     <string name="scheduled_test">Scheduled Test</string>
     <string name="video">Video</string>
@@ -78,5 +79,6 @@
     <string name="question_difficulty">Question Difficulty</string>
     <string name="time_taken_by_you">Time Taken By You</string>
     <string name="time_taken_by_topper">Time Taken By Topper</string>
+    <string name="take_test">Take Test</string>
 
 </resources>

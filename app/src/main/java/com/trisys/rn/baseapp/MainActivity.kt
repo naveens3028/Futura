@@ -17,6 +17,7 @@ import com.androidnetworking.common.Priority
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
+import com.trisys.rn.baseapp.doubt.AskDoubtActivity
 import com.trisys.rn.baseapp.helper.BottomNavigationBehavior
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
@@ -68,7 +69,20 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         homeTabViewAdapter = HomeTabViewAdapter(this)
         viewPager.adapter = homeTabViewAdapter
         viewPager.offscreenPageLimit = 3
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if (position == 4) askDoubt.visibility = View.VISIBLE
+                else askDoubt.visibility = View.GONE
+            }
+        })
+
+        askDoubt.setOnClickListener {
+            val intent = Intent(this, AskDoubtActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 
     private fun listeners() {
 

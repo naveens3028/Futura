@@ -50,8 +50,7 @@
                     android:id="@+id/studyRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -74,8 +73,9 @@
                 android:id="@+id/layoutChart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_250sdp"
-                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 app:cardCornerRadius="@dimen/_4sdp"
                 app:cardUseCompatPadding="true"
@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
-                app:cardCornerRadius="@dimen/_20sdp"
+                app:cardCornerRadius="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutChart">
@@ -108,7 +108,7 @@
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:background="@color/window_background"
                         android:clipToPadding="true"
                         app:layout_constraintTop_toTopOf="parent"
@@ -117,7 +117,7 @@
                         app:tabIndicatorGravity="stretch"
                         app:tabMode="fixed"
                         app:tabSelectedTextColor="@android:color/white"
-                        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                        app:tabTextAppearance="@style/TabLayoutStyle"
                         app:tabTextColor="@color/carolina_blue">
 
                         <com.google.android.material.tabs.TabItem
@@ -136,8 +136,8 @@
                     <View
                         android:layout_width="@dimen/_4sdp"
                         android:layout_height="0dp"
-                        android:elevation="@dimen/_1sdp"
                         android:background="@color/window_background"
+                        android:elevation="@dimen/_1sdp"
                         app:layout_constraintBottom_toBottomOf="@+id/tabLayout"
                         app:layout_constraintEnd_toEndOf="@+id/tabLayout"
                         app:layout_constraintStart_toStartOf="@+id/tabLayout"

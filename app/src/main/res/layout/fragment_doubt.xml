@@ -216,7 +216,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabView" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <!--<androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/askDoubt"
             android:layout_width="@dimen/_48sdp"
             android:layout_height="@dimen/_51sdp"
@@ -224,7 +224,7 @@
             android:layout_marginBottom="@dimen/_95sdp"
             android:src="@drawable/doubt_ask"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
