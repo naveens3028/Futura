@@ -83,7 +83,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/questionsIcon" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/questionAnswerValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_2sdp"
@@ -118,7 +117,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/attemptIcon" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/attemptValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_2sdp"

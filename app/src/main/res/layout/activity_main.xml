@@ -8,20 +8,28 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context=".MainActivity">
+
         <include layout="@layout/layout_toolbar" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:visibility="visible"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarLayout" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_51sdp"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/_5sdp"
+            android:src="@drawable/doubt_ask" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigationView"
@@ -33,10 +41,11 @@
             android:elevation="2dp"
             android:focusedByDefault="false"
             app:elevation="2dp"
+            app:hideOnScroll="true"
             app:itemIconTint="@drawable/selector_bottombar_item"
             app:itemTextColor="@drawable/selector_bottombar_item"
             app:labelVisibilityMode="labeled"
-            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             app:menu="@menu/navigation_home" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

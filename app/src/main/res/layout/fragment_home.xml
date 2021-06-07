@@ -35,7 +35,6 @@
                 android:layout_margin="@dimen/_10sdp"
                 android:text="@string/studying"
                 android:textSize="@dimen/_16sdp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search" />
 
@@ -68,7 +67,6 @@
                 android:layout_margin="@dimen/_10sdp"
                 android:text="@string/performance_analysis"
                 android:textSize="@dimen/_16sdp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/studyRecyclerParent" />
 

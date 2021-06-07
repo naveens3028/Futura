@@ -91,13 +91,11 @@
                     android:layout_toRightOf="@id/ranktxt">
 
                     <ImageView
-                        android:id="@+id/imgrank"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/rank" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/mark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -112,7 +110,6 @@
 
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/rankoutof"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rank"
@@ -147,7 +144,6 @@
                         app:cardCornerRadius="@dimen/_10sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/averagescore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -160,7 +156,6 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/averagescoretxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/crdavgscore"
@@ -182,7 +177,6 @@
                         app:cardCornerRadius="@dimen/_10sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/averageclassscore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -196,7 +190,6 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/averageclassscoretxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/crdavgclassscore"
@@ -219,7 +212,6 @@
                         app:cardCornerRadius="@dimen/_10sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/averagetopperscore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -233,7 +225,6 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/avgtopperscoretxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/crdavgtopperscore"
@@ -307,8 +298,7 @@
                 </RelativeLayout>
 
                 <ProgressBar
-                android:id="@+id/totaltestscheduled"
-                android:layout_width="@dimen/_250sdp"
+                    android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                     android:progressTint="@color/blue"
                 android:progress="10"
@@ -336,7 +326,6 @@
                 </RelativeLayout>
 
                 <ProgressBar
-                    android:id="@+id/totaltestattempted"
                     android:layout_width="@dimen/_250sdp"
                     android:layout_gravity=""
                     android:layout_height="wrap_content"
@@ -367,7 +356,6 @@
 
                 <ProgressBar
                     android:progressTint="@color/bittersweet"
-                    android:id="@+id/totaltestunattempted"
                     android:layout_width="@dimen/_250sdp"
                     android:layout_height="wrap_content"
                     android:progress="3"
@@ -428,7 +416,6 @@
                 </com.google.android.material.tabs.TabLayout>
 
                 <View
-                    android:id="@+id/line"
                     android:layout_width="@dimen/_3sdp"
                     android:layout_height="0dp"
                     android:background="@color/window_background"

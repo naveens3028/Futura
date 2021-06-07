@@ -81,7 +81,6 @@
                         android:textSize="@dimen/_10sdp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/durationtxttime"
                         android:layout_width="@dimen/_60sdp"
                         android:layout_height="wrap_content"
                         android:text="1hr, 7mins"
@@ -117,7 +116,6 @@
                         android:textSize="@dimen/_10sdp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/questiontxtval"
                         android:layout_width="@dimen/_60sdp"
                         android:layout_height="wrap_content"
                         android:text="15"
@@ -154,7 +152,6 @@
                         android:textSize="@dimen/_10sdp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/attempttxtval"
                         android:layout_width="@dimen/_60sdp"
                         android:layout_height="wrap_content"
                         android:text="1"

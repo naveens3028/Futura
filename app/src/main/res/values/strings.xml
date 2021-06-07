@@ -7,7 +7,6 @@
     <string name="errorCode0">No response from UpMyRanks, please try again.</string>
     <string name="errorCode503">Something went wrong, please try again. </string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="let_s_learn_anywhere_anytime">Let\'s Learn Anywhere, Anytime</string>
     <string name="email_address">Email address</string>
     <string name="mobile_number">Mobile number</string>
