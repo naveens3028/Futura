@@ -19,8 +19,6 @@ private const val ARG_PARAM2 = "param2"
 
 class DoubtFragment : Fragment() {
 
-    private lateinit var fragment: Fragment
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,36 +27,22 @@ class DoubtFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_doubt, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        fragment = ClarifiedFragment()
-        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-        fragmentTransaction?.replace(R.id.doubtFrameLayout, fragment)
-        fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction?.commit()
+    override fun onStart() {
+        super.onStart()
+        childFragmentManager.beginTransaction().replace(R.id.doubtFrameLayout, ClarifiedFragment.newInstance("","")).commit()
 
         doubtTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
-                    0 -> fragment = ClarifiedFragment()
-                    1 -> fragment = ClarifiedFragment()
+                    0 -> childFragmentManager.beginTransaction().replace(R.id.doubtFrameLayout, ClarifiedFragment.newInstance("","")).commit()
+
+                    1 -> childFragmentManager.beginTransaction().replace(R.id.doubtFrameLayout, ClarifiedFragment.newInstance("","")).commit()
                 }
-                val fm: FragmentManager? = activity?.supportFragmentManager
-                val ft = fm?.beginTransaction()
-                ft?.replace(R.id.doubtFrameLayout, fragment)
-                ft?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                ft?.commit()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-
-        askDoubt.setOnClickListener {
-            val intent = Intent(requireContext(), AskDoubtActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     companion object {

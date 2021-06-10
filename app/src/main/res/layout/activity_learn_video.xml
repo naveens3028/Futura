@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10sdp"
-        app:cardCornerRadius="@dimen/_20sdp"
+        app:cardElevation="@dimen/_4sdp"
+        app:cardCornerRadius="@dimen/_12sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
@@ -27,7 +28,7 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:background="@color/window_background"
                 android:clipToPadding="true"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +40,7 @@
                 app:tabPaddingEnd="10dp"
                 app:tabPaddingStart="10dp"
                 app:tabSelectedTextColor="@android:color/white"
-                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                app:tabTextAppearance="@style/TabLayoutStyle"
                 app:tabTextColor="@color/carolina_blue">
 
                 <com.google.android.material.tabs.TabItem

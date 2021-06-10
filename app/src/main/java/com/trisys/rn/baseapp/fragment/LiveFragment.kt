@@ -24,7 +24,6 @@ class LiveFragment : Fragment() {
 
     private var upcomingLiveList = ArrayList<UpcomingLiveItem>()
     private var studyList = ArrayList<StudyItem>()
-    private lateinit var fragment: Fragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,29 +41,7 @@ class LiveFragment : Fragment() {
         upcomingLiveList.add(UpcomingLiveItem("Chemistry", R.drawable.mathematics))
         upcomingLiveList.add(UpcomingLiveItem("Biology", R.drawable.mathematics))
 
-        fragment = UpcomingLiveFragment()
-        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-        fragmentTransaction?.replace(R.id.liveFrameLayout, fragment)
-        fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction?.commit()
 
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.position) {
-                    0 -> fragment = UpcomingLiveFragment()
-                    1 -> fragment = UpcomingLiveFragment()
-                }
-                val fm: FragmentManager? = activity?.supportFragmentManager
-                val ft = fm?.beginTransaction()
-                ft?.replace(R.id.frameLayout, fragment)
-                ft?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                ft?.commit()
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
 
         //Sample Data
         studyList.add(
@@ -99,6 +76,25 @@ class LiveFragment : Fragment() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        childFragmentManager.beginTransaction().replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("","")).commit()
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 ->
+                        childFragmentManager.beginTransaction().replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("","")).commit()
+                    1 ->
+                        childFragmentManager.beginTransaction().replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("","")).commit()
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

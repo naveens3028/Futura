@@ -10,6 +10,6 @@
         android:startColor="@color/window_background" />
     <solid android:color="@color/window_background" />
     <stroke
-        android:width="0.5dp"
+        android:width="0dp"
         android:color="@color/divider_color" />
 </shape>

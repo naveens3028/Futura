@@ -37,8 +37,6 @@ class TestFragment : Fragment() {
     private var param2: String? = null
     private var studyList = ArrayList<StudyItem>()
 
-    private lateinit var fragment1: Fragment
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -57,32 +55,25 @@ class TestFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initChart()
+    }
 
-        fragment1 = TestTabFragment()
-        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-        fragmentTransaction?.replace(R.id.frameLayout1, fragment1)
-        fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction?.commit()
-
+    override fun onStart() {
+        super.onStart()
+        childFragmentManager.beginTransaction().replace(R.id.frameLayout1, TestTabFragment.newInstance("","")).commit()
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
-                    0 -> fragment1 = TestTabFragment()
-                    1 -> fragment1 = PracticeTabFragment()
+                    0 -> childFragmentManager.beginTransaction().replace(R.id.frameLayout1, TestTabFragment.newInstance("","")).commit()
+
+                    1 -> childFragmentManager.beginTransaction().replace(R.id.frameLayout1, PracticeTabFragment.newInstance("","")).commit()
                 }
-                val fm: FragmentManager? = activity?.supportFragmentManager
-                val ft = fm?.beginTransaction()
-                ft?.replace(R.id.frameLayout1, fragment1)
-                ft?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                ft?.commit()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-
-        initChart()
     }
 
 

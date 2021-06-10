@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/_8sdp">
+    android:layout_marginHorizontal="@dimen/_15sdp">
 
     <View
         android:id="@+id/divider"
@@ -33,7 +33,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/_16sdp"
         android:layout_height="@dimen/_16sdp"
-        android:src="@drawable/ic_play"
+        android:src="@drawable/ic_play_red"
         app:layout_constraintBottom_toBottomOf="@+id/videoStatus"
         app:layout_constraintEnd_toEndOf="@+id/videoStatus"
         app:layout_constraintStart_toStartOf="@+id/videoStatus"
@@ -42,7 +42,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_12sdp"
+        android:layout_margin="@dimen/_8sdp"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="Important identities in trigonometry and it's applications"

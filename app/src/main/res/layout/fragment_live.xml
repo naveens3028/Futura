@@ -16,12 +16,13 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/StudyLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:text="@string/upcoming_live_sessions"
+                android:layout_margin="@dimen/_14sdp"
+                android:text="@string/currently_live_sessions"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,8 +52,9 @@
                 android:id="@+id/tabView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardElevation="@dimen/_4sdp"
                 android:layout_margin="@dimen/_10sdp"
-                app:cardCornerRadius="@dimen/_20sdp"
+                app:cardCornerRadius="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recyclerScroll">
@@ -64,7 +66,7 @@
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:background="@color/window_background"
                         android:clipToPadding="true"
                         app:layout_constraintTop_toTopOf="parent"
@@ -76,7 +78,7 @@
                         app:tabPaddingEnd="10dp"
                         app:tabPaddingStart="10dp"
                         app:tabSelectedTextColor="@android:color/white"
-                        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                        app:tabTextAppearance="@style/TabLayoutStyle"
                         app:tabTextColor="@color/carolina_blue">
 
                         <com.google.android.material.tabs.TabItem

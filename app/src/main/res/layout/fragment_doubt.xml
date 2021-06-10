@@ -210,25 +210,21 @@
         <FrameLayout
             android:id="@+id/doubtFrameLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabView" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
+        <!--<androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/askDoubt"
-            android:layout_marginBottom="@dimen/_120sdp"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_51sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:src="@drawable/ic_doubts"
-            android:backgroundTint="@color/alice_blue"
-            app:borderWidth="0dp"
-            app:elevation="6dp"
-            app:fabSize="mini"
+            android:layout_marginBottom="@dimen/_95sdp"
+            android:src="@drawable/doubt_ask"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

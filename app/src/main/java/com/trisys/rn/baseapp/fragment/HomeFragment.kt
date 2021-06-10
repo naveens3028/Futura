@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
@@ -19,9 +17,9 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.StudyAdapter
+import com.trisys.rn.baseapp.model.StudyItem
 import kotlinx.android.synthetic.main.fragment_home.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -33,7 +31,6 @@ class HomeFragment : Fragment() {
 
 
     private var studyList = ArrayList<StudyItem>()
-    private lateinit var fragment: Fragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,31 +44,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initChart()
-
-        fragment = UpcomingLiveFragment()
-        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-        fragmentTransaction?.replace(R.id.frameLayout, fragment)
-        fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction?.commit()
-
-
-        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.position) {
-                    0 -> fragment = UpcomingLiveFragment()
-                    1 -> fragment = ScheduledTestFragment()
-                }
-                val fm: FragmentManager? = activity?.supportFragmentManager
-                val ft = fm?.beginTransaction()
-                ft?.replace(R.id.frameLayout, fragment)
-                ft?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                ft?.commit()
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
-
 
         //Sample Data
         studyList.add(
@@ -103,6 +75,32 @@ class HomeFragment : Fragment() {
         val studyRecyclerView = view.findViewById(R.id.studyRecycler) as RecyclerView
         val studyAdapter = StudyAdapter(requireContext(), studyList)
         studyRecyclerView.adapter = studyAdapter
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        childFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, UpcomingLiveFragment.newInstance("", "")).commit()
+
+        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 ->
+                        childFragmentManager.beginTransaction()
+                            .replace(R.id.frameLayout, UpcomingLiveFragment.newInstance("", ""))
+                            .commit()
+                    1 ->
+                        childFragmentManager.beginTransaction()
+                            .replace(R.id.frameLayout, ScheduledTestFragment.newInstance("", ""))
+                            .commit()
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
 
     }
 
