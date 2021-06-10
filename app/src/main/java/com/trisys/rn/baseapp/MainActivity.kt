@@ -2,6 +2,7 @@ package com.trisys.rn.baseapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -76,6 +77,10 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 else askDoubt.visibility = View.GONE
             }
         })
+
+        drawer.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            Log.d("s2s", "saravana testing")
+        }
 
         askDoubt.setOnClickListener {
             val intent = Intent(this, AskDoubtActivity::class.java)

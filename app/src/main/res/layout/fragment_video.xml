@@ -37,11 +37,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <!--<androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/video_lectures" />
+                    android:src="@drawable/video_lectures" />-->
+
+                <com.potyvideo.library.AndExoPlayerView
+                    android:id="@+id/andExoPlayerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:andexo_aspect_ratio="aspect_16_9"
+                    app:andexo_play_when_ready="true"
+                    app:andexo_show_controller="true"
+                    app:andexo_show_full_screen="true"
+                    app:andexo_resize_mode="Fit" />
 
             </com.google.android.material.card.MaterialCardView>
 
