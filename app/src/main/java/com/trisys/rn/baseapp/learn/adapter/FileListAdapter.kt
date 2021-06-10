@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.model.CompletedLiveItem
+import com.rajat.pdfviewer.PdfViewerActivity
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.FileNameItem
 import com.trisys.rn.baseapp.model.FileType
-import kotlinx.android.synthetic.main.row_completed_live.view.*
-import kotlinx.android.synthetic.main.row_completed_live.view.subject
 import kotlinx.android.synthetic.main.row_file_name.view.*
 
 
@@ -30,10 +28,22 @@ class FileListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val fileName = fileNameItems[position]
         holder.itemView.fileName.text = fileName.fileName
-        if (fileName.fileType == FileType.PDF)
-        holder.itemView.fileIcon.setBackgroundResource(R.drawable.ic_pdf)
-        else
-        holder.itemView.fileIcon.setBackgroundResource(R.drawable.ic_image)
+        if (fileName.fileType == FileType.PDF) {
+            holder.itemView.fileIcon.setBackgroundResource(R.drawable.ic_pdf)
+            holder.itemView.setOnClickListener {
+                context.startActivity(
+                    PdfViewerActivity.launchPdfFromUrl(
+                        context,
+                        "http://www.africau.edu/images/default/sample.pdf",
+                        "Sample Pdf",
+                        "",
+                        enableDownload = false
+                    )
+                )
+            }
+        } else {
+            holder.itemView.fileIcon.setBackgroundResource(R.drawable.ic_image)
+        }
     }
 
     override fun getItemCount(): Int {

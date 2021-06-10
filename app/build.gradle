@@ -80,10 +80,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     // Declare the dependencies for the Remote Config and Analytics libraries
     implementation 'com.google.firebase:firebase-config-ktx'
-
     //volley
     implementation("com.android.volley:volley:1.2.0")
-
     //percentage bar
     implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    //PDF viewer
+    implementation 'com.github.afreakyelf:Pdf-Viewer:1.0.7'
 }
