@@ -79,10 +79,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     // Declare the dependencies for the Remote Config and Analytics libraries
     implementation 'com.google.firebase:firebase-config-ktx'
-
     //volley
     implementation("com.android.volley:volley:1.2.0")
-
     //percentage bar
     implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+
+    // Exo-player
+    implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:X.X.X'
 }

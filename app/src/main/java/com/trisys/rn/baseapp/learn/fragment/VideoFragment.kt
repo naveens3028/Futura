@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.trisys.rn.baseapp.R
+import kotlinx.android.synthetic.main.fragment_study_material.*
 
 
 class VideoFragment : Fragment() {
@@ -18,5 +19,6 @@ class VideoFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_video, container, false)
     }
+
 
 }

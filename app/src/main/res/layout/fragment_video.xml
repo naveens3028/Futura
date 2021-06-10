@@ -37,11 +37,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.potyvideo.library.AndExoPlayerView
+                    android:id="@+id/andExoPlayerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/video_lectures" />
+                    android:layout_height="wrap_content" />
+
 
             </com.google.android.material.card.MaterialCardView>
 

@@ -11,10 +11,12 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.NotificationsActivity
+import com.trisys.rn.baseapp.activity.TakeResultActivity
 import com.trisys.rn.baseapp.model.AnswerChooseItem
 import com.trisys.rn.baseapp.model.QuestionItem
 import com.trisys.rn.baseapp.model.QuestionNumberItem
 import com.trisys.rn.baseapp.model.QuestionType
+import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import kotlinx.android.synthetic.main.activity_today_test.*
@@ -41,6 +43,7 @@ class TodayTestActivity : AppCompatActivity() {
         questionGroup.setOnClickListener {
             showDialog()
         }
+
 
         questionNumberItem.add(QuestionNumberItem(1, QuestionType.ATTEMPT))
         questionNumberItem.add(QuestionNumberItem(2, QuestionType.NOT_ATTEMPT))
@@ -80,6 +83,11 @@ class TodayTestActivity : AppCompatActivity() {
         viewPager.adapter = questionAdapter
         submitTest.setOnClickListener {
             val intent = Intent(this, TestReviewActivity::class.java)
+            startActivity(intent)
+        }
+
+        pause.setOnClickListener {
+            val intent = Intent(this, TakeResultActivity::class.java)
             startActivity(intent)
         }
     }
@@ -126,4 +134,5 @@ class TodayTestActivity : AppCompatActivity() {
         dialog.questionNumber.adapter = questionNumberAdapter
         dialog.show()
     }
+
 }
