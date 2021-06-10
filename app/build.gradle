@@ -86,4 +86,6 @@ dependencies {
 
     //percentage bar
     implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    //Video player
+    implementation("com.github.HamidrezaAmz:MagicalExoPlayer:2.0.7")
 }
