@@ -1,12 +1,14 @@
 package com.trisys.rn.baseapp.learn.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rajat.pdfviewer.PdfViewerActivity
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.learn.ImageViewActivity
 import com.trisys.rn.baseapp.model.FileNameItem
 import com.trisys.rn.baseapp.model.FileType
 import kotlinx.android.synthetic.main.row_file_name.view.*
@@ -43,6 +45,11 @@ class FileListAdapter(
             }
         } else {
             holder.itemView.fileIcon.setBackgroundResource(R.drawable.ic_image)
+            holder.itemView.setOnClickListener {
+                context.startActivity(
+                    Intent(context, ImageViewActivity::class.java)
+                )
+            }
         }
     }
 
