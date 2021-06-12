@@ -25,7 +25,9 @@
         <activity android:name=".practiceTest.TestTopicActivity" />
         <activity android:name=".doubt.DoubtClarificationActivity" />
         <activity android:name=".doubt.AskDoubtActivity" />
-        <activity android:name=".learn.LearnVideoActivity" />
+        <activity
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:name=".learn.LearnVideoActivity" />
         <activity android:name=".learn.LearnActivity" />
         <activity android:name=".activity.TakeTestActivity" />
         <activity android:name=".activity.ChapterActivity" />
