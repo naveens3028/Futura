@@ -43,4 +43,9 @@
         <item name="android:textColor">@color/divider_color</item>
     </style>
 
+    <style name="Theme.PdfView.SelectedTheme" parent="@style/Theme.PdfView.Light">
+        <item name="pdfView_backIcon">@drawable/ic_arrow_back</item>
+        <item name="pdfView_actionBarTint">@color/carolina_blue</item>
+    </style>
+
 </resources>

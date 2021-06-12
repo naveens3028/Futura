@@ -27,11 +27,11 @@
             android:id="@+id/askDoubt"
             android:layout_width="@dimen/_48sdp"
             android:layout_height="@dimen/_51sdp"
-            android:visibility="gone"
-            android:layout_marginEnd="@dimen/_8sdp"
             android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_65sdp"
-            android:src="@drawable/doubt_ask" />
+            android:src="@drawable/doubt_ask"
+            android:visibility="gone" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigationView"

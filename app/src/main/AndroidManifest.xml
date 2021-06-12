@@ -15,8 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UpMyRanks"
         android:usesCleartextTraffic="true">
-        <activity android:name=".practiceTest.TestReviewActivity"
-            android:label="Today Test Review"/>
+        <activity android:name=".learn.ImageViewActivity" />
+        <activity
+            android:name=".practiceTest.TestReviewActivity"
+            android:label="Today Test Review" />
         <activity
             android:name=".practiceTest.TodayTestActivity"
             android:label="Today Test" />
@@ -26,8 +28,8 @@
         <activity android:name=".doubt.DoubtClarificationActivity" />
         <activity android:name=".doubt.AskDoubtActivity" />
         <activity
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:name=".learn.LearnVideoActivity" />
+            android:name=".learn.LearnVideoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode" />
         <activity android:name=".learn.LearnActivity" />
         <activity android:name=".activity.TakeTestActivity" />
         <activity android:name=".activity.ChapterActivity" />
