@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/layout_toolbar"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/attempt"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/toolbarLayout"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Attempt 1"
+        android:textSize="@dimen/_14sdp"/>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/attempt"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:outlineAmbientShadowColor="@color/divider_color"
+        app:cardCornerRadius="@dimen/_20sdp"
+        app:cardElevation="5dp"
+        android:visibility="visible"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_10sdp">
+
+            <ImageView
+                android:id="@+id/imgstud"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/students" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_toRightOf="@id/imgstud"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/overall_performance"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ranktxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toRightOf="@id/rank"
+                android:fontFamily="@font/roboto_bold"
+                android:text="RANK"
+                android:textColor="@color/redtext"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/rank_img_rlt"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_toRightOf="@id/ranktxt">
+
+                <ImageView
+                    android:id="@+id/imgrank"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/rank" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/mark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="30"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/_18sdp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rankoutof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rank"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_toRightOf="@id/imgstud"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/rank_out_of"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/viewdivider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@id/imgstud"
+                android:layout_alignEnd="@id/ranktxt"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/divider_color" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/leaderboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_below="@id/viewdivider"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/leaderboard"
+                android:textSize="@dimen/_14sdp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/circletxt"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/ic_circle_bg"
+                android:layout_below="@id/leaderboard"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="1"
+                android:textSize="@dimen/_14sdp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/testName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_below="@id/leaderboard"
+                android:layout_toRightOf="@id/circletxt"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/greytext"
+                android:text="Test Subhan Demo"
+                android:textSize="@dimen/_10sdp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/outOftxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/testName"
+                android:layout_toRightOf="@id/circletxt"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/ink_blue"
+                android:text="-3/544"
+                android:textSize="@dimen/_10sdp"/>
+
+            <View
+                android:id="@+id/viewdivider1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@id/outOftxt"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/divider_color" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/scores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_below="@id/viewdivider1"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Score"
+                android:textSize="@dimen/_14sdp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/improve_score"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:backgroundTint="@color/bittersweet"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/imp_score"
+                android:layout_below="@id/viewdivider1"
+                android:layout_alignParentEnd="true"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8sdp"
+                app:cornerRadius="@dimen/_8sdp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/circleScoretxt"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/ic_circle_bg"
+                android:layout_below="@id/scores"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="1"
+                android:textSize="@dimen/_14sdp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/testScoreName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_below="@id/scores"
+                android:layout_toRightOf="@id/circletxt"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/greytext"
+                android:text="Your Score"
+                android:textSize="@dimen/_10sdp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/outOfScoretxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/testScoreName"
+                android:layout_toRightOf="@id/circletxt"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/ink_blue"
+                android:text="Out of 544"
+                android:textSize="@dimen/_10sdp"/>
+
+            <RelativeLayout
+                android:id="@+id/colortxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/scores"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_toRightOf="@id/outOfScoretxt"
+                >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/correct">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/correct"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/correcttxt"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/crcttxt"
+                        android:text="Correct"
+                        android:textAlignment="center"
+                        android:layout_centerHorizontal="true"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/greytext"
+                        android:layout_below="@id/correcttxt"
+                        android:textSize="@dimen/_6sdp"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/crcttxtNo"
+                        android:text="2"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/emerald"
+                        android:textStyle="bold"
+                        android:layout_below="@id/crcttxt"
+                        android:textSize="@dimen/_8sdp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/correct"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:id="@+id/incorrect">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/incorrect"
+                        android:id="@+id/incorrecttxt"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/incorrecttext"
+                        android:text="Incorrect"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/greytext"
+                        android:textStyle="bold"
+                        android:layout_below="@id/incorrecttxt"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:textSize="@dimen/_6sdp"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/IncrcttxtNo"
+                        android:text="2"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/orange"
+                        android:textStyle="bold"
+                        android:layout_below="@id/incorrecttext"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:textSize="@dimen/_8sdp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/incorrect"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:id="@+id/unanswered">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/unanswered"
+                        android:id="@+id/unansweredtxt"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/unansweredtext"
+                        android:layout_centerHorizontal="true"
+                        android:text="Unanswered"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_below="@id/unansweredtxt"
+                        android:textColor="@color/greytext"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:textSize="@dimen/_6sdp"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/unAnstxtNo"
+                        android:text="2"
+                        android:textAlignment="center"
+                        android:layout_below="@id/unansweredtext"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_8sdp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/unanswered"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:id="@+id/accurate">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/accuracy"
+                        android:id="@+id/accuracytxt"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/accuractext"
+                        android:text="Accuracy"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_below="@+id/accuracytxt"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/greytext"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:textSize="@dimen/_6sdp"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/accuractxtNo"
+                        android:text="2"
+                        android:layout_below="@+id/accuractext"
+                        android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/blue"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:textSize="@dimen/_8sdp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/viewdivider2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@id/colortxt"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/divider_color" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/performancetxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_below="@id/viewdivider2"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Performance"
+                android:textSize="@dimen/_14sdp"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lineCharttestres"
+                android:layout_below="@id/performancetxt"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_160sdp"
+                android:layout_margin="@dimen/_5sdp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/lineCharttestres">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/totaltime"
+                    android:text="Total Time Taken"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textSize="@dimen/_5sdp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/totaltimetaken"
+                    android:text="0.75 mins."
+                    android:layout_below="@id/totaltime"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/purple_300"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textSize="@dimen/_6sdp"/>
+
+                <View
+                    android:id="@+id/viewdivider3"
+                    android:layout_width="1dp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_toRightOf="@id/totaltime"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:background="@color/divider_color" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/avgtime"
+                    android:text="Avg Time Per Question"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_toRightOf="@id/viewdivider3"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textSize="@dimen/_5sdp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/avgtimeperquestion"
+                    android:text="15.00 seconds"
+                    android:layout_below="@id/totaltime"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@id/viewdivider3"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/purple_300"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textSize="@dimen/_6sdp"/>
+
+                <View
+                    android:id="@+id/viewdivider4"
+                    android:layout_width="1dp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_toRightOf="@id/avgtime"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:background="@color/divider_color" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/toppertime"
+                    android:text="Toppers Total Time Taken"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_toRightOf="@id/viewdivider4"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textSize="@dimen/_5sdp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/toppertotaltimetxt"
+                    android:text="0.75 mins."
+                    android:layout_below="@id/totaltime"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@id/viewdivider4"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/purple_300"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textSize="@dimen/_6sdp"/>
+
+                <View
+                    android:id="@+id/viewdivider5"
+                    android:layout_width="1dp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_toRightOf="@id/toppertime"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:background="@color/divider_color" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/avgquestion"
+                    android:text="Avg Question Answered"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_toRightOf="@id/viewdivider5"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textSize="@dimen/_5sdp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/avgquestiontxt"
+                    android:text="0"
+                    android:layout_below="@id/totaltime"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@id/viewdivider5"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/purple_300"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textSize="@dimen/_6sdp"/>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</RelativeLayout>
