@@ -22,11 +22,11 @@ class VideoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val extraHeaders: HashMap<String, String> = HashMap()
-        extraHeaders["foo"] = "bar"
+        /*val extraHeaders: HashMap<String, String> = HashMap()
+        extraHeaders["foo"] = "bar"*/
         andExoPlayerView.setSource(
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-            extraHeaders
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
         )
     }
+    
 }
