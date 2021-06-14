@@ -9,7 +9,10 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import com.trisys.rn.baseapp.MainActivity
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -33,9 +36,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         //Handler for splash screen delay and to start next activity
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            validateLogin()
         }, 3000)
     }
 
@@ -47,4 +48,22 @@ class SplashScreenActivity : AppCompatActivity() {
         logoImage.startAnimation(animationSlideDown)
     }
 
+    fun validateLogin(){
+        if(MyPreferences(this).getString(Define.LOGIN_DATA) != null){
+            goToHomeScreen()
+        }else{
+            goToLoginScreen()
+        }
+    }
+
+    fun goToLoginScreen(){
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+    fun goToHomeScreen(){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }
