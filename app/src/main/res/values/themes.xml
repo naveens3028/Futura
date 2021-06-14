@@ -16,6 +16,8 @@
         <!-- Text Customization -->
         <item name="android:textColor">@color/charcoal</item>
         <item name="android:fontFamily">@font/news_gothic</item>
+        <!-- BottomSheet style -->
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="MyActionBarTheme" parent="ThemeOverlay.MaterialComponents.ActionBar">
@@ -46,6 +48,16 @@
     <style name="Theme.PdfView.SelectedTheme" parent="@style/Theme.PdfView.Light">
         <item name="pdfView_backIcon">@drawable/ic_arrow_back</item>
         <item name="pdfView_actionBarTint">@color/carolina_blue</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/logout_bottom_sheet</item>
     </style>
 
 </resources>

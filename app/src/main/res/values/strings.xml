@@ -82,5 +82,12 @@
     <string name="time_taken_by_you">Time Taken By You</string>
     <string name="time_taken_by_topper">Time Taken By Topper</string>
     <string name="take_test">Take Test</string>
+    <string name="are_you_sure_you_want_to_logout">Are you sure you want to Logout?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout">Logout</string>
+    <string name="help_app">Help (App)</string>
+    <string name="settings">Settings</string>
+    <string name="profile_completion">Profile Completion</string>
 
 </resources>

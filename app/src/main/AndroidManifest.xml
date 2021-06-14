@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UpMyRanks"
         android:usesCleartextTraffic="true">
+        <activity android:name=".profile.ProfileActivity"></activity>
         <activity android:name=".learn.ImageViewActivity" />
         <activity
             android:name=".practiceTest.TestReviewActivity"

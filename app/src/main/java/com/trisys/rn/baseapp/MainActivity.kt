@@ -2,7 +2,6 @@ package com.trisys.rn.baseapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,9 +18,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
 import com.trisys.rn.baseapp.doubt.AskDoubtActivity
+import com.trisys.rn.baseapp.fragment.LogOutBottomSheetFragment
 import com.trisys.rn.baseapp.helper.BottomNavigationBehavior
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_notification_icon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var bottomNavigationBehavior: BottomNavigationBehavior
     lateinit var networkHelper: NetworkHelper
     lateinit var headerLayout: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -78,10 +80,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
             }
         })
 
-        drawer.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            Log.d("s2s", "saravana testing")
-        }
-
         askDoubt.setOnClickListener {
             val intent = Intent(this, AskDoubtActivity::class.java)
             startActivity(intent)
@@ -93,7 +91,11 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
         nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_home -> true
+                R.id.logOut -> {
+                    drawer.closeDrawer(GravityCompat.START)
+                    val bottomSheetFragment = LogOutBottomSheetFragment()
+                    bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+                }
             }
             true
         }
@@ -101,6 +103,12 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         headerLayout.close.setOnClickListener {
             drawer.closeDrawer(GravityCompat.START)
         }
+
+        headerLayout.profileImage.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onStart() {
