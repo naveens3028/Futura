@@ -2,9 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:title="@string/settings" />
+        <item android:title="@string/settings" />
         <item android:title="@string/help_app" />
         <item
             android:id="@+id/logOut"

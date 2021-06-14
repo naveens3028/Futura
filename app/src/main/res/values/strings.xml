@@ -89,5 +89,7 @@
     <string name="help_app">Help (App)</string>
     <string name="settings">Settings</string>
     <string name="profile_completion">Profile Completion</string>
+    <string name="account_details">Account Details</string>
+    <string name="personal_details">Personal Details</string>
 
 </resources>
