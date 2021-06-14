@@ -90,14 +90,23 @@ public class SimpleStatefulLayout extends StatefulLayout {
 		TextView emptyTextView = ((TextView) getEmptyView().findViewById(R.id.state_text));
 		if(emptyTextView != null)
 			emptyTextView.setTextAppearance(getContext(), textAppearance);
+		TextView progressTextView = ((TextView) getProgressView().findViewById(R.id.state_text));
+		if(emptyTextView != null)
+			progressTextView.setTextAppearance(getContext(), textAppearance);
 	}
 
-
+	public void setProgressText(@StringRes int resourceId) {
+		setProgressText(getResources().getString(resourceId));
+	}
 	public void setEmptyText(@StringRes int resourceId) {
 		setEmptyText(getResources().getString(resourceId));
 	}
 
-
+	public void setProgressText(CharSequence progressText) {
+		TextView progressTextView = ((TextView) getProgressView().findViewById(R.id.state_text));
+		if(progressTextView != null)
+			progressTextView.setText(progressText);
+	}
 	public void setEmptyText(CharSequence emptyText) {
 		TextView emptyTextView = ((TextView) getEmptyView().findViewById(R.id.state_text));
 		if(emptyTextView != null)
@@ -150,6 +159,7 @@ public class SimpleStatefulLayout extends StatefulLayout {
 		((AppCompatImageView) getOfflineView().findViewById(R.id.state_image)).setSupportBackgroundTintList(ColorStateList.valueOf(color));
 		((TextView) getEmptyView().findViewById(R.id.state_text)).setTextColor(color);
 		((TextView) getOfflineView().findViewById(R.id.state_text)).setTextColor(color);
+		((TextView) getProgressView().findViewById(R.id.state_text)).setTextColor(color);
 	}
 
 
@@ -223,6 +233,11 @@ public class SimpleStatefulLayout extends StatefulLayout {
 
 		int textAppearance = a.getResourceId(R.styleable.SflStatefulLayout_stateTextAppearance, R.style.sfl_TextAppearanceStateDefault);
 		setTextAppearance(textAppearance);
+
+		// setState custom empty text
+		if(a.hasValue(R.styleable.SflStatefulLayout_progressText)) {
+			setProgressText(a.getString(R.styleable.SflStatefulLayout_progressText));
+		}
 
 		// setState custom empty text
 		if(a.hasValue(R.styleable.SflStatefulLayout_emptyText)) {
