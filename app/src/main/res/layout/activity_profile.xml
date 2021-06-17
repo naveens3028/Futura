@@ -35,6 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image"
                     android:layout_width="@dimen/_64sdp"
                     android:layout_height="@dimen/_64sdp"
                     android:scaleType="centerCrop"
@@ -251,7 +252,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginVertical="@dimen/_10sdp"
-                android:text="johnsmith@test.com"
+                android:alpha="0.6"
+                android:text="Add your email"
                 android:textSize="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="@id/guidelineRight"
                 app:layout_constraintStart_toEndOf="@+id/emailIcon"
@@ -314,7 +316,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginVertical="@dimen/_10sdp"
-                android:text="Krishnaraja Pura, Bangalore, Karnataka, India"
+                android:text="Add your location"
+                android:alpha="0.6"
                 android:textSize="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="@id/guidelineRight"
                 app:layout_constraintStart_toEndOf="@+id/locationIcon"

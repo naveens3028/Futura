@@ -38,6 +38,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/_96sdp"
                 android:layout_height="@dimen/_96sdp"
+                android:id="@+id/image"
                 android:scaleType="centerCrop"
                 android:src="@drawable/profile_placeholder" />
 

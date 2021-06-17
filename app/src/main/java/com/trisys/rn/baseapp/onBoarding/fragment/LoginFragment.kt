@@ -38,10 +38,13 @@ class LoginFragment : Fragment(), OnNetworkResponse {
 
     lateinit var mRemoteConfig: FirebaseRemoteConfig
     lateinit var networkHelper: NetworkHelper
+
     //Google Auth
     private lateinit var auth: FirebaseAuth
+
     //Google signin client
     private lateinit var googleSignInClient: GoogleSignInClient
+
     //preference class
     lateinit var myPreferences: MyPreferences
 
@@ -98,7 +101,7 @@ class LoginFragment : Fragment(), OnNetworkResponse {
             }
 
         continueButton.setOnClickListener {
-             requestLogin()
+            requestLogin()
 //            requireActivity().supportFragmentManager.beginTransaction()
 //                .replace(R.id.container, OTPFragment()).addToBackStack(null)
 //                .commitAllowingStateLoss()
@@ -115,11 +118,11 @@ class LoginFragment : Fragment(), OnNetworkResponse {
         val username = emailAddress.text.toString()
         val password = mobileNumber.text.toString()
 
-        if(username.length ==0){
+        if (username.length == 0) {
             emailAddress.error = "Enter valid username"
-        }else if(password.length == 0){
+        } else if (password.length == 0) {
             mobileNumber.error = "Enter valid password"
-        }else {
+        } else {
             emailAddress.error = null
             mobileNumber.error = null
 
@@ -146,17 +149,18 @@ class LoginFragment : Fragment(), OnNetworkResponse {
         }
     }
 
-    fun loginResponseData(response: String){
+    private fun loginResponseData(response: String) {
         val loginResponse = Gson().fromJson(response, LoginResponse::class.java)
-        if(loginResponse.data != null){
+        if (loginResponse.data != null) {
 
             myPreferences.setString(Define.ACCESS_TOKEN, loginResponse.data!!.token)
             myPreferences.setString(Define.LOGIN_DATA, Gson().toJson(loginResponse.data))
 
             //Go to dashboard screen
             requireActivity().startActivity(Intent(requireActivity(), MainActivity::class.java))
-        }else{
-            Toast.makeText(requireContext(),"Login failed, please try again", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(requireContext(), "Login failed, please try again", Toast.LENGTH_LONG)
+                .show()
         }
     }
 
