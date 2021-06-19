@@ -32,19 +32,22 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import org.json.JSONException
+
+import org.json.JSONObject
+
+
+
 
 
 class LoginFragment : Fragment(), OnNetworkResponse {
 
     lateinit var mRemoteConfig: FirebaseRemoteConfig
     lateinit var networkHelper: NetworkHelper
-
     //Google Auth
     private lateinit var auth: FirebaseAuth
-
     //Google signin client
     private lateinit var googleSignInClient: GoogleSignInClient
-
     //preference class
     lateinit var myPreferences: MyPreferences
 
@@ -118,11 +121,11 @@ class LoginFragment : Fragment(), OnNetworkResponse {
         val username = emailAddress.text.toString()
         val password = mobileNumber.text.toString()
 
-        if (username.length == 0) {
+        if(username.length ==0){
             emailAddress.error = "Enter valid username"
-        } else if (password.length == 0) {
+        }else if(password.length == 0){
             mobileNumber.error = "Enter valid password"
-        } else {
+        }else {
             emailAddress.error = null
             mobileNumber.error = null
 
@@ -131,11 +134,20 @@ class LoginFragment : Fragment(), OnNetworkResponse {
             params.put("userName", username)
             params.put("password", password)
 
+            val jsonObject = JSONObject()
+            try {
+                jsonObject.put("loginDevice", "mobile")
+                jsonObject.put("userName", username)
+                jsonObject.put("password", password)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
             requireActivity().stateful.showProgress()
             requireActivity().stateful.setProgressText("Loading..")
             val url =
                 mRemoteConfig.getString(Define.BASE_URL) + mRemoteConfig.getString(Define.BASE_PATH) + Config.Login
-            networkHelper.call(networkHelper.POST, url, params, Priority.HIGH, "login", this)
+            networkHelper.loginPostCall(url, params, Priority.HIGH, "login", this)
         }
     }
 
@@ -149,18 +161,17 @@ class LoginFragment : Fragment(), OnNetworkResponse {
         }
     }
 
-    private fun loginResponseData(response: String) {
+    fun loginResponseData(response: String){
         val loginResponse = Gson().fromJson(response, LoginResponse::class.java)
-        if (loginResponse.data != null) {
+        if(loginResponse.data != null){
 
             myPreferences.setString(Define.ACCESS_TOKEN, loginResponse.data!!.token)
             myPreferences.setString(Define.LOGIN_DATA, Gson().toJson(loginResponse.data))
 
             //Go to dashboard screen
             requireActivity().startActivity(Intent(requireActivity(), MainActivity::class.java))
-        } else {
-            Toast.makeText(requireContext(), "Login failed, please try again", Toast.LENGTH_LONG)
-                .show()
+        }else{
+            Toast.makeText(requireContext(),"Login failed, please try again", Toast.LENGTH_LONG).show()
         }
     }
 

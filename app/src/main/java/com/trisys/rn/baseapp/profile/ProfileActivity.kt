@@ -1,7 +1,6 @@
 package com.trisys.rn.baseapp.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.ActionBar

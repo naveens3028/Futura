@@ -4,15 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
+import com.androidnetworking.common.Priority
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.StudyAdapter
 import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.UpcomingLiveItem
+import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.NetworkHelper
+import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.URLHelper.getSessions
+import com.trisys.rn.baseapp.utils.UrlConstants.kPREVIOUS
 import kotlinx.android.synthetic.main.fragment_live.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,10 +28,19 @@ import kotlinx.android.synthetic.main.fragment_live.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class LiveFragment : Fragment() {
+class LiveFragment : Fragment(), OnNetworkResponse {
 
     private var upcomingLiveList = ArrayList<UpcomingLiveItem>()
     private var studyList = ArrayList<StudyItem>()
+    private var loginData = LoginData()
+    lateinit var networkHelper: NetworkHelper
+    lateinit var myPreferences: MyPreferences
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        myPreferences = MyPreferences(requireContext())
+        networkHelper = NetworkHelper(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +53,15 @@ class LiveFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loginData =
+            Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
+
+        requestSessions()
+
         upcomingLiveList.add(UpcomingLiveItem("Mathematics", R.drawable.mathematics))
         upcomingLiveList.add(UpcomingLiveItem("Physics", R.drawable.mathematics))
         upcomingLiveList.add(UpcomingLiveItem("Chemistry", R.drawable.mathematics))
         upcomingLiveList.add(UpcomingLiveItem("Biology", R.drawable.mathematics))
-
 
 
         //Sample Data
@@ -78,15 +99,20 @@ class LiveFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        childFragmentManager.beginTransaction().replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("","")).commit()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", "")).commit()
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
                     0 ->
-                        childFragmentManager.beginTransaction().replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("","")).commit()
+                        childFragmentManager.beginTransaction()
+                            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", ""))
+                            .commit()
                     1 ->
-                        childFragmentManager.beginTransaction().replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("","")).commit()
+                        childFragmentManager.beginTransaction()
+                            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", ""))
+                            .commit()
                 }
             }
 
@@ -95,6 +121,7 @@ class LiveFragment : Fragment() {
         })
 
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -114,4 +141,30 @@ class LiveFragment : Fragment() {
                 }
             }
     }
-}
+
+    private fun requestSessions() {
+
+        val params = HashMap<String, String>()
+        params["branchIds"] = loginData.userDetail?.branchIds.toString()
+        params["coachingCentreId"] = loginData.userDetail?.coachingCenterId.toString()
+        params["batchIds"] = loginData.userDetail?.batchIds.toString()
+        params["sessionTense"] = kPREVIOUS
+
+        networkHelper.call(
+            networkHelper.POST,
+            getSessions,
+            params,
+            Priority.HIGH,
+            "getSessions",
+            this
+        )
+    }
+
+    override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+        if (responseCode == networkHelper.responseSuccess && tag == "getSessions") {
+            Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(requireContext(), "login Failed", Toast.LENGTH_LONG).show()
+        }
+    }
+}  

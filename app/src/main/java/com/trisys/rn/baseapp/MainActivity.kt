@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
         val params = HashMap<String, String>()
         params.put("", "")
-        networkHelper.call(networkHelper.GET, "", params, Priority.HIGH, "login", this)
+//        networkHelper.call(networkHelper.GET, "", params, Priority.HIGH, "login", this)
 
         bottomNavigationBehavior = BottomNavigationBehavior()
         val layoutParams = navigationView.layoutParams as CoordinatorLayout.LayoutParams
