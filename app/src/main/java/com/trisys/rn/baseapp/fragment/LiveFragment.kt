@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.androidnetworking.common.Priority
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
@@ -17,6 +16,7 @@ import com.trisys.rn.baseapp.model.UpcomingLiveItem
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.RequestType
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.URLHelper.getSessions
@@ -151,10 +151,9 @@ class LiveFragment : Fragment(), OnNetworkResponse {
         params["sessionTense"] = kPREVIOUS
 
         networkHelper.call(
-            networkHelper.POST,
+            RequestType.POST_WITH_AUTH,
             getSessions,
             params,
-            Priority.HIGH,
             "getSessions",
             this
         )

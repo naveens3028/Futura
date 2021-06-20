@@ -8,66 +8,48 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.BuildConfig
-import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
-import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.network.ApiUtils.getAuthorizationHeader
 import com.trisys.rn.baseapp.network.ApiUtils.getHeader
 import com.trisys.rn.baseapp.utils.Utils
 import org.json.JSONObject
 
+enum class RequestType {
+    GET, POST_WITHOUT_AUTH, POST_WITH_AUTH
+}
 
-class NetworkHelper(context: Context) {
+class NetworkHelper(var context: Context) {
 
-    var GET: Int = 1
-    var POST: Int = 2
-    var RESTYPE_OBJECT: Int = 1
-    var RESTYPE_ARRAY: Int = 2
-    var TAG = NetworkHelper::class.java.simpleName
+    var kTAG: String = NetworkHelper::class.java.simpleName
 
     var responseSuccess = 0
     var responseFailed = 1
     var responseNoInternet = 2
 
-    lateinit var context: Context
-
-    lateinit var cd: ConnectionDetector
-    lateinit var gson: Gson
-
-    init {
-        if (context != null) {
-            cd = ConnectionDetector(context)
-            gson = Gson()
-            this.context = context
-
-            AndroidNetworking.enableLogging()
-
-        }
-    }
+    var cd: ConnectionDetector = ConnectionDetector(context)
 
     fun call(
-        callType: Int,
+        callType: RequestType,
         url: String,
         params: Map<String, String>,
-        priority: Priority,
         tag: String,
         onNetworkResponse: OnNetworkResponse
     ) {
-        Utils.log(TAG, "url $url")
-        Utils.log(TAG, "params $params")
+
         if (cd.isConnectingToInternet()) {
 
-            val header = HashMap<String, String>()
-            header.put("Accept", "application/json")
-            header.put("Content-Type", "application/json")
-            //header.put("Accept-Encoding","gzip, deflate")
-            header.put("Connection", "keep-alive")
-            if (callType == GET) {
-                getCall(url, params, priority, tag, onNetworkResponse, header)
-            } else {
-                postCall(url, params, priority, tag, onNetworkResponse, header)
+            when (callType) {
+                RequestType.GET -> {
+                    getCall(url, params, tag, onNetworkResponse, getAuthorizationHeader(context))
+                }
+                RequestType.POST_WITHOUT_AUTH -> {
+                    postCall(url, params, tag, onNetworkResponse, getHeader())
+                }
+                RequestType.POST_WITH_AUTH -> {
+                    postCall(url, params, tag, onNetworkResponse, getAuthorizationHeader(context))
+                }
             }
         } else {
             onNetworkResponse.onNetworkResponse(responseNoInternet, "No Internet Connection..", tag)
@@ -77,25 +59,23 @@ class NetworkHelper(context: Context) {
     private fun getCall(
         url: String,
         params: Map<String, String>,
-        priority: Priority,
         tag: String,
         onNetworkResponse: OnNetworkResponse,
-        headers: Map<String, String>
+        headers: MutableMap<String, String>
     ) {
-        Utils.log(TAG, "header $headers")
+        Utils.log(kTAG, "url $url")
+        Utils.log(kTAG, "header $headers")
+        Utils.log(kTAG, "params $params")
 
         AndroidNetworking.get(url)
-
             .addQueryParameter(params)
             .addHeaders(headers)
             .setTag(tag)
-            //.setContentType("application/json; charset=utf-8")
             .doNotCacheResponse()
-            .setPriority(priority)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {
-                    Utils.log(TAG, "response $response")
+                    Utils.log(kTAG, "response $response")
                     onNetworkResponse.onNetworkResponse(
                         responseSuccess,
                         response.toString(),
@@ -104,7 +84,7 @@ class NetworkHelper(context: Context) {
                 }
 
                 override fun onError(error: ANError) {
-                    Utils.log(TAG, "NetworkError ${error.errorDetail} ${error.errorCode}")
+                    Utils.log(kTAG, "NetworkError ${error.errorDetail} ${error.errorCode}")
                     val response = "Error Code : " + error.errorCode + " " + error.errorDetail
                     if (BuildConfig.DEBUG) {
                         onNetworkResponse.onNetworkResponse(
@@ -135,22 +115,24 @@ class NetworkHelper(context: Context) {
     private fun postCall(
         url: String,
         params: Map<String, String>,
-        priority: Priority,
         tag: String,
         onNetworkResponse: OnNetworkResponse,
-        headers: Map<String, String>
+        headers: MutableMap<String, String>
     ) {
 
+        Utils.log(kTAG, "url $url")
+        Utils.log(kTAG, "header $headers")
+        Utils.log(kTAG, "params $params")
         val queue = Volley.newRequestQueue(context)
         val stringRequest = object : StringRequest(
             Method.POST, url,
             Response.Listener { response ->
-                Utils.log(TAG, "Response $response")
+                Utils.log(kTAG, "Response $response")
                 onNetworkResponse.onNetworkResponse(responseSuccess, response.toString(), tag)
             },
             Response.ErrorListener {
                 Utils.log(
-                    TAG,
+                    kTAG,
                     "Network error ${it.networkResponse.data} ${it.networkResponse.statusCode}"
                 )
                 if (it.networkResponse.data.equals("connectionError")) {
@@ -168,49 +150,7 @@ class NetworkHelper(context: Context) {
                 }
             }) {
             override fun getHeaders(): MutableMap<String, String> {
-                return getHeader()
-            }
-
-        }
-        queue.add(stringRequest).tag = tag
-    }
-
-    fun loginPostCall(
-        url: String,
-        params: Map<String, String>,
-        priority: Priority,
-        tag: String,
-        onNetworkResponse: OnNetworkResponse,
-    ) {
-
-        val queue = Volley.newRequestQueue(context)
-        val stringRequest = object : StringRequest(
-            Method.POST, url,
-            Response.Listener { response ->
-                Utils.log(TAG, "Response $response")
-                onNetworkResponse.onNetworkResponse(responseSuccess, response.toString(), tag)
-            },
-            Response.ErrorListener {
-                Utils.log(
-                    TAG,
-                    "Network error ${it.networkResponse.data} ${it.networkResponse.statusCode}"
-                )
-                if (it.networkResponse.data.equals("connectionError")) {
-                    onNetworkResponse.onNetworkResponse(
-                        responseNoInternet,
-                        "No Internet Connection..",
-                        tag
-                    )
-                } else {
-                    onNetworkResponse.onNetworkResponse(
-                        responseFailed,
-                        "Something went wrong!, Please try again..",
-                        tag
-                    )
-                }
-            }) {
-            override fun getHeaders(): MutableMap<String, String> {
-                return getAuthorizationHeader(context)
+                return headers
             }
 
             override fun getBodyContentType(): String {

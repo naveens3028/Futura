@@ -7,23 +7,17 @@ import java.util.*
 
 object ApiUtils {
 
-    fun getHeader(): HashMap<String, String> {
+    fun getHeader(): MutableMap<String, String> {
         val headers = HashMap<String, String>()
-        headers["Content-Type"] = "application/json; charset=utf-8"
+        headers["Content-Type"] = "application/json"
         return headers
     }
 
-    fun getAuthorizationHeader(context: Context?): HashMap<String, String> {
+    fun getAuthorizationHeader(context: Context?): MutableMap<String, String> {
         val myPreferences = MyPreferences(context)
         val headers = HashMap<String, String>()
-//        headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0"
-//        headers["Accept"] = "application/json"
-//        headers["Accept-Language"] = "en-US,en;q=0.5"
         headers["Content-Type"] = "application/json; charset=utf-8"
         headers["access_token"] = myPreferences.getString(Define.ACCESS_TOKEN)
-//        headers["Origin"] = "http://65.2.90.171"
-        headers["Connection"] = "keep-alive"
-//        headers["Referer"] = "http://65.2.90.171/material/studentLiveSession"
         return headers
     }
 }
