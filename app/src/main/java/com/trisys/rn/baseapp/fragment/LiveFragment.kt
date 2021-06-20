@@ -15,10 +15,12 @@ import com.trisys.rn.baseapp.adapter.StudyAdapter
 import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.UpcomingLiveItem
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.Config
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.URLHelper
 import com.trisys.rn.baseapp.utils.URLHelper.getSessions
 import com.trisys.rn.baseapp.utils.UrlConstants.kPREVIOUS
 import kotlinx.android.synthetic.main.fragment_live.*
@@ -150,14 +152,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
         params["batchIds"] = loginData.userDetail?.batchIds.toString()
         params["sessionTense"] = kPREVIOUS
 
-        networkHelper.call(
-            networkHelper.POST,
-            getSessions,
-            params,
-            Priority.HIGH,
-            "getSessions",
-            this
-        )
+        networkHelper.call(networkHelper.POST,getSessions,params,Priority.HIGH,"getSessions",this)
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {

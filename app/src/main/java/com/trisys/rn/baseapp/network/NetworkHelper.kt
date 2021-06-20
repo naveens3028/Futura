@@ -1,9 +1,12 @@
 package com.trisys.rn.baseapp.network
 
 import android.content.Context
+import android.util.Log
 import com.android.volley.AuthFailureError
+import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.androidnetworking.AndroidNetworking
@@ -14,9 +17,12 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.network.ApiUtils.getAuthorizationHeader
-import com.trisys.rn.baseapp.network.ApiUtils.getHeader
+import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
+import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 
 class NetworkHelper(context: Context) {
@@ -47,23 +53,14 @@ class NetworkHelper(context: Context) {
         }
     }
 
-    fun call(
-        callType: Int,
-        url: String,
-        params: Map<String, String>,
-        priority: Priority,
-        tag: String,
-        onNetworkResponse: OnNetworkResponse
-    ) {
+    fun call(callType: Int,url: String,params: Map<String, String>,priority: Priority,tag: String,onNetworkResponse: OnNetworkResponse) {
+
         Utils.log(TAG, "url $url")
         Utils.log(TAG, "params $params")
         if (cd.isConnectingToInternet()) {
 
             val header = HashMap<String, String>()
-            header.put("Accept", "application/json")
-            header.put("Content-Type", "application/json")
-            //header.put("Accept-Encoding","gzip, deflate")
-            header.put("Connection", "keep-alive")
+
             if (callType == GET) {
                 getCall(url, params, priority, tag, onNetworkResponse, header)
             } else {
@@ -74,164 +71,122 @@ class NetworkHelper(context: Context) {
         }
     }
 
-    private fun getCall(
-        url: String,
-        params: Map<String, String>,
-        priority: Priority,
-        tag: String,
-        onNetworkResponse: OnNetworkResponse,
-        headers: Map<String, String>
-    ) {
-        Utils.log(TAG, "header $headers")
+    private fun postCall( url: String,params: Map<String, String>,priority: Priority,tag: String,onNetworkResponse: OnNetworkResponse,headers: Map<String, String>) {
 
-        AndroidNetworking.get(url)
+        val queue = Volley.newRequestQueue(context)
+        val stringRequest = object : StringRequest(Method.POST, url,Response.Listener { response ->
 
-            .addQueryParameter(params)
-            .addHeaders(headers)
-            .setTag(tag)
-            //.setContentType("application/json; charset=utf-8")
-            .doNotCacheResponse()
-            .setPriority(priority)
-            .build()
-            .getAsJSONObject(object : JSONObjectRequestListener {
-                override fun onResponse(response: JSONObject) {
-                    Utils.log(TAG, "response $response")
-                    onNetworkResponse.onNetworkResponse(
-                        responseSuccess,
-                        response.toString(),
-                        tag
-                    )
+                Utils.log(TAG, "Response $response")
+                onNetworkResponse.onNetworkResponse(responseSuccess, response.toString(), tag)
+
+            },
+            Response.ErrorListener {
+                Utils.log(TAG,"Network error ${it.networkResponse.data} ${it.networkResponse.statusCode}")
+
+                if (it.networkResponse.data.equals("connectionError")) {
+                    onNetworkResponse.onNetworkResponse(responseNoInternet,"No Internet Connection..", tag )
+                } else {
+                    onNetworkResponse.onNetworkResponse(responseFailed,"Something went wrong!, Please try again..",tag)
+                }
+            }) {
+                override fun getHeaders(): MutableMap<String, String> {
+                    val headers = HashMap<String, String>()
+    //                headers["Content-Type"] = "application/json;charset=utf-8"
+                    headers["access_token"] = MyPreferences(context).getString(Define.ACCESS_TOKEN)
+    //                headers["Connection"] = "keep-alive"
+                    return headers
                 }
 
-                override fun onError(error: ANError) {
-                    Utils.log(TAG, "NetworkError ${error.errorDetail} ${error.errorCode}")
-                    val response = "Error Code : " + error.errorCode + " " + error.errorDetail
-                    if (BuildConfig.DEBUG) {
-                        onNetworkResponse.onNetworkResponse(
-                            responseFailed,
-                            response,
-                            tag
-                        )
-                    } else {
-                        if (error.errorCode == 0) {
-                            onNetworkResponse.onNetworkResponse(
-                                responseNoInternet,
-                                context.getString(R.string.errorCode0),
-                                tag
-                            )
-                        } else {
-                            onNetworkResponse.onNetworkResponse(
-                                responseFailed,
-                                context.getString(R.string.errorCode503),
-                                tag
-                            )
-                        }
-                    }
+                override fun getBodyContentType(): String {
+                    return "application/json; charset=utf-8"
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getParams(): Map<String, String> {
+                    return params
+                }
+            }
+        queue.add(stringRequest).tag = tag
+    }
+
+    fun loginPostCall(url: String,params: Map<String, String>,priority: Priority,tag: String, onNetworkResponse: OnNetworkResponse, ) {
+
+        val queue = Volley.newRequestQueue(context)
+        val stringRequest = object : StringRequest(
+            Method.POST, url,
+            Response.Listener { response ->
+
+                Utils.log(TAG, "Response $response")
+                onNetworkResponse.onNetworkResponse(responseSuccess, response.toString(), tag)
+
+            },
+            Response.ErrorListener {
+                Utils.log(TAG,"Network error ${it.networkResponse.data} ${it.networkResponse.statusCode}")
+
+                if (it.networkResponse.data.equals("connectionError")) {
+                    onNetworkResponse.onNetworkResponse(responseNoInternet,"No Internet Connection..",tag)
+                } else {
+                    onNetworkResponse.onNetworkResponse( responseFailed,"Something went wrong!, Please try again..",tag)
                 }
             })
-
-    }
-
-    private fun postCall(
-        url: String,
-        params: Map<String, String>,
-        priority: Priority,
-        tag: String,
-        onNetworkResponse: OnNetworkResponse,
-        headers: Map<String, String>
-    ) {
-
-        val queue = Volley.newRequestQueue(context)
-        val stringRequest = object : StringRequest(
-            Method.POST, url,
-            Response.Listener { response ->
-                Utils.log(TAG, "Response $response")
-                onNetworkResponse.onNetworkResponse(responseSuccess, response.toString(), tag)
-            },
-            Response.ErrorListener {
-                Utils.log(
-                    TAG,
-                    "Network error ${it.networkResponse.data} ${it.networkResponse.statusCode}"
-                )
-                if (it.networkResponse.data.equals("connectionError")) {
-                    onNetworkResponse.onNetworkResponse(
-                        responseNoInternet,
-                        "No Internet Connection..",
-                        tag
-                    )
-                } else {
-                    onNetworkResponse.onNetworkResponse(
-                        responseFailed,
-                        "Something went wrong!, Please try again..",
-                        tag
-                    )
+            {
+                override fun getHeaders(): MutableMap<String, String> {
+                    return getAuthorizationHeader(context)
                 }
-            }) {
-            override fun getHeaders(): MutableMap<String, String> {
-                return getHeader()
-            }
 
-        }
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    return JSONObject(params).toString().toByteArray()
+                }
+            }
         queue.add(stringRequest).tag = tag
     }
 
-    fun loginPostCall(
-        url: String,
-        params: Map<String, String>,
-        priority: Priority,
-        tag: String,
-        onNetworkResponse: OnNetworkResponse,
-    ) {
+    fun getCall( url: String,params: Map<String, String>,priority: Priority, tag: String,onNetworkResponse: OnNetworkResponse, headers: Map<String, String>) {
 
         val queue = Volley.newRequestQueue(context)
-        val stringRequest = object : StringRequest(
-            Method.POST, url,
-            Response.Listener { response ->
+        val stringRequest = object : StringRequest(Method.GET, url,Response.Listener { response ->
+
                 Utils.log(TAG, "Response $response")
                 onNetworkResponse.onNetworkResponse(responseSuccess, response.toString(), tag)
+
             },
             Response.ErrorListener {
-                Utils.log(
-                    TAG,
-                    "Network error ${it.networkResponse.data} ${it.networkResponse.statusCode}"
-                )
+                Utils.log(TAG, "Network error ${it.networkResponse.data} ${it.networkResponse.statusCode}")
+
                 if (it.networkResponse.data.equals("connectionError")) {
-                    onNetworkResponse.onNetworkResponse(
-                        responseNoInternet,
-                        "No Internet Connection..",
-                        tag
-                    )
+                    onNetworkResponse.onNetworkResponse(responseNoInternet,"No Internet Connection..",tag)
                 } else {
-                    onNetworkResponse.onNetworkResponse(
-                        responseFailed,
-                        "Something went wrong!, Please try again..",
-                        tag
-                    )
+                    onNetworkResponse.onNetworkResponse( responseFailed,"Something went wrong!, Please try again..", tag)
                 }
             }) {
-            override fun getHeaders(): MutableMap<String, String> {
-                return getAuthorizationHeader(context)
-            }
+                override fun getHeaders(): MutableMap<String, String> {
+                    return getAuthorizationHeader(context)
+                }
 
-            override fun getBodyContentType(): String {
-                return "application/json"
-            }
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
 
-            @Throws(AuthFailureError::class)
-            override fun getBody(): ByteArray {
-                return JSONObject(params).toString().toByteArray()
-            }
-        }
+                @Throws(AuthFailureError::class)
+                override fun getParams(): Map<String, String> {
+                    return params
+                }
+          }
         queue.add(stringRequest).tag = tag
     }
-
-    fun cancelAll() {
-        AndroidNetworking.cancelAll()
-    }
-
-    fun cancel(tag: String) {
-        AndroidNetworking.cancel(tag)
-    }
+//
+//    fun cancelAll() {
+//        AndroidNetworking.cancelAll()
+//    }
+//
+//    fun cancel(tag: String) {
+//        AndroidNetworking.cancel(tag)
+//    }
 
     fun cancelAllVolley() {
         val queue = Volley.newRequestQueue(context)
