@@ -13,8 +13,8 @@ class MyPreferences(internal var context: Context?) {
         }
     }
 
-    fun getString(key: String): String {
-        return sharedPreferences.getString(key, "").toString()
+    fun getString(key: String): String? {
+        return sharedPreferences.getString(key, "")
     }
 
     fun getString(key: String, value: String): String? {

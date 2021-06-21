@@ -1,22 +1,20 @@
-package com.trisys.rn.baseapp.fragment
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.androidnetworking.common.Priority
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.StudyAdapter
+import com.trisys.rn.baseapp.fragment.UpcomingLiveFragment
 import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.UpcomingLiveItem
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
-import com.trisys.rn.baseapp.network.RequestType
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.URLHelper.getSessions
@@ -151,19 +149,16 @@ class LiveFragment : Fragment(), OnNetworkResponse {
         params["sessionTense"] = kPREVIOUS
 
         networkHelper.call(
-            RequestType.POST_WITH_AUTH,
+            networkHelper.POST,
             getSessions,
             params,
+            Priority.HIGH,
             "getSessions",
             this
         )
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode == networkHelper.responseSuccess && tag == "getSessions") {
-            Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(requireContext(), "login Failed", Toast.LENGTH_LONG).show()
-        }
+
     }
-}  
+}

@@ -17,7 +17,7 @@ object ApiUtils {
         val myPreferences = MyPreferences(context)
         val headers = HashMap<String, String>()
         headers["Content-Type"] = "application/json; charset=utf-8"
-        headers["access_token"] = myPreferences.getString(Define.ACCESS_TOKEN)
+        headers["access_token"] = myPreferences.getString(Define.ACCESS_TOKEN).toString()
         return headers
     }
 }
