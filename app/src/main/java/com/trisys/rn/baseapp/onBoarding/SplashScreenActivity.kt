@@ -48,20 +48,21 @@ class SplashScreenActivity : AppCompatActivity() {
         logoImage.startAnimation(animationSlideDown)
     }
 
-    fun validateLogin(){
-        if(MyPreferences(this).getString(Define.LOGIN_DATA) != null){
-            goToHomeScreen()
-        }else{
+    private fun validateLogin() {
+        if (MyPreferences(this).getString(Define.LOGIN_DATA).isNullOrEmpty()) {
             goToLoginScreen()
+        } else {
+            goToHomeScreen()
         }
     }
 
-    fun goToLoginScreen(){
+    private fun goToLoginScreen() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }
-    fun goToHomeScreen(){
+
+    private fun goToHomeScreen() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()

@@ -21,7 +21,7 @@ class SubjectsAdapter(
 ) :
     RecyclerView.Adapter<SubjectsAdapter.ViewHolder>() {
 
-    val imageloader = ImageLoader
+    private val imageloader = ImageLoader
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subjectTxt = itemView.findViewById(R.id.subjecttxt) as TextView

@@ -32,6 +32,12 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import org.json.JSONException
+
+import org.json.JSONObject
+
+
+
 
 
 class LoginFragment : Fragment(), OnNetworkResponse {
@@ -98,7 +104,7 @@ class LoginFragment : Fragment(), OnNetworkResponse {
             }
 
         continueButton.setOnClickListener {
-             requestLogin()
+            requestLogin()
 //            requireActivity().supportFragmentManager.beginTransaction()
 //                .replace(R.id.container, OTPFragment()).addToBackStack(null)
 //                .commitAllowingStateLoss()
@@ -128,11 +134,20 @@ class LoginFragment : Fragment(), OnNetworkResponse {
             params.put("userName", username)
             params.put("password", password)
 
+            val jsonObject = JSONObject()
+            try {
+                jsonObject.put("loginDevice", "mobile")
+                jsonObject.put("userName", username)
+                jsonObject.put("password", password)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
             requireActivity().stateful.showProgress()
             requireActivity().stateful.setProgressText("Loading..")
             val url =
                 mRemoteConfig.getString(Define.BASE_URL) + mRemoteConfig.getString(Define.BASE_PATH) + Config.Login
-            networkHelper.call(networkHelper.POST, url, params, Priority.HIGH, "login", this)
+            networkHelper.loginPostCall(url, params, Priority.HIGH, "login", this)
         }
     }
 

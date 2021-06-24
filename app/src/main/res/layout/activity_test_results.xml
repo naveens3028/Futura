@@ -73,13 +73,11 @@
                 android:layout_toRightOf="@id/ranktxt">
 
                 <ImageView
-                    android:id="@+id/imgrank"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/rank" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/mark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -93,7 +91,6 @@
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/rankoutof"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rank"
@@ -130,7 +127,7 @@
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/ic_circle_bg"
+                android:background="@drawable/ic_circle_outline"
                 android:layout_below="@id/leaderboard"
                 android:gravity="center"
                 android:textColor="@color/white"
@@ -184,7 +181,6 @@
                 android:textSize="@dimen/_14sdp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/improve_score"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_30sdp"
                 android:backgroundTint="@color/bittersweet"
@@ -198,11 +194,10 @@
                 app:cornerRadius="@dimen/_8sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/circleScoretxt"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/ic_circle_bg"
+                android:background="@drawable/ic_circle_outline"
                 android:layout_below="@id/scores"
                 android:gravity="center"
                 android:textColor="@color/white"
@@ -275,7 +270,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:id="@+id/crcttxtNo"
                         android:text="2"
                         android:textAlignment="center"
                         android:fontFamily="@font/roboto_regular"
@@ -318,7 +312,6 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/IncrcttxtNo"
                         android:text="2"
                         android:textAlignment="center"
                         android:fontFamily="@font/roboto_regular"
@@ -364,7 +357,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:id="@+id/unAnstxtNo"
                         android:text="2"
                         android:textAlignment="center"
                         android:layout_below="@id/unansweredtext"
@@ -379,8 +371,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/unanswered"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:id="@+id/accurate">
+                    android:layout_marginStart="@dimen/_8sdp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_20sdp"
@@ -407,7 +398,6 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/accuractxtNo"
                         android:text="2"
                         android:layout_below="@+id/accuractext"
                         android:layout_centerHorizontal="true"
@@ -467,7 +457,6 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/totaltimetaken"
                     android:text="0.75 mins."
                     android:layout_below="@id/totaltime"
                     android:textAlignment="center"
@@ -500,7 +489,6 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/avgtimeperquestion"
                     android:text="15.00 seconds"
                     android:layout_below="@id/totaltime"
                     android:textAlignment="center"
@@ -535,7 +523,6 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/toppertotaltimetxt"
                     android:text="0.75 mins."
                     android:layout_below="@id/totaltime"
                     android:textAlignment="center"
@@ -557,7 +544,6 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/avgquestion"
                     android:text="Avg Question Answered"
                     android:textAlignment="center"
                     android:fontFamily="@font/roboto_regular"
@@ -569,7 +555,6 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/avgquestiontxt"
                     android:text="0"
                     android:layout_below="@id/totaltime"
                     android:textAlignment="center"

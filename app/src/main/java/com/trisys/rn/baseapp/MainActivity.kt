@@ -2,7 +2,6 @@ package com.trisys.rn.baseapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,13 +15,21 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.androidnetworking.common.Priority
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
 import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
 import com.trisys.rn.baseapp.doubt.AskDoubtActivity
+import com.trisys.rn.baseapp.fragment.LogOutBottomSheetFragment
 import com.trisys.rn.baseapp.helper.BottomNavigationBehavior
+import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.profile.ProfileActivity
+import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.MyPreferences
+import com.vpnews24.utils.ImageLoader
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.layout_notification_icon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.nav_header_main.*
@@ -34,6 +41,9 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var bottomNavigationBehavior: BottomNavigationBehavior
     lateinit var networkHelper: NetworkHelper
     lateinit var headerLayout: View
+    lateinit var loginResponse: LoginData
+    private val imageLoader = ImageLoader
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -42,7 +52,12 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         setSupportActionBar(toolbar)
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.title = "Hi, John"
+
+
+        loginResponse =
+            Gson().fromJson(MyPreferences(this).getString(Define.LOGIN_DATA), LoginData::class.java)
+
+        actionBar?.title = "Hi, ${loginResponse.userDetail?.firstName}"
 
         //Assign Drawer properties
         val drawer = findViewById<DrawerLayout>(R.id.drawer)
@@ -54,6 +69,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
         //Get header view
         headerLayout = nav_view.getHeaderView(0)
+        setNavigationValue(loginResponse)
 
         listeners()
 
@@ -61,7 +77,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
         val params = HashMap<String, String>()
         params.put("", "")
-        networkHelper.call(networkHelper.GET, "", params, Priority.HIGH, "login", this)
+//        networkHelper.call(networkHelper.GET, "", params, Priority.HIGH, "login", this)
 
         bottomNavigationBehavior = BottomNavigationBehavior()
         val layoutParams = navigationView.layoutParams as CoordinatorLayout.LayoutParams
@@ -78,14 +94,25 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
             }
         })
 
-        drawer.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            Log.d("s2s", "saravana testing")
-        }
-
         askDoubt.setOnClickListener {
             val intent = Intent(this, AskDoubtActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun setNavigationValue(response: LoginData) {
+        var userName = ""
+        if (!response.userDetail!!.firstName.isNullOrEmpty()) userName =
+            response.userDetail!!.firstName.toString()
+        if (!response.userDetail?.lastName.isNullOrEmpty()) {
+            userName += response.userDetail!!.lastName.toString()
+        }
+        if (userName.isNotEmpty()) {
+            headerLayout.name.text = userName
+        }
+        if (!response.userDetail?.profileImagePath.isNullOrEmpty())
+            imageLoader.loadFit(this, response.userDetail?.profileImagePath!!, headerLayout.image)
+
     }
 
 
@@ -93,7 +120,11 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
         nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_home -> true
+                R.id.logOut -> {
+                    drawer.closeDrawer(GravityCompat.START)
+                    val bottomSheetFragment = LogOutBottomSheetFragment()
+                    bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+                }
             }
             true
         }
@@ -101,6 +132,12 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         headerLayout.close.setOnClickListener {
             drawer.closeDrawer(GravityCompat.START)
         }
+
+        headerLayout.profileImage.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onStart() {

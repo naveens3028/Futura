@@ -24,7 +24,7 @@ data class UserDetails(
     @SerializedName("enrollmentNumber")var enrollmentNumber:String? = null,
     @SerializedName("fatherName")var fatherName:String? = null,
     @SerializedName("firstName")var firstName:String? = null,
-    @SerializedName("lastName")var lastName:String? = null,
+    @SerializedName("lastName")var lastName:String? = "",
     @SerializedName("mobileNumber")var mobileNumber:String? = null,
     @SerializedName("profileImagePath")var profileImagePath:String? = null,
     @SerializedName("qualification")var qualification:String? = null,
