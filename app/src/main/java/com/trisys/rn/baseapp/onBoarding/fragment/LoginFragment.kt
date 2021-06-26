@@ -36,10 +36,6 @@ import org.json.JSONException
 
 import org.json.JSONObject
 
-
-
-
-
 class LoginFragment : Fragment(), OnNetworkResponse {
 
     lateinit var mRemoteConfig: FirebaseRemoteConfig
