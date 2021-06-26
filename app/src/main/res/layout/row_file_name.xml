@@ -4,8 +4,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_marginVertical="@dimen/_8sdp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/_8sdp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/fileIcon"
@@ -28,7 +28,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fileIcon"
         app:layout_constraintTop_toTopOf="@+id/fileIcon" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

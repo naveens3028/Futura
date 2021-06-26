@@ -17,8 +17,8 @@ import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.URLHelper.getSessions
-import com.trisys.rn.baseapp.utils.UrlConstants.kPREVIOUS
+import com.trisys.rn.baseapp.network.URLHelper.getSessions
+import com.trisys.rn.baseapp.network.UrlConstants.kPREVIOUS
 import kotlinx.android.synthetic.main.fragment_live.*
 
 // TODO: Rename parameter arguments, choose names that match

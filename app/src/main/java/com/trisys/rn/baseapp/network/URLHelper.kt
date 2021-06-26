@@ -1,4 +1,4 @@
-package com.trisys.rn.baseapp.utils
+package com.trisys.rn.baseapp.network
 
 object URLHelper {
     private const val baseURL = "http://65.2.90.171/app/api/v1/"
