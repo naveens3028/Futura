@@ -48,25 +48,23 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
     }
 
     private fun logoutRequest() {
-
+        yesButton.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
         val params = HashMap<String, String>()
         params["id"] = myPreferences.getString(Define.ACCESS_TOKEN).toString()
 
-        requireActivity().stateful.showProgress()
-        requireActivity().stateful.setProgressText("Loading...")
         networkHelper.call(
             networkHelper.POST,
+            networkHelper.RESTYPE_OBJECT,
             URLHelper.logout,
             params,
             Priority.HIGH,
             "logout",
-            networkHelper.RESTYPE_OBJECT,
             this
         )
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        requireActivity().stateful.showContent()
         if (responseCode == networkHelper.responseSuccess && tag == "logout") {
             Toast.makeText(requireContext(), "logout successful", Toast.LENGTH_LONG).show()
             val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -75,6 +73,8 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
             activity?.finishAffinity()
 
         } else {
+            yesButton.visibility = View.VISIBLE
+            progressBar.visibility = View.GONE
             Toast.makeText(
                 requireContext(),
                 "logout Failed...Please try sometimes later",
