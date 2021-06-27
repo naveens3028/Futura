@@ -1,14 +1,14 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
+import com.androidnetworking.common.Priority
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -17,8 +17,16 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.StudyItem
+import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
+import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.NetworkHelper
+import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.URLHelper
 import kotlinx.android.synthetic.main.fragment_test.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,11 +39,14 @@ private const val ARG_PARAM2 = "param2"
  * Use the [TestFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TestFragment : Fragment() {
+class TestFragment : Fragment(), OnNetworkResponse {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var loginData = LoginData()
+    lateinit var networkHelper: NetworkHelper
     private var studyList = ArrayList<StudyItem>()
+    lateinit var myPreferences: MyPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +54,8 @@ class TestFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        myPreferences = MyPreferences(requireContext())
+        networkHelper = NetworkHelper(requireContext())
     }
 
     override fun onCreateView(
@@ -55,7 +68,13 @@ class TestFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        loginData =
+            Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
+
         initChart()
+        requestSessions()
+
     }
 
     override fun onStart() {
@@ -76,6 +95,23 @@ class TestFragment : Fragment() {
         })
     }
 
+
+    private fun requestSessions() {
+
+        val params = HashMap<String, String>()
+        params["batchId"] =  loginData.userDetail?.batchIds?.get(0).toString()
+        params["studentId"] = loginData.userDetail?.usersId.toString()
+
+        networkHelper.call(
+            networkHelper.GET,
+            networkHelper.RESTYPE_OBJECT,
+            URLHelper.averageBatchTests,
+            params,
+            Priority.HIGH,
+            "getSessions",
+            this
+        )
+    }
 
         private fun initChart() {
 
@@ -177,5 +213,14 @@ class TestFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+        Log.e("poppers", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
+        val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
+
+        Log.e("poppers123",testResponse.toString())
+        Log.e("poppers1234",testResponse.classAverage.toString())
+
     }
 }
