@@ -10,8 +10,6 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.network.ApiUtils.getAuthorizationHeader
-import com.trisys.rn.baseapp.utils.Define
-import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
 import org.json.JSONObject
 import java.util.*
@@ -85,7 +83,7 @@ class NetworkHelper(context: Context) {
         val queue = Volley.newRequestQueue(context)
         val stringRequest = object : StringRequest(Method.POST, url, Response.Listener { response ->
 
-            Utils.log(TAG, "Response $response")
+            Utils.log(TAG, "Response ${response.toString()} k")
             onNetworkResponse.onNetworkResponse(responseSuccess, response.toString(), tag)
 
         },
@@ -109,11 +107,11 @@ class NetworkHelper(context: Context) {
                     )
                 }
             }) {
+
+            @Throws(AuthFailureError::class)
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
-                //                headers["Content-Type"] = "application/json;charset=utf-8"
-                headers["access_token"] = MyPreferences(context).getString(Define.ACCESS_TOKEN).toString()
-                //                headers["Connection"] = "keep-alive"
+//                headers["access_token"] = "72640d71-abab-4db5-bfa9-d9f4ca0ebcd0"
                 return headers
             }
 
@@ -142,7 +140,7 @@ class NetworkHelper(context: Context) {
             Method.POST, url,
             Response.Listener { response ->
 
-                Utils.log(TAG, "Response $response")
+                Utils.log(TAG, "Response ${response.toString()} k")
                 onNetworkResponse.onNetworkResponse(responseSuccess, response.toString(), tag)
 
             },
