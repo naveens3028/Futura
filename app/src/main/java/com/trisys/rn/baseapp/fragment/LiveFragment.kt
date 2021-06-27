@@ -150,6 +150,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
         networkHelper.call(
             networkHelper.POST,
+            networkHelper.RESTYPE_OBJECT,
             getSessions,
             params,
             Priority.HIGH,

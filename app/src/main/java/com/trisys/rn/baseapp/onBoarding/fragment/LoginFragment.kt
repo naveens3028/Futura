@@ -30,6 +30,7 @@ import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.URLHelper.baseURLAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.json.JSONException
@@ -141,16 +142,15 @@ class LoginFragment : Fragment(), OnNetworkResponse {
 
             requireActivity().stateful.showProgress()
             requireActivity().stateful.setProgressText("Loading..")
-            val url =
-                mRemoteConfig.getString(Define.BASE_URL) + mRemoteConfig.getString(Define.BASE_PATH) + Config.Login
-            networkHelper.loginPostCall(url, params, Priority.HIGH, "login", this)
+
+            networkHelper.loginPostCall(baseURLAuth, params, Priority.HIGH, "login",this)
         }
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         requireActivity().stateful.showContent()
         if (responseCode == networkHelper.responseSuccess && tag.equals("login")) {
-            Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
+
             loginResponseData(response)
         } else {
             Toast.makeText(requireContext(), "login Failed", Toast.LENGTH_LONG).show()
@@ -160,7 +160,7 @@ class LoginFragment : Fragment(), OnNetworkResponse {
     fun loginResponseData(response: String){
         val loginResponse = Gson().fromJson(response, LoginResponse::class.java)
         if(loginResponse.data != null){
-
+            Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
             myPreferences.setString(Define.ACCESS_TOKEN, loginResponse.data!!.token)
             myPreferences.setString(Define.LOGIN_DATA, Gson().toJson(loginResponse.data))
 
