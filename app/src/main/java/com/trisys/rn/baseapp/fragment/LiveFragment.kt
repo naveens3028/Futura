@@ -147,6 +147,8 @@ class LiveFragment : Fragment(), OnNetworkResponse {
         params["coachingCentreId"] = loginData.userDetail?.coachingCenterId.toString()
         params["batchIds"] = loginData.userDetail?.batchIds.toString()
         params["sessionTense"] = kPREVIOUS
+//        params["batchId"] = "23628f56-8128-498c-8ec8-2e6cffb4b22b"
+//        params["studentId"] = "ade8e7e9-7c04-46ff-b70f-ea64a97e8f96"
 
         networkHelper.call(
             networkHelper.POST,
@@ -154,6 +156,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
             params,
             Priority.HIGH,
             "getSessions",
+            networkHelper.RESTYPE_OBJECT,
             this
         )
     }

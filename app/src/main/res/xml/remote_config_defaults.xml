@@ -2,7 +2,7 @@
 <defaultsMap>
     <entry>
         <key>base_url</key>
-        <value>http://65.2.90.171</value>
+        <value>https://api.upmyranks.com</value>
     </entry>
 
     <entry>

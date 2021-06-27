@@ -60,6 +60,7 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
             params,
             Priority.HIGH,
             "logout",
+            networkHelper.RESTYPE_OBJECT,
             this
         )
     }
