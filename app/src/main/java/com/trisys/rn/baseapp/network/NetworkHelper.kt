@@ -65,7 +65,7 @@ class NetworkHelper(context: Context) {
 
             val header = HashMap<String, String>()
             header.put("Accept", "application/json")
-            header.put("Accept-Encoding","gzip, deflate")
+            header.put("Accept-Encoding","gzip, deflate, br")
             header.put("Connection", "keep-alive")
             header["Content-Type"] = "application/json; charset=utf-8"
             header["access_token"] = MyPreferences(context).getString(Define.ACCESS_TOKEN)!!
