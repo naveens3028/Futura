@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.GlideApp
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.Data
-import com.trisys.rn.baseapp.utils.Utils
+import com.trisys.rn.baseapp.model.StudyItem
 import kotlinx.android.synthetic.main.row_study.view.*
 import kotlinx.android.synthetic.main.row_upcoming_live.view.subject
 
-class StudyAdapter(
+class HomeStudyAdapter(
     val context: Context,
-    private val studyItem: Data
-) : RecyclerView.Adapter<StudyAdapter.ViewHolder>() {
+    private val studyItems: ArrayList<StudyItem>
+) : RecyclerView.Adapter<HomeStudyAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -26,16 +26,16 @@ class StudyAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val studyItem = studyItems[position]
-        holder.itemView.subject.text = studyItem.subject.courseName
-        holder.itemView.lesson.text = studyItem.topicName
-//        holder.itemView.count.text = studyItem.count
-        holder.itemView.progressBar.progress = 70
-        holder.itemView.backgroundLayout.setBackgroundColor(context.getColor(R.color.caribbean_green))
-        GlideApp.with(context).load(R.drawable.mathematics).into(holder.itemView.studyImg)
+        val studyItem = studyItems[position]
+        holder.itemView.subject.text = studyItem.subject
+        holder.itemView.lesson.text = studyItem.lesson
+        holder.itemView.count.text = studyItem.count
+        holder.itemView.progressBar.progress = studyItem.progress
+        holder.itemView.backgroundLayout.setBackgroundColor(context.getColor(studyItem.color))
+        GlideApp.with(context).load(studyItem.imageID).into(holder.itemView.studyImg)
     }
 
     override fun getItemCount(): Int {
-        return 1
+        return studyItems.size
     }
 }

@@ -14,7 +14,10 @@ object URLHelper {
     private var url = baseURL + baseBATH
 
     private val baseURLSession = url + "session/"
-    val baseURLAuth = url + "auth/"
+    private val testPaperAssign = url + "testPaperAssign/"
     val getSessions = baseURLSession + "getSessions"
+    val baseURLAuth = url + "auth/"
+    val averageBatchTests = url + "testPaperAssign/averageBatchTests"
+    val scheduleTestsForStudent = testPaperAssign + "scheduleTestsForStudent"
     val logout = baseURLAuth + "logout"
 }

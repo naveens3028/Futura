@@ -1,7 +1,7 @@
 package com.trisys.rn.baseapp.model.onBoarding
 
 import com.google.gson.annotations.SerializedName
-import java.util.ArrayList
+import java.util.*
 
 data class LoginResponse(
     @SerializedName("data")var data:LoginData? = null,
@@ -116,4 +116,14 @@ data class Course(
     @SerializedName("status")var status:String? = null,
     @SerializedName("coachingCentre")var coachingCentre:CoachingCentre? = null,
     @SerializedName("coachingCentreId")var coachingCentreId:String? = null,
+)
+
+data class AverageBatchTests (
+    @SerializedName("studentAverage") var studentAverage: Double? = null,
+    @SerializedName("classAverage") var classAverage: Double? = null,
+    @SerializedName("rank") var rank: Int? = null,
+    @SerializedName("total_students") var totalStudents: Int? = null,
+    @SerializedName("total_test") var totalTest: Int? = null,
+    @SerializedName("student_test") var studentTest: Int? = null,
+    @SerializedName("topperAverage") var topperAverage: Double? = null,
 )
