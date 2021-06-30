@@ -96,6 +96,7 @@
                         android:src="@drawable/rank" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/stud_rank"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -110,6 +111,7 @@
 
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/outOfStud"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rank"
@@ -144,8 +146,10 @@
                         app:cardCornerRadius="@dimen/_10sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/yourAvgScoretxt"
+                            android:layout_width="@dimen/_65sdp"
                             android:layout_height="wrap_content"
+                            android:textAlignment="center"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:layout_marginRight="@dimen/_3sdp"
                             android:fontFamily="@font/roboto_bold"
@@ -177,8 +181,10 @@
                         app:cardCornerRadius="@dimen/_10sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/classAvgtxt"
+                            android:layout_width="@dimen/_65sdp"
                             android:layout_height="wrap_content"
+                            android:textAlignment="center"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:layout_marginRight="@dimen/_3sdp"
                             android:fontFamily="@font/roboto_bold"
@@ -212,9 +218,11 @@
                         app:cardCornerRadius="@dimen/_10sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="@dimen/_65sdp"
                             android:layout_height="wrap_content"
+                            android:id="@+id/topperAvgTxt"
                             android:layout_marginLeft="@dimen/_3sdp"
+                            android:textAlignment="center"
                             android:layout_marginRight="@dimen/_3sdp"
                             android:fontFamily="@font/roboto_bold"
                             android:padding="@dimen/_5sdp"
