@@ -22,6 +22,7 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.model.onBoarding.UnAttempted
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.utils.Define
@@ -108,9 +109,10 @@ class TestFragment : Fragment(), OnNetworkResponse {
             URLHelper.averageBatchTests,
             params,
             Priority.HIGH,
-            "getSessions",
+            "getAssessments",
             this
         )
+
     }
 
         private fun initChart() {
@@ -217,11 +219,13 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         Log.e("poppers", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
-        val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
-        assessmentSetup(testResponse)
-        Log.e("poppers123",testResponse.toString())
-        Log.e("poppers1234",testResponse.classAverage.toString())
-
+        if (tag.equals("getAssessments")) {
+            val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
+            assessmentSetup(testResponse)
+        } else if (tag.equals("getUnAttempted")){
+            val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
+            unAttemptedSetup(unAttempted)
+        }
     }
 
     private fun assessmentSetup(testResult: AverageBatchTests){
@@ -230,5 +234,9 @@ class TestFragment : Fragment(), OnNetworkResponse {
         classAvgtxt.text = testResult.classAverage.toString()+"%"
         topperAvgTxt.text = testResult.topperAverage.toString()+"%"
         outOfStud.text = "Out of ${testResult.rank} Students "
+    }
+
+    private fun unAttemptedSetup(unAttempted: UnAttempted){
+
     }
 }
