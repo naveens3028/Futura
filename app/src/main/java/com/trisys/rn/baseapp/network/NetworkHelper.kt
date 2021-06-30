@@ -2,9 +2,8 @@ package com.trisys.rn.baseapp.network
 
 import android.content.Context
 import android.util.Log
-import com.android.volley.AuthFailureError
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
+import com.android.volley.*
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.BuildConfig
@@ -13,7 +12,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.google.gson.Gson
-import com.trisys.rn.baseapp.network.ApiUtils.getAuthorizationHeader
+import com.trisys.rn.baseapp.network.ApiUtils.getHeader
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
@@ -28,6 +27,7 @@ class NetworkHelper(context: Context) {
     var POST: Int = 2
     var RESTYPE_OBJECT: Int = 101
     var RESTYPE_ARRAY: Int = 102
+    private val MY_SOCKET_TIMEOUT_MS = 60 * 1000
     var TAG = NetworkHelper::class.java.simpleName
 
     var responseSuccess = 0
@@ -52,7 +52,7 @@ class NetworkHelper(context: Context) {
 
     fun call(
         callType: Int,
-        type:Int,
+        type: Int,
         url: String,
         params: Map<String, String>,
         priority: Priority,
@@ -65,12 +65,13 @@ class NetworkHelper(context: Context) {
 
             val header = HashMap<String, String>()
             header.put("Accept", "application/json")
-            header.put("Accept-Encoding","gzip, deflate, br")
+            header.put("Accept-Encoding", "gzip, deflate, br")
             header.put("Connection", "keep-alive")
             header["Content-Type"] = "application/json; charset=utf-8"
             header["access_token"] = MyPreferences(context).getString(Define.ACCESS_TOKEN)!!
             header["Accept-Language"] = "en-US,en;q=0.9"
-            header["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36"
+            header["User-Agent"] =
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36"
 
 
             Utils.log("Url", url)
@@ -79,12 +80,12 @@ class NetworkHelper(context: Context) {
 
             if (callType == GET && type == RESTYPE_OBJECT) {
                 getCallQueryParamsObjet(url, params, priority, tag, header, onNetworkResponse)
-            } else if(callType == GET && type == RESTYPE_ARRAY) {
+            } else if (callType == GET && type == RESTYPE_ARRAY) {
                 getCallQueryParamsArray(url, params, priority, tag, header, onNetworkResponse)
-            } else if(callType == POST && type == RESTYPE_OBJECT) {
-                postCallBodyParamsObject(url, params, priority, tag,header,onNetworkResponse)
-            } else if(callType == POST && type == RESTYPE_ARRAY) {
-                postCallBodyParamsArray(url, params, priority, tag,header,onNetworkResponse)
+            } else if (callType == POST && type == RESTYPE_OBJECT) {
+                postCallBodyParamsObject(url, params, priority, tag, header, onNetworkResponse)
+            } else if (callType == POST && type == RESTYPE_ARRAY) {
+                postCallBodyParamsArray(url, params, priority, tag, header, onNetworkResponse)
             }
 
         } else {
@@ -92,40 +93,64 @@ class NetworkHelper(context: Context) {
         }
     }
 
-    fun getCallQueryParamsObjet(url: String, params:Map<String,String>, priority: Priority, tag:String, header:Map<String,String>, onNetworkResponse: OnNetworkResponse){
+    fun getCallQueryParamsObjet(
+        url: String,
+        params: Map<String, String>,
+        priority: Priority,
+        tag: String,
+        header: Map<String, String>,
+        onNetworkResponse: OnNetworkResponse
+    ) {
 
-            AndroidNetworking.get(url)
-                .addQueryParameter(params)
-                .addHeaders(header)
-                .setTag(tag)
-                .doNotCacheResponse()
-                .setPriority(priority)
-                .build()
-                .getAsJSONObject(object : JSONObjectRequestListener {
-                    override fun onResponse(response: JSONObject) {
-                        // do anything with response
-                        Log.e("Response", response.toString())
+        AndroidNetworking.get(url)
+            .addQueryParameter(params)
+            .addHeaders(header)
+            .setTag(tag)
+            .doNotCacheResponse()
+            .setPriority(priority)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    // do anything with response
+                    Log.e("Response", response.toString())
+                    if (context != null)
+                        onNetworkResponse.onNetworkResponse(
+                            responseSuccess,
+                            response.toString(),
+                            tag
+                        )
+                }
+
+                override fun onError(error: ANError) {
+                    // handle error
+                    Log.e("NetworkError", error.errorBody!!)
+                    if (BuildConfig.DEBUG) {
+                        val response =
+                            "URL :" + url + "\nError Code : " + error.errorCode + "response : \n" + error.errorDetail
+                        onNetworkResponse.onNetworkResponse(responseFailed, response, tag)
+                    } else {
+
                         if (context != null)
-                            onNetworkResponse.onNetworkResponse(responseSuccess,response.toString(),tag)
+                            onNetworkResponse.onNetworkResponse(
+                                responseFailed,
+                                error.errorDetail,
+                                tag
+                            )
                     }
-
-                    override fun onError(error: ANError) {
-                        // handle error
-                        Log.e("NetworkError", error.errorBody!!)
-                        if (BuildConfig.DEBUG) {
-                            val response = "URL :" + url + "\nError Code : " + error.errorCode + "response : \n" + error.errorDetail
-                            onNetworkResponse.onNetworkResponse(responseFailed, response, tag)
-                        } else {
-
-                            if (context != null)
-                                onNetworkResponse.onNetworkResponse(responseFailed,error.errorDetail,tag)
-                        }
-                    }
-                })
+                }
+            })
 
 
     }
-    fun getCallQueryParamsArray(url: String, params:Map<String,String>, priority: Priority, tag:String, header:Map<String,String>, onNetworkResponse: OnNetworkResponse){
+
+    fun getCallQueryParamsArray(
+        url: String,
+        params: Map<String, String>,
+        priority: Priority,
+        tag: String,
+        header: Map<String, String>,
+        onNetworkResponse: OnNetworkResponse
+    ) {
 
         AndroidNetworking.get(url)
             .addQueryParameter(params)
@@ -140,24 +165,36 @@ class NetworkHelper(context: Context) {
 
                     Utils.log("response", response.toString())
                     if (context != null)
-                        onNetworkResponse.onNetworkResponse(responseSuccess,response.toString(),tag)
+                        onNetworkResponse.onNetworkResponse(
+                            responseSuccess,
+                            response.toString(),
+                            tag
+                        )
                 }
 
                 override fun onError(error: ANError) {
                     Utils.log("NetworkError", error.errorDetail.toString())
-                    val response ="Error Code : " + error.errorCode + " " + error.errorDetail
+                    val response = "Error Code : " + error.errorCode + " " + error.errorDetail
 
-                    if(error.errorCode == 0) {
-                        onNetworkResponse.onNetworkResponse(responseFailed,response,tag)
-                    }else{
-                        onNetworkResponse.onNetworkResponse(responseFailed,response,tag)
+                    if (error.errorCode == 0) {
+                        onNetworkResponse.onNetworkResponse(responseFailed, response, tag)
+                    } else {
+                        onNetworkResponse.onNetworkResponse(responseFailed, response, tag)
                     }
                 }
             })
 
 
     }
-    fun postCallBodyParamsObject(url: String, params:Map<String,String>, priority: Priority, tag:String, header:Map<String,String>, onNetworkResponse: OnNetworkResponse){
+
+    fun postCallBodyParamsObject(
+        url: String,
+        params: Map<String, String>,
+        priority: Priority,
+        tag: String,
+        header: Map<String, String>,
+        onNetworkResponse: OnNetworkResponse
+    ) {
 
         AndroidNetworking.post(url)
             .addBodyParameter(params)
@@ -168,23 +205,43 @@ class NetworkHelper(context: Context) {
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {
-                    if(context != null)
-                        onNetworkResponse.onNetworkResponse(responseSuccess,response.toString(),tag)
+                    if (context != null)
+                        onNetworkResponse.onNetworkResponse(
+                            responseSuccess,
+                            response.toString(),
+                            tag
+                        )
                 }
+
                 override fun onError(error: ANError) {
-                    Log.e("NetworkError",error.toString())
-                    if(context != null)
-                        if(error.errorDetail.equals("connectionError")){
-                            onNetworkResponse.onNetworkResponse(responseNoInternet, "No Internet Connection..", tag)
-                        }else {
-                            onNetworkResponse.onNetworkResponse(responseFailed, error.errorDetail, tag)
+                    Log.e("NetworkError", error.toString())
+                    if (context != null)
+                        if (error.errorDetail.equals("connectionError")) {
+                            onNetworkResponse.onNetworkResponse(
+                                responseNoInternet,
+                                "No Internet Connection..",
+                                tag
+                            )
+                        } else {
+                            onNetworkResponse.onNetworkResponse(
+                                responseFailed,
+                                error.errorDetail,
+                                tag
+                            )
                         }
                 }
             })
 
     }
 
-    fun postCallBodyParamsArray(url: String, params:Map<String,String>, priority: Priority, tag:String, header:Map<String,String>, onNetworkResponse: OnNetworkResponse){
+    fun postCallBodyParamsArray(
+        url: String,
+        params: Map<String, String>,
+        priority: Priority,
+        tag: String,
+        header: Map<String, String>,
+        onNetworkResponse: OnNetworkResponse
+    ) {
 
         AndroidNetworking.post(url)
 
@@ -199,7 +256,11 @@ class NetworkHelper(context: Context) {
                 override fun onResponse(response: JSONArray) {
                     Utils.log("response", response.toString())
                     if (context != null)
-                        onNetworkResponse.onNetworkResponse(responseSuccess,response.toString(),tag)
+                        onNetworkResponse.onNetworkResponse(
+                            responseSuccess,
+                            response.toString(),
+                            tag
+                        )
                 }
 
                 override fun onError(error: ANError) {
@@ -215,57 +276,142 @@ class NetworkHelper(context: Context) {
             })
     }
 
-
-    fun loginPostCall(
+    fun postCall(
         url: String,
-        params: Map<String, String>,
-        priority: Priority,
+        params: JSONObject,
         tag: String,
+        headers: HashMap<String, String>,
         onNetworkResponse: OnNetworkResponse,
     ) {
-
         val queue = Volley.newRequestQueue(context)
-        val stringRequest = object : StringRequest(
-            Method.POST, url,
-            Response.Listener { response ->
-                Utils.log(TAG, "Response $response")
-                onNetworkResponse.onNetworkResponse(responseSuccess, response.toString(), tag)
-            },
-            Response.ErrorListener {
-                Utils.log(
-                    TAG,
-                    "Network error ${it.networkResponse.data} ${it.networkResponse.statusCode}"
-                )
-                if (it.networkResponse.data.equals("connectionError")) {
-                    onNetworkResponse.onNetworkResponse(
-                        responseNoInternet,
-                        "No Internet Connection..",
-                        tag
-                    )
-                } else {
-                    onNetworkResponse.onNetworkResponse(
-                        responseFailed,
-                        "Something went wrong!, Please try again..",
-                        tag
-                    )
+        if (cd.isConnectingToInternet()) {
+            Utils.log(TAG, "url $url")
+            Utils.log(TAG, "params $params")
+            Utils.log(TAG, "params $params")
+            Utils.log(TAG, "tag $tag")
+            Utils.log(TAG, "headers $headers")
+
+            val jsonObjReq: JsonObjectRequest = object : JsonObjectRequest(
+                Method.POST, url, params,
+                Response.Listener { response: JSONObject ->
+                    Utils.log(TAG, "response $response")
+                    if (response.optBoolean("error")) {
+                        if (response.optString("message")
+                                .equals("Unauthorized", ignoreCase = true)
+                        ) {
+
+                        } else {
+                            onNetworkResponse.onNetworkResponse(
+                                responseSuccess, response.toString(),
+                                tag
+                            )
+                        }
+                    } else {
+                        onNetworkResponse.onNetworkResponse(
+                            responseSuccess,
+                            response.toString(),
+                            tag
+                        )
+                    }
+
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    Utils.log(TAG, "ErrorListener $error ${error.networkResponse}")
+                    if (error is TimeoutError || error is NoConnectionError) {
+                        onNetworkResponse.onNetworkResponse(
+                            responseNoInternet,
+                            "No Internet Connection..",
+                            tag
+                        )
+                    } else {
+                        onNetworkResponse.onNetworkResponse(
+                            responseFailed,
+                            "Something went wrong!, Please try again..",
+                            tag
+                        )
+                    }
+                }) {
+                override fun getHeaders(): Map<String, String> {
+                    return headers
                 }
-            }) {
-            override fun getHeaders(): MutableMap<String, String> {
-                return getAuthorizationHeader(context)
             }
-
-            override fun getBodyContentType(): String {
-                return "application/json"
-            }
-            @Throws(AuthFailureError::class)
-            override fun getBody(): ByteArray {
-                return JSONObject(params).toString().toByteArray()
-            }
-
+            jsonObjReq.retryPolicy = DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            queue.add(jsonObjReq).tag = tag
+        } else {
+            onNetworkResponse.onNetworkResponse(responseNoInternet, "No Internet Connection..", tag)
         }
-        queue.add(stringRequest).tag = tag
     }
 
+    fun getCall(
+        url: String,
+        tag: String,
+        headers: HashMap<String, String>,
+        onNetworkResponse: OnNetworkResponse,
+    ) {
+        val queue = Volley.newRequestQueue(context)
+        if (cd.isConnectingToInternet()) {
+            Utils.log(TAG, "url $url")
+            Utils.log(TAG, "tag $tag")
+            Utils.log(TAG, "headers $headers")
+
+            val jsonObjReq: JsonObjectRequest = object : JsonObjectRequest(
+                Method.GET, url, null,
+                Response.Listener { response: JSONObject ->
+                    Utils.log(TAG, "response $response")
+                    if (response.optBoolean("error")) {
+                        if (response.optString("message")
+                                .equals("Unauthorized", ignoreCase = true)
+                        ) {
+
+                        } else {
+                            onNetworkResponse.onNetworkResponse(
+                                responseSuccess, response.toString(),
+                                tag
+                            )
+                        }
+                    } else {
+                        onNetworkResponse.onNetworkResponse(
+                            responseSuccess,
+                            response.toString(),
+                            tag
+                        )
+                    }
+
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    Utils.log(TAG, "ErrorListener $error ${error.networkResponse}")
+                    if (error is TimeoutError || error is NoConnectionError) {
+                        onNetworkResponse.onNetworkResponse(
+                            responseNoInternet,
+                            "No Internet Connection..",
+                            tag
+                        )
+                    } else {
+                        onNetworkResponse.onNetworkResponse(
+                            responseFailed,
+                            "Something went wrong!, Please try again..",
+                            tag
+                        )
+                    }
+                }) {
+                override fun getHeaders(): Map<String, String> {
+                    return headers
+                }
+            }
+            jsonObjReq.retryPolicy = DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            queue.add(jsonObjReq).tag = tag
+        } else {
+            onNetworkResponse.onNetworkResponse(responseNoInternet, "No Internet Connection..", tag)
+        }
+    }
 
     fun cancelAll() {
         AndroidNetworking.cancelAll()

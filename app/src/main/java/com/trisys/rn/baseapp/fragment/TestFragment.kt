@@ -25,9 +25,9 @@ import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.model.onBoarding.UnAttempted
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.URLHelper
 import kotlinx.android.synthetic.main.fragment_test.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -80,14 +80,18 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
     override fun onStart() {
         super.onStart()
-        childFragmentManager.beginTransaction().replace(R.id.frameLayout1, TestTabFragment.newInstance("","")).commit()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout1, TestTabFragment.newInstance("", "")).commit()
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
-                    0 -> childFragmentManager.beginTransaction().replace(R.id.frameLayout1, TestTabFragment.newInstance("","")).commit()
+                    0 -> childFragmentManager.beginTransaction()
+                        .replace(R.id.frameLayout1, TestTabFragment.newInstance("", "")).commit()
 
-                    1 -> childFragmentManager.beginTransaction().replace(R.id.frameLayout1, PracticeTabFragment.newInstance("","")).commit()
+                    1 -> childFragmentManager.beginTransaction()
+                        .replace(R.id.frameLayout1, PracticeTabFragment.newInstance("", ""))
+                        .commit()
                 }
             }
 
@@ -100,7 +104,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
     private fun requestSessions() {
 
         val params = HashMap<String, String>()
-        params["batchId"] =  loginData.userDetail?.batchIds?.get(0).toString()
+        params["batchId"] = loginData.userDetail?.batchIds?.get(0).toString()
         params["studentId"] = loginData.userDetail?.usersId.toString()
 
         networkHelper.call(
@@ -115,7 +119,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
     }
 
-        private fun initChart() {
+    private fun initChart() {
 
         //values for data input Dataset1 at your axis one positions
         val dataset1 = ArrayList<Entry>()
@@ -162,37 +166,40 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
         val tf = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
 
-            lineCharttest.setTouchEnabled(true)
-            lineCharttest.setPinchZoom(true)
-            lineCharttest.xAxis.valueFormatter = IndexAxisValueFormatter(xLabel)
-            lineCharttest.xAxis.position = XAxis.XAxisPosition.BOTTOM
-            lineCharttest.xAxis.granularity = 1f
-            lineCharttest.axisLeft.axisMinimum = 0f
-            lineCharttest.axisLeft.axisMaximum = 720f
-            lineCharttest.axisLeft.setLabelCount(13, true)
-            lineCharttest.data = chartData
-            lineCharttest.axisRight.isEnabled = false
-            lineCharttest.invalidate()
-            lineCharttest.xAxis.yOffset = 10f
-            lineCharttest.axisLeft.xOffset = 15f
-            lineCharttest.legend.textSize = 10f
-            lineCharttest.axisLeft.textSize = 10f
-            lineCharttest.xAxis.textSize = 10f
-            lineCharttest.legend.typeface = tf
-            lineCharttest.xAxis.typeface = tf
-            lineCharttest.axisLeft.typeface = tf
-            lineCharttest.legend.textColor = ContextCompat.getColor(requireContext(), R.color.text_color)
-            lineCharttest.axisLeft.textColor = ContextCompat.getColor(requireContext(), R.color.text_color)
-            lineCharttest.xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.text_color)
-            lineCharttest.legend.textColor = ContextCompat.getColor(requireContext(), R.color.text_color)
-            lineCharttest.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            lineCharttest.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-            lineCharttest.legend.orientation = Legend.LegendOrientation.HORIZONTAL
-            lineCharttest.setExtraOffsets(0f, 0f, 0f, 10f)
-            lineCharttest.legend.form = Legend.LegendForm.LINE
-            lineCharttest.description.isEnabled = false
-            lineCharttest.setNoDataText("No Test yet!")
-            lineCharttest.animateX(1800, Easing.EaseInExpo)
+        lineCharttest.setTouchEnabled(true)
+        lineCharttest.setPinchZoom(true)
+        lineCharttest.xAxis.valueFormatter = IndexAxisValueFormatter(xLabel)
+        lineCharttest.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineCharttest.xAxis.granularity = 1f
+        lineCharttest.axisLeft.axisMinimum = 0f
+        lineCharttest.axisLeft.axisMaximum = 720f
+        lineCharttest.axisLeft.setLabelCount(13, true)
+        lineCharttest.data = chartData
+        lineCharttest.axisRight.isEnabled = false
+        lineCharttest.invalidate()
+        lineCharttest.xAxis.yOffset = 10f
+        lineCharttest.axisLeft.xOffset = 15f
+        lineCharttest.legend.textSize = 10f
+        lineCharttest.axisLeft.textSize = 10f
+        lineCharttest.xAxis.textSize = 10f
+        lineCharttest.legend.typeface = tf
+        lineCharttest.xAxis.typeface = tf
+        lineCharttest.axisLeft.typeface = tf
+        lineCharttest.legend.textColor =
+            ContextCompat.getColor(requireContext(), R.color.text_color)
+        lineCharttest.axisLeft.textColor =
+            ContextCompat.getColor(requireContext(), R.color.text_color)
+        lineCharttest.xAxis.textColor = ContextCompat.getColor(requireContext(), R.color.text_color)
+        lineCharttest.legend.textColor =
+            ContextCompat.getColor(requireContext(), R.color.text_color)
+        lineCharttest.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        lineCharttest.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        lineCharttest.legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        lineCharttest.setExtraOffsets(0f, 0f, 0f, 10f)
+        lineCharttest.legend.form = Legend.LegendForm.LINE
+        lineCharttest.description.isEnabled = false
+        lineCharttest.setNoDataText("No Test yet!")
+        lineCharttest.animateX(1800, Easing.EaseInExpo)
 
     }
 
@@ -232,6 +239,4 @@ class TestFragment : Fragment(), OnNetworkResponse {
         topperAvgTxt.text = testResult.topperAverage.toString()+"%"
         outOfStud.text = "Out of ${testResult.rank} Students "
     }
-
-
 }

@@ -1,13 +1,11 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
@@ -96,14 +94,14 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
         )
 
 
-        val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList,this)
+        val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList, null, this)
         scheduleTestRecyclerView.adapter = studyAdapter
 
         arrowscheduled.setOnClickListener {
             if (checkVisible == false) {
                 scheduleTestRecyclerView.visibility = View.GONE
                 checkVisible = true
-            }else{
+            } else {
                 scheduleTestRecyclerView.visibility = View.VISIBLE
                 checkVisible = false
             }

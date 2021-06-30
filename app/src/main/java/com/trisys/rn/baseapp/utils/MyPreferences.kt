@@ -42,7 +42,6 @@ class MyPreferences(internal var context: Context?) {
     }
 
 
-
     fun getFloat(key: String): Float {
         return sharedPreferences.getFloat(key, 0f)
     }
@@ -56,7 +55,6 @@ class MyPreferences(internal var context: Context?) {
         editor.putFloat(key, value)
         editor.apply()
     }
-
 
 
     fun getLong(key: String): Long {
@@ -76,9 +74,11 @@ class MyPreferences(internal var context: Context?) {
     fun getBoolean(key: String, defaultValue: Boolean): Boolean {
         return sharedPreferences.getBoolean(key, defaultValue)
     }
+
     fun getBoolean(key: String): Boolean {
         return sharedPreferences.getBoolean(key, false)
     }
+
     fun setBoolean(key: String, value: Boolean) {
         val editor = sharedPreferences.edit()
         editor.putBoolean(key, value)

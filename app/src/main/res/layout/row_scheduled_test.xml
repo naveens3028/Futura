@@ -18,6 +18,7 @@
             android:id="@+id/backgroundColor"
             android:layout_width="@dimen/_12sdp"
             android:layout_height="match_parent"
+            android:background="@color/bittersweet"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

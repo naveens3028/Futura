@@ -1,6 +1,8 @@
 package com.trisys.rn.baseapp.learn
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -79,4 +81,5 @@ class LearnVideoActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

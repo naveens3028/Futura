@@ -1,7 +1,8 @@
-package com.trisys.rn.baseapp.utils
+package com.trisys.rn.baseapp.network
 
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.trisys.rn.baseapp.utils.Define
 
 object URLHelper {
     val mRemoteConfig = Firebase.remoteConfig
@@ -16,5 +17,6 @@ object URLHelper {
     val testBaseUrl = url + "testPaperAssign/"
     val averageBatchTests = testBaseUrl + "averageBatchTests"
     val unattemptedTests = testBaseUrl + "attemptedTests"
+    val scheduleTestsForStudent = testBaseUrl + "scheduleTestsForStudent"
     val logout = baseURLAuth + "logout"
 }

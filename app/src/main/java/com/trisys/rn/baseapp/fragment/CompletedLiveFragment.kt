@@ -25,7 +25,7 @@ import org.json.JSONObject
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
+class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
     private var completedLiveList = ArrayList<CompletedLiveItem>()
     lateinit var networkHelper: NetworkHelper
@@ -115,7 +115,7 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             jsonObject.put("branchIds", loginData.userDetail?.branchIds.toString())
             jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
             jsonObject.put("batchIds", loginData.userDetail?.batchIds.toString())
-            jsonObject.put("sessionTense", UrlConstants.kUPCOMING)
+            jsonObject.put("sessionTense", UrlConstants.kPREVIOUS)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -123,14 +123,14 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
         networkHelper.postCall(
             URLHelper.getSessions,
             jsonObject,
-            "upcomingSessions",
+            "completedSessions",
             ApiUtils.getAuthorizationHeader(requireContext()),
             this
         )
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
+        if (responseCode == networkHelper.responseSuccess && tag == "completedSessions") {
             val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
             val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
             recycler.adapter = completedLiveAdapter
