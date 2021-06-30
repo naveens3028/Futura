@@ -24,7 +24,6 @@ object ApiUtils {
 
 //        headers["Content-Type"] = "application/json"
         headers["access_token"] = "72640d71-abab-4db5-bfa9-d9f4ca0ebcd0"
-        Utils.log("s2s","access_token ${myPreferences.getString(Define.ACCESS_TOKEN).toString()}")
         return headers
     }
 }

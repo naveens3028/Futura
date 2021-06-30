@@ -25,7 +25,6 @@ import com.google.gson.Gson
 import com.trisys.rn.baseapp.MainActivity
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.onBoarding.LoginResponse
-import com.trisys.rn.baseapp.network.Config
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.utils.Define
@@ -33,17 +32,19 @@ import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.json.JSONException
-
 import org.json.JSONObject
 
 class LoginFragment : Fragment(), OnNetworkResponse {
 
     lateinit var mRemoteConfig: FirebaseRemoteConfig
     lateinit var networkHelper: NetworkHelper
+
     //Google Auth
     private lateinit var auth: FirebaseAuth
+
     //Google signin client
     private lateinit var googleSignInClient: GoogleSignInClient
+
     //preference class
     lateinit var myPreferences: MyPreferences
 
@@ -101,6 +102,9 @@ class LoginFragment : Fragment(), OnNetworkResponse {
 
         continueButton.setOnClickListener {
             requestLogin()
+            /*val res =
+                "{\"data\":{\"role\":\"STUDENT\",\"userDetail\":{\"userDetailId\":\"3bbfc352-a8dc-44dc-a03b-f438e355c650\",\"usersId\":\"ade8e7e9-7c04-46ff-b70f-ea64a97e8f96\",\"password\":null,\"address1\":\"5/42, 1st floor, Labour colony, 3rd street, Guindy Industrial Estate,\",\"address2\":\"\",\"city\":\"Chennai\",\"country\":\"India\",\"createdAt\":1623258995000,\"createdBy\":\"503a8a58-d747-4937-923e-b40cff466aa1\",\"dob\":\"1986-08-24\",\"email\":\"dinaharan.s@gmail.com\",\"enrollmentNumber\":\"\",\"fatherName\":\"Siva\",\"firstName\":\"testDina\",\"lastName\":\"Dina\",\"mobileNumber\":\"8563245698\",\"profileImagePath\":null,\"qualification\":\"\",\"salutation\":\"Mr.\",\"shortDiscription\":null,\"state\":\"Tamil Nadu\",\"status\":\"ACTIVE\",\"updatedBy\":null,\"uploadFileId\":null,\"userName\":\"teststudent\",\"userType\":\"STUDENT\",\"yearOfExperience\":\"\",\"zipCode\":\"600040\",\"roleId\":null,\"description\":null,\"deviceName\":null,\"coachingCentre\":{\"id\":\"85075500-8044-492e-a590-f7ca04670cce\",\"coachingCentreName\":\"UpMyRanks\",\"mobileNumber\":\"1234567890\",\"email\":\"\",\"address1\":\"bang\",\"address2\":\"bang\",\"country\":\"India\",\"state\":\"Karnataka\",\"city\":\"bang\",\"zipCode\":\"560001\",\"expiryOn\":\"2024-01-31\",\"status\":\"ACTIVE\",\"coachingCenterCode\":\"CCD\",\"questionLimit\":\"10000000\",\"logoUrl\":\"https://eduinstitute.s3.ap-south-1.amazonaws.com/Activity_Files/StudentActivity_1588006052427.png\",\"createdAt\":1605676385000,\"updatedAt\":1605676385000,\"createdBy\":null,\"updatedBy\":null},\"coachingCenterId\":\"85075500-8044-492e-a590-f7ca04670cce\",\"studentAccess\":false,\"subject\":\"\",\"branchIds\":[\"bfd13c0e-6e83-4387-915e-4bd0c3d1dc8c\"],\"batchIds\":[\"23628f56-8128-498c-8ec8-2e6cffb4b22b\"],\"branchList\":[{\"id\":\"bfd13c0e-6e83-4387-915e-4bd0c3d1dc8c\",\"coachingCenterId\":\"85075500-8044-492e-a590-f7ca04670cce\",\"branchName\":\"BEST School\",\"address1\":\"banglore\",\"address2\":\"bavg\",\"country\":\"india\",\"state\":\"kar\",\"city\":\"bang\",\"zipCode\":\"123456\",\"mobileNumber\":\"1234567890\",\"email\":\"best@gmail.com\",\"isMainBranch\":\"YES\",\"questionLimit\":\"1000000\",\"status\":\"ACTIVE\",\"createdAt\":1610694241000,\"updatedAt\":1610694241000,\"createdBy\":null,\"updatedBy\":null,\"courseIds\":null,\"courseList\":null,\"webexUserIds\":null,\"webexUsers\":null}],\"batchList\":[{\"id\":\"23628f56-8128-498c-8ec8-2e6cffb4b22b\",\"batchName\":\"BEST Grade 9\",\"coachingCentre\":{\"id\":\"85075500-8044-492e-a590-f7ca04670cce\",\"coachingCentreName\":\"UpMyRanks\",\"mobileNumber\":\"1234567890\",\"email\":\"\",\"address1\":\"bang\",\"address2\":\"bang\",\"country\":\"India\",\"state\":\"Karnataka\",\"city\":\"bang\",\"zipCode\":\"560001\",\"expiryOn\":\"2024-01-31\",\"status\":\"ACTIVE\",\"coachingCenterCode\":\"CCD\",\"questionLimit\":\"10000000\",\"logoUrl\":\"https://eduinstitute.s3.ap-south-1.amazonaws.com/Activity_Files/StudentActivity_1588006052427.png\",\"createdAt\":1605676385000,\"updatedAt\":1605676385000,\"createdBy\":null,\"updatedBy\":null},\"coachingCenterId\":\"85075500-8044-492e-a590-f7ca04670cce\",\"course\":{\"id\":\"20c3a01e-3e4c-4f13-b88a-529f61a2d30a\",\"courseName\":\"Grade 9\",\"parentId\":null,\"parentName\":null,\"description\":\"course\",\"status\":\"ACTIVE\",\"coachingCentre\":{\"id\":\"85075500-8044-492e-a590-f7ca04670cce\",\"coachingCentreName\":\"UpMyRanks\",\"mobileNumber\":\"1234567890\",\"email\":\"\",\"address1\":\"bang\",\"address2\":\"bang\",\"country\":\"India\",\"state\":\"Karnataka\",\"city\":\"bang\",\"zipCode\":\"560001\",\"expiryOn\":\"2024-01-31\",\"status\":\"ACTIVE\",\"coachingCenterCode\":\"CCD\",\"questionLimit\":\"10000000\",\"logoUrl\":\"https://eduinstitute.s3.ap-south-1.amazonaws.com/Activity_Files/StudentActivity_1588006052427.png\",\"createdAt\":1605676385000,\"updatedAt\":1605676385000,\"createdBy\":null,\"updatedBy\":null},\"coachingCentreId\":\"85075500-8044-492e-a590-f7ca04670cce\",\"createdAt\":1607172239000,\"updatedAt\":1607172239000,\"createdBy\":null,\"updatedBy\":null},\"courseId\":\"20c3a01e-3e4c-4f13-b88a-529f61a2d30a\",\"coachingCentreBranch\":{\"id\":\"bfd13c0e-6e83-4387-915e-4bd0c3d1dc8c\",\"coachingCenterId\":\"85075500-8044-492e-a590-f7ca04670cce\",\"branchName\":\"BEST School\",\"address1\":\"banglore\",\"address2\":\"bavg\",\"country\":\"india\",\"state\":\"kar\",\"city\":\"bang\",\"zipCode\":\"123456\",\"mobileNumber\":\"1234567890\",\"email\":\"best@gmail.com\",\"isMainBranch\":\"YES\",\"questionLimit\":\"1000000\",\"status\":\"ACTIVE\",\"createdAt\":1610694241000,\"updatedAt\":1610694241000,\"createdBy\":null,\"updatedBy\":null,\"courseIds\":null,\"courseList\":null,\"webexUserIds\":null,\"webexUsers\":null},\"coachingCenterBranchId\":\"bfd13c0e-6e83-4387-915e-4bd0c3d1dc8c\",\"batchStartDate\":\"2021-01-15\",\"batchEndDate\":\"2021-01-15\",\"startTiming\":\"13:07\",\"endTiming\":\"13:07\",\"batchSize\":\"50000\",\"description\":\"grade 9\",\"status\":\"ACTIVE\",\"additionalCourseId\":null,\"additionalCourse\":null,\"createdAt\":1610696288000,\"updatedAt\":1610696288000,\"createdBy\":null,\"updatedBy\":null}]},\"token\":\"a212dde8-4a8d-4a80-8ec4-432dc8e5c469\"}}"
+            loginResponseData(res)*/
 //            requireActivity().supportFragmentManager.beginTransaction()
 //                .replace(R.id.container, OTPFragment()).addToBackStack(null)
 //                .commitAllowingStateLoss()
@@ -117,11 +121,11 @@ class LoginFragment : Fragment(), OnNetworkResponse {
         val username = emailAddress.text.toString()
         val password = mobileNumber.text.toString()
 
-        if(username.length ==0){
+        if (username.length == 0) {
             emailAddress.error = "Enter valid username"
-        }else if(password.length == 0){
+        } else if (password.length == 0) {
             mobileNumber.error = "Enter valid password"
-        }else {
+        } else {
             emailAddress.error = null
             mobileNumber.error = null
 
@@ -141,33 +145,39 @@ class LoginFragment : Fragment(), OnNetworkResponse {
 
             requireActivity().stateful.showProgress()
             requireActivity().stateful.setProgressText("Loading..")
-            val url =
-                mRemoteConfig.getString(Define.BASE_URL) + mRemoteConfig.getString(Define.BASE_PATH) + Config.Login
-            networkHelper.loginPostCall(url, params, Priority.HIGH, "login", this)
+
+            networkHelper.loginPostCall(
+                "https://api.upmyranks.com/app/api/v1/auth",
+                params,
+                Priority.HIGH,
+                "login",
+                this
+            )
         }
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         requireActivity().stateful.showContent()
         if (responseCode == networkHelper.responseSuccess && tag.equals("login")) {
-            Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
+
             loginResponseData(response)
         } else {
             Toast.makeText(requireContext(), "login Failed", Toast.LENGTH_LONG).show()
         }
     }
 
-    fun loginResponseData(response: String){
+    fun loginResponseData(response: String) {
         val loginResponse = Gson().fromJson(response, LoginResponse::class.java)
-        if(loginResponse.data != null){
-
+        if (loginResponse.data != null) {
+            Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
             myPreferences.setString(Define.ACCESS_TOKEN, loginResponse.data!!.token)
             myPreferences.setString(Define.LOGIN_DATA, Gson().toJson(loginResponse.data))
 
             //Go to dashboard screen
             requireActivity().startActivity(Intent(requireActivity(), MainActivity::class.java))
-        }else{
-            Toast.makeText(requireContext(),"Login failed, please try again", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(requireContext(), "Login failed, please try again", Toast.LENGTH_LONG)
+                .show()
         }
     }
 

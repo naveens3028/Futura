@@ -11,12 +11,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.onBoarding.LoginActivity
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.network.URLHelper
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_dialog_logout.*
+import kotlinx.android.synthetic.main.row_study.*
 
 class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse {
 
@@ -48,14 +48,14 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
     }
 
     private fun logoutRequest() {
-
+        yesButton.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
         val params = HashMap<String, String>()
         params["id"] = myPreferences.getString(Define.ACCESS_TOKEN).toString()
 
-        requireActivity().stateful.showProgress()
-        requireActivity().stateful.setProgressText("Loading...")
         networkHelper.call(
             networkHelper.POST,
+            networkHelper.RESTYPE_OBJECT,
             URLHelper.logout,
             params,
             Priority.HIGH,
@@ -65,7 +65,6 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        requireActivity().stateful.showContent()
         if (responseCode == networkHelper.responseSuccess && tag == "logout") {
             Toast.makeText(requireContext(), "logout successful", Toast.LENGTH_LONG).show()
             val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -74,6 +73,8 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
             activity?.finishAffinity()
 
         } else {
+            yesButton.visibility = View.VISIBLE
+            progressBar.visibility = View.GONE
             Toast.makeText(
                 requireContext(),
                 "logout Failed...Please try sometimes later",

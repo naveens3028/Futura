@@ -16,7 +16,7 @@ import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper.getSessions
-import com.trisys.rn.baseapp.network.UrlConstants.kUPCOMING
+import com.trisys.rn.baseapp.network.UrlConstants.kPREVIOUS
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_live.*
@@ -144,12 +144,13 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
         val params = HashMap<String, String>()
         params["branchIds"] = loginData.userDetail?.branchIds.toString()
-        params["coachingCentreId"] = loginData.userDetail?.coachingCentre?.id.toString()
+        params["coachingCentreId"] = loginData.userDetail?.coachingCenterId.toString()
         params["batchIds"] = loginData.userDetail?.batchIds.toString()
-        params["sessionTense"] = kUPCOMING
+        params["sessionTense"] = kPREVIOUS
 
         networkHelper.call(
             networkHelper.POST,
+            networkHelper.RESTYPE_OBJECT,
             getSessions,
             params,
             Priority.HIGH,
