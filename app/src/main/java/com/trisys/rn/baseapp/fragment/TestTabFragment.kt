@@ -17,6 +17,7 @@ import com.trisys.rn.baseapp.adapter.ScheduledTestAdapter
 import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.adapter.test.UnAttemptedTestAdapter
 import com.trisys.rn.baseapp.model.ScheduledTestItem
+import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.SubTopicItem
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.model.onBoarding.MockTest
@@ -30,13 +31,18 @@ import kotlinx.android.synthetic.main.fragment_test_tab.*
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-class TestTabFragment : Fragment() , TestClickListener{
+class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
 
     private var scheduledTestList = ArrayList<ScheduledTestItem>()
     private var checkVisible: Boolean? = false
+    private var loginData = LoginData()
+    lateinit var networkHelper: NetworkHelper
+    lateinit var myPreferences: MyPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        myPreferences = MyPreferences(requireContext())
+        networkHelper = NetworkHelper(requireContext())
     }
 
     override fun onCreateView(
@@ -51,10 +57,9 @@ class TestTabFragment : Fragment() , TestClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       /* loginData =
+        loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-*/
-      //  requestSessions()
+        requestSessions()
 
         scheduledTestList.add(
             ScheduledTestItem(
@@ -94,9 +99,6 @@ class TestTabFragment : Fragment() , TestClickListener{
         val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList,this)
         scheduleTestRecyclerView.adapter = studyAdapter
 
-        val unattemptedAdapter = UnAttemptedTestAdapter(requireContext(), scheduledTestList,this)
-        unattemptedTestRecyclerView.adapter = studyAdapter
-
         arrowscheduled.setOnClickListener {
             if (checkVisible == false) {
                 scheduleTestRecyclerView.visibility = View.GONE
@@ -114,7 +116,6 @@ class TestTabFragment : Fragment() , TestClickListener{
 */
     }
 
-/*
     private fun requestSessions() {
 
         val params = HashMap<String, String>()
@@ -132,7 +133,6 @@ class TestTabFragment : Fragment() , TestClickListener{
         )
 
     }
-*/
 
 
     override fun onTestClicked(isClicked: Boolean) {
@@ -160,8 +160,17 @@ class TestTabFragment : Fragment() , TestClickListener{
             }
     }
 
- /*   override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+    override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         Log.e("poppers", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
+         if (tag.equals("getUnAttempted")){
+            val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
+            unAttemptedSetup(unAttempted)
+        }
+    }
 
-    }*/
+    private fun unAttemptedSetup(unAttempted: UnAttempted){
+        val unattemptedAdapter = UnAttemptedTestAdapter(requireContext(),
+            unAttempted.mockTest!!,this)
+        unattemptedTestRecyclerView.adapter = unattemptedAdapter
+    }
 }

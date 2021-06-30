@@ -222,9 +222,6 @@ class TestFragment : Fragment(), OnNetworkResponse {
         if (tag.equals("getAssessments")) {
             val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
             assessmentSetup(testResponse)
-        } else if (tag.equals("getUnAttempted")){
-            val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
-            unAttemptedSetup(unAttempted)
         }
     }
 
@@ -236,7 +233,5 @@ class TestFragment : Fragment(), OnNetworkResponse {
         outOfStud.text = "Out of ${testResult.rank} Students "
     }
 
-    private fun unAttemptedSetup(unAttempted: UnAttempted){
 
-    }
 }
