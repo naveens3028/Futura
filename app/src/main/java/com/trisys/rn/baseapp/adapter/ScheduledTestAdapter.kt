@@ -30,12 +30,13 @@ class ScheduledTestAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (scheduledItems != null) {
+        if (scheduledItems != null && scheduledItems.isNotEmpty()) {
             val scheduledTest = scheduledItems[position]
             holder.itemView.testName.text = scheduledTest.testPaperVo.name
             holder.itemView.marks.text =
                 (scheduledTest.testPaperVo.questionCount * scheduledTest.testPaperVo.correctMark).toString()
-            holder.itemView.date.text = getDate(scheduledTest.testPaperVo.updatedAt,"dd/MM/yyyy hh:mm:ss.SSS").toString()
+            holder.itemView.date.text =
+                getDate(scheduledTest.testPaperVo.updatedAt, "dd/MM/yyyy hh:mm:ss.SSS").toString()
             holder.itemView.duration.text = scheduledTest.testPaperVo.duration.toString()
             holder.itemView.takeTest.setOnClickListener {
                 testClickListener.onTestClicked(true)
@@ -61,7 +62,7 @@ class ScheduledTestAdapter(
     }
 
     override fun getItemCount(): Int {
-        if (scheduledItems != null) {
+        if (scheduledItems != null && scheduledItems.isNotEmpty()) {
             return scheduledItems.size
         }
         return scheduledTestItems.size

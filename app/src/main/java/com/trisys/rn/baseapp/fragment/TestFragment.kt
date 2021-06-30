@@ -225,9 +225,16 @@ class TestFragment : Fragment(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         Log.e("poppers", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
         val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
-
         Log.e("poppers123", testResponse.toString())
         Log.e("poppers1234", testResponse.classAverage.toString())
+        assessmentSetup(testResponse)
+    }
 
+    private fun assessmentSetup(testResult: AverageBatchTests){
+        stud_rank.text = testResult.rank.toString()
+        yourAvgScoretxt.text = testResult.studentAverage.toString()+"%"
+        classAvgtxt.text = testResult.classAverage.toString()+"%"
+        topperAvgTxt.text = testResult.topperAverage.toString()+"%"
+        outOfStud.text = "Out of ${testResult.rank} Students "
     }
 }

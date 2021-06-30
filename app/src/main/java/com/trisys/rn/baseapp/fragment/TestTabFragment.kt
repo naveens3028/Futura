@@ -1,12 +1,10 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.TakeTestActivity
@@ -18,7 +16,8 @@ import kotlinx.android.synthetic.main.fragment_test_tab.*
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-class TestTabFragment : Fragment() , TestClickListener{
+
+class TestTabFragment : Fragment(), TestClickListener {
 
     private var studyList = ArrayList<SubTopicItem>()
     private var scheduledTestList = ArrayList<ScheduledTestItem>()
@@ -72,14 +71,14 @@ class TestTabFragment : Fragment() , TestClickListener{
         )
 
 
-        val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList,this)
+        val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList, null, this)
         scheduleTestRecyclerView.adapter = studyAdapter
 
         arrowscheduled.setOnClickListener {
             if (checkVisible == false) {
                 scheduleTestRecyclerView.visibility = View.GONE
                 checkVisible = true
-            }else{
+            } else {
                 scheduleTestRecyclerView.visibility = View.VISIBLE
                 checkVisible = false
             }
