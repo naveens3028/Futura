@@ -54,7 +54,7 @@ class TakeResultActivity : AppCompatActivity(), OnNetworkResponse {
 
         networkHelper.call(
             networkHelper.GET,
-            networkHelper.RESTYPE_OBJECT,
+            networkHelper.RESTYPE_ARRAY,
             URLHelper.testResultUrl,
             params,
             Priority.HIGH,
