@@ -30,7 +30,8 @@
         <activity android:name=".doubt.AskDoubtActivity" />
         <activity
             android:name=".learn.LearnVideoActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|layoutDirection" />
         <activity android:name=".learn.LearnActivity" />
         <activity android:name=".activity.TakeTestActivity" />
         <activity android:name=".activity.ChapterActivity" />

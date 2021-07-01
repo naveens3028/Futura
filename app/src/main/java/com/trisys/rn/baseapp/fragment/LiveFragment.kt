@@ -2,24 +2,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.androidnetworking.common.Priority
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.adapter.HomeStudyAdapter
 import com.trisys.rn.baseapp.adapter.StudyAdapter
+import com.trisys.rn.baseapp.fragment.CompletedLiveFragment
 import com.trisys.rn.baseapp.fragment.UpcomingLiveFragment
+import com.trisys.rn.baseapp.model.LiveResponse
 import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.UpcomingLiveItem
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.ApiUtils.getAuthorizationHeader
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper.getSessions
+import com.trisys.rn.baseapp.network.UrlConstants.kLIVE
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.URLHelper.getSessions
-import com.trisys.rn.baseapp.utils.UrlConstants.kPREVIOUS
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_live.*
+import org.json.JSONException
+import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,14 +60,6 @@ class LiveFragment : Fragment(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-        requestSessions()
-
-        upcomingLiveList.add(UpcomingLiveItem("Mathematics", R.drawable.mathematics))
-        upcomingLiveList.add(UpcomingLiveItem("Physics", R.drawable.mathematics))
-        upcomingLiveList.add(UpcomingLiveItem("Chemistry", R.drawable.mathematics))
-        upcomingLiveList.add(UpcomingLiveItem("Biology", R.drawable.mathematics))
-
-
         //Sample Data
         studyList.add(
             StudyItem(
@@ -89,10 +87,14 @@ class LiveFragment : Fragment(), OnNetworkResponse {
             )
         )
 
-        val studyRecyclerView = view.findViewById(R.id.studyRecycler) as RecyclerView
-        val studyAdapter = StudyAdapter(requireContext(), studyList)
-        studyRecyclerView.adapter = studyAdapter
+        requestSessions()
 
+
+
+        upcomingLiveList.add(UpcomingLiveItem("Mathematics", R.drawable.mathematics))
+        upcomingLiveList.add(UpcomingLiveItem("Physics", R.drawable.mathematics))
+        upcomingLiveList.add(UpcomingLiveItem("Chemistry", R.drawable.mathematics))
+        upcomingLiveList.add(UpcomingLiveItem("Biology", R.drawable.mathematics))
     }
 
     override fun onStart() {
@@ -109,7 +111,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
                             .commit()
                     1 ->
                         childFragmentManager.beginTransaction()
-                            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", ""))
+                            .replace(R.id.liveFrameLayout, CompletedLiveFragment.newInstance("", ""))
                             .commit()
                 }
             }
@@ -121,16 +123,6 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LearnFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
         fun newInstance(param1: String, param2: String) =
             LiveFragment().apply {
                 arguments = Bundle().apply {
@@ -142,24 +134,35 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
     private fun requestSessions() {
 
-        val params = HashMap<String, String>()
-        params["branchIds"] = loginData.userDetail?.branchIds.toString()
-        params["coachingCentreId"] = loginData.userDetail?.coachingCenterId.toString()
-        params["batchIds"] = loginData.userDetail?.batchIds.toString()
-        params["sessionTense"] = kPREVIOUS
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put("branchIds", loginData.userDetail?.branchIds.toString())
+            jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
+            jsonObject.put("batchIds", loginData.userDetail?.batchIds.toString())
+            jsonObject.put("sessionTense", kLIVE)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
 
-        networkHelper.call(
-            networkHelper.POST,
-            networkHelper.RESTYPE_OBJECT,
+        networkHelper.postCall(
             getSessions,
-            params,
-            Priority.HIGH,
-            "getSessions",
+            jsonObject,
+            "liveSessions",
+            getAuthorizationHeader(requireContext()),
             this
         )
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+        if (responseCode == networkHelper.responseSuccess && tag == "liveSessions") {
+            val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
+            val studyAdapter = StudyAdapter(requireContext(), liveItemResponse.data[0])
+            studyRecycler.adapter = studyAdapter
+        } else {
+            val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
+            studyRecycler.adapter = studyAdapter
+            Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+        }
 
     }
 }

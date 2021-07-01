@@ -18,7 +18,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.adapter.StudyAdapter
+import com.trisys.rn.baseapp.adapter.HomeStudyAdapter
 import com.trisys.rn.baseapp.model.StudyItem
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
         )
 
         val studyRecyclerView = view.findViewById(R.id.studyRecycler) as RecyclerView
-        val studyAdapter = StudyAdapter(requireContext(), studyList)
+        val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
         studyRecyclerView.adapter = studyAdapter
 
     }

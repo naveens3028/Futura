@@ -1,7 +1,9 @@
 package com.trisys.rn.baseapp.model.onBoarding
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.util.*
+
 
 data class LoginResponse(
     @SerializedName("data")var data:LoginData? = null,
@@ -127,3 +129,33 @@ data class AverageBatchTests (
     @SerializedName("student_test") var studentTest: Int? = null,
     @SerializedName("topperAverage") var topperAverage: Double? = null,
 )
+
+data class UnAttempted (
+    @SerializedName("MOCK_TEST") var mockTest: List<MockTest>? = null,
+    @SerializedName("PRACTICE") var practice: List<Any>? = null
+)
+
+data class MockTest (
+    @SerializedName("publishDate") var publishDate: Long? = null,
+    @SerializedName("publishTime") var publishTime: String? = null,
+    @SerializedName("publishDateTime") var publishDateTime: Long? = null,
+    @SerializedName("expiryDate") var expiryDate: Any? = null,
+    @SerializedName("expiryTime") var expiryTime: Any? = null,
+    @SerializedName("expiryDateTime") var expiryDateTime: Any? = null,
+    @SerializedName("name") var name: String? = null,
+    @SerializedName("duration") var duration: Int? = null,
+    @SerializedName("questionCount") var questionCount: Int? = null,
+    @SerializedName("totalAttempts") var totalAttempts: Int? = null,
+    @SerializedName("testCode") var testCode: String? = null,
+    @SerializedName("testType") var testType: String? = null,
+    @SerializedName("studentAnswerId") var studentAnswerId: String? = null,
+    @SerializedName("completeStatus") var completeStatus: Any? = null,
+    @SerializedName("status") var status: String? = null,
+    @SerializedName("studentId") var studentId: String? = null,
+    @SerializedName("testPaperId") var testPaperId: String? = null,
+    @SerializedName("correctMarks") var correctMarks: Any? = null,
+    @SerializedName("studentName") var studentName: Any? = null,
+    @SerializedName("totalDuration") var totalDuration: Any? = null,
+    @SerializedName("totalMarks") var totalMarks: Any? = null,
+)
+
