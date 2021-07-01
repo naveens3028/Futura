@@ -48,7 +48,7 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
     }
 
     private fun logoutRequest() {
-        yesButton.visibility = View.GONE
+        yesButton.visibility = View.INVISIBLE
         progressBar.visibility = View.VISIBLE
         val params = HashMap<String, String>()
         params["id"] = myPreferences.getString(Define.ACCESS_TOKEN).toString()
