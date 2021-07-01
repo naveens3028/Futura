@@ -87,8 +87,6 @@ class TodayTestActivity : AppCompatActivity() {
         }
 
         pause.setOnClickListener {
-            val intent = Intent(this, TakeResultActivity::class.java)
-            startActivity(intent)
         }
     }
 

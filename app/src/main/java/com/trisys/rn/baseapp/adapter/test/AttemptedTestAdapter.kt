@@ -35,8 +35,9 @@ class AttemptedTestAdapter(
         holder.itemView.marks.text = scheduledTest.correctMarks.toString()
         holder.itemView.date.text = SimpleDateFormat.format(Date(scheduledTest.publishDate!!))
         holder.itemView.duration.text = scheduledTest.duration.toString()
+        holder.itemView.takeTest.text = "Result"
         holder.itemView.takeTest.setOnClickListener {
-            testClickListener.onTestClicked(true)
+            testClickListener.onResultClicked(true)
         }
     }
 

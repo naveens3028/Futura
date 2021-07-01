@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.TakeResultActivity
 import com.trisys.rn.baseapp.activity.TakeTestActivity
 import com.trisys.rn.baseapp.adapter.ScheduledTestAdapter
 import com.trisys.rn.baseapp.adapter.TestClickListener
@@ -170,6 +171,11 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
 
     override fun onTestClicked(isClicked: Boolean) {
         val intent = Intent(requireContext(), TakeTestActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun onResultClicked(isClicked: Boolean) {
+        val intent = Intent(requireContext(), TakeResultActivity::class.java)
         startActivity(intent)
     }
 
