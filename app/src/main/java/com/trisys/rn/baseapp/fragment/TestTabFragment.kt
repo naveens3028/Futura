@@ -13,6 +13,7 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.TakeTestActivity
 import com.trisys.rn.baseapp.adapter.ScheduledTestAdapter
 import com.trisys.rn.baseapp.adapter.TestClickListener
+import com.trisys.rn.baseapp.adapter.test.AttemptedTestAdapter
 import com.trisys.rn.baseapp.adapter.test.UnAttemptedTestAdapter
 import com.trisys.rn.baseapp.model.ScheduledTestItem
 import com.trisys.rn.baseapp.model.StudyItem
@@ -22,9 +23,9 @@ import com.trisys.rn.baseapp.model.onBoarding.MockTest
 import com.trisys.rn.baseapp.model.onBoarding.UnAttempted
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.URLHelper
 import kotlinx.android.synthetic.main.fragment_test_tab.*
 
 private const val ARG_PARAM1 = "param1"
@@ -33,6 +34,8 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
 
     private var scheduledTestList = ArrayList<ScheduledTestItem>()
     private var checkVisible: Boolean? = false
+    private var unAttemptedIsVisible: Boolean = false
+    private var attemptedIsVisible: Boolean = false
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
@@ -96,22 +99,44 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
 
         val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList, null, this)
         scheduleTestRecyclerView.adapter = studyAdapter
+        arrowscheduled.setRotation(arrowscheduled.getRotation() + 180);
+
 
         arrowscheduled.setOnClickListener {
             if (checkVisible == false) {
+                arrowscheduled.setRotation(arrowscheduled.getRotation() + 180);
                 scheduleTestRecyclerView.visibility = View.GONE
                 checkVisible = true
             } else {
+                arrowscheduled.setRotation(arrowscheduled.getRotation() + 180);
                 scheduleTestRecyclerView.visibility = View.VISIBLE
                 checkVisible = false
             }
         }
 
-       /* arrowsUnAttempted.setOnClickListener {
-            scheduleTestRecyclerView.visibility = View.GONE
-            checkVisible = false
+        arrowsUnAttempted.setOnClickListener {
+            if (unAttemptedIsVisible == false) {
+                arrowsUnAttempted.setRotation(arrowsUnAttempted.getRotation() + 180)
+                unattemptedTestRecyclerView.visibility = View.VISIBLE
+                unAttemptedIsVisible = true
+            }else{
+                arrowsUnAttempted.setRotation(arrowsUnAttempted.getRotation() + 180)
+                unattemptedTestRecyclerView.visibility = View.GONE
+                unAttemptedIsVisible = false
+            }
         }
-*/
+
+        arrowsAttempted.setOnClickListener {
+            if (attemptedIsVisible == false) {
+                arrowsAttempted.setRotation(arrowsAttempted.getRotation() + 180)
+                attemptedTestRecyclerView.visibility = View.VISIBLE
+                attemptedIsVisible = true
+            }else{
+                arrowsAttempted.setRotation(arrowsAttempted.getRotation() + 180)
+                attemptedTestRecyclerView.visibility = View.GONE
+                attemptedIsVisible = false
+            }
+        }
     }
 
     private fun requestSessions() {
@@ -127,6 +152,16 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
             params,
             Priority.HIGH,
             "getUnAttempted",
+            this
+        )
+
+        networkHelper.call(
+            networkHelper.GET,
+            networkHelper.RESTYPE_OBJECT,
+            URLHelper.attemptedTests,
+            params,
+            Priority.HIGH,
+            "getAttempted",
             this
         )
 
@@ -163,7 +198,10 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
          if (tag.equals("getUnAttempted")){
             val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
             unAttemptedSetup(unAttempted)
-        }
+        } else{
+             val attempted = Gson().fromJson(response, UnAttempted::class.java)
+             attemptedSetup(attempted)
+         }
     }
 
     private fun unAttemptedSetup(unAttempted: UnAttempted){
@@ -171,4 +209,11 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
             unAttempted.mockTest!!,this)
         unattemptedTestRecyclerView.adapter = unattemptedAdapter
     }
+
+    private fun attemptedSetup(attempted: UnAttempted){
+        val attemptedAdapter = AttemptedTestAdapter(requireContext(),
+            attempted.mockTest!!,this)
+        attemptedTestRecyclerView.adapter = attemptedAdapter
+    }
+
 }
