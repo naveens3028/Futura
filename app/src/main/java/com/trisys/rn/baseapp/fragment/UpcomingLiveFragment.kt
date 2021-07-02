@@ -130,14 +130,16 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
-            val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
-            val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
-            recycler.adapter = completedLiveAdapter
-        } else {
-            val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
-            recycler.adapter = completedLiveAdapter
-            Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+        if(activity != null) {
+            if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
+                val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
+                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
+                recycler.adapter = completedLiveAdapter
+            } else {
+                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
+                recycler.adapter = completedLiveAdapter
+                Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

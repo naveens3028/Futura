@@ -102,7 +102,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/_16sdp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="30"
+                        android:text="0"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_18sdp"
                         android:textStyle="bold" />
@@ -154,7 +154,7 @@
                             android:layout_marginRight="@dimen/_3sdp"
                             android:fontFamily="@font/roboto_bold"
                             android:padding="@dimen/_5sdp"
-                            android:text="78.05%"
+                            android:text="0%"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_14sdp" />
                     </androidx.cardview.widget.CardView>
@@ -189,7 +189,7 @@
                             android:layout_marginRight="@dimen/_3sdp"
                             android:fontFamily="@font/roboto_bold"
                             android:padding="@dimen/_5sdp"
-                            android:text="78.05%"
+                            android:text="0%"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_14sdp" />
 
@@ -226,7 +226,7 @@
                             android:layout_marginRight="@dimen/_3sdp"
                             android:fontFamily="@font/roboto_bold"
                             android:padding="@dimen/_5sdp"
-                            android:text="78.05%"
+                            android:text="0%"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_14sdp" />
 

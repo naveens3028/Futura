@@ -234,9 +234,9 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
     private fun assessmentSetup(testResult: AverageBatchTests){
         stud_rank.text = testResult.rank.toString()
-        yourAvgScoretxt.text = testResult.studentAverage.toString()+"%"
-        classAvgtxt.text = testResult.classAverage.toString()+"%"
-        topperAvgTxt.text = testResult.topperAverage.toString()+"%"
+        yourAvgScoretxt.text = String.format("%.2f", testResult.studentAverage)+"%"
+        classAvgtxt.text = String.format("%.2f", testResult.classAverage)+"%"
+        topperAvgTxt.text = String.format("%.2f", testResult.topperAverage)+"%"
         outOfStud.text = "Out of ${testResult.rank} Students "
     }
 }
