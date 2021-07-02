@@ -16,3 +16,4 @@ local.properties
 .idea/.name
 .idea/codeStyles/codeStyleConfig.xml
 .idea/
+*.orig
