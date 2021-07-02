@@ -15,7 +15,7 @@ data class TestPaperResponse(
 @Serializable
 data class Quesion(
     @SerialName("answer")
-    val answer: Int,
+    val answer: String,
     @SerialName("answeredMark")
     val answeredMark: Int,
     @SerialName("id")
@@ -57,7 +57,7 @@ data class Section(
 @Serializable
 data class SectionQuesion(
     @SerialName("answer")
-    val answer: Int,
+    val answer: String,
     @SerialName("answeredMark")
     val answeredMark: Int,
     @SerialName("id")

@@ -17,7 +17,8 @@ object URLHelper {
     private val testPaperAssign = url + "testPaperAssign/"
     private val testPaperVo = url + "testPaperVo/"
     private val studentAnswer = url + "studentAnswer/"
-    val testResultUrl = url + "studentTestPaperAnswer/myTestResultList"
+    private val studentTestPaperAnswer = url + "studentTestPaperAnswer/"
+    val testResultUrl = studentTestPaperAnswer + "myTestResultList"
     val averageBatchTests = testPaperAssign + "averageBatchTests"
     val unattemptedTests = testPaperAssign + "unattemptedTests"
     val attemptedTests = testPaperAssign + "attemptedTests"
@@ -25,6 +26,7 @@ object URLHelper {
     val testPaperForStudent = testPaperVo + "testPaperForStudent"
     val getStudentTestPaper = testPaperVo + "getStudentTestPaper"
     val testStatus = studentAnswer + "testStatus"
+    val submitTestPaper = studentTestPaperAnswer + "submitTestPaper"
     val next = studentAnswer + "next"
     val logout = baseURLAuth + "logout"
 }

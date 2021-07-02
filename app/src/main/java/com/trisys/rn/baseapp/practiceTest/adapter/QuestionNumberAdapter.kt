@@ -55,7 +55,7 @@ class QuestionNumberAdapter(
                 holder.itemView.questionNumber.setTextColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.white
+                        R.color.charcoal
                     )
                 )
             }

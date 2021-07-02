@@ -20,15 +20,21 @@ import com.trisys.rn.baseapp.model.QuestionNumberItem
 import com.trisys.rn.baseapp.model.QuestionType
 import com.trisys.rn.baseapp.model.TestPaperForStudentResponse
 import com.trisys.rn.baseapp.model.TestPaperResponse
-import com.trisys.rn.baseapp.network.*
+import com.trisys.rn.baseapp.network.ApiUtils
+import com.trisys.rn.baseapp.network.NetworkHelper
+import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.network.URLHelper.getStudentTestPaper
 import com.trisys.rn.baseapp.network.URLHelper.testPaperForStudent
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import com.trisys.rn.baseapp.utils.MyPreferences
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_today_test.*
+import kotlinx.android.synthetic.main.activity_today_test.viewPager
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -42,7 +48,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     lateinit var studentId: String
     lateinit var testName: String
     lateinit var date: String
-    val noCompleted = 0
     var noMarked: Int = 0
     private lateinit var testPaperResponse: TestPaperResponse
     private lateinit var testStudentResponse: TestPaperForStudentResponse
@@ -81,7 +86,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
-
             }
 
             override fun onPageScrolled(
@@ -89,11 +93,15 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
+
                 questionNumberRecycler.layoutManager?.scrollToPosition(position)
             }
 
             override fun onPageSelected(position: Int) {
-                saveNext()
+
+                saveNext(position - 1)
+//                val start = System.currentTimeMillis()
+//                val runTime = System.currentTimeMillis() - start
             }
 
         })
@@ -107,21 +115,85 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         }
 
         next.setOnClickListener {
-            saveNext()
+            viewPager.currentItem++
         }
+        previous.setOnClickListener {
+            viewPager.currentItem--
+        }
+        submitTest.setOnClickListener {
+            submitTestPaper()
+        }
+
     }
 
-    private fun saveNext() {
-        if (testPaperResponse.quesionList[viewPager.currentItem].optionSelected.isNotEmpty()) {
+    private fun submitTestPaper() {
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put("testPaperId", testPaperId)
+            jsonObject.put("attempt", testStudentResponse.data.testPaper.attempts)
+            jsonObject.put("studentId", studentId)
+            jsonObject.put("testDurationTime", testStudentResponse.data.testPaper.duration)
+            val jsonArray = JSONArray()
+            val jsonAnsObject = JSONObject()
+            jsonAnsObject.put(
+                "questionPaperId",
+                testPaperResponse.quesionList[viewPager.currentItem].id
+            )
+            jsonAnsObject.put(
+                "answer",
+                testPaperResponse.quesionList[viewPager.currentItem].optionSelected
+            )
+            jsonAnsObject.put(
+                "timeSpent",
+                testPaperResponse.quesionList[viewPager.currentItem].timeSpent
+            )
+            jsonArray.put(jsonAnsObject)
+            jsonObject.put("questionAnswerList", jsonArray)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        statefulLayout.showProgress()
+        statefulLayout.setProgressText("Loading..")
+        networkHelper.postCall(
+            URLHelper.submitTestPaper,
+            jsonObject,
+            "submitTestPaper",
+            ApiUtils.getHeader(this),
+            this
+        )
+    }
+
+    private fun saveNext(position: Int) {
+        if (position >= 0 && !testPaperResponse.quesionList[position].optionSelected.isNullOrEmpty()) {
+            val noCompleted= testPaperResponse.quesionList.filter { it.isAnswered }.size
+            completedValue.text =
+                "$noCompleted Out of ${testStudentResponse.data.testPaper.questionCount}"
+            if (testPaperResponse.quesionList[position].optionSelected== "-"){
+                questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
+            }else{
+                questionNumberItem[position].questionType = QuestionType.ATTEMPT
+            }
+            questionNumberAdapter.setItems(questionNumberItem)
+            questionNumberAdapter.notifyDataSetChanged()
+
             val jsonObject = JSONObject()
             try {
                 jsonObject.put("testPaperId", testPaperId)
                 jsonObject.put("attempt", testStudentResponse.data.testPaper.attempts)
                 jsonObject.put("studentId", studentId)
                 jsonObject.put("testDurationTime", testStudentResponse.data.testPaper.duration)
-                jsonObject.put("questionPaperId", testPaperResponse.quesionList[viewPager.currentItem].id)
-                jsonObject.put("answer", testPaperResponse.quesionList[viewPager.currentItem].optionSelected)
-                jsonObject.put("timeSpent", testPaperResponse.quesionList[viewPager.currentItem].timeSpent)
+                jsonObject.put(
+                    "questionPaperId",
+                    testPaperResponse.quesionList[viewPager.currentItem].id
+                )
+                jsonObject.put(
+                    "answer",
+                    testPaperResponse.quesionList[viewPager.currentItem].optionSelected
+                )
+                jsonObject.put(
+                    "timeSpent",
+                    testPaperResponse.quesionList[viewPager.currentItem].timeSpent
+                )
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -179,7 +251,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     }
 
     private fun getTest() {
-
         statefulLayout.showProgress()
         statefulLayout.setProgressText("Loading..")
         networkHelper.getCall(
@@ -197,10 +268,15 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        statefulLayout.showContent()
-        if (responseCode == networkHelper.responseSuccess && tag == "getStudentTestPaper") {
-            testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
-            assignQuestion()
+        if (tag == "getStudentTestPaper") {
+            statefulLayout.showContent()
+            durationValue.start()
+            if (responseCode == networkHelper.responseSuccess) {
+                testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
+                assignQuestion()
+            } else {
+                Toast.makeText(this, "Unable to start the Test", Toast.LENGTH_LONG).show()
+            }
         } else if (responseCode == networkHelper.responseSuccess && tag == "testPaperForStudent") {
             testStudentResponse =
                 Gson().fromJson(response, TestPaperForStudentResponse::class.java)
@@ -211,9 +287,8 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 durationValue.base =
                     SystemClock.elapsedRealtime() + (testStudentResponse.data.testPaper.timeLeft * 10000)
             }
-            durationValue.start()
             completedValue.text =
-                "$noCompleted Out of ${testStudentResponse.data.testPaper.questionCount}"
+                "0 Out of ${testStudentResponse.data.testPaper.questionCount}"
             markedValue.text = noMarked.toString()
             if (testStudentResponse.data.testPaper.isPauseAllow) {
                 pause.isEnabled = true
@@ -224,7 +299,11 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             }
             pause.isEnabled = testStudentResponse.data.testPaper.isPauseAllow
             formQuestionItem(testStudentResponse.data.testPaper.questionCount)
-        }else if (responseCode == networkHelper.responseSuccess && tag == "next") {
+        } else if ( tag == "submitTestPaper") {
+            statefulLayout.showContent()
+            if (responseCode == networkHelper.responseSuccess){
+                finish()
+            }
 
         } else {
             Toast.makeText(this, "Unable to start the Test", Toast.LENGTH_LONG).show()
@@ -241,8 +320,8 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
 
     private fun assignQuestion() {
         questionAdapter = QuestionAdapter(this, testPaperResponse.quesionList, this, false)
-        viewPager.offscreenPageLimit = 0
         viewPager.adapter = questionAdapter
+        viewPager.offscreenPageLimit = testPaperResponse.quesionList.size
     }
 
     override fun onAnswerClicked(isClicked: Boolean, option: Char, position: Int) {

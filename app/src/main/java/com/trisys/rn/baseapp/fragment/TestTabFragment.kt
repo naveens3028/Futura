@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
@@ -202,19 +201,22 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     private fun unAttemptedSetup(unAttempted: UnAttempted) {
-        val unattemptedAdapter = UnAttemptedTestAdapter(
-            requireContext(),
-            unAttempted.mockTest!!, this
-        )
-        unattemptedTestRecyclerView.adapter = unattemptedAdapter
+        if (view != null) {
+            val unattemptedAdapter = UnAttemptedTestAdapter(
+                requireContext(),
+                unAttempted.mockTest!!, this
+            )
+            unattemptedTestRecyclerView.adapter = unattemptedAdapter
+        }
     }
 
     private fun attemptedSetup(attempted: AttemptedResponse) {
-        val attemptedAdapter = AttemptedTestAdapter(
-            requireContext(),
-            attempted.mOCKTEST, this
-        )
-        attemptedTestRecyclerView.adapter = attemptedAdapter
+        if (view != null) {
+            val attemptedAdapter = AttemptedTestAdapter(
+                requireContext(),
+                attempted.mOCKTEST, this
+            )
+            attemptedTestRecyclerView.adapter = attemptedAdapter
+        }
     }
-
 }

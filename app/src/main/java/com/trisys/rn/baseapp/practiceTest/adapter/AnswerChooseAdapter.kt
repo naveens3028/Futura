@@ -1,12 +1,11 @@
 package com.trisys.rn.baseapp.practiceTest.adapter
 
 import android.content.Context
-import android.os.Build
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
@@ -36,11 +35,8 @@ class AnswerChooseAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val answerItem = answerChooseItem[position]
         if (answerItem.isSelected) previousPosition = position
-        holder.itemView.answer.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(answerItem.answer, Html.FROM_HTML_MODE_COMPACT)
-        } else {
-            Html.fromHtml(answerItem.answer)
-        }
+        holder.itemView.answer.text =
+            HtmlCompat.fromHtml(answerItem.answer.toString(), HtmlCompat.FROM_HTML_MODE_COMPACT)
 
         if (!isReview) {
             holder.itemView.setOnClickListener {
