@@ -16,7 +16,7 @@
         android:layout_height="@dimen/_25sdp"
         android:gravity="center"
         android:textColor="@color/charcoal"
-        android:textSize="@dimen/_16sdp"
+        android:textSize="@dimen/_12sdp"
         android:textStyle="bold" />
 
 </androidx.cardview.widget.CardView>

@@ -1,7 +1,7 @@
 package com.trisys.rn.baseapp.model
 
 import com.google.gson.annotations.SerializedName
-
+import java.io.Serializable
 
 data class ScheduledTestClass(
     @SerializedName("MOCK_TEST")
@@ -53,7 +53,7 @@ data class MOCKTEST(
     val updatedAt: Long,
     @SerializedName("updatedBy")
     val updatedBy: Any
-)
+) : Serializable
 
 /*data class CoachingCentre1(
     @SerializedName("address1")

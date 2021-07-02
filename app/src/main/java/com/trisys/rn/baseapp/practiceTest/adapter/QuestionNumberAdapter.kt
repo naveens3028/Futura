@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.row_question_number_list.view.*
 
 class QuestionNumberAdapter(
     val context: Context,
-    private val questionNumberItem: ArrayList<QuestionNumberItem>
+    private var questionNumberItem: ArrayList<QuestionNumberItem>
 ) : RecyclerView.Adapter<QuestionNumberAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -49,7 +49,7 @@ class QuestionNumberAdapter(
                 holder.itemView.numberBackground.setCardBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.bittersweet
+                        R.color.light_goldenrod_yellow
                     )
                 )
                 holder.itemView.questionNumber.setTextColor(
@@ -64,13 +64,13 @@ class QuestionNumberAdapter(
                 holder.itemView.numberBackground.setCardBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.light_goldenrod_yellow
+                        R.color.bittersweet
                     )
                 )
                 holder.itemView.questionNumber.setTextColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.charcoal
+                        R.color.white
                     )
                 )
             }
@@ -89,6 +89,10 @@ class QuestionNumberAdapter(
                 )
             }
         }
+    }
+
+    fun setItems(questionNumberItem: ArrayList<QuestionNumberItem>) {
+        this.questionNumberItem = questionNumberItem
     }
 
     override fun getItemCount(): Int {

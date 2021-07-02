@@ -112,7 +112,7 @@ class NetworkHelper(context: Context) {
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {
                     // do anything with response
-                    Log.e("Response", response.toString())
+                    Log.e(TAG,"response -$tag  $response")
                     if (context != null)
                         onNetworkResponse.onNetworkResponse(
                             responseSuccess,
@@ -162,8 +162,7 @@ class NetworkHelper(context: Context) {
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray) {
                     // do anything with response
-
-                    Utils.log("response", response.toString())
+                    Log.e(TAG,"response -$tag  $response")
                     if (context != null)
                         onNetworkResponse.onNetworkResponse(
                             responseSuccess,
@@ -211,6 +210,7 @@ class NetworkHelper(context: Context) {
                             response.toString(),
                             tag
                         )
+                    Log.e(TAG,"response -$tag  $response")
                 }
 
                 override fun onError(error: ANError) {
@@ -254,7 +254,7 @@ class NetworkHelper(context: Context) {
             .build()
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray) {
-                    Utils.log("response", response.toString())
+                    Log.e(TAG,"response -$tag  $response")
                     if (context != null)
                         onNetworkResponse.onNetworkResponse(
                             responseSuccess,
@@ -288,13 +288,12 @@ class NetworkHelper(context: Context) {
             Utils.log(TAG, "url $url")
             Utils.log(TAG, "params $params")
             Utils.log(TAG, "params $params")
-            Utils.log(TAG, "tag $tag")
             Utils.log(TAG, "headers $headers")
 
             val jsonObjReq: JsonObjectRequest = object : JsonObjectRequest(
                 Method.POST, url, params,
                 Response.Listener { response: JSONObject ->
-                    Utils.log(TAG, "response $response")
+                    Utils.log(TAG, "response -$tag $response")
                     if (response.optBoolean("error")) {
                         if (response.optString("message")
                                 .equals("Unauthorized", ignoreCase = true)
@@ -316,7 +315,7 @@ class NetworkHelper(context: Context) {
 
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(TAG, "ErrorListener $error ${error.networkResponse}")
+                    Utils.log(TAG, "ErrorListener -$tag $error ${error.networkResponse}")
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,
@@ -355,13 +354,12 @@ class NetworkHelper(context: Context) {
         val queue = Volley.newRequestQueue(context)
         if (cd.isConnectingToInternet()) {
             Utils.log(TAG, "url $url")
-            Utils.log(TAG, "tag $tag")
             Utils.log(TAG, "headers $headers")
 
             val jsonObjReq: JsonObjectRequest = object : JsonObjectRequest(
                 Method.GET, url, null,
                 Response.Listener { response: JSONObject ->
-                    Utils.log(TAG, "response $response")
+                    Utils.log(TAG, "response -$tag $response")
                     if (response.optBoolean("error")) {
                         if (response.optString("message")
                                 .equals("Unauthorized", ignoreCase = true)
@@ -383,7 +381,7 @@ class NetworkHelper(context: Context) {
 
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(TAG, "ErrorListener $error ${error.networkResponse}")
+                    Utils.log(TAG, "ErrorListener -$tag $error ${error.networkResponse}")
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,

@@ -12,6 +12,9 @@ import com.trisys.rn.baseapp.BuildConfig
 import com.trisys.rn.baseapp.helper.TextDrawable
 import org.ocpsoft.prettytime.PrettyTime
 import java.io.IOException
+import java.text.DateFormat
+import java.text.DateFormatSymbols
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,6 +32,7 @@ object Utils {
 
         return versonName
     }
+
     fun getAppVersionName(context: Context): String? {
         var versonName: String? = ""
         try {
@@ -56,6 +60,7 @@ object Utils {
 
         return formattedDate
     }
+
     fun getPrettyTime(ms: Long): String {
         val p = PrettyTime()
         val date = Date(ms)
@@ -67,20 +72,21 @@ object Utils {
         val faIcon = TextDrawable(context)
         faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size)
         faIcon.setTextColor(Color.parseColor(color))
-        faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER)
-        faIcon.setTypeface(FontManager.getTypeface(context, FontManager.FONTAWESOME))
-        faIcon.setText(icon)
+        faIcon.textAlign = Layout.Alignment.ALIGN_CENTER
+        faIcon.typeface = FontManager.getTypeface(context, FontManager.FONTAWESOME)
+        faIcon.text = icon
 
         return faIcon
     }
+
     fun getFontDrawableIcon(context: Context, icon: String, color: Int, size: Float): TextDrawable {
 
         val faIcon = TextDrawable(context)
         faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size)
         faIcon.setTextColor(color)
-        faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER)
-        faIcon.setTypeface(FontManager.getTypeface(context, FontManager.FONTAWESOME))
-        faIcon.setText(icon)
+        faIcon.textAlign = Layout.Alignment.ALIGN_CENTER
+        faIcon.typeface = FontManager.getTypeface(context, FontManager.FONTAWESOME)
+        faIcon.text = icon
 
         return faIcon
     }
@@ -127,9 +133,52 @@ object Utils {
         }
 
     }
-    fun log(tag:String, message:String?){
-        if(BuildConfig.DEBUG){
-            Log.d(tag,message!!)
+
+    fun log(tag: String, message: String?) {
+        if (BuildConfig.DEBUG) {
+            Log.d(tag, message!!)
+        }
+    }
+    fun testLog(message: String) {
+        if (BuildConfig.DEBUG) {
+            Log.d("s2s", "sara $message")
+        }
+    }
+
+    fun getDateValue(date: Long): String {
+        val date = Date(date * 1000)
+        var dateVal = ""
+        try {
+            val dfs = DateFormatSymbols()
+            val months: Array<String> = dfs.months
+            val myDate: Calendar = GregorianCalendar()
+            val dateFormat: DateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+            myDate.time = date
+            dateVal =
+                when {
+                    myDate[Calendar.DATE] == 1 -> myDate[Calendar.DATE].toString() + "st "
+                    myDate[Calendar.DATE] == 2 -> myDate[Calendar.DATE].toString() + "nd "
+                    myDate[Calendar.DATE] == 3 -> myDate[Calendar.DATE].toString() + "rd "
+                    else -> myDate[Calendar.DATE].toString() + "th "
+                }
+            myDate[Calendar.MONTH]
+            if (myDate[Calendar.MONTH] <= 11) {
+                dateVal = dateVal + months[myDate[Calendar.MONTH]] + ", "
+            }
+            dateVal += dateFormat.format(date).uppercase(Locale.getDefault())
+
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return dateVal
+    }
+    fun getDuration(duration: Int): String {
+        return if (duration < 60){
+            duration.toString() + "mins"
+        }else{
+            if (duration % 60 == 0) (duration/60).toString() + "hr"
+            else (duration/60).toString() + "hr, " + (duration%60).toString() + "mins"
+
         }
     }
 }

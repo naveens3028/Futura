@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.20'
 }
 
 android {
@@ -98,4 +99,6 @@ dependencies {
 
     // Also declare the dependency for the Google Play services library and specify its version
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    //serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
 }

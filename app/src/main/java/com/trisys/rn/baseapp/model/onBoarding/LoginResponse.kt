@@ -3,6 +3,10 @@ package com.trisys.rn.baseapp.model.onBoarding
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.util.*
+import kotlinx.serialization.Serializable
+
+import kotlinx.serialization.SerialName
+
 
 
 data class LoginResponse(
@@ -159,3 +163,60 @@ data class MockTest (
     @SerializedName("totalMarks") var totalMarks: Any? = null,
 )
 
+data class AttemptedResponse(
+    @SerializedName("MOCK_TEST")
+    val mOCKTEST: List<AttemptedTest>,
+    @SerializedName("PRACTICE")
+    val pRACTICE: List<Any>
+)
+
+data class AttemptedTest(
+    @SerializedName("completeStatus")
+    val completeStatus: String,
+    @SerializedName("correctMarks")
+    val correctMarks: Int = 1,
+    @SerializedName("duration")
+    val duration: Int,
+    @SerializedName("expiryDate")
+    val expiryDate: Any,
+    @SerializedName("expiryDateTime")
+    val expiryDateTime: Any,
+    @SerializedName("expiryTime")
+    val expiryTime: Any,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("publishDate")
+    val publishDate: Long,
+    @SerializedName("publishDateTime")
+    val publishDateTime: Long,
+    @SerializedName("publishTime")
+    val publishTime: String,
+    @SerializedName("questionCount")
+    val questionCount: Int,
+    @SerializedName("status")
+    val status: String,
+    @SerializedName("studentAnswerId")
+    val studentAnswerId: String,
+    @SerializedName("studentId")
+    val studentId: String,
+    @SerializedName("studentName")
+    val studentName: Any,
+    @SerializedName("testCode")
+    val testCode: String,
+    @SerializedName("testPaperId")
+    val testPaperId: String,
+    @SerializedName("testType")
+    val testType: String,
+    @SerializedName("totalAttempts")
+    val totalAttempts: Int,
+    @SerializedName("totalDuration")
+    val totalDuration: Any,
+    @SerializedName("totalMarks")
+    val totalMarks: Any
+)
+
+@Serializable
+data class TestStatusResponse(
+    @SerialName("data")
+    val `data`: String
+)
