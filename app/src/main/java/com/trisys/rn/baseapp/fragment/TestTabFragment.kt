@@ -22,9 +22,9 @@ import com.trisys.rn.baseapp.model.onBoarding.MockTest
 import com.trisys.rn.baseapp.model.onBoarding.UnAttempted
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.URLHelper
 import kotlinx.android.synthetic.main.fragment_test_tab.*
 
 private const val ARG_PARAM1 = "param1"
