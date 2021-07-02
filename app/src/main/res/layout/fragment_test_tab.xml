@@ -22,8 +22,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/arrowscheduled"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_margin="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:src="@drawable/downarrow" />
@@ -34,6 +34,7 @@
         android:id="@+id/scheduleTestRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         android:layout_margin="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_8sdp"
@@ -58,9 +59,10 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/arrowsAttempted"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_margin="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:src="@drawable/downarrow" />
 
     </LinearLayout>
@@ -71,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_8sdp"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/_8sdp"
         android:nestedScrollingEnabled="false"
         android:orientation="vertical"
@@ -85,7 +88,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Un Attempted Test"
             android:layout_weight="1"
@@ -94,9 +97,10 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/arrowsUnAttempted"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_margin="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:src="@drawable/downarrow" />
 
     </LinearLayout>
@@ -109,10 +113,10 @@
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:nestedScrollingEnabled="false"
+        android:visibility="gone"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="1"
         tools:listitem="@layout/row_completed_live" />
-
 
 </LinearLayout>

@@ -87,6 +87,11 @@ class ScheduledTestFragment : Fragment(), TestClickListener,OnNetworkResponse {
         val intent = Intent(requireContext(), TakeTestActivity::class.java)
         startActivity(intent)
     }
+
+    override fun onResultClicked(isClicked: Boolean) {
+
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
