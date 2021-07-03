@@ -24,7 +24,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/testName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_8sdp"
             android:ellipsize="end"
@@ -32,6 +32,7 @@
             android:textColor="@color/text_color"
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/markIcon"
             app:layout_constraintStart_toEndOf="@+id/backgroundColor"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,7 +89,6 @@
             android:id="@+id/durationIcon"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginHorizontal="@dimen/_8sdp"
             android:src="@drawable/timer"
             app:layout_constraintBottom_toTopOf="@+id/duration"
             app:layout_constraintEnd_toEndOf="@+id/duration"

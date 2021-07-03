@@ -9,15 +9,12 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
-import com.trisys.rn.baseapp.adapter.StudyAdapter
 import com.trisys.rn.baseapp.model.CompletedLiveItem
 import com.trisys.rn.baseapp.model.LiveResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.*
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.Utils
-import kotlinx.android.synthetic.main.fragment_live.*
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -137,7 +134,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
         } else {
             val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
             recycler.adapter = completedLiveAdapter
-            Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+//            Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
         }
     }
 }

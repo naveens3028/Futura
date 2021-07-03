@@ -76,8 +76,8 @@ class TestReviewActivity : AppCompatActivity() {
                 answerChooseItem
             )
         )
-        val questionAdapter = QuestionAdapter(this, questionItems,true)
-        viewPager.adapter = questionAdapter
+        /*val questionAdapter = QuestionAdapter(this, questionItems,true)
+        viewPager.adapter = questionAdapter*/
 
     }
 

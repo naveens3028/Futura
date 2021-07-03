@@ -161,7 +161,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
         } else {
             val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
             studyRecycler.adapter = studyAdapter
-            Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+//            Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
         }
 
     }

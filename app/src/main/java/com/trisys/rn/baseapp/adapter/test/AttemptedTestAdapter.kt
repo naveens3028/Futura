@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.TestClickListener
-import com.trisys.rn.baseapp.model.onBoarding.MockTest
+import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_scheduled_test.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class AttemptedTestAdapter(
     val context: Context,
-    private val scheduledTestItems: List<MockTest>,
+    private val scheduledTestItems: List<AttemptedTest>,
     private var testClickListener: TestClickListener
 ) : RecyclerView.Adapter<AttemptedTestAdapter.ViewHolder>() {
 
@@ -27,13 +26,12 @@ class AttemptedTestAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val SimpleDateFormat =  SimpleDateFormat("dd/MM/yyyy");
-
         val scheduledTest = scheduledTestItems[position]
         holder.itemView.testName.text = scheduledTest.name
         holder.itemView.backgroundColor.setBackgroundColor(context.getColor(R.color.carolina_blue))
-        holder.itemView.marks.text = scheduledTest.correctMarks.toString()
-        holder.itemView.date.text = SimpleDateFormat.format(Date(scheduledTest.publishDate!!))
+        holder.itemView.marks.text =
+            (scheduledTest.questionCount * scheduledTest.correctMarks).toString()
+        holder.itemView.date.text = Utils.getDateValue(scheduledTest.publishDateTime)
         holder.itemView.duration.text = scheduledTest.duration.toString()
         holder.itemView.takeTest.text = "Result"
         holder.itemView.takeTest.setOnClickListener {

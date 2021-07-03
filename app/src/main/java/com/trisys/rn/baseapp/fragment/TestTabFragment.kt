@@ -16,24 +16,27 @@ import com.trisys.rn.baseapp.adapter.ScheduledTestAdapter
 import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.adapter.test.AttemptedTestAdapter
 import com.trisys.rn.baseapp.adapter.test.UnAttemptedTestAdapter
-import com.trisys.rn.baseapp.model.ScheduledTestItem
-import com.trisys.rn.baseapp.model.StudyItem
-import com.trisys.rn.baseapp.model.SubTopicItem
+import com.trisys.rn.baseapp.model.MOCKTEST
+import com.trisys.rn.baseapp.model.ScheduledTestClass
+import com.trisys.rn.baseapp.model.onBoarding.AttemptedResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
-import com.trisys.rn.baseapp.model.onBoarding.MockTest
 import com.trisys.rn.baseapp.model.onBoarding.UnAttempted
+import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
+import kotlinx.android.synthetic.main.fragment_scheduled_test.*
 import kotlinx.android.synthetic.main.fragment_test_tab.*
+import kotlinx.android.synthetic.main.fragment_upcoming_live.recycler
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
 
-    private var scheduledTestList = ArrayList<ScheduledTestItem>()
+class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
+
     private var checkVisible: Boolean? = false
     private var unAttemptedIsVisible: Boolean = false
     private var attemptedIsVisible: Boolean = false
@@ -61,89 +64,52 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        requestSessions()
+        requestTest()
 
-        scheduledTestList.add(
-            ScheduledTestItem(
-                "JEE Mains Test2",
-                "17th Mar, 9:30AM",
-                "120",
-                "1h 25m",
-                R.color.caribbean_green
-            )
-        )
-        scheduledTestList.add(
-            ScheduledTestItem(
-                "NEET Mains Test2",
-                "17th Mar, 9:30AM",
-                "120", "1h 25m",
-                R.color.light_coral
-            )
-        )
-        scheduledTestList.add(
-            ScheduledTestItem(
-                "NCERT Mains Test2",
-                "19th Mar, 9:30AM",
-                "120", "1h 25m",
-                R.color.blue_violet_crayola
-            )
-        )
-        scheduledTestList.add(
-            ScheduledTestItem(
-                "NEET Mains Test3",
-                "19th Mar, 9:30AM",
-                "120", "1h 25m",
-                R.color.caribbean_green
-            )
-        )
-
-
-        val studyAdapter = ScheduledTestAdapter(requireContext(), scheduledTestList, null, this)
-        scheduleTestRecyclerView.adapter = studyAdapter
-        arrowscheduled.setRotation(arrowscheduled.getRotation() + 180);
+        arrowscheduled.rotation = arrowscheduled.rotation + 180
 
 
         arrowscheduled.setOnClickListener {
             if (checkVisible == false) {
-                arrowscheduled.setRotation(arrowscheduled.getRotation() + 180);
+                arrowscheduled.rotation = arrowscheduled.rotation + 180
                 scheduleTestRecyclerView.visibility = View.GONE
                 checkVisible = true
             } else {
-                arrowscheduled.setRotation(arrowscheduled.getRotation() + 180);
+                arrowscheduled.rotation = arrowscheduled.rotation + 180
                 scheduleTestRecyclerView.visibility = View.VISIBLE
                 checkVisible = false
             }
         }
 
         arrowsUnAttempted.setOnClickListener {
-            if (unAttemptedIsVisible == false) {
-                arrowsUnAttempted.setRotation(arrowsUnAttempted.getRotation() + 180)
+            if (!unAttemptedIsVisible) {
+                arrowsUnAttempted.rotation = arrowsUnAttempted.rotation + 180
                 unattemptedTestRecyclerView.visibility = View.VISIBLE
                 unAttemptedIsVisible = true
-            }else{
-                arrowsUnAttempted.setRotation(arrowsUnAttempted.getRotation() + 180)
+            } else {
+                arrowsUnAttempted.rotation = arrowsUnAttempted.rotation + 180
                 unattemptedTestRecyclerView.visibility = View.GONE
                 unAttemptedIsVisible = false
             }
         }
 
         arrowsAttempted.setOnClickListener {
-            if (attemptedIsVisible == false) {
-                arrowsAttempted.setRotation(arrowsAttempted.getRotation() + 180)
+            if (!attemptedIsVisible) {
+                arrowsAttempted.rotation = arrowsAttempted.rotation + 180
                 attemptedTestRecyclerView.visibility = View.VISIBLE
                 attemptedIsVisible = true
-            }else{
-                arrowsAttempted.setRotation(arrowsAttempted.getRotation() + 180)
+            } else {
+                arrowsAttempted.rotation = arrowsAttempted.rotation + 180
                 attemptedTestRecyclerView.visibility = View.GONE
                 attemptedIsVisible = false
             }
         }
     }
 
-    private fun requestSessions() {
+    private fun requestTest() {
 
         val params = HashMap<String, String>()
-        params["batchId"] =  loginData.userDetail?.batchIds?.get(0).toString()
+        params["batchId"] = loginData.userDetail?.batchIds?.get(0).toString()
         params["studentId"] = loginData.userDetail?.usersId.toString()
 
         networkHelper.call(
@@ -166,11 +132,25 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
             this
         )
 
+        networkHelper.getCall(
+            URLHelper.scheduleTestsForStudent + "?batchId=${
+                loginData.userDetail?.batchIds?.get(0)
+            }&studentId=${loginData.userDetail?.usersId}",
+            "scheduledTest",
+            ApiUtils.getHeader(requireContext()),
+            this
+        )
+
     }
 
-
-    override fun onTestClicked(isClicked: Boolean) {
+    override fun onTestClicked(isClicked: Boolean, mockTest: MOCKTEST) {
         val intent = Intent(requireContext(), TakeTestActivity::class.java)
+        intent.putExtra("duration", Utils.getDuration(mockTest.testPaperVo.duration))
+        intent.putExtra("questionCount", mockTest.testPaperVo.questionCount.toString())
+        intent.putExtra("noAttempted", mockTest.testPaperVo.attempts.toString())
+        intent.putExtra("date", Utils.getDateValue(mockTest.publishDateTime))
+        intent.putExtra("testPaperId", mockTest.testPaperId)
+        intent.putExtra("testPaperName", mockTest.testPaperVo.name)
         startActivity(intent)
     }
 
@@ -180,15 +160,6 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LearnFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             TestTabFragment().apply {
@@ -201,25 +172,51 @@ class TestTabFragment : Fragment() , TestClickListener, OnNetworkResponse{
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         Log.e("poppers", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
-         if (tag.equals("getUnAttempted")){
+        if (tag == "getUnAttempted") {
             val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
             unAttemptedSetup(unAttempted)
-        } else{
-             val attempted = Gson().fromJson(response, UnAttempted::class.java)
-             attemptedSetup(attempted)
-         }
+        } else {
+            val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
+            attemptedSetup(attempted)
+        }
+        if (view != null) {
+            if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+                val scheduledTestResponse =
+                    Gson().fromJson(response, ScheduledTestClass::class.java)
+                if (scheduledTestResponse.mOCKTEST.isNotEmpty()) {
+                    val scheduledTestAdapter = ScheduledTestAdapter(
+                        requireView().context,
+                        scheduledTestResponse.mOCKTEST,
+                        this
+                    )
+                    scheduleTestRecyclerView.adapter = scheduledTestAdapter
+                } else {
+                    recycler.visibility = View.GONE
+                    noData.visibility = View.VISIBLE
+                }
+            } else {
+//                Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
-    private fun unAttemptedSetup(unAttempted: UnAttempted){
-        val unattemptedAdapter = UnAttemptedTestAdapter(requireContext(),
-            unAttempted.mockTest!!,this)
-        unattemptedTestRecyclerView.adapter = unattemptedAdapter
+    private fun unAttemptedSetup(unAttempted: UnAttempted) {
+        if (view != null) {
+            val unattemptedAdapter = UnAttemptedTestAdapter(
+                requireContext(),
+                unAttempted.mockTest!!, this
+            )
+            unattemptedTestRecyclerView.adapter = unattemptedAdapter
+        }
     }
 
-    private fun attemptedSetup(attempted: UnAttempted){
-        val attemptedAdapter = AttemptedTestAdapter(requireContext(),
-            attempted.mockTest!!,this)
-        attemptedTestRecyclerView.adapter = attemptedAdapter
+    private fun attemptedSetup(attempted: AttemptedResponse) {
+        if (view != null) {
+            val attemptedAdapter = AttemptedTestAdapter(
+                requireContext(),
+                attempted.mOCKTEST, this
+            )
+            attemptedTestRecyclerView.adapter = attemptedAdapter
+        }
     }
-
 }

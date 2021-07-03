@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.model.AnswerChooseItem
 import kotlinx.android.synthetic.main.row_answer_choose_list.view.*
 
@@ -14,6 +16,8 @@ import kotlinx.android.synthetic.main.row_answer_choose_list.view.*
 class AnswerChooseAdapter(
     val context: Context,
     private val answerChooseItem: ArrayList<AnswerChooseItem>,
+    private val answerClickListener: AnswerClickListener,
+    private val questionPosition: Int,
     private val isReview: Boolean
 ) : RecyclerView.Adapter<AnswerChooseAdapter.ViewHolder>() {
 
@@ -30,20 +34,26 @@ class AnswerChooseAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val answerItem = answerChooseItem[position]
-
-        if (answerItem.isSelected)
-            previousPosition = holder.adapterPosition
-        holder.itemView.answer.text = answerItem.answer
+        if (answerItem.isSelected) previousPosition = position
+        holder.itemView.answer.text =
+            HtmlCompat.fromHtml(answerItem.answer.toString(), HtmlCompat.FROM_HTML_MODE_COMPACT)
 
         if (!isReview) {
             holder.itemView.setOnClickListener {
+
                 if (!answerItem.isSelected) {
                     if (previousPosition > -1) {
                         answerChooseItem[previousPosition].isSelected = false
                         notifyItemChanged(previousPosition)
                     }
                     answerItem.isSelected = true
-                    notifyItemChanged(holder.adapterPosition)
+                    notifyItemChanged(position)
+                    val answer: Char = (position + 97).toChar()
+                    answerClickListener.onAnswerClicked(true, answer, questionPosition)
+                } else {
+                    answerItem.isSelected = false
+                    notifyItemChanged(position)
+                    answerClickListener.onAnswerClicked(false, '-', questionPosition)
                 }
             }
         }

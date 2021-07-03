@@ -263,7 +263,7 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lineCharttest"
                 android:layout_width="@dimen/_250sdp"
-                android:layout_height="@dimen/_160sdp"
+                android:layout_height="@dimen/_175sdp"
                 android:layout_margin="@dimen/_5sdp" />
 
         </androidx.cardview.widget.CardView>
