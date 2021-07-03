@@ -44,7 +44,12 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
         }
         yesButton.setOnClickListener {
             logoutRequest()
+            clearUserData()
         }
+    }
+
+    fun clearUserData(){
+        myPreferences.clearAllData()
     }
 
     private fun logoutRequest() {

@@ -42,10 +42,10 @@ class QuestionAdapter(
 
         val answerChooseItem = ArrayList<AnswerChooseItem>()
 
-        answerChooseItem.add(AnswerChooseItem("a). ${item.optionA.replace("\n","")}"))
-        answerChooseItem.add(AnswerChooseItem("b). ${item.optionB.replace("\n","")}"))
-        answerChooseItem.add(AnswerChooseItem("c). ${item.optionC.replace("\n","")}"))
-        answerChooseItem.add(AnswerChooseItem("d). ${item.optionD.replace("\n","")}"))
+        answerChooseItem.add(AnswerChooseItem(item.optionA.replace("\n","")))
+        answerChooseItem.add(AnswerChooseItem(item.optionB.replace("\n","")))
+        answerChooseItem.add(AnswerChooseItem(item.optionC.replace("\n","")))
+        answerChooseItem.add(AnswerChooseItem(item.optionD.replace("\n","")))
         itemView.answerChoose.adapter = AnswerChooseAdapter(mContext, answerChooseItem,answerClickListener,position, isReview)
         container.addView(itemView)
         return itemView

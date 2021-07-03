@@ -321,7 +321,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     private fun assignQuestion() {
         questionAdapter = QuestionAdapter(this, testPaperResponse.quesionList, this, false)
         viewPager.adapter = questionAdapter
-        viewPager.offscreenPageLimit = testPaperResponse.quesionList.size
+        viewPager.offscreenPageLimit = 2
     }
 
     override fun onAnswerClicked(isClicked: Boolean, option: Char, position: Int) {

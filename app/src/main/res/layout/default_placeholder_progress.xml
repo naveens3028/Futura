@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/_10sdp"
+            android:textColor="@color/text_color"
             android:text="@string/sfl_default_placeholder_offline"
             android:textAppearance="@style/sfl_TextAppearanceStateDefault" />
     </LinearLayout>
@@ -74,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:importantForAccessibility="no"
                 android:text="@string/app_name"
-                android:textColor="@color/divider_color"
+                android:textColor="@color/text_color"
                 android:textSize="28sp" />
 
         </LinearLayout>

@@ -55,4 +55,16 @@
         <item name="android:background">@drawable/logout_bottom_sheet</item>
     </style>
 
+    <style name="DialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <!-- No backgrounds, titles or window float -->
+        <item name="android:windowBackground">@color/divider_color</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@color/divider_color</item>
+        <item name="android:navigationBarColor">@color/divider_color</item>
+    </style>
+
 </resources>

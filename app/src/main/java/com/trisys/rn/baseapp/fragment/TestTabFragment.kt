@@ -172,10 +172,10 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         Log.e("poppers", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
-        if (tag == "getUnAttempted") {
+        if (tag == "getUnAttempted" && responseCode == networkHelper.responseSuccess) {
             val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
             unAttemptedSetup(unAttempted)
-        } else {
+        } else if (responseCode == networkHelper.responseSuccess) {
             val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
             attemptedSetup(attempted)
         }
