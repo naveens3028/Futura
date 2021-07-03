@@ -61,6 +61,7 @@
     <string name="start_practice_test">Start Practice Test</string>
     <string name="save_for_later">Save for Later</string>
     <string name="jump_to_question">Jump to Question</string>
+    <string name="all_results">All Results</string>
 
     <string name="overall_performance">Overall Performance</string>
     <string name="rank_out_of">Out of 0 Students</string>

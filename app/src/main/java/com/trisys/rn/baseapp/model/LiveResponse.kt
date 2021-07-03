@@ -1,6 +1,8 @@
 package com.trisys.rn.baseapp.model
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+
 
 data class LiveResponse(
     @SerializedName("data") val `data`: List<Data>,
@@ -340,3 +342,15 @@ data class User(
     @SerializedName("updatedBy") val updatedBy: Any,
     @SerializedName("userName") val userName: String
 )
+
+class TestResultsData {
+    @SerializedName("testName") var testName: String? = null
+    @SerializedName("testType") var testType: String? = null
+    @SerializedName("score") var score: Int? = null
+    @SerializedName("highestScore") var highestScore: Int? = null
+    @SerializedName("rankInTest") var rankInTest: Int? = null
+    @SerializedName("attempt") var attempt: String? = null
+    @SerializedName("testSubmissionCreatedDate") var testSubmissionCreatedDate: Long? = null
+    @SerializedName("testSubmissionUpdatedDate") var testSubmissionUpdatedDate: Long? = null
+    @SerializedName("testPaperId") var testPaperId: String? = null
+}
