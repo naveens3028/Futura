@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
@@ -127,16 +126,18 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if(activity != null) {
+        if (activity != null) {
             if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
                 val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
                 val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
                 recycler.adapter = completedLiveAdapter
             } else {
-            if(view != null){
-                val completedLiveAdapter = CompletedLiveAdapter(requireView().context, completedLiveList)
-                recycler.adapter = completedLiveAdapter
+                if (view != null) {
+                    val completedLiveAdapter =
+                        CompletedLiveAdapter(requireView().context, completedLiveList)
+                    recycler.adapter = completedLiveAdapter
 //                Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

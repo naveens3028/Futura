@@ -38,14 +38,14 @@ class QuestionAdapter(
 
         itemView.questionNumber.text = "Question: " + (position + 1)
         itemView.question.text =
-            HtmlCompat.fromHtml(item.questionContent.replace("\n",""), HtmlCompat.FROM_HTML_MODE_COMPACT)
+            HtmlCompat.fromHtml(item.questionContent.replace("\\n",""), HtmlCompat.FROM_HTML_MODE_COMPACT)
 
         val answerChooseItem = ArrayList<AnswerChooseItem>()
 
-        answerChooseItem.add(AnswerChooseItem("a). ${item.optionA.replace("\n","")}"))
-        answerChooseItem.add(AnswerChooseItem("b). ${item.optionB.replace("\n","")}"))
-        answerChooseItem.add(AnswerChooseItem("c). ${item.optionC.replace("\n","")}"))
-        answerChooseItem.add(AnswerChooseItem("d). ${item.optionD.replace("\n","")}"))
+        answerChooseItem.add(AnswerChooseItem(item.optionA))
+        answerChooseItem.add(AnswerChooseItem(item.optionB))
+        answerChooseItem.add(AnswerChooseItem(item.optionC))
+        answerChooseItem.add(AnswerChooseItem(item.optionD))
         itemView.answerChoose.adapter = AnswerChooseAdapter(mContext, answerChooseItem,answerClickListener,position, isReview)
         container.addView(itemView)
         return itemView

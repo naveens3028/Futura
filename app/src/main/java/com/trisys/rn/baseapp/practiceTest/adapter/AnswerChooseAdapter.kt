@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.model.AnswerChooseItem
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_answer_choose_list.view.*
 
 
@@ -37,7 +38,8 @@ class AnswerChooseAdapter(
         if (answerItem.isSelected) previousPosition = position
         holder.itemView.answer.text =
             HtmlCompat.fromHtml(answerItem.answer.toString(), HtmlCompat.FROM_HTML_MODE_COMPACT)
-
+        Utils.testLog(answerItem.answer.toString())
+        Utils.testLog(HtmlCompat.fromHtml(answerItem.answer.toString(), HtmlCompat.FROM_HTML_MODE_COMPACT).toString())
         if (!isReview) {
             holder.itemView.setOnClickListener {
 

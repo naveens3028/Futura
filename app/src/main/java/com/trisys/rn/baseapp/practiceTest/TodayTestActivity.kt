@@ -29,9 +29,7 @@ import com.trisys.rn.baseapp.network.URLHelper.testPaperForStudent
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import com.trisys.rn.baseapp.utils.MyPreferences
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_today_test.*
-import kotlinx.android.synthetic.main.activity_today_test.viewPager
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONArray
@@ -164,13 +162,13 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     }
 
     private fun saveNext(position: Int) {
-        if (position >= 0 && !testPaperResponse.quesionList[position].optionSelected.isNullOrEmpty()) {
-            val noCompleted= testPaperResponse.quesionList.filter { it.isAnswered }.size
+        if (position >= 0 && testPaperResponse.quesionList[position].optionSelected.isNotEmpty()) {
+            val noCompleted = testPaperResponse.quesionList.filter { it.isAnswered }.size
             completedValue.text =
                 "$noCompleted Out of ${testStudentResponse.data.testPaper.questionCount}"
-            if (testPaperResponse.quesionList[position].optionSelected== "-"){
+            if (testPaperResponse.quesionList[position].optionSelected == "-") {
                 questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
-            }else{
+            } else {
                 questionNumberItem[position].questionType = QuestionType.ATTEMPT
             }
             questionNumberAdapter.setItems(questionNumberItem)
@@ -299,11 +297,13 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             }
             pause.isEnabled = testStudentResponse.data.testPaper.isPauseAllow
             formQuestionItem(testStudentResponse.data.testPaper.questionCount)
-        } else if ( tag == "submitTestPaper") {
+        } else if (tag == "submitTestPaper") {
             statefulLayout.showContent()
-            if (responseCode == networkHelper.responseSuccess){
+            if (responseCode == networkHelper.responseSuccess) {
                 finish()
             }
+
+        } else if (tag == "save") {
 
         } else {
             Toast.makeText(this, "Unable to start the Test", Toast.LENGTH_LONG).show()
