@@ -19,6 +19,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.HomeStudyAdapter
+import com.trisys.rn.baseapp.fragment.Test.ScheduledTestFragment
 import com.trisys.rn.baseapp.model.StudyItem
 import kotlinx.android.synthetic.main.fragment_home.*
 

@@ -1,4 +1,4 @@
-package com.trisys.rn.baseapp.fragment
+package com.trisys.rn.baseapp.fragment.Test
 
 import android.content.Intent
 import android.os.Bundle

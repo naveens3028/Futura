@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/_12sdp"
-    tools:context=".fragment.TestFragment">
+    android:padding="@dimen/_12sdp">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -25,6 +24,19 @@
         android:text="@string/overall_performance"
         android:textColor="@color/black"
         android:textSize="@dimen/_14sdp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/allResults"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/take_test_background"
+            android:layout_margin="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/all_results"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalscr"
