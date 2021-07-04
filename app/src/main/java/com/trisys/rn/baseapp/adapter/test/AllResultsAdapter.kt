@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
+import com.trisys.rn.baseapp.model.TestResultsData
 import kotlinx.android.synthetic.main.all_results_item.view.*
 
 class AllResultsAdapter(
     val context: Context,
-    private val scheduledTestItems: List<AttemptedTest>,
+    private val scheduledTestItems: ArrayList<TestResultsData>,
 ) : RecyclerView.Adapter<AllResultsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -24,11 +24,11 @@ class AllResultsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val scheduledTest = scheduledTestItems[position]
-        holder.itemView.testNameTxt.text = scheduledTest.name
-        holder.itemView.scoreAnstxt.text = scheduledTest.name
-        holder.itemView.highscoreAnstxt.text = scheduledTest.name
-        holder.itemView.rankAnstxt.text = scheduledTest.name
-        holder.itemView.attemptTxtAns.text = scheduledTest.name
+        holder.itemView.testNameTxt.text = scheduledTest.testName
+        holder.itemView.scoreAnstxt.text = scheduledTest.score.toString()
+        holder.itemView.highscoretxt.text = "Highscore :  " + scheduledTest.highestScore.toString()
+        holder.itemView.rankAnstxt.text = scheduledTest.rankInTest.toString()
+        holder.itemView.attemptTxt.text = "Attempt :  " + scheduledTest.attempt
     }
 
     override fun getItemCount(): Int {

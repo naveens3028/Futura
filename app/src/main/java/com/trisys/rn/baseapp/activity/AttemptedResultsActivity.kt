@@ -2,29 +2,26 @@ package com.trisys.rn.baseapp.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.adapter.SubjectListAdapter
 import com.trisys.rn.baseapp.adapter.test.AllResultsAdapter
-import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.TestResultsData
-import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import kotlinx.android.synthetic.main.activity_chapter.*
+import kotlinx.android.synthetic.main.activity_all_results.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
-class AttemptedResultsActivity: AppCompatActivity(), OnNetworkResponse {
+class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
 
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
@@ -32,7 +29,7 @@ class AttemptedResultsActivity: AppCompatActivity(), OnNetworkResponse {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.practice_layout)
+        setContentView(R.layout.activity_all_results)
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
@@ -83,14 +80,15 @@ class AttemptedResultsActivity: AppCompatActivity(), OnNetworkResponse {
     }
 
 
-    private fun recyclerCall(){
-       /* val adapter = SubjectListAdapter(this, chapterList)
+    private fun recyclerCall(resultList: ArrayList<TestResultsData>) {
+        val adapter = AllResultsAdapter(this, resultList)
         //now adding the adapter to recyclerview
-        recyclerviewsubjectslist.adapter = adapter*/
+        allResultsRecycler.adapter = adapter
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        val testResponse  = Gson().fromJson(response, TestResultsData::class.java)
-        Log.e("poppers",testResponse.toString())
+        val arrayTutorialType = object : TypeToken<ArrayList<TestResultsData>>() {}.type
+        val newList: ArrayList<TestResultsData> = Gson().fromJson(response, arrayTutorialType)
+        recyclerCall(newList)
     }
 }

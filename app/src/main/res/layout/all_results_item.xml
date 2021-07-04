@@ -25,8 +25,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Hello"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
 
      <androidx.appcompat.widget.LinearLayoutCompat
@@ -41,18 +41,19 @@
              android:id="@+id/scoretxt"
              android:layout_width="0dp"
              android:layout_height="wrap_content"
+             android:fontFamily="@font/roboto_regular"
              android:layout_weight="1"
              android:text="Score :"
              android:textSize="@dimen/_12sdp"
-             android:textStyle="bold" />
+              />
 
          <androidx.appcompat.widget.AppCompatTextView
              android:id="@+id/scoreAnstxt"
              android:layout_width="0dp"
              android:layout_height="wrap_content"
+             android:fontFamily="@font/roboto_regular"
              android:layout_weight="1"
              android:text="10"
-             android:fontFamily="@font/roboto_regular"
              android:textSize="@dimen/_12sdp"
              />
 
@@ -60,26 +61,19 @@
              android:id="@+id/highscoretxt"
              android:layout_width="0dp"
              android:layout_height="wrap_content"
-             android:layout_weight="2"
+             android:fontFamily="@font/roboto_regular"
+             android:layout_weight="4"
              android:text="Highscore :"
              android:textSize="@dimen/_12sdp"
-             android:textStyle="bold" />
+             />
 
-         <androidx.appcompat.widget.AppCompatTextView
-             android:id="@+id/highscoreAnstxt"
-             android:layout_width="0dp"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
-             android:text="10"
-             android:fontFamily="@font/roboto_regular"
-             android:textSize="@dimen/_12sdp"
-              />
 
      </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:orientation="horizontal"
@@ -89,10 +83,11 @@
                 android:id="@+id/rankTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 android:layout_weight="1"
                 android:text="Rank :"
                 android:textSize="@dimen/_12sdp"
-                android:textStyle="bold" />
+                />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/rankAnstxt"
@@ -107,20 +102,12 @@
                 android:id="@+id/attemptTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_weight="4"
                 android:text="Attempt :"
                 android:textSize="@dimen/_12sdp"
-                android:textStyle="bold" />
+                 />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/attemptTxtAns"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="10"
-                android:fontFamily="@font/roboto_regular"
-                android:textSize="@dimen/_12sdp"
-                />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
