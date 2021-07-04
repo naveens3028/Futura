@@ -1,4 +1,4 @@
-package com.trisys.rn.baseapp.fragment
+package com.trisys.rn.baseapp.fragment.Test
 
 import android.content.Intent
 import android.os.Bundle
@@ -195,7 +195,6 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                     noData.visibility = View.VISIBLE
                 }
             } else {
-//                Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
             }
         }
     }

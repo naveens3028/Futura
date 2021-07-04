@@ -1,5 +1,6 @@
-package com.trisys.rn.baseapp.fragment
+package com.trisys.rn.baseapp.fragment.Test
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.AttemptedResultsActivity
+import com.trisys.rn.baseapp.activity.ChapterActivity
 import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
@@ -75,6 +78,11 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
         initChart()
         requestSessions()
+
+        allResults.setOnClickListener {
+            val intent = Intent(requireContext(), AttemptedResultsActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
