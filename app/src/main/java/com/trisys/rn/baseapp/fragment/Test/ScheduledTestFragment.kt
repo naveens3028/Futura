@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
@@ -21,7 +20,6 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.Utils
 import com.trisys.rn.baseapp.utils.Utils.getDateValue
 import com.trisys.rn.baseapp.utils.Utils.getDuration
 import kotlinx.android.synthetic.main.fragment_scheduled_test.*
@@ -58,7 +56,7 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
         requestTest()
     }
 
-    override fun onTestClicked(isClicked: Boolean,mockTest: MOCKTEST) {
+    override fun onTestClicked(isClicked: Boolean, mockTest: MOCKTEST) {
         val intent = Intent(requireContext(), TakeTestActivity::class.java)
         intent.putExtra("duration", getDuration(mockTest.testPaperVo.duration))
         intent.putExtra("questionCount", mockTest.testPaperVo.questionCount.toString())
@@ -92,6 +90,12 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
             }&studentId=${loginData.userDetail?.usersId}",
             "scheduledTest",
             ApiUtils.getHeader(requireContext()),
+            this
+        )
+
+        networkHelper.getCall(
+            "http://65.2.90.171/app/api/v1/course/child/6c033bf2-cc2f-48b0-80b6-d60523cae6a1",
+            "course", ApiUtils.getHeader(requireContext()),
             this
         )
     }

@@ -11,14 +11,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.model.Subjects
+import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.ChapterActivity
-import com.trisys.rn.baseapp.activity.TakeTestActivity
 import com.trisys.rn.baseapp.adapter.CourseAdapter
 import com.trisys.rn.baseapp.adapter.SubjectClickListener
-import com.trisys.rn.baseapp.adapter.SubjectListAdapter
 import com.trisys.rn.baseapp.adapter.SubjectsAdapter
+import com.trisys.rn.baseapp.model.Subjects
+import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.MyPreferences
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,6 +41,8 @@ class LearnFragment : Fragment(), SubjectClickListener {
     private lateinit var courseRecycler: RecyclerView
     private var subjectList = ArrayList<Subjects>()
     private var courseList = ArrayList<String>()
+    private var loginData = LoginData()
+    lateinit var myPreferences: MyPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,7 @@ class LearnFragment : Fragment(), SubjectClickListener {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        myPreferences = MyPreferences(requireContext())
     }
 
     override fun onCreateView(
@@ -59,7 +64,8 @@ class LearnFragment : Fragment(), SubjectClickListener {
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        loginData =
+            Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
         subjectRecycler = view.findViewById(R.id.recyclerview) as RecyclerView
         courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
 
@@ -96,7 +102,8 @@ class LearnFragment : Fragment(), SubjectClickListener {
                 LinearLayoutManager.HORIZONTAL
             )
         )
-        val adapter = CourseAdapter(requireContext(), courseList)
+
+        val adapter = CourseAdapter(requireContext(), loginData.userDetail?.batchList!!)
 
         //now adding the adapter to recyclerview
         courseRecycler.adapter = adapter

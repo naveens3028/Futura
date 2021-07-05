@@ -19,7 +19,7 @@ object ApiUtils {
         val headers = HashMap<String, String>()
         headers["access_token"] = myPreferences.getString(Define.ACCESS_TOKEN).toString()
         headers["Content-Type"] = "application/json; charset=UTF-8"
-        headers["Content-Length"] = "186"
+        headers["Content-Length"] = "268"
         headers["Host"] = "api.upmyranks.com"
         Utils.log(
             "NetworkHelper",

@@ -54,7 +54,7 @@ data class UserDetails(
     @SerializedName("branchIds")var branchIds:ArrayList<String>? = null,
     @SerializedName("batchIds")var batchIds:ArrayList<String>? = null,
     @SerializedName("branchList")var branchList:ArrayList<branchItem>? = null,
-    @SerializedName("batchList")var batchList:ArrayList<batchItem>? = null,
+    @SerializedName("batchList")var batchList:ArrayList<batchItem>,
 )
 
 data class CoachingCentre(
@@ -95,22 +95,46 @@ data class branchItem(
     @SerializedName("webexUsers")var webexUsers:String? = null,
 )
 data class batchItem(
-    @SerializedName("id")var id:String? = null,
-    @SerializedName("batchName")var batchName:String? = null,
-    @SerializedName("branchName")var branchName:String? = null,
-    @SerializedName("coachingCentre")var coachingCentre:CoachingCentre? = null,
-    @SerializedName("coachingCenterId")var coachingCenterId:String? = null,
-    @SerializedName("courseId")var courseId:String? = null,
-    @SerializedName("coachingCentreBranch")var coachingCentreBranch:branchItem? = null,
-    @SerializedName("coachingCenterBranchId")var coachingCenterBranchId:String? = null,
-    @SerializedName("batchStartDate")var batchStartDate:String? = null,
-    @SerializedName("batchEndDate")var batchEndDate:String? = null,
-    @SerializedName("startTiming")var startTiming:String? = null,
-    @SerializedName("endTiming")var endTiming:String? = null,
-    @SerializedName("batchSize")var batchSize:String? = null,
-    @SerializedName("description")var description:String? = null,
-    @SerializedName("status")var status:String? = null,
-    @SerializedName("additionalCourseId")var additionalCourseId:ArrayList<String>? = null,
+    @SerialName("additionalCourse")
+    val additionalCourse: String,
+    @SerialName("additionalCourseId")
+    val additionalCourseId: String,
+    @SerialName("batchEndDate")
+    val batchEndDate: String,
+    @SerialName("batchName")
+    val batchName: String,
+    @SerialName("batchSize")
+    val batchSize: String,
+    @SerialName("batchStartDate")
+    val batchStartDate: String,
+    @SerialName("coachingCenterBranchId")
+    val coachingCenterBranchId: String,
+    @SerialName("coachingCenterId")
+    val coachingCenterId: String,
+    @SerialName("coachingCentre")
+    val coachingCentre: CoachingCentre,
+    @SerialName("course")
+    val course: Course,
+    @SerialName("courseId")
+    val courseId: String,
+    @SerialName("createdAt")
+    val createdAt: Long,
+    @SerialName("createdBy")
+    val createdBy: String,
+    @SerialName("description")
+    val description: String,
+    @SerialName("endTiming")
+    val endTiming: String,
+    @SerialName("id")
+    val id: String,
+    @SerialName("startTiming")
+    val startTiming: String,
+    @SerialName("status")
+    val status: String,
+    @SerialName("updatedAt")
+    val updatedAt: Long,
+    @SerialName("updatedBy")
+    val updatedBy: String
 )
 
 data class Course(

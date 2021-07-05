@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.model.onBoarding.batchItem
 import java.util.*
 
-class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
+class CourseAdapter(val context: Context, val courseList: ArrayList<batchItem>) :
     RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
-
     var Index = 0
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -27,10 +27,10 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 
-        holder.subjectTxt.text = courseList.get(position)
+        holder.subjectTxt.text = courseList[position].course.courseName
 
-        when (holder.subjectTxt.text) {
-            "NEET" -> {
+        when (position) {
+            0 -> {
 
                 holder.subjectTxt.setBackgroundColor(
                     ContextCompat.getColor(
@@ -50,7 +50,7 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
                 }
             }
 
-            "NCERT" -> {
+            1 -> {
                 holder.subjectTxt.setBackgroundColor(
                     ContextCompat.getColor(
                         context,
@@ -69,7 +69,7 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<String>) :
                     holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
                 }
             }
-            "JEE MAINS" -> {
+            2 -> {
                 holder.subjectTxt.setBackgroundColor(
                     ContextCompat.getColor(
                         context,
