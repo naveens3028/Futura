@@ -38,7 +38,6 @@
          android:weightSum="6">
 
          <androidx.appcompat.widget.AppCompatTextView
-             android:id="@+id/scoretxt"
              android:layout_width="0dp"
              android:layout_height="wrap_content"
              android:layout_weight="1"
@@ -57,7 +56,6 @@
              />
 
          <androidx.appcompat.widget.AppCompatTextView
-             android:id="@+id/highscoretxt"
              android:layout_width="0dp"
              android:layout_height="wrap_content"
              android:layout_weight="2"
@@ -86,7 +84,6 @@
             android:weightSum="6">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/rankTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -104,7 +101,6 @@
                 android:textSize="@dimen/_12sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/attemptTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"

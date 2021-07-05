@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.practiceTest.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
@@ -8,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.PagerAdapter
+import com.jstarczewski.pc.mathview.src.TextAlign
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.model.AnswerChooseItem
 import com.trisys.rn.baseapp.model.Quesion
+import kotlinx.android.synthetic.main.row_answer_choose_list.view.*
 import kotlinx.android.synthetic.main.row_question_list.view.*
 
 
@@ -37,15 +40,21 @@ class QuestionAdapter(
         val item = questionItems[position]
 
         itemView.questionNumber.text = "Question: " + (position + 1)
-        itemView.question.text =
-            HtmlCompat.fromHtml(item.questionContent.replace("\\n",""), HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+        val question = item.questionContent.replace("\n", "").replace("<p class=\\\"p4\\\">", "")
+        itemView.question.apply {
+            textZoom = 60
+            textColor = Color.GREEN.toString()
+            textAlign = TextAlign.LEFT
+            text = question
+        }
 
         val answerChooseItem = ArrayList<AnswerChooseItem>()
 
-        answerChooseItem.add(AnswerChooseItem(item.optionA))
-        answerChooseItem.add(AnswerChooseItem(item.optionB))
-        answerChooseItem.add(AnswerChooseItem(item.optionC))
-        answerChooseItem.add(AnswerChooseItem(item.optionD))
+        answerChooseItem.add(AnswerChooseItem(item.optionA.replace("\n","")))
+        answerChooseItem.add(AnswerChooseItem(item.optionB.replace("\n","")))
+        answerChooseItem.add(AnswerChooseItem(item.optionC.replace("\n","")))
+        answerChooseItem.add(AnswerChooseItem(item.optionD.replace("\n","")))
         itemView.answerChoose.adapter = AnswerChooseAdapter(mContext, answerChooseItem,answerClickListener,position, isReview)
         container.addView(itemView)
         return itemView

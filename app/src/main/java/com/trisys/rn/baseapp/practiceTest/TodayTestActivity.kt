@@ -29,6 +29,7 @@ import com.trisys.rn.baseapp.network.URLHelper.testPaperForStudent
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_today_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -47,6 +48,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     lateinit var testName: String
     lateinit var date: String
     var noMarked: Int = 0
+    var currentPosition = 0
     private lateinit var testPaperResponse: TestPaperResponse
     private lateinit var testStudentResponse: TestPaperForStudentResponse
 
@@ -91,13 +93,16 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-
                 questionNumberRecycler.layoutManager?.scrollToPosition(position)
             }
 
             override fun onPageSelected(position: Int) {
-
-                saveNext(position - 1)
+                Utils.testLog("666 $position")
+                if (currentPosition < position)
+                    saveNext(position - 1)
+                else if (currentPosition > position)
+                    saveNext(position + 1)
+                currentPosition = position
 //                val start = System.currentTimeMillis()
 //                val runTime = System.currentTimeMillis() - start
             }
@@ -105,11 +110,9 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         })
         markForReview.setOnClickListener {
             questionNumberItem[viewPager.currentItem].questionType = QuestionType.MARK_FOR_REVIEW
-            questionNumberAdapter.setItems(questionNumberItem)
-            questionNumberAdapter.notifyDataSetChanged()
             noMarked += 1
             markedValue.text = noMarked.toString()
-            viewPager.currentItem = viewPager.currentItem + 1
+            viewPager.currentItem = viewPager.currentItem++
         }
 
         next.setOnClickListener {
@@ -162,13 +165,14 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     }
 
     private fun saveNext(position: Int) {
-        if (position >= 0 && testPaperResponse.quesionList[position].optionSelected.isNotEmpty()) {
+        Utils.testLog("555 $position")
+        if (position >= 0 && !testPaperResponse.quesionList[position].optionSelected.isNullOrEmpty()) {
             val noCompleted = testPaperResponse.quesionList.filter { it.isAnswered }.size
             completedValue.text =
                 "$noCompleted Out of ${testStudentResponse.data.testPaper.questionCount}"
             if (testPaperResponse.quesionList[position].optionSelected == "-") {
                 questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
-            } else {
+            }else if (testPaperResponse.quesionList[position].optionSelected.isEmpty()) {
                 questionNumberItem[position].questionType = QuestionType.ATTEMPT
             }
             questionNumberAdapter.setItems(questionNumberItem)
@@ -202,6 +206,12 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 ApiUtils.getHeader(this),
                 this
             )
+        } else {
+            if (questionNumberItem[position].questionType != QuestionType.MARK_FOR_REVIEW) {
+                questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
+            }
+            questionNumberAdapter.setItems(questionNumberItem)
+            questionNumberAdapter.notifyDataSetChanged()
         }
     }
 
@@ -273,7 +283,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
                 assignQuestion()
             } else {
-                Toast.makeText(this, "Unable to start the Test", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Unable to start the Test.", Toast.LENGTH_LONG).show()
             }
         } else if (responseCode == networkHelper.responseSuccess && tag == "testPaperForStudent") {
             testStudentResponse =
@@ -303,10 +313,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 finish()
             }
 
-        } else if (tag == "save") {
-
-        } else {
-            Toast.makeText(this, "Unable to start the Test", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -321,7 +327,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     private fun assignQuestion() {
         questionAdapter = QuestionAdapter(this, testPaperResponse.quesionList, this, false)
         viewPager.adapter = questionAdapter
-        viewPager.offscreenPageLimit = testPaperResponse.quesionList.size
+        viewPager.offscreenPageLimit = 15
     }
 
     override fun onAnswerClicked(isClicked: Boolean, option: Char, position: Int) {

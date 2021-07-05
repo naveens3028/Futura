@@ -4,8 +4,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
-    <string name="errorCode0">No response from UpMyRanks, please try again.</string>
-    <string name="errorCode503">Something went wrong, please try again. </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="let_s_learn_anywhere_anytime">Let\'s Learn Anywhere, Anytime</string>
     <string name="email_address">User Name</string>

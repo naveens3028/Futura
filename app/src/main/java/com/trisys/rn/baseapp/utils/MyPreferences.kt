@@ -85,5 +85,9 @@ class MyPreferences(internal var context: Context?) {
         editor.apply()
     }
 
+    fun clearAllData(){
+        sharedPreferences.edit().clear().apply()
+    }
+
 
 }

@@ -55,7 +55,7 @@ class VideoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         andExoPlayerView.startPlayer()
-        fileName = downloadFolder.path + "/T1 Introduction"
+        fileName = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
         file = File(fileName)
         if (file.exists()) {
             decryptEncryptedFile()
@@ -76,9 +76,9 @@ class VideoFragment : Fragment() {
         progressVal.visibility = View.VISIBLE
         content.visibility = View.GONE
         AndroidNetworking.download(
-            "https://drive.google.com/u/0/uc?id=1kV20Ymwg_bI_tRO-OaQ7uD5vvu-yLTff&export=download",
+            "https://drive.google.com/u/0/uc?id=1Yg_vdLCVnfzXIoeImz6-nWBM_GWTCUe1&export=download",
             downloadFolder.path,
-            "/T1 Introduction"
+            "/Mobile_Medium_T1 Life span & life cycle"
         )
             .setTag("downloadTest")
             .setPriority(Priority.MEDIUM)
@@ -115,7 +115,7 @@ class VideoFragment : Fragment() {
 
     private fun encryptDownloadedFile() {
         try {
-            val filePath = downloadFolder.path + "/T1 Introduction"
+            val filePath = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
             val fileData = readFile(filePath)
             val secretKey =
                 getSecretKey(sharedPreferences) //create SecretKey & stored it in shared preferences
@@ -182,7 +182,7 @@ class VideoFragment : Fragment() {
     }
 
     private fun decryptEncryptedFile() {
-        val filePath = downloadFolder.path + "/T1 Introduction"
+        val filePath = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
         val fileData = readFile(filePath)
         val secretKey = getSecretKey(sharedPreferences)
         val encodedData = decrypt(secretKey, fileData)
@@ -204,7 +204,7 @@ class VideoFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         andExoPlayerView.releasePlayer()
-//        encryptDownloadedFile()
+        encryptDownloadedFile()
     }
 
 }

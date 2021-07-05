@@ -178,7 +178,7 @@
                         android:layout_alignEnd="@id/crdavgscore"
                         android:fontFamily="@font/roboto_bold"
                         android:padding="@dimen/_5sdp"
-                        android:text="Your Average score"
+                        android:text="Your\nAverage score"
                         android:textAlignment="center"
                         android:textSize="@dimen/_8sdp"
                         android:textStyle="bold" />
@@ -215,7 +215,7 @@
                         android:layout_alignEnd="@id/crdavgclassscore"
                         android:fontFamily="@font/roboto_bold"
                         android:padding="@dimen/_5sdp"
-                        android:text="Class Average score"
+                        android:text="Class\nAverage score"
                         android:textAlignment="center"
                         android:textSize="@dimen/_8sdp"
                         android:textStyle="bold" />
@@ -252,7 +252,7 @@
                         android:layout_alignEnd="@id/crdavgtopperscore"
                         android:fontFamily="@font/roboto_bold"
                         android:padding="@dimen/_5sdp"
-                        android:text="Topper Average score"
+                        android:text="Topper\nAverage score"
                         android:textAlignment="center"
                         android:textSize="@dimen/_8sdp"
                         android:textStyle="bold" />

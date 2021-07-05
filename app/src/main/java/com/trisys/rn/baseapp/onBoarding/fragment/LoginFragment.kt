@@ -23,6 +23,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.MainActivity
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.onBoarding.LoginResponse
 import com.trisys.rn.baseapp.network.ApiUtils.getHeader
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -48,10 +49,13 @@ class LoginFragment : Fragment(), OnNetworkResponse {
 
     //preference class
     lateinit var myPreferences: MyPreferences
+    lateinit var myProgressBar: MyProgressBar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myPreferences = MyPreferences(requireContext())
+        myProgressBar = MyProgressBar(requireActivity())
         mRemoteConfig = Firebase.remoteConfig
         networkHelper = NetworkHelper(requireContext())
         // Configure Google Sign In
@@ -89,15 +93,15 @@ class LoginFragment : Fragment(), OnNetworkResponse {
                 if (task.isSuccessful) {
                     val updated = task.result
                     Log.d("LoginFragment", "Config params updated: $updated")
-                    Toast.makeText(
-                        requireContext(), "Fetch and activate succeeded",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        requireContext(), "Fetch and activate succeeded",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 } else {
-                    Toast.makeText(
-                        requireContext(), "Fetch failed",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        requireContext(), "Fetch failed",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
             }
 
@@ -139,8 +143,9 @@ class LoginFragment : Fragment(), OnNetworkResponse {
                     e.printStackTrace()
                 }
 
-                requireActivity().stateful.showProgress()
-                requireActivity().stateful.setProgressText("Loading..")
+                myProgressBar.show()
+//                requireActivity().stateful.showProgress()
+//                requireActivity().stateful.setProgressText("Loading..")
 
                 networkHelper.postCall(
                     URLHelper.baseURLAuth,
@@ -165,6 +170,8 @@ class LoginFragment : Fragment(), OnNetworkResponse {
     private fun loginResponseData(response: String) {
         val loginResponse = Gson().fromJson(response, LoginResponse::class.java)
         if (loginResponse.data != null) {
+            myProgressBar.dismiss()
+
             Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
             myPreferences.setString(Define.ACCESS_TOKEN, loginResponse.data!!.token)
             myPreferences.setString(Define.LOGIN_DATA, Gson().toJson(loginResponse.data))

@@ -118,7 +118,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
                 Toast.makeText(this, "Unable to start the Test", Toast.LENGTH_LONG).show()
             }
         } else {
-            Toast.makeText(this, "Unable to start the Test", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Unable to start the Test..", Toast.LENGTH_LONG).show()
         }
     }
 

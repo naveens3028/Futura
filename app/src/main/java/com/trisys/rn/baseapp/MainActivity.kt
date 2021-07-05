@@ -13,7 +13,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
-import com.androidnetworking.common.Priority
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.activity.NotificationsActivity
@@ -172,22 +171,27 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 when (item.itemId) {
                     R.id.navigation_home -> {
                         viewPager.currentItem = 0
+                        supportActionBar!!.title = "Hi, ${loginResponse.userDetail?.firstName}"
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_learn -> {
                         viewPager.currentItem = 1
+                        supportActionBar!!.title = "Learn"
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_live -> {
                         viewPager.currentItem = 2
+                        supportActionBar!!.title = "Live"
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_test -> {
                         viewPager.currentItem = 3
+                        supportActionBar!!.title = "Test"
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_doubts -> {
                         viewPager.currentItem = 4
+                        supportActionBar!!.title = "Doubts"
                         return@OnNavigationItemSelectedListener true
                     }
                 }
