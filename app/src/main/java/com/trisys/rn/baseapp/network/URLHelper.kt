@@ -11,7 +11,7 @@ object URLHelper {
 
     //    private var url = baseURL+baseBATH
     private var url = "http://65.2.90.171/app/api/v1/"
-//    private var url = "http://uatreactcode.s3-website.ap-south-1.amazonaws.com/"
+//    private var url = "http://uatreactcode.s3-website.ap-south-1.amazonaws.com/app/api/v1/"
     private var productionUrl = "https://api.upmyranks.com/app/api/v1"
 
 

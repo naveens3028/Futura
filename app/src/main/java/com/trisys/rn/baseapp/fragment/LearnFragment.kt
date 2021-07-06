@@ -21,7 +21,6 @@ import com.trisys.rn.baseapp.adapter.SubjectsAdapter
 import com.trisys.rn.baseapp.fragment.Test.CourseListener
 import com.trisys.rn.baseapp.model.CourseResponse
 import com.trisys.rn.baseapp.model.Datum
-import com.trisys.rn.baseapp.model.Subjects
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -47,8 +46,6 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     private var param2: String? = null
     private lateinit var subjectRecycler: RecyclerView
     private lateinit var courseRecycler: RecyclerView
-    private var subjectList = ArrayList<Subjects>()
-    private var courseList = ArrayList<String>()
     private var loginData = LoginData()
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
@@ -78,15 +75,6 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
         subjectRecycler = view.findViewById(R.id.recyclerview) as RecyclerView
         courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
-
-        subjectList.add(Subjects("Physics", R.drawable.physics))
-        subjectList.add(Subjects("Chemistry", R.drawable.chemistry))
-        subjectList.add(Subjects("Biology", R.drawable.biology))
-        subjectList.add(Subjects("Mathematics", R.drawable.maths))
-
-        courseList.add("NCERT")
-        courseList.add("NEET")
-        courseList.add("JEE MAINS")
 
         courseCall()
         requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
@@ -121,13 +109,12 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
-            "scheduledTest",
+            "getCourse",
             ApiUtils.getHeader(requireContext()),
             this
         )
 
     }
-
 
     companion object {
         /**
@@ -149,8 +136,9 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
             }
     }
 
-    override fun onSubjectClicked(isClicked: Boolean) {
+    override fun onSubjectClicked(batchId: String) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
+        intent.putExtra("id", batchId)
         startActivity(intent)
     }
 
