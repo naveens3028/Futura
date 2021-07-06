@@ -8,7 +8,7 @@ class TopicResponse : ArrayList<TopicResponseItem>()
 @Serializable
 data class TopicResponseItem(
     @SerialName("materialList")
-    val videoMaterialList: List<VideoMaterial>,
+    val materialList: List<VideoMaterial>,
     @SerialName("topic")
     val topic: Topic
 )
@@ -17,22 +17,22 @@ data class TopicResponseItem(
 data class VideoMaterial(
     @SerialName("chatUrl")
     val chatUrl: String,
-    /*@SerialName("coachingCenterBranchId")
-    val coachingCenterBranchId: Any,
+    @SerialName("coachingCenterBranchId")
+    val coachingCenterBranchId: String,
     @SerialName("coachingCenterBranchName")
-    val coachingCenterBranchName: Any,
+    val coachingCenterBranchName: String,
     @SerialName("coachingCenterId")
-    val coachingCenterId: Any,
+    val coachingCenterId: String,
     @SerialName("coachingCenterName")
-    val coachingCenterName: Any,*/
+    val coachingCenterName: String,
     @SerialName("courseId")
     val courseId: String,
     @SerialName("courseName")
     val courseName: String,
     @SerialName("createdAt")
     val createdAt: Long,
-    /*@SerialName("createdBy")
-    val createdBy: Any,*/
+    @SerialName("createdBy")
+    val createdBy: String,
     @SerialName("description")
     val description: String,
     @SerialName("filePath")
@@ -49,34 +49,34 @@ data class VideoMaterial(
     val title: String,
     @SerialName("updatedAt")
     val updatedAt: Long,
-    /*@SerialName("updatedBy")
-    val updatedBy: Any*/
+    @SerialName("updatedBy")
+    val updatedBy: String
 )
 
 @Serializable
 data class Topic(
-    /*@SerialName("coachingCentre")
-    val coachingCentre: Any,
+    @SerialName("coachingCentre")
+    val coachingCentre: String,
     @SerialName("coachingCentreId")
-    val coachingCentreId: Any,*/
+    val coachingCentreId: String,
     @SerialName("courseName")
     val courseName: String,
     @SerialName("createdAt")
     val createdAt: Long,
-    /*@SerialName("createdBy")
-    val createdBy: Any,*/
+    @SerialName("createdBy")
+    val createdBy: String,
     @SerialName("description")
     val description: String,
     @SerialName("id")
     val id: String,
     @SerialName("parentId")
     val parentId: String,
-    /* @SerialName("parentName")
-     val parentName: Any,*/
+    @SerialName("parentName")
+    val parentName: String,
     @SerialName("status")
     val status: String,
     @SerialName("updatedAt")
     val updatedAt: Long,
-    /*@SerialName("updatedBy")
-    val updatedBy: Any*/
+    @SerialName("updatedBy")
+    val updatedBy: String
 )

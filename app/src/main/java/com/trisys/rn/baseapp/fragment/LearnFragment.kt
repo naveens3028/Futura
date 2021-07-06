@@ -111,13 +111,13 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
             )
         )
 
-        val adapter = CourseAdapter(requireContext(),this, loginData.userDetail?.batchList!!)
+        val adapter = CourseAdapter(requireContext(), this, loginData.userDetail?.batchList!!)
 
         //now adding the adapter to recyclerview
         courseRecycler.adapter = adapter
     }
 
-    private fun requestSessions(batchId : String) {
+    private fun requestSessions(batchId: String) {
 
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
@@ -159,9 +159,15 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        Log.e("naveen", "responseCode: " +responseCode.toString() + "response: " + response + "tag" + tag)
-        val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
-       subjectCall(courseResponse.data!!)
-    }
+        Log.e(
+            "naveen",
+            "responseCode: " + responseCode.toString() + "response: " + response + "tag" + tag
+        )
+        if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+            val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
+            subjectCall(courseResponse.data!!)
 
+        }
+
+    }
 }

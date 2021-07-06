@@ -6,15 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.learn.LearnVideoActivity
 import com.trisys.rn.baseapp.model.VideoMaterial
+import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.row_sub_topics_video.view.*
 
 class SubTopicsAdapter(
     val context: Context,
-    private val subTopicItems: List<VideoMaterial>
+    private val subTopicItems:List<VideoMaterial>
 ) : RecyclerView.Adapter<SubTopicsAdapter.ViewHolder>() {
+
+    lateinit var myPreferences: MyPreferences
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -31,6 +36,8 @@ class SubTopicsAdapter(
 
         holder.itemView.videoName.text = subTopicItems[position].title
         holder.itemView.setOnClickListener {
+            myPreferences = MyPreferences(context)
+            myPreferences.setString(Define.VIDEO_DATA, Gson().toJson(subTopicItems[position]))
             val intent = Intent(context, LearnVideoActivity::class.java)
             context.startActivity(intent)
         }

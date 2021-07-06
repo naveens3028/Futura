@@ -43,9 +43,7 @@ class SubTopicsTitleAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            Utils.testLog(subTopicTitle.toString())
-//            topicClickListener.onTopicSelected(subTopicTitle.videoMaterialList)
-            topicClickListener.onTopicSelected(position)
+            topicClickListener.onTopicSelected(subTopicTitle.materialList)
             previousPosition = currentPosition
             currentPosition = position
             if (previousPosition != -1) notifyItemChanged(previousPosition)

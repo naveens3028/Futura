@@ -32,7 +32,8 @@
             android:name=".learn.LearnVideoActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|layoutDirection" />
-        <activity android:name=".learn.LearnActivity" />
+        <activity android:name=".learn.LearnActivity"
+            android:exported="true"/>
         <activity android:name=".activity.TakeTestActivity" />
         <activity android:name=".activity.ChapterActivity" />
         <activity android:name=".activity.TakeResultActivity" />

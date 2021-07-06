@@ -13,6 +13,7 @@ import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.SubTopicsAdapter
 import com.trisys.rn.baseapp.adapter.SubTopicsTitleAdapter
 import com.trisys.rn.baseapp.model.TopicResponse
+import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -31,7 +32,8 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
     lateinit var myPreferences: MyPreferences
     var topicResponse = TopicResponse()
     lateinit var subTopicListAdapter: SubTopicsAdapter
-    var chapterId = "0f92875d-9d38-4857-830d-74f8887f9d44"
+    var chapterId = "e5f5e406-1aa4-406c-8894-4b3f23326d80"
+    var batchId = "d433f757-ee3e-4632-a6f5-68a7d96fce5a"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,11 +57,7 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
 
     private fun requestChapter() {
         networkHelper.getArrayCall(
-            publishedMaterialsByChapter + "?chapterId=$chapterId&batchId=${
-                loginData.userDetail?.batchIds?.get(
-                    0
-                )
-            }",
+            publishedMaterialsByChapter + "?chapterId=$chapterId&batchId=$batchId",
             "publishedMaterialsByChapter",
             ApiUtils.getHeader(this),
             this
@@ -89,19 +87,21 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "publishedMaterialsByChapter") {
-            topicResponse = Gson().fromJson(response, TopicResponse::class.java)
+            val topicResponse = Gson().fromJson(response, TopicResponse::class.java)
             if (topicResponse.isNotEmpty()) {
                 val titleAdapter = SubTopicsTitleAdapter(this, topicResponse, this)
                 titleRecycler.adapter = titleAdapter
-//                Utils.testLog(topicResponse[0].toString())
-//                subTopicListAdapter = SubTopicsAdapter(this, topicResponse.get(0).materialList)
-//                supTopicRecycler.adapter = subTopicListAdapter
+                if (topicResponse[0].materialList.isNotEmpty()) {
+                    subTopicListAdapter =
+                        SubTopicsAdapter(this, topicResponse[0].materialList)
+                    supTopicRecycler.adapter = subTopicListAdapter
+                }
             }
         }
     }
 
-    override fun onTopicSelected(position: Int) {
-        /*subTopicListAdapter = SubTopicsAdapter(this, subTopicItems)
-        supTopicRecycler.adapter = subTopicListAdapter*/
+    override fun onTopicSelected(subTopicItems: List<VideoMaterial>) {
+        subTopicListAdapter = SubTopicsAdapter(this, subTopicItems)
+        supTopicRecycler.adapter = subTopicListAdapter
     }
 }
