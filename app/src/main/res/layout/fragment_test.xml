@@ -40,24 +40,25 @@
 
     <HorizontalScrollView
         android:id="@+id/horizontalscr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/overallperfromance"
         android:scrollIndicators="top">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="3"
         android:orientation="horizontal">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/overallperfromance"
+            android:layout_weight="1"
             android:layout_marginTop="@dimen/_10sdp"
-            android:outlineAmbientShadowColor="@color/divider_color"
             app:cardCornerRadius="@dimen/_20sdp"
-            app:cardElevation="5dp"
+            android:outlineAmbientShadowColor="@color/divider_color"
             android:visibility="visible"
             app:cardUseCompatPadding="true">
 
@@ -258,13 +259,14 @@
                         android:textStyle="bold" />
                 </RelativeLayout>
             </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:layout_weight="1"
             android:layout_below="@+id/overallperfromance"
             android:layout_marginTop="@dimen/_10sdp"
             android:outlineAmbientShadowColor="@color/divider_color"
@@ -278,12 +280,13 @@
                 android:layout_height="@dimen/_175sdp"
                 android:layout_margin="@dimen/_5sdp" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_below="@+id/overallperfromance"
             android:layout_marginTop="@dimen/_10sdp"
             android:outlineAmbientShadowColor="@color/divider_color"
@@ -383,7 +386,7 @@
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
     </LinearLayout>

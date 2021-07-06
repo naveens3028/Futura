@@ -17,6 +17,7 @@ object URLHelper {
     private val baseURLSession = productionUrl + "session/"
     val getSessions = baseURLSession + "getSessions"
     val baseURLAuth = url + "auth/"
+    val courseURL = url + "course/child/"
     private val testPaperAssign = url + "testPaperAssign/"
     private val testPaperVo = url + "testPaperVo/"
     private val studentAnswer = url + "studentAnswer/"

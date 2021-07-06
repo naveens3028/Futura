@@ -12,11 +12,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.model.Subjects
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.model.Datum
 import com.vpnews24.utils.ImageLoader
 
 class SubjectsAdapter(
     val context: Context,
-    val subjects: ArrayList<Subjects>,
+    val subjects: ArrayList<Datum>,
     var subjectClickListener: SubjectClickListener
 ) :
     RecyclerView.Adapter<SubjectsAdapter.ViewHolder>() {
@@ -25,7 +26,6 @@ class SubjectsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subjectTxt = itemView.findViewById(R.id.subjecttxt) as TextView
-        val subjectImg = itemView.findViewById(R.id.subjectimg) as ImageView
         val cardview = itemView.findViewById(R.id.cardsubject) as CardView
     }
 
@@ -36,8 +36,7 @@ class SubjectsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.subjectTxt.text = (subjects.get(position).subjects)
-        imageloader.setImage(context, subjects.get(position).subjectLogo!!, holder.subjectImg)
+        holder.subjectTxt.text = (subjects.get(position).courseName)
 
         when (holder.subjectTxt.text) {
             "Physics" -> {

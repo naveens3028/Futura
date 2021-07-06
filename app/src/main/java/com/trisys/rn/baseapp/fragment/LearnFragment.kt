@@ -3,6 +3,7 @@ package com.trisys.rn.baseapp.fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,15 @@ import com.trisys.rn.baseapp.activity.ChapterActivity
 import com.trisys.rn.baseapp.adapter.CourseAdapter
 import com.trisys.rn.baseapp.adapter.SubjectClickListener
 import com.trisys.rn.baseapp.adapter.SubjectsAdapter
+import com.trisys.rn.baseapp.fragment.Test.CourseListener
+import com.trisys.rn.baseapp.model.CourseResponse
+import com.trisys.rn.baseapp.model.Datum
 import com.trisys.rn.baseapp.model.Subjects
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.ApiUtils
+import com.trisys.rn.baseapp.network.NetworkHelper
+import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 
@@ -33,7 +41,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class LearnFragment : Fragment(), SubjectClickListener {
+class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetworkResponse {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -43,6 +51,7 @@ class LearnFragment : Fragment(), SubjectClickListener {
     private var courseList = ArrayList<String>()
     private var loginData = LoginData()
     lateinit var myPreferences: MyPreferences
+    lateinit var networkHelper: NetworkHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +60,7 @@ class LearnFragment : Fragment(), SubjectClickListener {
             param2 = it.getString(ARG_PARAM2)
         }
         myPreferences = MyPreferences(requireContext())
+        networkHelper = NetworkHelper(requireContext())
     }
 
     override fun onCreateView(
@@ -78,13 +88,11 @@ class LearnFragment : Fragment(), SubjectClickListener {
         courseList.add("NEET")
         courseList.add("JEE MAINS")
 
-
-
-        subjectCall()
         courseCall()
+        requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
     }
 
-    private fun subjectCall() {
+    private fun subjectCall(subjectList: ArrayList<Datum>) {
         //adding a layoutmanager
         val adapter = SubjectsAdapter(requireContext(), subjectList, this)
 
@@ -103,11 +111,23 @@ class LearnFragment : Fragment(), SubjectClickListener {
             )
         )
 
-        val adapter = CourseAdapter(requireContext(), loginData.userDetail?.batchList!!)
+        val adapter = CourseAdapter(requireContext(),this, loginData.userDetail?.batchList!!)
 
         //now adding the adapter to recyclerview
         courseRecycler.adapter = adapter
     }
+
+    private fun requestSessions(batchId : String) {
+
+        networkHelper.getCall(
+            URLHelper.courseURL + batchId,
+            "scheduledTest",
+            ApiUtils.getHeader(requireContext()),
+            this
+        )
+
+    }
+
 
     companion object {
         /**
@@ -132,6 +152,16 @@ class LearnFragment : Fragment(), SubjectClickListener {
     override fun onSubjectClicked(isClicked: Boolean) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onCoureClicked(batchId: String) {
+        requestSessions(batchId)
+    }
+
+    override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+        Log.e("naveen", "responseCode: " +responseCode.toString() + "response: " + response + "tag" + tag)
+        val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
+       subjectCall(courseResponse.data!!)
     }
 
 }
