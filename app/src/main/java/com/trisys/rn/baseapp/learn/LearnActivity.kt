@@ -30,11 +30,6 @@ class LearnActivity : AppCompatActivity() {
         actionBar?.title = "Mathematical Physics"
 
 
-        subTopicList.add(SubTopicItem("Trigonometry"))
-        subTopicList.add(SubTopicItem("Basics of Trigonometry & Trigonometry"))
-        subTopicList.add(SubTopicItem("T3 Star"))
-        subTopicList.add(SubTopicItem("Biology"))
-
         val titleRecyclerView = titleRecycler
         val titleAdapter = SubTopicsTitleAdapter(this, subTopicList)
         titleRecyclerView.adapter = titleAdapter

@@ -1,7 +1,6 @@
 package com.trisys.rn.baseapp.adapter
 
 import android.content.Context
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,10 +34,6 @@ class SubjectsAdapter(
             subjectClickListener.onSubjectClicked(subjects[position].id.toString())
         }
     }
-
-    fun Int.dpToPixels(context: Context): Float = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
-    )
 
     override fun getItemCount(): Int {
         return subjects.size

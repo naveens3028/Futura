@@ -13,7 +13,6 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.SubjectListAdapter
 import com.trisys.rn.baseapp.model.CourseResponse
 import com.trisys.rn.baseapp.model.Datum
-import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse

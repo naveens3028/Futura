@@ -3,7 +3,6 @@ package com.trisys.rn.baseapp.fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ import com.trisys.rn.baseapp.adapter.SubjectsAdapter
 import com.trisys.rn.baseapp.fragment.Test.CourseListener
 import com.trisys.rn.baseapp.model.CourseResponse
 import com.trisys.rn.baseapp.model.Datum
-import com.trisys.rn.baseapp.model.Subjects
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -139,7 +137,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
     override fun onSubjectClicked(batchId: String) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
-        intent.putExtra("id",batchId )
+        intent.putExtra("id", batchId)
         startActivity(intent)
     }
 
@@ -148,10 +146,6 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        Log.e(
-            "naveen",
-            "responseCode: " + responseCode.toString() + "response: " + response + "tag" + tag
-        )
         val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
         subjectCall(courseResponse.data!!)
     }
