@@ -47,8 +47,6 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     private var param2: String? = null
     private lateinit var subjectRecycler: RecyclerView
     private lateinit var courseRecycler: RecyclerView
-    private var subjectList = ArrayList<Subjects>()
-    private var courseList = ArrayList<String>()
     private var loginData = LoginData()
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
@@ -79,15 +77,6 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         subjectRecycler = view.findViewById(R.id.recyclerview) as RecyclerView
         courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
 
-        subjectList.add(Subjects("Physics", R.drawable.physics))
-        subjectList.add(Subjects("Chemistry", R.drawable.chemistry))
-        subjectList.add(Subjects("Biology", R.drawable.biology))
-        subjectList.add(Subjects("Mathematics", R.drawable.maths))
-
-        courseList.add("NCERT")
-        courseList.add("NEET")
-        courseList.add("JEE MAINS")
-
         courseCall()
         requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
     }
@@ -111,23 +100,22 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
             )
         )
 
-        val adapter = CourseAdapter(requireContext(),this, loginData.userDetail?.batchList!!)
+        val adapter = CourseAdapter(requireContext(), this, loginData.userDetail?.batchList!!)
 
         //now adding the adapter to recyclerview
         courseRecycler.adapter = adapter
     }
 
-    private fun requestSessions(batchId : String) {
+    private fun requestSessions(batchId: String) {
 
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
-            "scheduledTest",
+            "getCourse",
             ApiUtils.getHeader(requireContext()),
             this
         )
 
     }
-
 
     companion object {
         /**
@@ -149,8 +137,9 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
             }
     }
 
-    override fun onSubjectClicked(isClicked: Boolean) {
+    override fun onSubjectClicked(batchId: String) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
+        intent.putExtra("id",batchId )
         startActivity(intent)
     }
 
@@ -159,9 +148,12 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        Log.e("naveen", "responseCode: " +responseCode.toString() + "response: " + response + "tag" + tag)
+        Log.e(
+            "naveen",
+            "responseCode: " + responseCode.toString() + "response: " + response + "tag" + tag
+        )
         val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
-       subjectCall(courseResponse.data!!)
+        subjectCall(courseResponse.data!!)
     }
 
 }

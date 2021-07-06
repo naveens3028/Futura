@@ -9,8 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.learn.LearnActivity
+import com.trisys.rn.baseapp.model.Datum
 
-class SubjectListAdapter(val context: Context, val chaptersList: ArrayList<String>) :
+class SubjectListAdapter(val context: Context, val chaptersList: ArrayList<Datum>) :
     RecyclerView.Adapter<SubjectListAdapter.ViewHolder>() {
 
 
@@ -25,7 +26,7 @@ class SubjectListAdapter(val context: Context, val chaptersList: ArrayList<Strin
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.chapternametxt.text = (chaptersList.get(position))
+        holder.chapternametxt.text = (chaptersList.get(position).courseName)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LearnActivity::class.java)
