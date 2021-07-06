@@ -8,10 +8,11 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.fragment.Test.CourseListener
 import com.trisys.rn.baseapp.model.onBoarding.batchItem
 import java.util.*
 
-class CourseAdapter(val context: Context, val courseList: ArrayList<batchItem>) :
+class CourseAdapter(val context: Context, val courseListener: CourseListener, val courseList: ArrayList<batchItem>) :
     RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
     var Index = 0
 
@@ -90,6 +91,7 @@ class CourseAdapter(val context: Context, val courseList: ArrayList<batchItem>) 
             }
         }
         holder.subjectTxt.setOnClickListener {
+            courseListener.onCoureClicked(courseList[position].courseId)
             Index = position
             notifyDataSetChanged()
         }
