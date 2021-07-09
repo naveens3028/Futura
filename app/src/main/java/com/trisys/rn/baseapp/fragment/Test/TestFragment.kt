@@ -235,8 +235,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         Log.e("poppers", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
         if (tag.equals("getAssessments")) {
-            val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
-            assessmentSetup(testResponse)
+           // val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
         }
     }
 
