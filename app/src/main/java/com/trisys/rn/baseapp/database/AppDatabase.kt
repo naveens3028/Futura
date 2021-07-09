@@ -5,14 +5,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.trisys.rn.baseapp.database.model.DataModel
 import com.trisys.rn.baseapp.database.model.NotificationItem
+import com.trisys.rn.baseapp.database.model.User
 
-@Database(entities = arrayOf( NotificationItem::class, DataModel::class), version = 2)
+@Database(entities = arrayOf(NotificationItem::class, User::class), version = 2)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val notificationDao: NotificationDao
-    abstract val averageBatchDao: PersonDao
+    abstract val userDao: UserDao
 
     companion object {
 
