@@ -3,6 +3,7 @@ package com.trisys.rn.baseapp.fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -146,8 +147,15 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
-        subjectCall(courseResponse.data!!)
-    }
+        Log.e(
+            "naveen",
+            "responseCode: " + responseCode.toString() + "response: " + response + "tag" + tag
+        )
+        if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+            val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
+            subjectCall(courseResponse.data!!)
 
+        }
+
+    }
 }

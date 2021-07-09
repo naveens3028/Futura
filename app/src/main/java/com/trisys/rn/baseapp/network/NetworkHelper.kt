@@ -3,6 +3,7 @@ package com.trisys.rn.baseapp.network
 import android.content.Context
 import android.util.Log
 import com.android.volley.*
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.androidnetworking.AndroidNetworking
@@ -12,7 +13,6 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.google.gson.Gson
-import com.trisys.rn.baseapp.network.ApiUtils.getHeader
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
@@ -112,7 +112,7 @@ class NetworkHelper(context: Context) {
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {
                     // do anything with response
-                    Log.e(TAG,"response -$tag  $response")
+                    Log.e(TAG, "response -$tag  $response")
                     if (context != null)
                         onNetworkResponse.onNetworkResponse(
                             responseSuccess,
@@ -162,7 +162,7 @@ class NetworkHelper(context: Context) {
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray) {
                     // do anything with response
-                    Log.e(TAG,"response -$tag  $response")
+                    Log.e(TAG, "response -$tag  $response")
                     if (context != null)
                         onNetworkResponse.onNetworkResponse(
                             responseSuccess,
@@ -210,7 +210,7 @@ class NetworkHelper(context: Context) {
                             response.toString(),
                             tag
                         )
-                    Log.e(TAG,"response -$tag  $response")
+                    Log.e(TAG, "response -$tag  $response")
                 }
 
                 override fun onError(error: ANError) {
@@ -254,7 +254,7 @@ class NetworkHelper(context: Context) {
             .build()
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray) {
-                    Log.e(TAG,"response -$tag  $response")
+                    Log.e(TAG, "response -$tag  $response")
                     if (context != null)
                         onNetworkResponse.onNetworkResponse(
                             responseSuccess,
@@ -406,6 +406,62 @@ class NetworkHelper(context: Context) {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
             )
             queue.add(jsonObjReq).tag = tag
+        } else {
+            onNetworkResponse.onNetworkResponse(responseNoInternet, "No Internet Connection..", tag)
+        }
+    }
+
+    fun getArrayCall(
+        url: String,
+        tag: String,
+        headers: HashMap<String, String>,
+        onNetworkResponse: OnNetworkResponse,
+    ) {
+        val queue = Volley.newRequestQueue(context)
+        if (cd.isConnectingToInternet()) {
+            Utils.log(TAG, "url $url")
+            Utils.log(TAG, "headers $headers")
+
+            val jsonArrayRequest = object : JsonArrayRequest(
+                Method.GET,
+                url,
+                null,
+                Response.Listener { response ->
+                    Utils.log(TAG, "response -$tag $response")
+                    onNetworkResponse.onNetworkResponse(
+                        responseSuccess,
+                        response.toString(),
+                        tag
+                    )
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    Utils.log(TAG, "ErrorListener -$tag $error ${error.networkResponse.statusCode} ${error.networkResponse}")
+                    if (error is TimeoutError || error is NoConnectionError) {
+                        onNetworkResponse.onNetworkResponse(
+                            responseNoInternet,
+                            "No Internet Connection..",
+                            tag
+                        )
+                    } else {
+                        onNetworkResponse.onNetworkResponse(
+                            responseFailed,
+                            "Something went wrong!, Please try again..",
+                            tag
+                        )
+                    }
+                }
+            ) {
+                override fun getHeaders(): Map<String, String> {
+                    return headers
+                }
+            }
+            jsonArrayRequest.retryPolicy = DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            queue.add(jsonArrayRequest).tag = tag
+
         } else {
             onNetworkResponse.onNetworkResponse(responseNoInternet, "No Internet Connection..", tag)
         }

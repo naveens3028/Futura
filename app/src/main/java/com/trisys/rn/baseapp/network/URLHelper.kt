@@ -11,6 +11,7 @@ object URLHelper {
 
     //    private var url = baseURL+baseBATH
     private var url = "http://65.2.90.171/app/api/v1/"
+//    private var url = "http://uatreactcode.s3-website.ap-south-1.amazonaws.com/app/api/v1/"
     private var productionUrl = "https://api.upmyranks.com/app/api/v1"
 
 
@@ -22,6 +23,7 @@ object URLHelper {
     private val testPaperVo = url + "testPaperVo/"
     private val studentAnswer = url + "studentAnswer/"
     private val studentTestPaperAnswer = url + "studentTestPaperAnswer/"
+    private val material = url + "material/"
     val testResultUrl = studentTestPaperAnswer + "myTestResultList"
     val averageBatchTests = testPaperAssign + "averageBatchTests"
     val unattemptedTests = testPaperAssign + "unattemptedTests"
@@ -32,5 +34,6 @@ object URLHelper {
     val testStatus = studentAnswer + "testStatus"
     val submitTestPaper = studentTestPaperAnswer + "submitTestPaper"
     val next = studentAnswer + "next"
+    val publishedMaterialsByChapter = material + "publishedMaterialsByChapter"
     val logout = baseURLAuth + "logout"
 }

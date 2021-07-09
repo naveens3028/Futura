@@ -1,24 +1,25 @@
 package com.trisys.rn.baseapp.learn.fragment
 
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Environment
-import android.text.PrecomputedText
 import android.util.Base64
 import android.util.Log
-import android.view.*
-import android.widget.FrameLayout
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.DownloadListener
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.learn.LearnVideoActivity
+import com.trisys.rn.baseapp.model.VideoMaterial
+import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_video.*
 import java.io.*
 import java.security.SecureRandom
@@ -34,6 +35,8 @@ class VideoFragment : Fragment() {
     private lateinit var downloadFolder: File
     private lateinit var fileName: String
     lateinit var sharedPreferences: SharedPreferences
+    lateinit var myPreferences: MyPreferences
+//    private var videoData = VideoMaterial
     lateinit var file: File
 
 
@@ -48,27 +51,27 @@ class VideoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = requireContext().getSharedPreferences("MySharedPref", 0)
+        myPreferences = MyPreferences(requireContext())
         downloadFolder = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
+
         andExoPlayerView.startPlayer()
-        fileName = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
+        andExoPlayerView.setSource(
+            "https://player.vimeo.com/video/409534666"
+        )
+
+        /*fileName = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
         file = File(fileName)
         if (file.exists()) {
             decryptEncryptedFile()
         } else {
             download()
-        }
-    }
-
-
-    private fun showToolbarAndClearFullScreen() {
-        (activity as LearnVideoActivity).supportActionBar!!.show()
-        (activity as LearnVideoActivity).window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
+        }*/
     }
 
     private fun download() {
@@ -204,7 +207,7 @@ class VideoFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         andExoPlayerView.releasePlayer()
-        encryptDownloadedFile()
+//        encryptDownloadedFile()
     }
 
 }

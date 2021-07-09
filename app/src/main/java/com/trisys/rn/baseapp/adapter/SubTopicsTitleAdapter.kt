@@ -1,21 +1,23 @@
 package com.trisys.rn.baseapp.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.trisys.rn.baseapp.model.SubTopicItem
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.learn.TopicClickListener
+import com.trisys.rn.baseapp.model.TopicResponseItem
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_sub_topics_title.view.*
 
 class SubTopicsTitleAdapter(
     val context: Context,
-    private val subTopicTitleItems: ArrayList<SubTopicItem>
+    private val subTopicTitleItems: ArrayList<TopicResponseItem>,
+    private var topicClickListener: TopicClickListener
 ) : RecyclerView.Adapter<SubTopicsTitleAdapter.ViewHolder>() {
 
-    var previousPosition = -1
+    private var previousPosition = -1
     var currentPosition = 0
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -32,8 +34,7 @@ class SubTopicsTitleAdapter(
 
         val subTopicTitle = subTopicTitleItems[position]
 
-
-        holder.itemView.subject.text = subTopicTitle.subject
+        holder.itemView.subject.text = subTopicTitle.topic.courseName
 
         if (currentPosition == position) {
             holder.itemView.selected.visibility = View.VISIBLE
@@ -42,16 +43,11 @@ class SubTopicsTitleAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            if (currentPosition == holder.adapterPosition) {
-                currentPosition = -1
-                previousPosition = -1
-                notifyItemChanged(holder.adapterPosition)
-            } else {
-                previousPosition = currentPosition
-                currentPosition = holder.adapterPosition
-                if (previousPosition != -1) notifyItemChanged(previousPosition)
-                notifyItemChanged(currentPosition)
-            }
+            topicClickListener.onTopicSelected(subTopicTitle.materialList)
+            previousPosition = currentPosition
+            currentPosition = position
+            if (previousPosition != -1) notifyItemChanged(previousPosition)
+            notifyItemChanged(currentPosition)
         }
     }
 
