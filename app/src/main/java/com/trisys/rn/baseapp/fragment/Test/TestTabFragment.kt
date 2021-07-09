@@ -70,6 +70,8 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         arrowscheduled.rotation = arrowscheduled.rotation + 180
 
 
+
+
         arrowscheduled.setOnClickListener {
             if (checkVisible == false) {
                 arrowscheduled.rotation = arrowscheduled.rotation + 180
@@ -113,6 +115,12 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         params["batchId"] = loginData.userDetail?.batchIds?.get(0).toString()
         params["studentId"] = loginData.userDetail?.usersId.toString()
 
+
+        val params1 = HashMap<String, String>()
+        params1["attempt"] = "attempt"
+        params1["studentId"] = "5085517d-90af-49ae-b95b-68c7ec234363"
+        params1["testPaperId"] = "8571b238-3628-4935-b233-b2d8cba32865"
+
         networkHelper.call(
             networkHelper.GET,
             networkHelper.RESTYPE_OBJECT,
@@ -132,6 +140,17 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             "getAttempted",
             this
         )
+
+        networkHelper.call(
+            networkHelper.POST,
+            networkHelper.RESTYPE_OBJECT,
+            URLHelper.answeredTestPapers,
+            params1,
+            Priority.HIGH,
+            "getAnsweredTestResult",
+            this
+        )
+
 
         networkHelper.getCall(
             URLHelper.scheduleTestsForStudent + "?batchId=${
