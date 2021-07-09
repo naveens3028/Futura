@@ -8,11 +8,11 @@ import androidx.room.RoomDatabase
 import com.trisys.rn.baseapp.database.model.DataModel
 import com.trisys.rn.baseapp.database.model.NotificationItem
 
-@Database(entities = arrayOf( NotificationItem::class, DataModel::class), version = 2)
+@Database(entities = [ NotificationItem::class, DataModel::class ], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val notificationDao: NotificationDao
-    abstract val averageBatchDao: PersonDao
+    abstract val personDao: PersonDao
 
     companion object {
 

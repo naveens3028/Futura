@@ -8,9 +8,11 @@ import com.trisys.rn.baseapp.database.model.DataModel
 
 @Dao
 interface PersonDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun adds(sectionItem: DataModel)
 
-    @Query("SELECT * FROM Person")
-    fun getAlls(): List<DataModel>
+    @Query("SELECT * FROM person")
+    fun getAll(): MutableList<DataModel>
+
 }
