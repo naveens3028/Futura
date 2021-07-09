@@ -3,12 +3,21 @@ package com.trisys.rn.baseapp.database
 import android.content.Context
 import android.os.AsyncTask
 import com.trisys.rn.baseapp.database.model.NotificationItem
+import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
 class DatabaseHelper {
     private var db: AppDatabase? = null
 
     constructor(context: Context){
         db = AppDatabase.getInstance(context)
+    }
+
+    fun saveAvg(notificationItem: AverageBatchTests){
+        db!!.averageBatchDao.addAvg(notificationItem)
+    }
+
+    fun getAllAverageBatchTest(): MutableList<AverageBatchTests>{
+        return db!!.averageBatchDao.getAll()
     }
 
     fun saveNotificationItem(notificationItem: NotificationItem) : Long{
