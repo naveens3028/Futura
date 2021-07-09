@@ -17,3 +17,11 @@ local.properties
 .idea/codeStyles/codeStyleConfig.xml
 .idea/
 *.orig
+app/src/main/java/com/trisys/rn/baseapp/database/PersonDao_BACKUP_1916.kt
+app/src/main/java/com/trisys/rn/baseapp/database/PersonDao_BASE_1916.kt
+app/src/main/java/com/trisys/rn/baseapp/database/PersonDao_LOCAL_1916.kt
+app/src/main/java/com/trisys/rn/baseapp/database/PersonDao_REMOTE_1916.kt
+app/src/main/java/com/trisys/rn/baseapp/database/model/DataModel_BACKUP_1962.kt
+app/src/main/java/com/trisys/rn/baseapp/database/model/DataModel_BASE_1962.kt
+app/src/main/java/com/trisys/rn/baseapp/database/model/DataModel_LOCAL_1962.kt
+app/src/main/java/com/trisys/rn/baseapp/database/model/DataModel_REMOTE_1962.kt
