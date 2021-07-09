@@ -30,9 +30,9 @@ class SubjectListAdapter(val context: Context, val chaptersList: ArrayList<Datum
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LearnActivity::class.java)
+            intent.putExtra("id", chaptersList.get(position).id)
             context.startActivity(intent)
         }
-
     }
 
     override fun getItemCount(): Int {

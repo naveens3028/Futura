@@ -21,11 +21,10 @@ import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.AttemptedResultsActivity
-import com.trisys.rn.baseapp.activity.ChapterActivity
+import com.trisys.rn.baseapp.database.AppDatabase
 import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
-import com.trisys.rn.baseapp.model.onBoarding.UnAttempted
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
@@ -51,6 +50,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
     lateinit var networkHelper: NetworkHelper
     private var studyList = ArrayList<StudyItem>()
     lateinit var myPreferences: MyPreferences
+    lateinit var db: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
