@@ -151,11 +151,9 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
             "naveen",
             "responseCode: " + responseCode.toString() + "response: " + response + "tag" + tag
         )
-        if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+        if (responseCode == networkHelper.responseSuccess && tag == "getCourse") {
             val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
             subjectCall(courseResponse.data!!)
-
         }
-
     }
 }
