@@ -1,5 +1,8 @@
 package com.trisys.rn.baseapp.model.onBoarding
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -148,13 +151,22 @@ data class Course(
     @SerializedName("coachingCentreId") var coachingCentreId: String? = null,
 )
 
+@Entity(tableName = "AverageBatch")
 data class AverageBatchTests(
-    @SerializedName("studentAverage") var studentAverage: Double? = null,
+    @PrimaryKey
+    @ColumnInfo(name ="studentAverage" )
+    @SerializedName("studentAverage") var studentAverage: Double,
+    @ColumnInfo(name ="classAverage" )
     @SerializedName("classAverage") var classAverage: Double? = null,
+    @ColumnInfo(name ="rank" )
     @SerializedName("rank") var rank: Int? = null,
+    @ColumnInfo(name ="total_students" )
     @SerializedName("total_students") var totalStudents: Int? = null,
+    @ColumnInfo(name ="total_test" )
     @SerializedName("total_test") var totalTest: Int? = null,
+    @ColumnInfo(name ="student_test" )
     @SerializedName("student_test") var studentTest: Int? = null,
+    @ColumnInfo(name ="topperAverage" )
     @SerializedName("topperAverage") var topperAverage: Double? = null,
 )
 

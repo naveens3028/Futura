@@ -41,7 +41,6 @@ class SubjectListAdapter(
             intent.putExtra("batchID", batchId)
             context.startActivity(intent)
         }
-
     }
 
     override fun getItemCount(): Int {

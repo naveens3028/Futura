@@ -21,11 +21,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.AttemptedResultsActivity
-import com.trisys.rn.baseapp.activity.ChapterActivity
+import com.trisys.rn.baseapp.database.AppDatabase
+import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.model.StudyItem
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
-import com.trisys.rn.baseapp.model.onBoarding.UnAttempted
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
@@ -49,8 +49,9 @@ class TestFragment : Fragment(), OnNetworkResponse {
     private var param2: String? = null
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
-    private var studyList = ArrayList<StudyItem>()
+    private var averBatchTest = mutableListOf<AverageBatchTests>()
     lateinit var myPreferences: MyPreferences
+    lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,9 +76,16 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-
+        db = DatabaseHelper(requireContext())
         initChart()
-        requestSessions()
+        averBatchTest = db.getAllAverageBatchTest()
+
+        Log.e("avgBatch", averBatchTest.toString())
+        if (averBatchTest.isNullOrEmpty()) {
+            requestSessions()
+        }else{
+            assessmentSetup(averBatchTest)
+        }
 
         allResults.setOnClickListener {
             val intent = Intent(requireContext(), AttemptedResultsActivity::class.java)
@@ -236,15 +244,16 @@ class TestFragment : Fragment(), OnNetworkResponse {
         Log.e("poppers", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
         if (tag.equals("getAssessments")) {
             val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
-            assessmentSetup(testResponse)
+            db.saveAvg(testResponse)
+            assessmentSetup(db.getAllAverageBatchTest())
         }
     }
 
-    private fun assessmentSetup(testResult: AverageBatchTests){
-        stud_rank.text = testResult.rank.toString()
-        yourAvgScoretxt.text = String.format("%.2f", testResult.studentAverage)+"%"
-        classAvgtxt.text = String.format("%.2f", testResult.classAverage)+"%"
-        topperAvgTxt.text = String.format("%.2f", testResult.topperAverage)+"%"
-        outOfStud.text = "Out of ${testResult.rank} Students "
+    private fun assessmentSetup(testResult: MutableList<AverageBatchTests>){
+        stud_rank.text = testResult[0].rank.toString()
+        yourAvgScoretxt.text = String.format("%.2f", testResult[0].studentAverage)+"%"
+        classAvgtxt.text = String.format("%.2f", testResult[0].classAverage)+"%"
+        topperAvgTxt.text = String.format("%.2f", testResult[0].topperAverage)+"%"
+        outOfStud.text = "Out of ${testResult[0].rank} Students "
     }
 }

@@ -23,6 +23,7 @@ object URLHelper {
     private val testPaperVo = url + "testPaperVo/"
     private val studentAnswer = url + "studentAnswer/"
     private val studentTestPaperAnswer = url + "studentTestPaperAnswer/"
+    val answeredTestPapers = studentTestPaperAnswer + "answeredTestPaper"
     private val material = url + "material/"
     val testResultUrl = studentTestPaperAnswer + "myTestResultList"
     val averageBatchTests = testPaperAssign + "averageBatchTests"

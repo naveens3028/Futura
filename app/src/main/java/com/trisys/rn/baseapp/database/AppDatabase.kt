@@ -5,13 +5,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-
+import com.trisys.rn.baseapp.database.model.DataModel
 import com.trisys.rn.baseapp.database.model.NotificationItem
+import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
-@Database(entities = arrayOf( NotificationItem::class), version = 1)
+@Database(entities = [ NotificationItem::class, DataModel::class , AverageBatchTests::class ], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val notificationDao: NotificationDao
+    abstract val personDao: PersonDao
+    abstract val averageBatchDao: AverageBatchDao
 
     companion object {
 
