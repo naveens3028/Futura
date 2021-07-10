@@ -32,8 +32,8 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
     lateinit var myPreferences: MyPreferences
     var topicResponse = TopicResponse()
     lateinit var subTopicListAdapter: SubTopicsAdapter
-    var chapterId = "e5f5e406-1aa4-406c-8894-4b3f23326d80"
-    var batchId = "d433f757-ee3e-4632-a6f5-68a7d96fce5a"
+    var chapterId = ""
+    var batchId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +44,18 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        actionBar?.title = "Mathematical Physics"
+        actionBar?.title = intent.getStringExtra("title")
+
+        chapterId = intent.getStringExtra("id")!!
+
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
-
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
+//        batchId = intent.getStringExtra("batchID")!!
+//        batchId = loginData.userDetail?.batchList?.get(0)?.courseId!!
+        batchId = "d433f757-ee3e-4632-a6f5-68a7d96fce5a"
         requestChapter()
 
     }
@@ -91,7 +96,7 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
             if (topicResponse.isNotEmpty()) {
                 val titleAdapter = SubTopicsTitleAdapter(this, topicResponse, this)
                 titleRecycler.adapter = titleAdapter
-                if (topicResponse[0].materialList.isNotEmpty()) {
+                if (topicResponse[0].materialList  != null && topicResponse[0].materialList.isNotEmpty()) {
                     subTopicListAdapter =
                         SubTopicsAdapter(this, topicResponse[0].materialList)
                     supTopicRecycler.adapter = subTopicListAdapter

@@ -33,6 +33,7 @@ object URLHelper {
     val getStudentTestPaper = testPaperVo + "getStudentTestPaper"
     val testStatus = studentAnswer + "testStatus"
     val submitTestPaper = studentTestPaperAnswer + "submitTestPaper"
+    val answeredTestPaper = studentTestPaperAnswer + "answeredTestPaper"
     val next = studentAnswer + "next"
     val publishedMaterialsByChapter = material + "publishedMaterialsByChapter"
     val logout = baseURLAuth + "logout"

@@ -31,14 +31,18 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/videoCard"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_180sdp"
+                android:layout_height="@dimen/_160sdp"
                 android:layout_margin="@dimen/_15sdp"
                 app:cardCornerRadius="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title">
 
-                <com.potyvideo.library.AndExoPlayerView
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <!--<com.potyvideo.library.AndExoPlayerView
                     android:id="@+id/andExoPlayerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -46,7 +50,18 @@
                     app:andexo_aspect_ratio="aspect_match"
                     app:andexo_show_controller="true"
                     app:andexo_show_full_screen="true"
-                    app:andexo_resize_mode="Fill" />
+                    app:andexo_resize_mode="Fill" />-->
+
+                <WebView
+                    android:id="@+id/webView"
+                    android:layout_width="0dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="0dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -74,6 +89,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"
+                    android:id="@+id/nextVideo"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     android:src="@drawable/video_lectures" />

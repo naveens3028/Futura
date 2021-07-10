@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.row_sub_topics_video.view.*
 
 class SubTopicsAdapter(
     val context: Context,
-    private val subTopicItems:List<VideoMaterial>
+    private val subTopicItems: List<VideoMaterial>
 ) : RecyclerView.Adapter<SubTopicsAdapter.ViewHolder>() {
 
     lateinit var myPreferences: MyPreferences
@@ -37,7 +37,9 @@ class SubTopicsAdapter(
         holder.itemView.videoName.text = subTopicItems[position].title
         holder.itemView.setOnClickListener {
             myPreferences = MyPreferences(context)
+            val materialList: List<VideoMaterial> = subTopicItems
             myPreferences.setString(Define.VIDEO_DATA, Gson().toJson(subTopicItems[position]))
+//            myPreferences.setInt(Define.VIDEO_NEXT, position)
             val intent = Intent(context, LearnVideoActivity::class.java)
             context.startActivity(intent)
         }

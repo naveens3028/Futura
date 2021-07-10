@@ -80,3 +80,6 @@ data class Topic(
     @SerialName("updatedBy")
     val updatedBy: String
 )
+
+@Serializable
+data class MaterialVideoList( val materialList: List<VideoMaterial>)

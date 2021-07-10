@@ -15,11 +15,13 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.DownloadListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.trisys.rn.baseapp.GlideApp
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.model.MaterialVideoList
 import com.trisys.rn.baseapp.model.VideoMaterial
-import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_video.*
 import java.io.*
 import java.security.SecureRandom
@@ -36,7 +38,8 @@ class VideoFragment : Fragment() {
     private lateinit var fileName: String
     lateinit var sharedPreferences: SharedPreferences
     lateinit var myPreferences: MyPreferences
-//    private var videoData = VideoMaterial
+    lateinit var videoNext: VideoMaterial
+
     lateinit var file: File
 
 
@@ -58,12 +61,36 @@ class VideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
-
-        andExoPlayerView.startPlayer()
-        andExoPlayerView.setSource(
+        val videoData =
+            Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
+//        val position = myPreferences.getString(Define.VIDEO_NEXT)?.toInt() ?: -1
+        /*val nextVideoString = myPreferences.getString(Define.VIDEO_NEXT).toString()
+        Utils.testLog(nextVideoString)
+        Utils.testLog(myPreferences.getString(Define.VIDEO_DATA).toString())
+        if (!nextVideoString.isNullOrEmpty()){
+            videoNext =
+                Gson().fromJson(nextVideoString, VideoMaterial::class.java)
+        }*/
+        title.text = videoData.title
+//        andExoPlayerView.startPlayer()
+        /*andExoPlayerView.setSource(
             "https://player.vimeo.com/video/409534666"
-        )
+        )*/
+        val url = "https://player.vimeo.com/video/${videoData.description.filter { it.isDigit() }}"
+        Utils.testLog(url)
+        webView.settings.javaScriptEnabled = true
+        webView.settings.useWideViewPort = true
+
+        webView.loadUrl(url)
+        /*if (nextVideoString.isNullOrEmpty()){
+            nextVideoCard.visibility = View.GONE
+            upNext.visibility = View.GONE
+        }
+        else{
+            nextVideoCard.visibility = View.VISIBLE
+            upNext.visibility = View.VISIBLE
+            GlideApp.with(requireContext()).load(videoNext.filePath).into(nextVideo)
+        }*/
 
         /*fileName = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
         file = File(fileName)
@@ -98,9 +125,9 @@ class VideoFragment : Fragment() {
                         "Download Completed",
                         Snackbar.LENGTH_LONG
                     ).show()
-                    andExoPlayerView.setSource(
+                    /*andExoPlayerView.setSource(
                         fileName
-                    )
+                    )*/
                 }
 
                 override fun onError(error: ANError?) {
@@ -190,9 +217,9 @@ class VideoFragment : Fragment() {
         val secretKey = getSecretKey(sharedPreferences)
         val encodedData = decrypt(secretKey, fileData)
         saveFile(encodedData, filePath)
-        andExoPlayerView.setSource(
+        /*andExoPlayerView.setSource(
             fileName
-        )
+        )*/
     }
 
     @Throws(Exception::class)
@@ -202,12 +229,6 @@ class VideoFragment : Fragment() {
         cipher.init(Cipher.DECRYPT_MODE, yourKey, IvParameterSpec(ByteArray(cipher.blockSize)))
         decrypted = cipher.doFinal(fileData)
         return decrypted
-    }
-
-    override fun onStop() {
-        super.onStop()
-        andExoPlayerView.releasePlayer()
-//        encryptDownloadedFile()
     }
 
 }
