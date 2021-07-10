@@ -19,13 +19,14 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_chapter.*
+import kotlinx.android.synthetic.main.layout_recyclerview.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
 
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
-
+    lateinit var subjectId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chapter)
@@ -33,7 +34,7 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
 
-        val subjectId: String = intent.getStringExtra("id")!!
+        subjectId = intent.getStringExtra("id")!!
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
@@ -46,6 +47,8 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     private fun requestChapter(batchId: String) {
+        stateful.showProgress()
+        stateful.setProgressText("Chapters loading, Please wait..")
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
             "getChapter",
@@ -55,13 +58,18 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     private fun subjectListCall(subjectList: ArrayList<Datum>) {
-        //adding a layoutmanager
-        recyclerviewsubjectslist.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        val adapter = SubjectListAdapter(this, subjectList)
+        if(subjectList.size > 0) {
+            //adding a layoutmanager
+            recyclerView.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+            recyclerView.setPadding(16,0,16,0)
+            val adapter = SubjectListAdapter(this, subjectList)
 
-        //now adding the adapter to recyclerview
-        recyclerviewsubjectslist.adapter = adapter
+            //now adding the adapter to recyclerview
+            recyclerView.adapter = adapter
+        }else{
+            showErrorMsg("No chapters found, Please try again.")
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -86,8 +94,22 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        val chapterResponse = Gson().fromJson(response, CourseResponse::class.java)
-        chapterResponse.data?.let { subjectListCall(it) }
+        stateful.showContent()
+        if(responseCode == networkHelper.responseSuccess && tag.equals("getChapter")) {
+            val chapterResponse = Gson().fromJson(response, CourseResponse::class.java)
+            chapterResponse.data?.let { subjectListCall(it) }
+        }else{
+            showErrorMsg(resources.getString(R.string.sfl_default_error))
+        }
+    }
+
+    fun showErrorMsg(errorMsg : String){
+        stateful.showOffline()
+        stateful.setOfflineText(errorMsg)
+        stateful.setOfflineImageResource(R.drawable.icon_error)
+        stateful.setOfflineRetryOnClickListener {
+            requestChapter(subjectId)
+        }
     }
 
 }
