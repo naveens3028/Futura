@@ -4,4 +4,5 @@
 
     <dimen name="sfl_global_keyline_xs">8dp</dimen>
     <dimen name="sfl_global_keyline_s">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

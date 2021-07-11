@@ -1,5 +1,6 @@
 package com.trisys.rn.baseapp.learn.fragment
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Environment
@@ -9,10 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.android.volley.toolbox.ImageLoader
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.VideoPlayActivity
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
@@ -58,43 +61,54 @@ class VideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        player = SimpleExoPlayer.Builder(requireContext()).build()
-        player.setThrowsWhenUsingWrongThread(false)
-        player_view.setPlayer(player)
+//        player = SimpleExoPlayer.Builder(requireContext()).build()
+//        player.setThrowsWhenUsingWrongThread(false)
+//        player_view.setPlayer(player)
 
         val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
+//
+//        val id = videoData.description.replace("https://vimeo.com/","")
 
-        val id = videoData.description.replace("https://vimeo.com/","")
+        com.vpnews24.utils.ImageLoader.loadFull(requireContext(),videoData.filePath,videoPlaceholder)
 
-        VimeoExtractor.getInstance()
-            .fetchVideoWithIdentifier(id, null, object : OnVimeoExtractionListener {
-                override fun onSuccess(video: VimeoVideo) {
-                    val hdStream = video.streams["720p"]
-                    println("VIMEO VIDEO STREAM$hdStream")
-                    hdStream?.let {
-                        requireActivity().runOnUiThread {
-                            //code that runs in main
-                            preparExoPlayer(it)
-                        }
-                    }
-                }
-
-                override fun onFailure(throwable: Throwable) {
-                    Log.d("failure",throwable.message!!)
-                }
-            })
+//        VimeoExtractor.getInstance()
+//            .fetchVideoWithIdentifier(id, null, object : OnVimeoExtractionListener {
+//                override fun onSuccess(video: VimeoVideo) {
+//                    val hdStream = video.streams["720p"]
+//                    println("VIMEO VIDEO STREAM$hdStream")
+//                    hdStream?.let {
+//                        requireActivity().runOnUiThread {
+//                            //code that runs in main
+//                            preparExoPlayer(it)
+//                        }
+//                    }
+//                }
+//
+//                override fun onFailure(throwable: Throwable) {
+//                    Log.d("failure",throwable.message!!)
+//                }
+//            })
 
     }
 
-    fun preparExoPlayer(url: String){
-        // Build the media item.
-        val mediaItem: MediaItem = MediaItem.fromUri(url)
-        // Set the media item to be played.
-        player.setMediaItem(mediaItem)
-        // Prepare the player.
-        player.prepare()
-        // Start the playback.
-         player.play()
+//    fun preparExoPlayer(url: String){
+//        // Build the media item.
+//        val mediaItem: MediaItem = MediaItem.fromUri(url)
+//        // Set the media item to be played.
+//        player.setMediaItem(mediaItem)
+//        // Prepare the player.
+//        player.prepare()
+//        // Start the playback.
+//        player.play()
+//    }
+
+    override fun onStart() {
+        super.onStart()
+
+        videoPlaceholder.setOnClickListener {
+            val intent = Intent(requireContext(),VideoPlayActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 //    private fun download() {
@@ -229,8 +243,8 @@ class VideoFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        player.stop()
-        player.release()
+//        player.stop()
+//        player.release()
 //        encryptDownloadedFile()
     }
 }

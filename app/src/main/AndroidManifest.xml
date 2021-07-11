@@ -15,7 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UpMyRanks"
         android:usesCleartextTraffic="true">
-        <activity android:name=".profile.ProfileActivity"/>
+        <activity
+            android:name=".activity.VideoPlayActivity"
+            android:label="@string/title_activity_video_play"
+            android:theme="@style/AppFullScreenTheme"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".learn.ImageViewActivity" />
         <activity
             android:name=".practiceTest.TestReviewActivity"
@@ -30,10 +35,11 @@
         <activity android:name=".doubt.AskDoubtActivity" />
         <activity
             android:name=".learn.LearnVideoActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|layoutDirection" />
-        <activity android:name=".learn.LearnActivity"
-            android:exported="true"/>
+            android:configChanges="orientation|screenSize|layoutDirection"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".learn.LearnActivity"
+            android:exported="true" />
         <activity android:name=".activity.TakeTestActivity" />
         <activity android:name=".activity.ChapterActivity" />
         <activity android:name=".activity.TakeResultActivity" />

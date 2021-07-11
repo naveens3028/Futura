@@ -7,8 +7,8 @@
     tools:context=".learn.fragment.VideoFragment">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
         android:id="@+id/content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,23 +38,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title">
 
-<!--                <com.potyvideo.library.AndExoPlayerView-->
-<!--                    android:id="@+id/andExoPlayerView"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    app:resize_mode="fill"-->
-<!--                    app:andexo_aspect_ratio="aspect_match"-->
-<!--                    app:andexo_show_controller="true"-->
-<!--                    app:andexo_show_full_screen="true"-->
-<!--                    app:andexo_resize_mode="Fill" />-->
+                <!--                <com.potyvideo.library.AndExoPlayerView-->
+                <!--                    android:id="@+id/andExoPlayerView"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    app:resize_mode="fill"-->
+                <!--                    app:andexo_aspect_ratio="aspect_match"-->
+                <!--                    app:andexo_show_controller="true"-->
+                <!--                    app:andexo_show_full_screen="true"-->
+                <!--                    app:andexo_resize_mode="Fill" />-->
 
-                <com.google.android.exoplayer2.ui.StyledPlayerView
-                    android:id="@+id/player_view"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:show_shuffle_button="true"
-                    app:show_subtitle_button="true"/>
+                    android:layout_height="match_parent">
 
+                    <com.google.android.exoplayer2.ui.StyledPlayerView
+                        android:id="@+id/player_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:show_shuffle_button="true"
+                        android:visibility="gone"
+                        app:show_subtitle_button="true" />
+                    <ImageView
+                        android:id="@+id/videoPlaceholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -92,8 +101,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_30sdp"
                 android:background="@drawable/rounded_circle_filled"
-                android:drawableTint="@color/carolina_blue"
                 android:drawableEnd="@drawable/ic_doubt"
+                android:drawableTint="@color/carolina_blue"
                 android:padding="@dimen/_12sdp"
                 android:text="@string/ask_your_doubts_here"
                 android:textColor="@color/charcoal"
@@ -108,11 +117,11 @@
         android:id="@+id/download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:visibility="gone"
         android:text="Downloading..."
         android:textAlignment="center"
-        android:layout_gravity="center"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -122,10 +131,10 @@
         android:id="@+id/progressVal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:max="100"
         android:progress="100"
         android:visibility="gone"
-        android:layout_gravity="center"
         app:indicatorSize="@dimen/_120sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
