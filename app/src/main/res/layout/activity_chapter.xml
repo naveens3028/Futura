@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/window_background"
+    android:fitsSystemWindows="true">
 
-    <include
-        android:id="@+id/toolbarLayout"
-        layout="@layout/layout_toolbar"/>
+    <include layout="@layout/layout_toolbar" />
+    <include layout="@layout/layout_recyclerview" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/toolbarLayout"
-        android:id="@+id/recyclerviewsubjectslist"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/_10sdp"
-        android:visibility="visible" />
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

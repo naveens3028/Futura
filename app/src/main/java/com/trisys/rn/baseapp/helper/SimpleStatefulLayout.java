@@ -150,7 +150,7 @@ public class SimpleStatefulLayout extends StatefulLayout {
 
 
 	public void setOfflineImageResource(@DrawableRes int resourceId) {
-		setOfflineImageDrawable(getResources().getDrawable(R.drawable.no_internet));
+		setOfflineImageDrawable(getResources().getDrawable(resourceId));
 	}
 
 

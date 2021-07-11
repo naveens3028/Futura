@@ -168,10 +168,9 @@ class LoginFragment : Fragment(), OnNetworkResponse {
     }
 
     private fun loginResponseData(response: String) {
+        myProgressBar.dismiss()
         val loginResponse = Gson().fromJson(response, LoginResponse::class.java)
         if (loginResponse.data != null) {
-            myProgressBar.dismiss()
-
             Toast.makeText(requireContext(), "login successful", Toast.LENGTH_LONG).show()
             myPreferences.setString(Define.ACCESS_TOKEN, loginResponse.data!!.token)
             myPreferences.setString(Define.LOGIN_DATA, Gson().toJson(loginResponse.data))

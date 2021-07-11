@@ -56,8 +56,8 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        databaseHelper = DatabaseHelper(this)
-        databaseHelper.getAllNotification()
+//        databaseHelper = DatabaseHelper(this)
+//        databaseHelper.getAllNotification()
         loginResponse =
             Gson().fromJson(MyPreferences(this).getString(Define.LOGIN_DATA), LoginData::class.java)
 
