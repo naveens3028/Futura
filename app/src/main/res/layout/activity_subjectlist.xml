@@ -37,7 +37,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/window_background"
                 android:gravity="center_vertical"
                 android:padding="@dimen/_7sdp">
 
@@ -67,7 +67,7 @@
                         android:id="@+id/imgplay"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint="@color/black"
+                        app:tint="@color/text_color"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/ic_plays" />
 
@@ -98,7 +98,7 @@
                         android:id="@+id/imgdoubts"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint="@color/black"
+                        app:tint="@color/text_color"
 
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/ic_question" />
@@ -129,7 +129,7 @@
                         android:id="@+id/imgduration"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint="@color/black"
+                        app:tint="@color/text_color"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/ic_clock" />
 

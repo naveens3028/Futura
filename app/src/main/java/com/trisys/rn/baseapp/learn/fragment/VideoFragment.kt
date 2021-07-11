@@ -17,10 +17,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.VideoMaterial
-import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_video.*
+import vimeoextractor.OnVimeoExtractionListener
+import vimeoextractor.VimeoExtractor
+import vimeoextractor.VimeoVideo
 import java.io.*
 import java.security.SecureRandom
 import javax.crypto.Cipher
@@ -60,10 +62,25 @@ class VideoFragment : Fragment() {
 
         val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
 
-        andExoPlayerView.startPlayer()
-        andExoPlayerView.setSource(
-            "https://player.vimeo.com/video/409534666"
-        )
+        val id = videoData.id
+//        andExoPlayerView.setSource(
+//            "https://player.vimeo.com/video/572113578"
+//        )
+
+        VimeoExtractor.getInstance()
+            .fetchVideoWithIdentifier("292893585", null, object : OnVimeoExtractionListener {
+                override fun onSuccess(video: VimeoVideo) {
+                    val hdStream = video.streams["720p"]
+                    println("VIMEO VIDEO STREAM$hdStream")
+                    hdStream?.let {
+                        //playVideo(it)
+                        andExoPlayerView.setSource(it)
+                        //andExoPlayerView.set()
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {}
+            })
 
         /*fileName = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
         file = File(fileName)

@@ -33,6 +33,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -109,4 +110,7 @@ dependencies {
     implementation 'io.github.kexanie.library:MathView:0.0.6'
 
     implementation 'com.github.jstarczewski:MathView:0.4.0'
+
+    //vimeo video url
+    implementation 'com.github.ed-george:AndroidVimeoExtractor:1.2.1'
 }
