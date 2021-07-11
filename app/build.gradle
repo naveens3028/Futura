@@ -90,7 +90,7 @@ dependencies {
     //PDF viewer
     implementation 'com.github.afreakyelf:Pdf-Viewer:1.0.7'
     //Video player
-    implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:2.0.7'
+//    implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:2.0.7'
     //Image Zoom
     implementation 'com.jsibbold:zoomage:1.3.1'
 
@@ -113,4 +113,6 @@ dependencies {
 
     //vimeo video url
     implementation 'com.github.ed-george:AndroidVimeoExtractor:1.2.1'
+
+    implementation 'com.google.android.exoplayer:exoplayer:2.14.1'
 }
