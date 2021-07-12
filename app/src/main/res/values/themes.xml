@@ -80,4 +80,13 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
+    <style name="Theme.PdfView.SelectedTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="pdfView_backIcon">@drawable/ic_back</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:statusBarColor">@color/divider_color</item>
+        <item name="android:navigationBarColor">@color/divider_color</item>
+    </style>
 </resources>

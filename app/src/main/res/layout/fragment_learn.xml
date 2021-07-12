@@ -1,58 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/_10sdp"
-    tools:context=".fragment.HomeFragment">
+    android:background="@color/window_background">
 
-    <androidx.core.widget.NestedScrollView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/window_background"
+        android:padding="@dimen/_10sdp"
+        app:elevation="0dp">
 
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:focusableInTouchMode="true"
+            android:outlineAmbientShadowColor="@color/charcoal"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardview"
+            <com.trisys.rn.baseapp.helper.NestedScrollableHost
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:focusableInTouchMode="true"
-                android:outlineAmbientShadowColor="@color/charcoal"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp"
-                app:cardUseCompatPadding="true">
+                android:layout_height="wrap_content">
 
-                <com.trisys.rn.baseapp.helper.NestedScrollableHost
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerviewcourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/activity_course" />
+            </com.trisys.rn.baseapp.helper.NestedScrollableHost>
+        </androidx.cardview.widget.CardView>
+    </com.google.android.material.appbar.AppBarLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerviewcourse"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        tools:listitem="@layout/activity_course" />
-                </com.trisys.rn.baseapp.helper.NestedScrollableHost>
-            </androidx.cardview.widget.CardView>
+    <include layout="@layout/layout_recyclerview" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cardview"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:padding="@dimen/_10sdp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
-                tools:listitem="@layout/activity_subjects" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        </RelativeLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-</FrameLayout>

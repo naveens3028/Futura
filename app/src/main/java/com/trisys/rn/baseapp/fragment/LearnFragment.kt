@@ -9,9 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.ChapterActivity
@@ -28,6 +26,8 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import kotlinx.android.synthetic.main.fragment_learn.*
+import kotlinx.android.synthetic.main.layout_recyclerview.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -73,7 +73,10 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         super.onViewCreated(view, savedInstanceState)
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        subjectRecycler = view.findViewById(R.id.recyclerview) as RecyclerView
+        subjectRecycler = view.findViewById(R.id.recyclerView) as RecyclerView
+        subjectRecycler.layoutManager = GridLayoutManager(requireContext(),2)
+        subjectRecycler.setPadding(50,0,50,0)
+        subjectRecycler.setItemAnimator(DefaultItemAnimator())
         courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
 
         courseCall()
@@ -81,11 +84,15 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     private fun subjectCall(subjectList: ArrayList<Datum>) {
-        //adding a layoutmanager
-        val adapter = SubjectsAdapter(requireContext(), subjectList, this)
+        if(subjectList.size >0) {
+            //adding a layoutmanager
+            val adapter = SubjectsAdapter(requireContext(), subjectList, this)
 
-        //now adding the adapter to recyclerview
-        subjectRecycler.adapter = adapter
+            //now adding the adapter to recyclerview
+            subjectRecycler.adapter = adapter
+        }else{
+            showErrorMsg("No subject found.")
+        }
     }
 
     @SuppressLint("WrongConstant")
@@ -106,7 +113,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     private fun requestSessions(batchId: String) {
-
+        stateful.showProgress()
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
             "getCourse",
@@ -151,9 +158,20 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
             "naveen",
             "responseCode: " + responseCode.toString() + "response: " + response + "tag" + tag
         )
+        stateful.showContent()
         if (responseCode == networkHelper.responseSuccess && tag == "getCourse") {
             val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
             subjectCall(courseResponse.data!!)
+        }else{
+            showErrorMsg(resources.getString(R.string.sfl_default_error))
+        }
+    }
+    fun showErrorMsg(errorMsg : String){
+        stateful.showOffline()
+        stateful.setOfflineText(errorMsg)
+        stateful.setOfflineImageResource(R.drawable.icon_error)
+        stateful.setOfflineRetryOnClickListener {
+            requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
         }
     }
 }
