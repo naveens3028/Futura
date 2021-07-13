@@ -35,7 +35,7 @@ class AttemptedTestAdapter(
         holder.itemView.duration.text = scheduledTest.duration.toString()
         holder.itemView.takeTest.text = "Result"
         holder.itemView.takeTest.setOnClickListener {
-            testClickListener.onResultClicked(true)
+            testClickListener.onResultClicked(scheduledTest.totalAttempts, scheduledTest.studentId, scheduledTest.testPaperId)
         }
     }
 

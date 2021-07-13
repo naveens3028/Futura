@@ -1,5 +1,6 @@
 package com.trisys.rn.baseapp.learn.fragment
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Environment
@@ -9,20 +10,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.common.Priority
-import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.DownloadListener
-import com.google.android.material.snackbar.Snackbar
+import com.android.volley.toolbox.ImageLoader
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
-import com.trisys.rn.baseapp.GlideApp
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.model.MaterialVideoList
+import com.trisys.rn.baseapp.activity.VideoPlayActivity
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_video.*
+import org.intellij.lang.annotations.RegExp
 import java.io.*
 import java.security.SecureRandom
 import javax.crypto.Cipher
@@ -38,10 +36,9 @@ class VideoFragment : Fragment() {
     private lateinit var fileName: String
     lateinit var sharedPreferences: SharedPreferences
     lateinit var myPreferences: MyPreferences
-    lateinit var videoNext: VideoMaterial
-
+    //    private var videoData = VideoMaterial
     lateinit var file: File
-
+    lateinit var player: SimpleExoPlayer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,86 +58,97 @@ class VideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val videoData =
-            Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
-//        val position = myPreferences.getString(Define.VIDEO_NEXT)?.toInt() ?: -1
-        /*val nextVideoString = myPreferences.getString(Define.VIDEO_NEXT).toString()
-        Utils.testLog(nextVideoString)
-        Utils.testLog(myPreferences.getString(Define.VIDEO_DATA).toString())
-        if (!nextVideoString.isNullOrEmpty()){
-            videoNext =
-                Gson().fromJson(nextVideoString, VideoMaterial::class.java)
-        }*/
-        title.text = videoData.title
-//        andExoPlayerView.startPlayer()
-        /*andExoPlayerView.setSource(
-            "https://player.vimeo.com/video/409534666"
-        )*/
-        val url = "https://player.vimeo.com/video/${videoData.description.filter { it.isDigit() }}"
-        webView.settings.javaScriptEnabled = true
-        webView.settings.useWideViewPort = true
+//        player = SimpleExoPlayer.Builder(requireContext()).build()
+//        player.setThrowsWhenUsingWrongThread(false)
+//        player_view.setPlayer(player)
 
-        webView.loadUrl(url)
-        /*if (nextVideoString.isNullOrEmpty()){
-            nextVideoCard.visibility = View.GONE
-            upNext.visibility = View.GONE
+        val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
+//
+//        val id = videoData.description.replace("https://vimeo.com/","")
+
+        com.vpnews24.utils.ImageLoader.loadFull(requireContext(),videoData.filePath,videoPlaceholder)
+
+//        VimeoExtractor.getInstance()
+//            .fetchVideoWithIdentifier(id, null, object : OnVimeoExtractionListener {
+//                override fun onSuccess(video: VimeoVideo) {
+//                    val hdStream = video.streams["720p"]
+//                    println("VIMEO VIDEO STREAM$hdStream")
+//                    hdStream?.let {
+//                        requireActivity().runOnUiThread {
+//                            //code that runs in main
+//                            preparExoPlayer(it)
+//                        }
+//                    }
+//                }
+//
+//                override fun onFailure(throwable: Throwable) {
+//                    Log.d("failure",throwable.message!!)
+//                }
+//            })
+
+    }
+
+//    fun preparExoPlayer(url: String){
+//        // Build the media item.
+//        val mediaItem: MediaItem = MediaItem.fromUri(url)
+//        // Set the media item to be played.
+//        player.setMediaItem(mediaItem)
+//        // Prepare the player.
+//        player.prepare()
+//        // Start the playback.
+//        player.play()
+//    }
+
+    override fun onStart() {
+        super.onStart()
+
+        videoPlaceholder.setOnClickListener {
+            val intent = Intent(requireContext(),VideoPlayActivity::class.java)
+            startActivity(intent)
         }
-        else{
-            nextVideoCard.visibility = View.VISIBLE
-            upNext.visibility = View.VISIBLE
-            GlideApp.with(requireContext()).load(videoNext.filePath).into(nextVideo)
-        }*/
-
-        /*fileName = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
-        file = File(fileName)
-        if (file.exists()) {
-            decryptEncryptedFile()
-        } else {
-            download()
-        }*/
     }
 
-    private fun download() {
-        download.visibility = View.VISIBLE
-        progressVal.visibility = View.VISIBLE
-        content.visibility = View.GONE
-        AndroidNetworking.download(
-            "https://drive.google.com/u/0/uc?id=1Yg_vdLCVnfzXIoeImz6-nWBM_GWTCUe1&export=download",
-            downloadFolder.path,
-            "/Mobile_Medium_T1 Life span & life cycle"
-        )
-            .setTag("downloadTest")
-            .setPriority(Priority.MEDIUM)
-            .build()
-            .setDownloadProgressListener { bytesDownloaded, totalBytes ->
-            }
-            .startDownload(object : DownloadListener {
-                override fun onDownloadComplete() {
-                    download.visibility = View.GONE
-                    progressVal.visibility = View.GONE
-                    content.visibility = View.VISIBLE
-                    Snackbar.make(
-                        requireActivity().window.decorView.rootView,
-                        "Download Completed",
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                    /*andExoPlayerView.setSource(
-                        fileName
-                    )*/
-                }
-
-                override fun onError(error: ANError?) {
-                    download.visibility = View.GONE
-                    progressVal.visibility = View.GONE
-                    content.visibility = View.VISIBLE
-                    Snackbar.make(
-                        requireActivity().window.decorView.rootView,
-                        error?.errorDetail.toString(),
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
-            })
-    }
+//    private fun download() {
+//        download.visibility = View.VISIBLE
+//        progressVal.visibility = View.VISIBLE
+//        content.visibility = View.GONE
+//        AndroidNetworking.download(
+//            "https://drive.google.com/u/0/uc?id=1Yg_vdLCVnfzXIoeImz6-nWBM_GWTCUe1&export=download",
+//            downloadFolder.path,
+//            "/Mobile_Medium_T1 Life span & life cycle"
+//        )
+//            .setTag("downloadTest")
+//            .setPriority(Priority.MEDIUM)
+//            .build()
+//            .setDownloadProgressListener { bytesDownloaded, totalBytes ->
+//            }
+//            .startDownload(object : DownloadListener {
+//                override fun onDownloadComplete() {
+//                    download.visibility = View.GONE
+//                    progressVal.visibility = View.GONE
+//                    content.visibility = View.VISIBLE
+//                    Snackbar.make(
+//                        requireActivity().window.decorView.rootView,
+//                        "Download Completed",
+//                        Snackbar.LENGTH_LONG
+//                    ).show()
+//                    andExoPlayerView.setSource(
+//                        fileName
+//                    )
+//                }
+//
+//                override fun onError(error: ANError?) {
+//                    download.visibility = View.GONE
+//                    progressVal.visibility = View.GONE
+//                    content.visibility = View.VISIBLE
+//                    Snackbar.make(
+//                        requireActivity().window.decorView.rootView,
+//                        error?.errorDetail.toString(),
+//                        Snackbar.LENGTH_LONG
+//                    ).show()
+//                }
+//            })
+//    }
 
     private fun encryptDownloadedFile() {
         try {
@@ -210,16 +218,16 @@ class VideoFragment : Fragment() {
         bos.close()
     }
 
-    private fun decryptEncryptedFile() {
-        val filePath = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
-        val fileData = readFile(filePath)
-        val secretKey = getSecretKey(sharedPreferences)
-        val encodedData = decrypt(secretKey, fileData)
-        saveFile(encodedData, filePath)
-        /*andExoPlayerView.setSource(
-            fileName
-        )*/
-    }
+//    private fun decryptEncryptedFile() {
+//        val filePath = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
+//        val fileData = readFile(filePath)
+//        val secretKey = getSecretKey(sharedPreferences)
+//        val encodedData = decrypt(secretKey, fileData)
+//        saveFile(encodedData, filePath)
+//        andExoPlayerView.setSource(
+//            fileName
+//        )
+//    }
 
     @Throws(Exception::class)
     fun decrypt(yourKey: SecretKey, fileData: ByteArray): ByteArray {
@@ -230,4 +238,10 @@ class VideoFragment : Fragment() {
         return decrypted
     }
 
+    override fun onStop() {
+        super.onStop()
+//        player.stop()
+//        player.release()
+//        encryptDownloadedFile()
+    }
 }

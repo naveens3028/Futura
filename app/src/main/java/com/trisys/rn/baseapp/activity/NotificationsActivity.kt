@@ -15,7 +15,8 @@ class NotificationsActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Notifications"
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        stateful.showEmpty()
+
+        showEmptyMessage()
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -25,5 +26,11 @@ class NotificationsActivity : AppCompatActivity() {
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    fun showEmptyMessage(){
+        stateful.showEmpty()
+        stateful.setEmptyText("No notification available")
+        stateful.setEmptyImageResource(R.drawable.icon_error)
     }
 }

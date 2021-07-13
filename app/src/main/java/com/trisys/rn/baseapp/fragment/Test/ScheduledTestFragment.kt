@@ -74,6 +74,10 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     }
 
+    override fun onResultClicked(attempt: Int, studentId: String, testPaperId: String) {
+
+    }
+
 
     private fun requestTest() {
 

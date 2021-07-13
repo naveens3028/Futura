@@ -59,6 +59,8 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
     }
 
     private fun requestChapter() {
+        stateful.showProgress()
+        stateful.setProgressText("Loading..")
         networkHelper.getArrayCall(
             publishedMaterialsByChapter + "?chapterId=$chapterId&batchId=$batchId",
             "publishedMaterialsByChapter",
@@ -89,21 +91,23 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+        stateful.showContent()
         if (responseCode == networkHelper.responseSuccess && tag == "publishedMaterialsByChapter") {
             val topicResponse = Gson().fromJson(response, TopicResponse::class.java)
             if (topicResponse.isNotEmpty()) {
                 val titleAdapter = SubTopicsTitleAdapter(this, topicResponse, this)
                 titleRecycler.adapter = titleAdapter
                 if (topicResponse[0].materialList != null && topicResponse[0].materialList?.size!! > 0) {
-                    noData.visibility = View.GONE
                     supTopicRecycler.visibility = View.VISIBLE
                     subTopicListAdapter =
                         SubTopicsAdapter(this, topicResponse[0].materialList!!)
                     supTopicRecycler.adapter = subTopicListAdapter
-                }else{
-                    noData.visibility = View.VISIBLE
+                } else {
                     supTopicRecycler.visibility = View.GONE
+                    showErrorMsg("Currently no topics available.")
                 }
+            } else {
+                showErrorMsg(resources.getString(R.string.sfl_default_error))
             }
         }
     }
@@ -111,5 +115,14 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
     override fun onTopicSelected(subTopicItems: List<VideoMaterial>) {
         subTopicListAdapter = SubTopicsAdapter(this, subTopicItems)
         supTopicRecycler.adapter = subTopicListAdapter
+    }
+
+    fun showErrorMsg(errorMsg: String) {
+        stateful.showOffline()
+        stateful.setOfflineText(errorMsg)
+        stateful.setOfflineImageResource(R.drawable.icon_error)
+        stateful.setOfflineRetryOnClickListener {
+            requestChapter()
+        }
     }
 }

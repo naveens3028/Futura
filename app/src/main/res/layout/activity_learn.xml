@@ -1,157 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".learn.LearnActivity">
+    android:background="@color/window_background"
+    android:fitsSystemWindows="true">
 
-    <include
-        android:id="@+id/toolbarLayout"
-        layout="@layout/layout_toolbar" />
+    <include layout="@layout/layout_toolbar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/titleRecycler"
+    <com.trisys.rn.baseapp.helper.SimpleStatefulLayout
+        android:id="@+id/stateful"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-        tools:itemCount="3"
-        tools:listitem="@layout/row_sub_topics_title" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/_12sdp"
-        app:cardCornerRadius="@dimen/_6sdp"
-        app:cardElevation="@dimen/_4sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleRecycler">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_40sdp"
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/subTopicTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_15sdp"
-                android:fontFamily="@font/roboto_bold"
-                android:textColor="@color/carolina_blue"
-                android:textSize="@dimen/_10sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            tools:context=".learn.LearnActivity">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_2sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="2"
-                android:textColor="@color/emerald"
-                android:textSize="@dimen/_10sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
-                app:layout_constraintEnd_toStartOf="@+id/finishedVideo"
-                app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
-
-
-            <View
-                android:id="@+id/finishedVideo"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/rounded_circle_filled"
-                android:backgroundTint="@color/emerald"
-                app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
-                app:layout_constraintEnd_toStartOf="@+id/pendingVideoCount"
-                app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/pendingVideoCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_2sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="14"
-                android:textColor="@color/bittersweet"
-                android:textSize="@dimen/_10sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
-                app:layout_constraintEnd_toStartOf="@+id/pendingVideo"
-                app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
-
-            <View
-                android:id="@+id/pendingVideo"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/rounded_circle_filled"
-                android:backgroundTint="@color/bittersweet"
-                app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
+            <include
+                android:id="@+id/toolbarLayout"
+                layout="@layout/layout_toolbar"
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/supTopicRecycler"
+                android:id="@+id/titleRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginVertical="@dimen/_16sdp"
-                android:clipToPadding="true"
-                android:orientation="vertical"
-                android:overScrollMode="never"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/subTopicTitle"
+                app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
                 tools:itemCount="3"
-                tools:listitem="@layout/row_sub_topics_video" />
+                tools:listitem="@layout/row_sub_topics_title" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/noData"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="gone"
+                android:layout_margin="@dimen/_12sdp"
+                app:cardCornerRadius="@dimen/_6sdp"
+                app:cardElevation="@dimen/_4sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/subTopicTitle">
+                app:layout_constraintTop_toBottomOf="@+id/titleRecycler">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/noDataImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_8sdp"
-                    android:src="@drawable/ic_no_data"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_videos_found_please_try_again"
-                    app:layout_constraintEnd_toEndOf="@id/noDataImage"
-                    app:layout_constraintStart_toStartOf="@id/noDataImage"
-                    app:layout_constraintTop_toBottomOf="@id/noDataImage" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/subTopicTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_15sdp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Trigonometry"
+                        android:textColor="@color/carolina_blue"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="2"
+                        android:textColor="@color/emerald"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
+                        app:layout_constraintEnd_toStartOf="@+id/finishedVideo"
+                        app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
+
+
+                    <View
+                        android:id="@+id/finishedVideo"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:background="@drawable/rounded_circle_filled"
+                        android:backgroundTint="@color/emerald"
+                        app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
+                        app:layout_constraintEnd_toStartOf="@+id/pendingVideoCount"
+                        app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/pendingVideoCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="14"
+                        android:textColor="@color/bittersweet"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
+                        app:layout_constraintEnd_toStartOf="@+id/pendingVideo"
+                        app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
+
+                    <View
+                        android:id="@+id/pendingVideo"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:background="@drawable/rounded_circle_filled"
+                        android:backgroundTint="@color/bittersweet"
+                        app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/supTopicRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginVertical="@dimen/_16sdp"
+                        android:clipToPadding="true"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/subTopicTitle"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/row_sub_topics_video" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.trisys.rn.baseapp.helper.SimpleStatefulLayout>
 
-    </com.google.android.material.card.MaterialCardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -45,13 +45,11 @@
         <item name="android:textColor">@color/divider_color</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/logout_bottom_sheet</item>
     </style>
 
@@ -67,4 +65,28 @@
         <item name="android:navigationBarColor">@color/divider_color</item>
     </style>
 
+    <style name="Theme.UpMyRanks.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.UpMyRanks.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.UpMyRanks.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppFullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.PdfView.SelectedTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="pdfView_backIcon">@drawable/ic_back</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:statusBarColor">@color/divider_color</item>
+        <item name="android:navigationBarColor">@color/divider_color</item>
+    </style>
 </resources>

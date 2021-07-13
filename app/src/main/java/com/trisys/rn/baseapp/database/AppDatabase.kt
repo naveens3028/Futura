@@ -6,21 +6,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.trisys.rn.baseapp.database.dao.TestDAO
-import com.trisys.rn.baseapp.database.model.DataModel
 import com.trisys.rn.baseapp.database.model.NotificationItem
 import com.trisys.rn.baseapp.model.MOCKTEST
 import com.trisys.rn.baseapp.model.TestPaperVo
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
 @Database(
-    entities = [NotificationItem::class, DataModel::class, AverageBatchTests::class, MOCKTEST::class, TestPaperVo::class],
+    entities = [NotificationItem::class, AverageBatchTests::class, MOCKTEST::class, TestPaperVo::class],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val notificationDao: NotificationDao
-    abstract val personDao: PersonDao
     abstract val averageBatchDao: AverageBatchDao
     abstract val testDAO: TestDAO
 

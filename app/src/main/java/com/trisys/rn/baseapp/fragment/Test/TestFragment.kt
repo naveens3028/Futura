@@ -14,12 +14,14 @@ import com.trisys.rn.baseapp.activity.AttemptedResultsActivity
 import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_test.*
+import org.json.JSONObject
 
 class TestFragment : Fragment(), OnNetworkResponse {
 
@@ -57,6 +59,9 @@ class TestFragment : Fragment(), OnNetworkResponse {
         } else {
             carouselView.adapter = CarouselAdapter(requireContext(), averBatchTest)
         }
+
+        requestSessions()
+
 
         allResults.setOnClickListener {
             val intent = Intent(requireContext(), AttemptedResultsActivity::class.java)
@@ -101,6 +106,20 @@ class TestFragment : Fragment(), OnNetworkResponse {
             params,
             Priority.HIGH,
             "getAssessments",
+            this
+        )
+
+        val jsonObject1 = JSONObject()
+        jsonObject1.put("branchIds", "bfd13c0e-6e83-4387-915e-4bd0c3d1dc8c")
+        jsonObject1.put("coachingCentreId", "85075500-8044-492e-a590-f7ca04670cce")
+        jsonObject1.put("batchIds", "23628f56-8128-498c-8ec8-2e6cffb4b22b")
+        jsonObject1.put("sessionTense", "LIVE")
+
+        networkHelper.postCall(
+            URLHelper.getSessions,
+            jsonObject1,
+            "getSessions",
+            ApiUtils.getHeader(requireContext()),
             this
         )
 

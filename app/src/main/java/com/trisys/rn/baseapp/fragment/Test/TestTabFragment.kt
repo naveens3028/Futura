@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.activity.TakeResultActivity
 import com.trisys.rn.baseapp.activity.TakeTestActivity
+import com.trisys.rn.baseapp.activity.TestResultActivity
 import com.trisys.rn.baseapp.adapter.ScheduledTestAdapter
 import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.adapter.test.AttemptedTestAdapter
@@ -171,7 +171,14 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     override fun onResultClicked(isClicked: Boolean) {
-        val intent = Intent(requireContext(), TakeResultActivity::class.java)
+
+    }
+
+    override fun onResultClicked(attempt: Int, studentId: String, testPaperId: String) {
+        val intent = Intent(requireContext(), TestResultActivity::class.java)
+        intent.putExtra("attempt", attempt)
+        intent.putExtra("studentId", studentId)
+        intent.putExtra("testPaperId", testPaperId)
         startActivity(intent)
     }
 
@@ -191,12 +198,14 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                     scheduleTestRecyclerView.visibility = View.GONE
                     noTest.visibility = View.VISIBLE
                 } else {
-                    val scheduledTestAdapter = ScheduledTestAdapter(
-                        requireView().context,
-                        db.getAllTest(),
-                        this
-                    )
-                    scheduleTestRecyclerView.adapter = scheduledTestAdapter
+                    if(db.getAllTest().isNotEmpty()){
+                        val scheduledTestAdapter = ScheduledTestAdapter(
+                            requireView().context,
+                            db.getAllTest(),
+                            this
+                        )
+                        scheduleTestRecyclerView.adapter = scheduledTestAdapter
+                    }
                 }
             }
         }
