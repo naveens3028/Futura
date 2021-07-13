@@ -8,10 +8,13 @@ import android.view.MenuItem
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import com.androidnetworking.common.Priority
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.helper.MyProgressBar
+import com.trisys.rn.baseapp.model.TestResultsData
+import com.trisys.rn.baseapp.model.TestResultsModel
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
@@ -19,13 +22,17 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_test_results.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import org.json.JSONObject
 
-class TakeResultActivity : AppCompatActivity(), OnNetworkResponse {
+class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
 
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
-
+    private var attempt: Int? = null
+    private var studentId: String? = null
+    private var testPaperId: String? = null
+    lateinit var myProgressBar: MyProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +40,14 @@ class TakeResultActivity : AppCompatActivity(), OnNetworkResponse {
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
+        myProgressBar = MyProgressBar(this)
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        requestSessions()
+
+        attempt = intent.getIntExtra("attempt",0)
+        studentId = intent.getStringExtra("studentId")
+        testPaperId = intent.getStringExtra("testPaperId")
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
@@ -45,20 +56,25 @@ class TakeResultActivity : AppCompatActivity(), OnNetworkResponse {
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         actionBar?.title = "Test Result"
 
+        requestSessions()
+
     }
 
     private fun requestSessions() {
 
-        val params = HashMap<String, String>()
-        params["studentId"] = loginData.userDetail?.usersId.toString()
+        myProgressBar.show()
 
-        networkHelper.call(
-            networkHelper.GET,
-            networkHelper.RESTYPE_ARRAY,
-            URLHelper.testResultUrl,
-            params,
-            Priority.HIGH,
-            "getResults",
+        val jsonObject = JSONObject()
+        jsonObject.put("attempt",  attempt.toString())
+        jsonObject.put("studentId", studentId.toString())
+        jsonObject.put("testPaperId", testPaperId.toString())
+
+        Log.e("testfrage", jsonObject.toString())
+        networkHelper.postCall(
+            URLHelper.answeredTestPapers,
+            jsonObject,
+            "getResultApi",
+            ApiUtils.getHeader(this),
             this
         )
 
@@ -88,6 +104,23 @@ class TakeResultActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         Log.e("poppersResult", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
+        val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
+        setValuestoUI(testResponseResult)
+        Log.e("getResultApi", testResponseResult.toString())
+    }
+
+    private fun setValuestoUI(testResultsModel: TestResultsModel){
+        myProgressBar.dismiss()
+        yourScoreTxt.text = testResultsModel.totalObtainedMarks.toString()
+        outOfScoretxt.text = testResultsModel.totalRank.toString()
+        correctAnsTxt.text = testResultsModel.totalCorrectMarks.toString()
+        inCorrectAnsTxts.text = testResultsModel.totalWrongAttemptedQuestions.toString()
+        unansweredTxtView.text = testResultsModel.totalUnAttemptedQuestons.toString()
+        accuracTxtView.text = testResultsModel.accuracy
+        totaltimeTxt.text = testResultsModel.totalConsumeTime.toString()
+        avgtimePerQueTxt.text = testResultsModel.avgTimePerQuesByTopper.toString()
+        toppertimeTxt.text = testResultsModel.totalTimeTakenByTopper.toString()
+        totalQuestionAnsTxt.text = testResultsModel.totalAttemptedQuestions.toString()
     }
 
 }

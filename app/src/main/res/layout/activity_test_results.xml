@@ -24,12 +24,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/attempt"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_margin="@dimen/_10sdp"
         android:outlineAmbientShadowColor="@color/divider_color"
         app:cardCornerRadius="@dimen/_20sdp"
         app:cardElevation="5dp"
-        android:visibility="visible"
-        app:cardUseCompatPadding="true">
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -123,14 +122,14 @@
                 android:textSize="@dimen/_14sdp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/circletxt"
+                android:id="@+id/circletxtLeader"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/ic_circle_outline"
                 android:layout_below="@id/leaderboard"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="1"
@@ -142,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_below="@id/leaderboard"
-                android:layout_toRightOf="@id/circletxt"
+                android:layout_toRightOf="@id/circletxtLeader"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/greytext"
@@ -154,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/testName"
-                android:layout_toRightOf="@id/circletxt"
+                android:layout_toRightOf="@id/circletxtLeader"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/ink_blue"
@@ -194,13 +193,14 @@
                 app:cornerRadius="@dimen/_8sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/yourScoreTxt"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/ic_circle_outline"
                 android:layout_below="@id/scores"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="1"
@@ -212,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_below="@id/scores"
-                android:layout_toRightOf="@id/circletxt"
+                android:layout_toRightOf="@id/circletxtLeader"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/greytext"
@@ -224,7 +224,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/testScoreName"
-                android:layout_toRightOf="@id/circletxt"
+                android:layout_toRightOf="@id/circletxtLeader"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/ink_blue"
@@ -238,7 +238,7 @@
                 android:layout_below="@id/scores"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_toRightOf="@id/outOfScoretxt"
+                android:layout_toRightOf="@id/testScoreName"
                 >
 
                 <RelativeLayout
@@ -267,6 +267,7 @@
                         android:textSize="@dimen/_6sdp"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/correctAnsTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -310,6 +311,7 @@
                         android:textSize="@dimen/_6sdp"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/inCorrectAnsTxts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2"
@@ -354,6 +356,7 @@
                         android:textSize="@dimen/_6sdp"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/unansweredTxtView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -396,6 +399,7 @@
                         android:textSize="@dimen/_6sdp"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/accuracTxtView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2"
@@ -455,6 +459,7 @@
                     android:textSize="@dimen/_5sdp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/totaltimeTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.75 mins."
@@ -487,6 +492,7 @@
                     android:textSize="@dimen/_5sdp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/avgtimePerQueTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15.00 seconds"
@@ -521,6 +527,7 @@
                     android:textSize="@dimen/_5sdp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/toppertimeTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.75 mins."
@@ -553,6 +560,7 @@
                     android:textSize="@dimen/_5sdp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/totalQuestionAnsTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"

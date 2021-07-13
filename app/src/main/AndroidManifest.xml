@@ -42,7 +42,7 @@
             android:exported="true" />
         <activity android:name=".activity.TakeTestActivity" />
         <activity android:name=".activity.ChapterActivity" />
-        <activity android:name=".activity.TakeResultActivity" />
+        <activity android:name=".activity.TestResultActivity" />
         <activity
             android:name=".onBoarding.LoginActivity"
             android:screenOrientation="portrait"

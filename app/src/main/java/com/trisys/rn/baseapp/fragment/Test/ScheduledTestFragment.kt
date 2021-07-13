@@ -71,6 +71,10 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     }
 
+    override fun onResultClicked(attempt: Int, studentId: String, testPaperId: String) {
+
+    }
+
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
