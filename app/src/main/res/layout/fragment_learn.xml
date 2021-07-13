@@ -1,47 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.trisys.rn.baseapp.helper.SimpleStatefulLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/window_background">
+    android:id="@+id/stateful"
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/window_background"
+        android:layout_height="match_parent"
         android:padding="@dimen/_10sdp"
-        app:elevation="0dp">
+        tools:context=".fragment.HomeFragment">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardview"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:focusableInTouchMode="true"
-            android:outlineAmbientShadowColor="@color/charcoal"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
-            app:cardUseCompatPadding="true">
+            android:layout_height="match_parent">
 
-            <com.trisys.rn.baseapp.helper.NestedScrollableHost
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:focusableInTouchMode="true"
+                    android:outlineAmbientShadowColor="@color/charcoal"
+                    app:cardCornerRadius="@dimen/_12sdp"
+                    app:cardElevation="5dp"
+                    app:cardUseCompatPadding="true">
+
+                    <com.trisys.rn.baseapp.helper.NestedScrollableHost
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerviewcourse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            tools:listitem="@layout/activity_course" />
+
+                    </com.trisys.rn.baseapp.helper.NestedScrollableHost>
+
+                </androidx.cardview.widget.CardView>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerviewcourse"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/activity_course" />
+                    android:layout_below="@+id/cardview"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:overScrollMode="never"
+                    app:spanCount="2"
+                    tools:listitem="@layout/activity_subjects" />
 
-            </com.trisys.rn.baseapp.helper.NestedScrollableHost>
+            </RelativeLayout>
 
-        </androidx.cardview.widget.CardView>
+        </androidx.core.widget.NestedScrollView>
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </FrameLayout>
 
-    <include layout="@layout/layout_recyclerview" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.trisys.rn.baseapp.helper.SimpleStatefulLayout>

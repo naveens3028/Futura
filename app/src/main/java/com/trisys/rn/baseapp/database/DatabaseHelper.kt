@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import com.trisys.rn.baseapp.database.model.NotificationItem
 import com.trisys.rn.baseapp.model.MOCKTEST
 import com.trisys.rn.baseapp.model.MergedTest
+import com.trisys.rn.baseapp.model.Quesion
 import com.trisys.rn.baseapp.model.TestPaperVo
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
@@ -62,6 +63,14 @@ class DatabaseHelper(context: Context) {
 
     fun saveTestPaper(testPaperVo: TestPaperVo) {
         db!!.testDAO.addTestPaper(testPaperVo)
+    }
+
+    fun addQuestions(question: Quesion) {
+        db!!.testDAO.addQuestionList(question)
+    }
+
+    fun getQuestionList(testPaperId:String): MutableList<Quesion> {
+        return db!!.testDAO.getQuestion(testPaperId)
     }
 
     fun deleteTestList() {

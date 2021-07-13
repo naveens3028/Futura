@@ -8,11 +8,12 @@ import androidx.room.RoomDatabase
 import com.trisys.rn.baseapp.database.dao.TestDAO
 import com.trisys.rn.baseapp.database.model.NotificationItem
 import com.trisys.rn.baseapp.model.MOCKTEST
+import com.trisys.rn.baseapp.model.Quesion
 import com.trisys.rn.baseapp.model.TestPaperVo
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
 @Database(
-    entities = [NotificationItem::class, AverageBatchTests::class, MOCKTEST::class, TestPaperVo::class],
+    entities = [NotificationItem::class, AverageBatchTests::class, MOCKTEST::class, TestPaperVo::class, Quesion::class],
     version = 1,
     exportSchema = false
 )

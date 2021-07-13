@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import androidx.recyclerview.widget.*
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.ChapterActivity
@@ -32,12 +31,10 @@ import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_learn.*
-import kotlinx.android.synthetic.main.layout_recyclerview.*
 
 
 class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetworkResponse {
 
-    private lateinit var subjectRecycler: RecyclerView
     private lateinit var courseRecycler: RecyclerView
     private var loginData = LoginData()
     lateinit var myPreferences: MyPreferences
@@ -62,10 +59,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         super.onViewCreated(view, savedInstanceState)
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        subjectRecycler = view.findViewById(R.id.recyclerView) as RecyclerView
-        subjectRecycler.layoutManager = GridLayoutManager(requireContext(),2)
-        subjectRecycler.setPadding(50,0,50,0)
-        subjectRecycler.setItemAnimator(DefaultItemAnimator())
+
         courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
 
         courseCall()
@@ -75,16 +69,14 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     private fun subjectCall(subjectList: ArrayList<Datum>) {
         val manager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
         manager.justifyContent = JustifyContent.CENTER
-        val adapter = SubjectsAdapter(requireContext(), subjectList, this)
-        subjectRecycler.layoutManager = manager
-        subjectRecycler.adapter = adapter
-        if(subjectList.size >0) {
+        recyclerview.layoutManager = manager
+        if (subjectList.size > 0) {
             //adding a layoutmanager
             val adapter = SubjectsAdapter(requireContext(), subjectList, this)
 
             //now adding the adapter to recyclerview
-            subjectRecycler.adapter = adapter
-        }else{
+            recyclerview.adapter = adapter
+        } else {
             showErrorMsg("No subject found.")
         }
     }
@@ -104,7 +96,6 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     private fun requestSessions(batchId: String) {
-        stateful.showProgress()
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
             "getCourse",
@@ -127,15 +118,15 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        stateful.showContent()
         if (responseCode == networkHelper.responseSuccess && tag == "getCourse") {
             val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
             subjectCall(courseResponse.data!!)
-        }else{
+        } else {
             showErrorMsg(resources.getString(R.string.sfl_default_error))
         }
     }
-    fun showErrorMsg(errorMsg : String){
+
+    fun showErrorMsg(errorMsg: String) {
         stateful.showOffline()
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.icon_error)

@@ -15,6 +15,7 @@ import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.model.MergedTest
 import com.trisys.rn.baseapp.model.ScheduledClass
+import com.trisys.rn.baseapp.model.TestPaperResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -34,7 +35,8 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
-    lateinit var db: DatabaseHelper
+    private lateinit var db: DatabaseHelper
+    lateinit var testPaperId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,8 +96,14 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (view != null) {
-            Utils.testLog(db.getAllTest().toString())
-            if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+            if (responseCode == networkHelper.responseSuccess && tag == "getStudentTestPaper") {
+                val testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
+                for (question in testPaperResponse.quesionList) {
+                    question.testPaperId = testPaperId
+                    db.addQuestions(question)
+                }
+            }
+            else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
                 val scheduledTestResponse =
                     Gson().fromJson(response, ScheduledClass::class.java)
                 if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
@@ -113,6 +121,7 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 } else {
                     db.deleteTestList()
                     for (mockTest in scheduledTestResponse.MOCK_TEST) {
+                        getTest(mockTest.testPaperId)
                         db.saveTestList(mockTest)
                         db.saveTestPaper(mockTest.testPaperVo!!)
                     }
@@ -137,6 +146,16 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 }
             }
         }
+    }
+
+    private fun getTest(testPaperId: String) {
+        this.testPaperId = testPaperId
+        networkHelper.getCall(
+            URLHelper.getStudentTestPaper + "?testPaperId=$testPaperId&studentId=${loginData.userDetail?.userDetailId}",
+            "getStudentTestPaper",
+            ApiUtils.getHeader(requireContext()),
+            this
+        )
     }
 
 }

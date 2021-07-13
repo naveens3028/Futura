@@ -1,5 +1,7 @@
 package com.trisys.rn.baseapp.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -12,28 +14,30 @@ data class TestPaperResponse(
     val sectionList: List<Section>
 )
 
+@Entity(tableName = "question_list")
 @Serializable
 data class Quesion(
     @SerialName("answer")
-    val answer: String,
+    val answer: String?,
     @SerialName("answeredMark")
     val answeredMark: Int,
+    @PrimaryKey
     @SerialName("id")
     val id: String,
     @SerialName("optionA")
-    val optionA: String,
+    val optionA: String?,
     @SerialName("optionB")
-    val optionB: String,
+    val optionB: String?,
     @SerialName("optionC")
-    val optionC: String,
+    val optionC: String?,
     @SerialName("optionD")
-    val optionD: String,
+    val optionD: String?,
     @SerialName("position")
     val position: Int,
     @SerialName("isAnswered")
     var isAnswered: Boolean = false,
     @SerialName("optionSelected")
-    var optionSelected: String = "",
+    var optionSelected: String? = "",
     @SerialName("questionContent")
     val questionContent: String,
     @SerialName("questionType")
@@ -43,7 +47,9 @@ data class Quesion(
     @SerialName("wrongMark")
     val wrongMark: Int,
     @SerialName("timeSpent")
-    val timeSpent: Long = 0
+    val timeSpent: Long = 0,
+    @SerialName("testPaperId")
+    var testPaperId: String
 )
 
 @Serializable
