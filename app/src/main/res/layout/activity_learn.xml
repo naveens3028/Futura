@@ -47,7 +47,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_15sdp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Trigonometry"
                 android:textColor="@color/carolina_blue"
                 android:textSize="@dimen/_10sdp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -56,8 +55,8 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginHorizontal="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="2"
                 android:textColor="@color/emerald"
                 android:textSize="@dimen/_10sdp"
@@ -70,8 +69,8 @@
                 android:id="@+id/finishedVideo"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
                 android:background="@drawable/rounded_circle_filled"
                 android:backgroundTint="@color/emerald"
                 app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
@@ -82,8 +81,8 @@
                 android:id="@+id/pendingVideoCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginHorizontal="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="14"
                 android:textColor="@color/bittersweet"
                 android:textSize="@dimen/_10sdp"
@@ -95,8 +94,8 @@
                 android:id="@+id/pendingVideo"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
                 android:background="@drawable/rounded_circle_filled"
                 android:backgroundTint="@color/bittersweet"
                 app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
@@ -112,12 +111,43 @@
                 android:orientation="vertical"
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/subTopicTitle"
                 tools:itemCount="3"
                 tools:listitem="@layout/row_sub_topics_video" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/noData"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subTopicTitle">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/noDataImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:src="@drawable/ic_no_data"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_videos_found_please_try_again"
+                    app:layout_constraintEnd_toEndOf="@id/noDataImage"
+                    app:layout_constraintStart_toStartOf="@id/noDataImage"
+                    app:layout_constraintTop_toBottomOf="@id/noDataImage" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

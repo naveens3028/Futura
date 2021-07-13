@@ -59,6 +59,7 @@ data class UserDetails(
     @SerializedName("batchList") var batchList: ArrayList<batchItem>,
 )
 
+
 data class CoachingCentre(
     @SerializedName("id") var id: String? = null,
     @SerializedName("coachingCentreName") var coachingCentreName: String? = null,
@@ -154,34 +155,34 @@ data class Course(
 @Entity(tableName = "AverageBatch")
 data class AverageBatchTests(
     @PrimaryKey
-    @ColumnInfo(name ="studentAverage" )
+    @ColumnInfo(name = "studentAverage")
     @SerializedName("studentAverage") var studentAverage: Double,
-    @ColumnInfo(name ="classAverage" )
+    @ColumnInfo(name = "classAverage")
     @SerializedName("classAverage") var classAverage: Double? = null,
-    @ColumnInfo(name ="rank" )
+    @ColumnInfo(name = "rank")
     @SerializedName("rank") var rank: Int? = null,
-    @ColumnInfo(name ="total_students" )
+    @ColumnInfo(name = "total_students")
     @SerializedName("total_students") var totalStudents: Int? = null,
-    @ColumnInfo(name ="total_test" )
+    @ColumnInfo(name = "total_test")
     @SerializedName("total_test") var totalTest: Int? = null,
-    @ColumnInfo(name ="student_test" )
+    @ColumnInfo(name = "student_test")
     @SerializedName("student_test") var studentTest: Int? = null,
-    @ColumnInfo(name ="topperAverage" )
+    @ColumnInfo(name = "topperAverage")
     @SerializedName("topperAverage") var topperAverage: Double? = null,
 )
 
 data class UnAttempted(
     @SerializedName("MOCK_TEST") var mockTest: List<MockTest>? = null,
-    @SerializedName("PRACTICE") var practice: List<Any>? = null
+    @SerializedName("PRACTICE") var practice: List<String>? = null
 )
 
 data class MockTest(
     @SerializedName("publishDate") var publishDate: Long? = null,
     @SerializedName("publishTime") var publishTime: String? = null,
     @SerializedName("publishDateTime") var publishDateTime: Long? = null,
-    @SerializedName("expiryDate") var expiryDate: Any? = null,
-    @SerializedName("expiryTime") var expiryTime: Any? = null,
-    @SerializedName("expiryDateTime") var expiryDateTime: Any? = null,
+    @SerializedName("expiryDate") var expiryDate: String? = null,
+    @SerializedName("expiryTime") var expiryTime: String? = null,
+    @SerializedName("expiryDateTime") var expiryDateTime: String? = null,
     @SerializedName("name") var name: String? = null,
     @SerializedName("duration") var duration: Int? = null,
     @SerializedName("questionCount") var questionCount: Int? = null,
@@ -189,21 +190,21 @@ data class MockTest(
     @SerializedName("testCode") var testCode: String? = null,
     @SerializedName("testType") var testType: String? = null,
     @SerializedName("studentAnswerId") var studentAnswerId: String? = null,
-    @SerializedName("completeStatus") var completeStatus: Any? = null,
+    @SerializedName("completeStatus") var completeStatus: String? = null,
     @SerializedName("status") var status: String? = null,
     @SerializedName("studentId") var studentId: String? = null,
     @SerializedName("testPaperId") var testPaperId: String? = null,
-    @SerializedName("correctMarks") var correctMarks: Any? = null,
-    @SerializedName("studentName") var studentName: Any? = null,
-    @SerializedName("totalDuration") var totalDuration: Any? = null,
-    @SerializedName("totalMarks") var totalMarks: Any? = null,
+    @SerializedName("correctMarks") var correctMarks: String? = null,
+    @SerializedName("studentName") var studentName: String? = null,
+    @SerializedName("totalDuration") var totalDuration: String? = null,
+    @SerializedName("totalMarks") var totalMarks: String? = null,
 )
 
 data class AttemptedResponse(
     @SerializedName("MOCK_TEST")
     val mOCKTEST: List<AttemptedTest>,
     @SerializedName("PRACTICE")
-    val pRACTICE: List<Any>
+    val pRACTICE: List<String>
 )
 
 data class AttemptedTest(
@@ -214,11 +215,11 @@ data class AttemptedTest(
     @SerializedName("duration")
     val duration: Int,
     @SerializedName("expiryDate")
-    val expiryDate: Any,
+    val expiryDate: String,
     @SerializedName("expiryDateTime")
-    val expiryDateTime: Any,
+    val expiryDateTime: String,
     @SerializedName("expiryTime")
-    val expiryTime: Any,
+    val expiryTime: String,
     @SerializedName("name")
     val name: String,
     @SerializedName("publishDate")
@@ -236,7 +237,7 @@ data class AttemptedTest(
     @SerializedName("studentId")
     val studentId: String,
     @SerializedName("studentName")
-    val studentName: Any,
+    val studentName: String,
     @SerializedName("testCode")
     val testCode: String,
     @SerializedName("testPaperId")
@@ -246,9 +247,9 @@ data class AttemptedTest(
     @SerializedName("totalAttempts")
     val totalAttempts: Int,
     @SerializedName("totalDuration")
-    val totalDuration: Any,
+    val totalDuration: String,
     @SerializedName("totalMarks")
-    val totalMarks: Any
+    val totalMarks: String
 )
 
 @Serializable

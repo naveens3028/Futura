@@ -94,7 +94,7 @@ class HomeFragment : Fragment() {
                             .commit()
                     1 ->
                         childFragmentManager.beginTransaction()
-                            .replace(R.id.frameLayout, ScheduledTestFragment.newInstance("", ""))
+                            .replace(R.id.frameLayout, ScheduledTestFragment())
                             .commit()
                 }
             }

@@ -32,7 +32,8 @@
     <color name="redtext">#C3FF0000</color>
     <color name="greytext">#AFAFAF</color>
 
-    <color name="blue_violet_crayola">#594BB4</color>
+    <color name="blue_violet_crayola">#7766AE</color>
+    <color name="cyber_grape">#5D4D91</color>
     <color name="caribbean_green">#1FCBAB</color>
     <color name="safety_yellow">#EBD00A</color>
     <color name="light_coral">#F88383</color>
@@ -45,5 +46,6 @@
 
     <color name="tea_green">#D5FBD3</color>
     <color name="alice_blue">#EEF4FA</color>
+    <color name="background_black">#0D000000</color>
 
 </resources>

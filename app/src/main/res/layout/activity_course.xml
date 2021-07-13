@@ -5,10 +5,12 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/coursetxt"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/_30sdp"
         android:background="#00673AB7"
         android:gravity="center"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
         android:textColor="@color/white"
         android:textStyle="bold" />
 

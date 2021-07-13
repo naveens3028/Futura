@@ -20,6 +20,7 @@
     <string name="otp_hint">__</string>
 
 
+    <string name="sfl_default_error">Something went wrong, try again.</string>
     <string name="sfl_default_placeholder_empty">No data here.</string>
     <string name="sfl_default_placeholder_offline">You are offline.</string>
     <string name="sfl_retry">Retry</string>
@@ -91,5 +92,8 @@
     <string name="account_details">Account Details</string>
     <string name="personal_details">Personal Details</string>
     <string name="no_scheduled_test_found">No Scheduled Test Found</string>
+    <string name="no_videos_found_please_try_again">No videos found, Please try again.</string>
+    <string name="your_overall">Your overall</string>
+    <string name="rank">RANK</string>
 
 </resources>

@@ -21,11 +21,11 @@ class HomeTabViewAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
         if (position == 0) {
             return HomeFragment.newInstance("","")
         } else if (position == 1) {
-            return LearnFragment.newInstance("", "")
+            return LearnFragment()
         } else if (position == 2) {
             return LiveFragment.newInstance("", "")
         } else if (position == 3) {
-            return TestFragment.newInstance("", "")
+            return TestFragment()
         } else {
             return DoubtFragment.newInstance("", "")
         }

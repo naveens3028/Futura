@@ -29,7 +29,6 @@ import com.trisys.rn.baseapp.network.URLHelper.testPaperForStudent
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_today_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -97,7 +96,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             }
 
             override fun onPageSelected(position: Int) {
-                Utils.testLog("666 $position")
                 if (currentPosition < position)
                     saveNext(position - 1)
                 else if (currentPosition > position)
@@ -165,7 +163,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     }
 
     private fun saveNext(position: Int) {
-        Utils.testLog("555 $position")
         if (position >= 0 && !testPaperResponse.quesionList[position].optionSelected.isNullOrEmpty()) {
             val noCompleted = testPaperResponse.quesionList.filter { it.isAnswered }.size
             completedValue.text =

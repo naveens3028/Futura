@@ -1,134 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:layout_centerHorizontal="true"
-    android:gravity="center"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:gravity="center">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="2dp"
-        app:cardUseCompatPadding="true"
         app:cardCornerRadius="10dp"
-        app:cardBackgroundColor="@color/purple_300">
+        app:cardElevation="2dp"
+        android:clipToPadding="true"
+        app:cardUseCompatPadding="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:id="@+id/slNo"
-            android:layout_gravity="center_vertical"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:layout_marginStart="16dp"/>
-
-        <RelativeLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:background="@color/white">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="Physics World"
-                android:textSize="13sp"
-                android:breakStrategy="simple"
-                android:layout_centerVertical="true"
-                android:textStyle="bold"
-                android:id="@+id/chapternametxt"
-                android:layout_marginStart="16dp"/>
+            android:gravity="center_vertical">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:id="@+id/rlt_play"
-                android:layout_marginStart="32dp"
-                android:layout_toRightOf="@id/chapternametxt">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:id="@+id/imgplay"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_plays"/>
-
-            <TextView
-                android:layout_width="32dp"
-                android:layout_height="wrap_content"
-                android:text="10"
-                android:textSize="8sp"
-                android:layout_marginTop="3dp"
-                android:layout_centerVertical="true"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:layout_below="@id/imgplay" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rlt_question"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="32dp"
-                android:layout_toRightOf="@id/rlt_play">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:id="@+id/imgdoubts"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_question"/>
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="match_parent"
+                android:background="@color/purple_300"
+                android:gravity="center">
 
                 <TextView
-                    android:layout_width="32dp"
-                    android:layout_height="wrap_content"
-                    android:text="10"
-                    android:textSize="8sp"
-                    android:layout_marginTop="3dp"
-                    android:layout_centerVertical="true"
-                    android:textAlignment="center"
-                    android:textStyle="bold"
-                    android:layout_below="@id/imgdoubts" />
+                    android:id="@+id/txtIndex"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:minWidth="@dimen/_30sdp"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/rlt_question">
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_7sdp">
 
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:id="@+id/imgduration"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_clock"/>
-
-                <TextView
-                    android:layout_width="32dp"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/chapternametxt"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10"
-                    android:textSize="8sp"
-                    android:layout_marginTop="3dp"
                     android:layout_centerVertical="true"
-                    android:textAlignment="center"
-                    android:textStyle="bold"
-                    android:layout_below="@id/imgduration" />
+                    android:layout_marginStart="0dp"
+                    android:layout_weight="1"
+                    android:breakStrategy="simple"
+                    android:textColor="@color/charcoal"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold" />
 
-            </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/rlt_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="7dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-        </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgplay"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_plays"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/noOfVideo"
+                        android:layout_width="32dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="8"
+                        android:textAlignment="center"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/_8sdp" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgduration"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/hrs"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/imgduration"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="3dp"
+                        android:text="1h 25mins"
+                        android:textAlignment="center"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/_8sdp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.cardview.widget.CardView>
 

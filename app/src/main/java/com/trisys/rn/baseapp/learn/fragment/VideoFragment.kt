@@ -77,7 +77,6 @@ class VideoFragment : Fragment() {
             "https://player.vimeo.com/video/409534666"
         )*/
         val url = "https://player.vimeo.com/video/${videoData.description.filter { it.isDigit() }}"
-        Utils.testLog(url)
         webView.settings.javaScriptEnabled = true
         webView.settings.useWideViewPort = true
 

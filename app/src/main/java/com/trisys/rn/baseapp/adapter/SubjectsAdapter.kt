@@ -19,7 +19,7 @@ class SubjectsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subjectTxt = itemView.findViewById(R.id.subjecttxt) as TextView
-        val cardview = itemView.findViewById(R.id.cardsubject) as CardView
+        val cardView = itemView.findViewById(R.id.cardsubject) as CardView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,11 +29,12 @@ class SubjectsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.subjectTxt.text = (subjects.get(position).courseName)
-        holder.cardview.setOnClickListener {
-            subjectClickListener.onSubjectClicked(subjects[position].id.toString())
+        holder.subjectTxt.text = subjects[position].courseName
+        holder.cardView.setOnClickListener {
+            subjectClickListener.onSubjectClicked(subjects[position].id.toString(),subjects[position].courseName.toString())
         }
     }
+
 
     override fun getItemCount(): Int {
         return subjects.size

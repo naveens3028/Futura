@@ -146,7 +146,7 @@ object Utils {
     }
 
     fun getDateValue(date: Long): String {
-        val date = Date(date * 1000)
+        val date = Date(date)
         var dateVal = ""
         try {
             val dfs = DateFormatSymbols()

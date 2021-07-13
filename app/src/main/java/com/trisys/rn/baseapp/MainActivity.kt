@@ -17,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
+import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.doubt.AskDoubtActivity
 import com.trisys.rn.baseapp.fragment.LogOutBottomSheetFragment
 import com.trisys.rn.baseapp.helper.BottomNavigationBehavior
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var loginResponse: LoginData
     private val imageLoader = ImageLoader
 
+    lateinit var databaseHelper: DatabaseHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,6 +56,8 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
 
+//        databaseHelper = DatabaseHelper(this)
+//        databaseHelper.getAllNotification()
         loginResponse =
             Gson().fromJson(MyPreferences(this).getString(Define.LOGIN_DATA), LoginData::class.java)
 

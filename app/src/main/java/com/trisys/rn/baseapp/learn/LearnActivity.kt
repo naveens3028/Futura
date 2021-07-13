@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -39,9 +40,6 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_learn)
 
-        val subjectId: String = intent.getStringExtra("id")!!
-
-
         //Assign Appbar properties
         setSupportActionBar(toolbar)
         val actionBar: ActionBar? = supportActionBar
@@ -51,13 +49,10 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
 
         chapterId = intent.getStringExtra("id")!!
 
-
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-//        batchId = intent.getStringExtra("batchID")!!
-//        batchId = loginData.userDetail?.batchList?.get(0)?.courseId!!
         batchId = "d433f757-ee3e-4632-a6f5-68a7d96fce5a"
         requestChapter()
 
@@ -99,10 +94,15 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
             if (topicResponse.isNotEmpty()) {
                 val titleAdapter = SubTopicsTitleAdapter(this, topicResponse, this)
                 titleRecycler.adapter = titleAdapter
-                if (topicResponse[0].materialList  != null && topicResponse[0].materialList.isNotEmpty()) {
+                if (topicResponse[0].materialList != null && topicResponse[0].materialList?.size!! > 0) {
+                    noData.visibility = View.GONE
+                    supTopicRecycler.visibility = View.VISIBLE
                     subTopicListAdapter =
-                        SubTopicsAdapter(this, topicResponse[0].materialList)
+                        SubTopicsAdapter(this, topicResponse[0].materialList!!)
                     supTopicRecycler.adapter = subTopicListAdapter
+                }else{
+                    noData.visibility = View.VISIBLE
+                    supTopicRecycler.visibility = View.GONE
                 }
             }
         }

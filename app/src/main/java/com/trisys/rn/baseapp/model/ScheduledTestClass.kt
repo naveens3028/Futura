@@ -1,148 +1,176 @@
 package com.trisys.rn.baseapp.model
 
-import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 
-data class ScheduledTestClass(
-    @SerializedName("MOCK_TEST")
-    val mOCKTEST: List<MOCKTEST>,
-    @SerializedName("PRACTICE")
-    val pRACTICE: List<Any>
+data class ScheduledClass(
+    val MOCK_TEST: List<MOCKTEST>,
+    val PRACTICE: List<Any>
 )
 
+@Entity(tableName = "test_detail")
 data class MOCKTEST(
-    @SerializedName("batchIds")
-    val batchIds: Any,
-    @SerializedName("batchList")
-    val batchList: Any,
-    @SerializedName("branchIds")
-    val branchIds: Any,
-    @SerializedName("coachingCenterId")
+    val batchIds: String?,
+    val batchList: String?,
+    val branchIds: String?,
     val coachingCenterId: String,
-    @SerializedName("coachingCentre")
-    val coachingCentre: CoachingCentre,
-    @SerializedName("courseIds")
-    val courseIds: Any,
-    @SerializedName("createdAt")
+    @Ignore
+    val coachingCentre: CoachingCentre1?,
+    val courseIds: String?,
     val createdAt: Long,
-    @SerializedName("createdBy")
-    val createdBy: Any,
-    @SerializedName("expiryDate")
-    val expiryDate: Any,
-    @SerializedName("expiryDateTime")
-    val expiryDateTime: Any,
-    @SerializedName("expiryTime")
-    val expiryTime: Any,
-    @SerializedName("id")
+    val createdBy: String?,
+    val expiryDate: String?,
+    val expiryDateTime: String?,
+    val expiryTime: String?,
+    @PrimaryKey
     val id: String,
-    @SerializedName("publishDate")
     val publishDate: Long,
-    @SerializedName("publishDateTime")
     val publishDateTime: Long,
-    @SerializedName("publishTime")
-    val publishTime: String,
-    @SerializedName("status")
+    val publishTime: String?,
     val status: String,
-    @SerializedName("testPaperId")
     val testPaperId: String,
-    @SerializedName("testPaperVo")
-    val testPaperVo: TestPaperVo,
-    @SerializedName("testStatus")
+    @Ignore
+    val testPaperVo: TestPaperVo?,
     val testStatus: String,
-    @SerializedName("updatedAt")
     val updatedAt: Long,
-    @SerializedName("updatedBy")
-    val updatedBy: Any
-) : Serializable
+    val updatedBy: String?
+) {
+    constructor(
+        batchIds: String?,
+        batchList: String?,
+        branchIds: String?,
+        coachingCenterId: String,
+        courseIds: String?,
+        createdAt: Long,
+        createdBy: String?,
+        expiryDate: String?,
+        expiryDateTime: String?,
+        expiryTime: String?,
+        id: String,
+        publishDate: Long,
+        publishDateTime: Long,
+        publishTime: String?,
+        status: String,
+        testPaperId: String,
+        testStatus: String,
+        updatedAt: Long,
+        updatedBy: String?
+    ) : this(
+        batchIds,
+        batchList,
+        branchIds,
+        coachingCenterId,
+        null,
+        courseIds,
+        createdAt,
+        createdBy,
+        expiryDate,
+        expiryDateTime,
+        expiryTime,
+        id,
+        publishDate,
+        publishDateTime,
+        publishTime,
+        status,
+        testPaperId,
+        null,
+        testStatus,
+        updatedAt,
+        updatedBy
+    )
+}
 
-/*data class CoachingCentre1(
-    @SerializedName("address1")
+data class CoachingCentre1(
     val address1: String,
-    @SerializedName("address2")
     val address2: String,
-    @SerializedName("city")
     val city: String,
-    @SerializedName("coachingCenterCode")
     val coachingCenterCode: String,
-    @SerializedName("coachingCentreName")
     val coachingCentreName: String,
-    @SerializedName("country")
     val country: String,
-    @SerializedName("createdAt")
     val createdAt: Long,
-    @SerializedName("createdBy")
     val createdBy: Any,
-    @SerializedName("email")
     val email: String,
-    @SerializedName("expiryOn")
     val expiryOn: String,
-    @SerializedName("id")
     val id: String,
-    @SerializedName("logoUrl")
     val logoUrl: String,
-    @SerializedName("mobileNumber")
     val mobileNumber: String,
-    @SerializedName("questionLimit")
     val questionLimit: String,
-    @SerializedName("state")
     val state: String,
-    @SerializedName("status")
     val status: String,
-    @SerializedName("updatedAt")
     val updatedAt: Long,
-    @SerializedName("updatedBy")
     val updatedBy: Any,
-    @SerializedName("zipCode")
     val zipCode: String
-)*/
+)
 
+@Entity(tableName = "test_paper")
 data class TestPaperVo(
-    @SerializedName("attempts")
     val attempts: Int,
-    @SerializedName("chapter")
-    val chapter: Any,
-    @SerializedName("chapterId")
-    val chapterId: Any,
-    @SerializedName("completionMessage")
-    val completionMessage: Any,
-    @SerializedName("correctMark")
+    val chapter: String?,
+    val chapterId: String?,
+    val completionMessage: String?,
     val correctMark: Int,
-    @SerializedName("createdAt")
     val createdAt: Long,
-    @SerializedName("createdBy")
-    val createdBy: Any,
-    @SerializedName("duration")
+    val createdBy: String?,
     val duration: Int,
-    @SerializedName("id")
+    @PrimaryKey
     val id: String,
-    @SerializedName("instructions")
-    val instructions: Any,
-    @SerializedName("isHideAnsInResult")
+    val instructions: String?,
     val isHideAnsInResult: Boolean,
-    @SerializedName("isJumbling")
     val isJumbling: Boolean,
-    @SerializedName("isPauseAllow")
     val isPauseAllow: Boolean,
-    @SerializedName("isSolutionRequired")
-    val isSolutionRequired: Any,
-    @SerializedName("name")
+    val isSolutionRequired: String?,
     val name: String,
-    @SerializedName("questionCount")
     val questionCount: Int,
-    @SerializedName("status")
     val status: String,
-    @SerializedName("testCode")
     val testCode: String,
-    @SerializedName("testType")
     val testType: String,
-    @SerializedName("timeLeft")
     val timeLeft: String,
-    @SerializedName("unasweredMark")
     val unasweredMark: Int,
-    @SerializedName("updatedAt")
     val updatedAt: Long,
-    @SerializedName("updatedBy")
-    val updatedBy: Any,
-    @SerializedName("wrongMark")
+    val updatedBy: String?,
+    val wrongMark: Int
+)
+
+@Entity
+data class MergedTest(
+    val batchIds: String?,
+    val batchList: String?,
+    val branchIds: String?,
+    val coachingCenterId: String,
+    val courseIds: String?,
+    val createdAt: Long,
+    val createdBy: String?,
+    val expiryDate: String?,
+    val expiryDateTime: String?,
+    val expiryTime: String?,
+    val id: String,
+    val publishDate: Long,
+    val publishDateTime: Long,
+    val publishTime: String?,
+    val status: String,
+    val testPaperId: String,
+    val testStatus: String,
+    val updatedAt: Long,
+    val updatedBy: String?,
+
+    val attempts: Int,
+    val chapter: String?,
+    val chapterId: String?,
+    val completionMessage: String?,
+    val correctMark: Int,
+    val duration: Int,
+    val instructions: String?,
+    val isHideAnsInResult: Boolean,
+    val isJumbling: Boolean,
+    val isPauseAllow: Boolean,
+    val isSolutionRequired: String?,
+    val name: String,
+    val questionCount: Int,
+    val testCode: String,
+    val testType: String,
+    val timeLeft: String,
+    val unasweredMark: Int,
     val wrongMark: Int
 )

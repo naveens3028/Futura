@@ -8,7 +8,7 @@ class TopicResponse : ArrayList<TopicResponseItem>()
 @Serializable
 data class TopicResponseItem(
     @SerialName("materialList")
-    val materialList: List<VideoMaterial>,
+    val materialList: List<VideoMaterial>? =null,
     @SerialName("topic")
     val topic: Topic
 )

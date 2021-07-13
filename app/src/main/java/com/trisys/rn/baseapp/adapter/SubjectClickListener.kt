@@ -1,5 +1,5 @@
 package com.trisys.rn.baseapp.adapter
 
 interface SubjectClickListener {
-    fun onSubjectClicked(batchId: String)
+    fun onSubjectClicked(batchId: String,title: String)
 }
