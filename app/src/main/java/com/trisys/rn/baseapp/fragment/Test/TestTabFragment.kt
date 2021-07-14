@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
@@ -18,6 +19,7 @@ import com.trisys.rn.baseapp.adapter.test.UnAttemptedTestAdapter
 import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.model.MergedTest
 import com.trisys.rn.baseapp.model.ScheduledClass
+import com.trisys.rn.baseapp.model.TestPaperResponse
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.model.onBoarding.UnAttempted
@@ -39,6 +41,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
     lateinit var db: DatabaseHelper
+    lateinit var testPaperId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,14 +194,20 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             attemptedSetup(attempted)
         }
         if (view != null) {
-            if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+            if (responseCode == networkHelper.responseSuccess && tag == "getStudentTestPaper") {
+                val testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
+                for (question in testPaperResponse.quesionList) {
+                    question.testPaperId = testPaperId
+                    db.addQuestions(question)
+                }
+            } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
                 val scheduledTestResponse =
                     Gson().fromJson(response, ScheduledClass::class.java)
                 if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
-                    scheduleTestRecyclerView.visibility = View.GONE
-                    noTest.visibility = View.VISIBLE
-                } else {
-                    if(db.getAllTest().isNotEmpty()){
+                    if (db.getAllTest().isEmpty()) {
+                        /*recycler.visibility = View.GONE
+                        noData.visibility = View.VISIBLE*/
+                    } else {
                         val scheduledTestAdapter = ScheduledTestAdapter(
                             requireView().context,
                             db.getAllTest(),
@@ -206,9 +215,44 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                         )
                         scheduleTestRecyclerView.adapter = scheduledTestAdapter
                     }
+                } else {
+                    db.deleteTestList()
+                    for (mockTest in scheduledTestResponse.MOCK_TEST) {
+                        getTest(mockTest.testPaperId)
+                        db.saveTestList(mockTest)
+                        db.saveTestPaper(mockTest.testPaperVo!!)
+                    }
+                    val scheduledTestAdapter = ScheduledTestAdapter(
+                        requireView().context,
+                        db.getAllTest(),
+                        this
+                    )
+                    scheduleTestRecyclerView.adapter = scheduledTestAdapter
+                }
+            } else {
+                if (db.getAllTest().isEmpty())
+                    Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG)
+                        .show()
+                else {
+                    val scheduledTestAdapter = ScheduledTestAdapter(
+                        requireView().context,
+                        db.getAllTest(),
+                        this
+                    )
+                    scheduleTestRecyclerView.adapter = scheduledTestAdapter
                 }
             }
         }
+    }
+
+    private fun getTest(testPaperId: String) {
+        this.testPaperId = testPaperId
+        networkHelper.getCall(
+            URLHelper.getStudentTestPaper + "?testPaperId=$testPaperId&studentId=${loginData.userDetail?.userDetailId}",
+            "getStudentTestPaper",
+            ApiUtils.getHeader(requireContext()),
+            this
+        )
     }
 
     private fun unAttemptedSetup(unAttempted: UnAttempted) {
