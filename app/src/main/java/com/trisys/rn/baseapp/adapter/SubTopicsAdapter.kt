@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.row_sub_topics_video.view.*
 
 class SubTopicsAdapter(
     val context: Context,
-    private val subTopicItems:List<VideoMaterial>
+    private val subTopicItems: List<VideoMaterial>
 ) : RecyclerView.Adapter<SubTopicsAdapter.ViewHolder>() {
 
     lateinit var myPreferences: MyPreferences

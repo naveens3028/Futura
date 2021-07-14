@@ -3,25 +3,31 @@ package com.trisys.rn.baseapp.database
 import android.content.Context
 import android.os.AsyncTask
 import com.trisys.rn.baseapp.database.model.NotificationItem
+import com.trisys.rn.baseapp.model.MOCKTEST
+import com.trisys.rn.baseapp.model.MergedTest
+import com.trisys.rn.baseapp.model.Quesion
+import com.trisys.rn.baseapp.model.TestPaperVo
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
-class DatabaseHelper {
+class DatabaseHelper(context: Context) {
     private var db: AppDatabase? = null
 
-    constructor(context: Context){
+    init {
         db = AppDatabase.getInstance(context)
     }
 
-    fun saveAvg(notificationItem: AverageBatchTests){
+    fun saveAvg(notificationItem: AverageBatchTests) {
+
         db!!.averageBatchDao.addAvg(notificationItem)
     }
 
-    fun getAllAverageBatchTest(): MutableList<AverageBatchTests>{
+    fun getAllAverageBatchTest(): MutableList<AverageBatchTests> {
         return db!!.averageBatchDao.getAll()
     }
 
-    fun saveNotificationItem(notificationItem: NotificationItem) : Long{
-        var notificationID : Long = 0
+    fun saveNotificationItem(notificationItem: NotificationItem): Long {
+        var notificationID: Long = 0
+
 
         object : AsyncTask<NotificationItem, Void, Long>() {
             override fun doInBackground(vararg params: NotificationItem): Long {
@@ -49,5 +55,29 @@ class DatabaseHelper {
     }
     fun getAllUnreadNotification(): List<NotificationItem>{
         return db!!.notificationDao.getAllUnreadNotification()
+    }
+
+    fun saveTestList(mockTest: MOCKTEST) {
+        db!!.testDAO.addTest(mockTest)
+    }
+
+    fun saveTestPaper(testPaperVo: TestPaperVo) {
+        db!!.testDAO.addTestPaper(testPaperVo)
+    }
+
+    fun addQuestions(question: Quesion) {
+        db!!.testDAO.addQuestionList(question)
+    }
+
+    fun getQuestionList(testPaperId:String): MutableList<Quesion> {
+        return db!!.testDAO.getQuestion(testPaperId)
+    }
+
+    fun deleteTestList() {
+        db!!.testDAO.deleteTest()
+    }
+
+    fun getAllTest(): MutableList<MergedTest> {
+        return db!!.testDAO.getAll()
     }
 }

@@ -21,9 +21,6 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_video.*
 import org.intellij.lang.annotations.RegExp
-import vimeoextractor.OnVimeoExtractionListener
-import vimeoextractor.VimeoExtractor
-import vimeoextractor.VimeoVideo
 import java.io.*
 import java.security.SecureRandom
 import javax.crypto.Cipher
@@ -39,7 +36,7 @@ class VideoFragment : Fragment() {
     private lateinit var fileName: String
     lateinit var sharedPreferences: SharedPreferences
     lateinit var myPreferences: MyPreferences
-//    private var videoData = VideoMaterial
+    //    private var videoData = VideoMaterial
     lateinit var file: File
     lateinit var player: SimpleExoPlayer
 

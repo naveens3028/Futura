@@ -18,7 +18,6 @@ import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.MyPreferences
-import kotlinx.android.synthetic.main.activity_chapter.*
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
@@ -41,7 +40,7 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        actionBar?.title = "Learn"
+        actionBar?.title = intent.getStringExtra("title")
 
         requestChapter(subjectId)
     }
@@ -58,16 +57,17 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     private fun subjectListCall(subjectList: ArrayList<Datum>) {
-        if(subjectList.size > 0) {
+        if (subjectList.size > 0) {
+            supportActionBar?.subtitle = "${subjectList.size} Chapters"
             //adding a layoutmanager
             recyclerView.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-            recyclerView.setPadding(16,0,16,0)
-            val adapter = SubjectListAdapter(this, subjectList)
+            recyclerView.setPadding(16, 0, 16, 0)
+            val adapter = SubjectListAdapter(this, subjectList, "")
 
             //now adding the adapter to recyclerview
             recyclerView.adapter = adapter
-        }else{
+        } else {
             showErrorMsg("No chapters found, Please try again.")
         }
     }
@@ -95,18 +95,18 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         stateful.showContent()
-        if(responseCode == networkHelper.responseSuccess && tag.equals("getChapter")) {
+        if (responseCode == networkHelper.responseSuccess && tag == "getChapter") {
             val chapterResponse = Gson().fromJson(response, CourseResponse::class.java)
             chapterResponse.data?.let { subjectListCall(it) }
-        }else{
+        } else {
             showErrorMsg(resources.getString(R.string.sfl_default_error))
         }
     }
 
-    fun showErrorMsg(errorMsg : String){
+    fun showErrorMsg(errorMsg: String) {
         stateful.showOffline()
         stateful.setOfflineText(errorMsg)
-        stateful.setOfflineImageResource(R.drawable.icon_error)
+        stateful.setOfflineImageResource(R.drawable.ic_no_data)
         stateful.setOfflineRetryOnClickListener {
             requestChapter(subjectId)
         }

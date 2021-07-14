@@ -4,35 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="7dp"
     android:gravity="center">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/purple_300"
+        android:clipToPadding="true"
         app:cardCornerRadius="10dp"
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true">
 
-
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            >
-            <TextView
-                android:id="@+id/txtIndex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:minWidth="@dimen/_30sdp"
-                android:padding="3dp"
-                android:gravity="center"
-                android:text="1"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
+            <RelativeLayout
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="match_parent"
+                android:background="@color/purple_300"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/txtIndex"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:minWidth="@dimen/_30sdp"
+                    android:padding="3dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -41,7 +45,7 @@
                 android:gravity="center_vertical"
                 android:padding="@dimen/_7sdp">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/chapternametxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,8 +53,8 @@
                     android:layout_marginStart="0dp"
                     android:layout_weight="1"
                     android:breakStrategy="simple"
-                    android:text="Physics World"
-                    android:textSize="13sp"
+                    android:textColor="@color/charcoal"
+                    android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -59,28 +63,25 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="7dp"
-                    android:layout_toRightOf="@id/chapternametxt"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgplay"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint="@color/text_color"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_plays" />
+                        android:src="@drawable/ic_plays"
+                        app:tint="@color/black" />
 
                     <TextView
+                        android:id="@+id/noOfVideo"
                         android:layout_width="32dp"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/imgplay"
-                        android:layout_centerVertical="true"
                         android:layout_marginTop="3dp"
-                        android:text="10"
+                        android:text="8"
                         android:textAlignment="center"
-                        android:textSize="8sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/_8sdp" />
 
                 </LinearLayout>
 
@@ -98,10 +99,10 @@
                         android:id="@+id/imgdoubts"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint="@color/text_color"
-
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_question" />
+
+                        android:src="@drawable/ic_question"
+                        app:tint="@color/text_color" />
 
                     <TextView
                         android:layout_width="32dp"
@@ -122,32 +123,33 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="15dp"
-                    android:layout_toRightOf="@id/rlt_question"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgduration"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint="@color/text_color"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_clock" />
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/black" />
 
                     <TextView
-                        android:layout_width="32dp"
+                        android:id="@+id/hrs"
+                        android:layout_width="@dimen/_40sdp"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/imgduration"
                         android:layout_centerVertical="true"
                         android:layout_marginTop="3dp"
-                        android:text="10"
+                        android:text="1h 25mins"
                         android:textAlignment="center"
-                        android:textSize="8sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/_8sdp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

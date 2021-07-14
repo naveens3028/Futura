@@ -13,13 +13,17 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.test.AllResultsAdapter
 import com.trisys.rn.baseapp.model.TestResultsData
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
+import com.trisys.rn.baseapp.network.URLHelper.answeredTestPaper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_all_results.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import org.json.JSONException
+import org.json.JSONObject
 
 class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
 
@@ -77,6 +81,23 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
             this
         )
 
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put("attempt", "1")
+            jsonObject.put("studentId", "5085517d-90af-49ae-b95b-68c7ec234363")
+            jsonObject.put("testPaperId", "8571b238-3628-4935-b233-b2d8cba32865")
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        networkHelper.postCall(
+            answeredTestPaper,
+            jsonObject,
+            "answeredTestPaper",
+            ApiUtils.getHeader(this),
+            this
+        )
+
     }
 
 
@@ -87,8 +108,10 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        val arrayTutorialType = object : TypeToken<ArrayList<TestResultsData>>() {}.type
-        val newList: ArrayList<TestResultsData> = Gson().fromJson(response, arrayTutorialType)
-        recyclerCall(newList)
+        if (tag == "getResults") {
+            val arrayTutorialType = object : TypeToken<ArrayList<TestResultsData>>() {}.type
+            val newList: ArrayList<TestResultsData> = Gson().fromJson(response, arrayTutorialType)
+            recyclerCall(newList)
+        }
     }
 }

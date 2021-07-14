@@ -4,9 +4,9 @@
     android:id="@+id/layoutIncomeExpensesDisplay"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:gravity="center_vertical"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <com.trisys.rn.baseapp.helper.SimpleStatefulLayout
         android:id="@+id/stateful"
@@ -17,7 +17,10 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/_6sdp"
+            android:overScrollMode="never"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
     </com.trisys.rn.baseapp.helper.SimpleStatefulLayout>
 
 </RelativeLayout>

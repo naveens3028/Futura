@@ -6,6 +6,8 @@
     android:fitsSystemWindows="true">
 
     <include layout="@layout/layout_toolbar" />
-    <include layout="@layout/layout_recyclerview" />
+
+    <include
+        layout="@layout/layout_recyclerview" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

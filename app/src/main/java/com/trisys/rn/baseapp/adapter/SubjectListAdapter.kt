@@ -11,7 +11,11 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.learn.LearnActivity
 import com.trisys.rn.baseapp.model.Datum
 
-class SubjectListAdapter(val context: Context, val chaptersList: ArrayList<Datum>) :
+class SubjectListAdapter(
+    val context: Context,
+    private val chaptersList: ArrayList<Datum>,
+    val batchId: String
+) :
     RecyclerView.Adapter<SubjectListAdapter.ViewHolder>() {
 
 
@@ -27,12 +31,14 @@ class SubjectListAdapter(val context: Context, val chaptersList: ArrayList<Datum
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.chapternametxt.text = (chaptersList.get(position).courseName)
-        holder.txtIndex.text = ""+(position+1)
+        holder.chapternametxt.text = (chaptersList[position].courseName)
+        holder.txtIndex.text = "" + (position + 1)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LearnActivity::class.java)
-            intent.putExtra("id", chaptersList.get(position).id)
+            intent.putExtra("title", chaptersList[position].courseName)
+            intent.putExtra("id", chaptersList[position].id)
+            intent.putExtra("batchID", batchId)
             context.startActivity(intent)
         }
     }

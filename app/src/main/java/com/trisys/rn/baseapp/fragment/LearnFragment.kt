@@ -3,13 +3,17 @@ package com.trisys.rn.baseapp.fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.ChapterActivity
@@ -27,24 +31,10 @@ import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_learn.*
-import kotlinx.android.synthetic.main.layout_recyclerview.*
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetworkResponse {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private lateinit var subjectRecycler: RecyclerView
+
     private lateinit var courseRecycler: RecyclerView
     private var loginData = LoginData()
     lateinit var myPreferences: MyPreferences
@@ -52,10 +42,6 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
         myPreferences = MyPreferences(requireContext())
         networkHelper = NetworkHelper(requireContext())
     }
@@ -73,10 +59,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         super.onViewCreated(view, savedInstanceState)
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        subjectRecycler = view.findViewById(R.id.recyclerView) as RecyclerView
-        subjectRecycler.layoutManager = GridLayoutManager(requireContext(),2)
-        subjectRecycler.setPadding(50,0,50,0)
-        subjectRecycler.setItemAnimator(DefaultItemAnimator())
+
         courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
 
         courseCall()
@@ -84,13 +67,16 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     private fun subjectCall(subjectList: ArrayList<Datum>) {
-        if(subjectList.size >0) {
+        val manager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
+        manager.justifyContent = JustifyContent.CENTER
+        recyclerview.layoutManager = manager
+        if (subjectList.size > 0) {
             //adding a layoutmanager
             val adapter = SubjectsAdapter(requireContext(), subjectList, this)
 
             //now adding the adapter to recyclerview
-            subjectRecycler.adapter = adapter
-        }else{
+            recyclerview.adapter = adapter
+        } else {
             showErrorMsg("No subject found.")
         }
     }
@@ -105,15 +91,11 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
                 LinearLayoutManager.HORIZONTAL
             )
         )
-
         val adapter = CourseAdapter(requireContext(), this, loginData.userDetail?.batchList!!)
-
-        //now adding the adapter to recyclerview
         courseRecycler.adapter = adapter
     }
 
     private fun requestSessions(batchId: String) {
-        stateful.showProgress()
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
             "getCourse",
@@ -123,50 +105,28 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LearnFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LearnFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
-    override fun onSubjectClicked(batchId: String) {
+    override fun onSubjectClicked(batchId: String, title: String) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
         intent.putExtra("id", batchId)
+        intent.putExtra("title", title)
         startActivity(intent)
     }
 
-    override fun onCoureClicked(batchId: String) {
+    override fun onCourseClicked(batchId: String, position: Int) {
+        courseRecycler.layoutManager?.scrollToPosition(position)
         requestSessions(batchId)
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        Log.e(
-            "naveen",
-            "responseCode: " + responseCode.toString() + "response: " + response + "tag" + tag
-        )
-        stateful.showContent()
         if (responseCode == networkHelper.responseSuccess && tag == "getCourse") {
             val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
             subjectCall(courseResponse.data!!)
-        }else{
+        } else {
             showErrorMsg(resources.getString(R.string.sfl_default_error))
         }
     }
-    fun showErrorMsg(errorMsg : String){
+
+    fun showErrorMsg(errorMsg: String) {
         stateful.showOffline()
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.icon_error)

@@ -59,7 +59,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.NotificationsActivity" />
-        <activity android:name=".activity.AttemptedResultsActivity" />
+        <activity android:name=".activity.AttemptedResultsActivity"
+            android:exported="true"/>
         <activity
             android:name=".MainActivity"
             android:exported="true" />

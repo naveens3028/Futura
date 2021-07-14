@@ -8,7 +8,7 @@ class TopicResponse : ArrayList<TopicResponseItem>()
 @Serializable
 data class TopicResponseItem(
     @SerialName("materialList")
-    val materialList: List<VideoMaterial>,
+    val materialList: List<VideoMaterial>? =null,
     @SerialName("topic")
     val topic: Topic
 )
@@ -80,3 +80,6 @@ data class Topic(
     @SerialName("updatedBy")
     val updatedBy: String
 )
+
+@Serializable
+data class MaterialVideoList( val materialList: List<VideoMaterial>)

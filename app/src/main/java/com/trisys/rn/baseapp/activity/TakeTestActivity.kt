@@ -105,20 +105,13 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode == networkHelper.responseSuccess && tag == "testStatus") {
-            val statusResponse = Gson().fromJson(response, TestStatusResponse::class.java)
-            if (statusResponse.data == "Updated") {
-                val intent = Intent(this, TodayTestActivity::class.java)
-                intent.putExtra("testPaperId", testPaperId)
-                intent.putExtra("studentId", loginData.userDetail?.userDetailId)
-                intent.putExtra("date", heading.text)
-                intent.putExtra("testName", testPaperName)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Unable to start the Test", Toast.LENGTH_LONG).show()
-            }
-        } else {
-            Toast.makeText(this, "Unable to start the Test..", Toast.LENGTH_LONG).show()
+        if ( tag == "testStatus") {
+            val intent = Intent(this, TodayTestActivity::class.java)
+            intent.putExtra("testPaperId", testPaperId)
+            intent.putExtra("studentId", loginData.userDetail?.userDetailId)
+            intent.putExtra("date", heading.text)
+            intent.putExtra("testName", testPaperName)
+            startActivity(intent)
         }
     }
 

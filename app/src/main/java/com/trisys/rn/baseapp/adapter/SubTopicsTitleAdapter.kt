@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.learn.TopicClickListener
 import com.trisys.rn.baseapp.model.TopicResponseItem
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_sub_topics_title.view.*
 
 class SubTopicsTitleAdapter(
@@ -43,7 +42,7 @@ class SubTopicsTitleAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            topicClickListener.onTopicSelected(subTopicTitle.materialList)
+            subTopicTitle.materialList?.let { it -> topicClickListener.onTopicSelected(it) }
             previousPosition = currentPosition
             currentPosition = position
             if (previousPosition != -1) notifyItemChanged(previousPosition)

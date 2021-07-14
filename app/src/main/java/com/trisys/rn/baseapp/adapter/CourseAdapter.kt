@@ -10,11 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.fragment.Test.CourseListener
 import com.trisys.rn.baseapp.model.onBoarding.batchItem
+import com.trisys.rn.baseapp.utils.ColorConstant
 import java.util.*
 
-class CourseAdapter(val context: Context, val courseListener: CourseListener, val courseList: ArrayList<batchItem>) :
+class CourseAdapter(
+    val context: Context,
+    private val courseListener: CourseListener,
+    val courseList: ArrayList<batchItem>
+) :
     RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
-    var Index = 0
+    private var index = 0
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subjectTxt = itemView.findViewById(R.id.coursetxt) as TextView
@@ -32,19 +37,18 @@ class CourseAdapter(val context: Context, val courseListener: CourseListener, va
 
         when (position) {
             0 -> {
-
                 holder.subjectTxt.setBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.bluishgreen
+                        ColorConstant.NCERT
                     )
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
-                if (Index == 1) {
+                if (index == 0) {
                     holder.subjectTxt.setBackgroundColor(
                         ContextCompat.getColor(
                             context,
-                            R.color.white
+                            ColorConstant.SELECTED
                         )
                     )
                     holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
@@ -55,12 +59,12 @@ class CourseAdapter(val context: Context, val courseListener: CourseListener, va
                 holder.subjectTxt.setBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.blue
+                        ColorConstant.NEET
                     )
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
 
-                if (Index == 0) {
+                if (index == 1) {
                     holder.subjectTxt.setBackgroundColor(
                         ContextCompat.getColor(
                             context,
@@ -74,12 +78,12 @@ class CourseAdapter(val context: Context, val courseListener: CourseListener, va
                 holder.subjectTxt.setBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.yellow
+                        ColorConstant.JEE_MAINS
                     )
                 )
                 holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
 
-                if (Index == 2) {
+                if (index == 2) {
                     holder.subjectTxt.setBackgroundColor(
                         ContextCompat.getColor(
                             context,
@@ -91,8 +95,8 @@ class CourseAdapter(val context: Context, val courseListener: CourseListener, va
             }
         }
         holder.subjectTxt.setOnClickListener {
-            courseListener.onCoureClicked(courseList[position].courseId)
-            Index = position
+            courseListener.onCourseClicked(courseList[position].courseId,position)
+            index = position
             notifyDataSetChanged()
         }
     }

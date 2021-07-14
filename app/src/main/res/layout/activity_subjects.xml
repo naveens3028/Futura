@@ -4,41 +4,40 @@
     android:id="@+id/cardsubject"
     android:layout_width="@dimen/_120sdp"
     android:layout_height="@dimen/_120sdp"
-    android:layout_gravity="center"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="@dimen/_15sdp"
-    app:cardElevation="5dp">
+    android:layout_margin="@dimen/_8sdp"
+    app:cardBackgroundColor="@color/emerald"
+    app:cardCornerRadius="@dimen/_12sdp"
+    app:cardElevation="@dimen/_5sdp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="1dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/subjectimg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1.5"
-            android:padding="@dimen/_10sdp"
-            android:src="@drawable/physics" />
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:src="@drawable/physics"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subjecttxt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:background="#1D424242"
+            android:background="@color/background_black"
             android:gravity="center"
-            android:text="Physics"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subjectimg" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
 
