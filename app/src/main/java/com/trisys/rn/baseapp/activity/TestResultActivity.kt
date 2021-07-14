@@ -111,8 +111,10 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
 
     private fun setValuestoUI(testResultsModel: TestResultsModel){
         myProgressBar.dismiss()
+        outofStudents.text = "Out of "+testResultsModel.totalRank.toString()+ " Students"
         yourScoreTxt.text = testResultsModel.totalObtainedMarks.toString()
-        outOfScoretxt.text = testResultsModel.totalRank.toString()
+        rankCircle.text = testResultsModel.currentRank.toString()
+        outOfScoretxt.text = "Out of "+testResultsModel.totalQuestions.toString()
         correctAnsTxt.text = testResultsModel.totalCorrectMarks.toString()
         inCorrectAnsTxts.text = testResultsModel.totalWrongAttemptedQuestions.toString()
         unansweredTxtView.text = testResultsModel.totalUnAttemptedQuestons.toString()
