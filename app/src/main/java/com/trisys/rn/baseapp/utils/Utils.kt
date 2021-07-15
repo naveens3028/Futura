@@ -12,6 +12,7 @@ import com.trisys.rn.baseapp.BuildConfig
 import com.trisys.rn.baseapp.helper.TextDrawable
 import org.ocpsoft.prettytime.PrettyTime
 import java.io.IOException
+import java.math.BigDecimal
 import java.text.DateFormat
 import java.text.DateFormatSymbols
 import java.text.ParseException
@@ -20,6 +21,7 @@ import java.util.*
 
 
 object Utils {
+    const val LAUNCH_SECOND_ACTIVITY = 2
 
     fun getAppVersionCode(context: Context): Int? {
         var versonName: Int? = 0
@@ -139,6 +141,7 @@ object Utils {
             Log.d(tag, message!!)
         }
     }
+
     fun testLog(message: String) {
         if (BuildConfig.DEBUG) {
             Log.d("s2s", "sara $message")
@@ -172,13 +175,28 @@ object Utils {
         }
         return dateVal
     }
-    fun getDuration(duration: Int): String {
-        return if (duration < 60){
+
+    fun getDuration(duration: Int?): String {
+        return if (duration == null) {
+            "-"
+        } else if (duration < 60) {
             duration.toString() + "mins"
-        }else{
-            if (duration % 60 == 0) (duration/60).toString() + "hr"
-            else (duration/60).toString() + "hr, " + (duration%60).toString() + "mins"
+        } else {
+            if (duration % 60 == 0) (duration / 60).toString() + "hr"
+            else (duration / 60).toString() + "hr, " + (duration % 60).toString() + "mins"
 
         }
     }
+
+    fun getMarkPercentage(d: Double?): String {
+        if (d == null) {
+            return "-"
+        } else if (d % 1 == 0.0) {
+            return "${d.toInt()}%"
+        }
+        var bd = BigDecimal(d.toString())
+        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP)
+        return "$bd%"
+    }
+
 }

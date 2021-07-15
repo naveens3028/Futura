@@ -18,7 +18,7 @@ data class TestPaperResponse(
 @Serializable
 data class Quesion(
     @SerialName("answer")
-    val answer: String?,
+    var answer: String?,
     @SerialName("answeredMark")
     val answeredMark: Int,
     @PrimaryKey
@@ -36,8 +36,6 @@ data class Quesion(
     val position: Int,
     @SerialName("isAnswered")
     var isAnswered: Boolean = false,
-    @SerialName("optionSelected")
-    var optionSelected: String? = "",
     @SerialName("questionContent")
     val questionContent: String,
     @SerialName("questionType")

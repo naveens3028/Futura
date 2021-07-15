@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.androidnetworking.common.Priority
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
@@ -16,7 +16,7 @@ import com.trisys.rn.baseapp.onBoarding.LoginActivity
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_dialog_logout.*
-import kotlinx.android.synthetic.main.row_study.*
+import org.json.JSONObject
 
 class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse {
 
@@ -33,7 +33,6 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_bottom_sheet_dialog_logout, container, false)
     }
 
@@ -48,23 +47,20 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
         }
     }
 
-    fun clearUserData(){
+    private fun clearUserData() {
         myPreferences.clearAllData()
     }
 
     private fun logoutRequest() {
         yesButton.visibility = View.INVISIBLE
-//        requireActivity().progressBar.visibility = View.VISIBLE
-        val params = HashMap<String, String>()
-        params["id"] = myPreferences.getString(Define.ACCESS_TOKEN).toString()
+        val jsonObject = JSONObject()
+        jsonObject.put("id", myPreferences.getString(Define.ACCESS_TOKEN).toString())
 
-        networkHelper.call(
-            networkHelper.POST,
-            networkHelper.RESTYPE_OBJECT,
+        networkHelper.postCall(
             URLHelper.logout,
-            params,
-            Priority.HIGH,
+            jsonObject,
             "logout",
+            ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
             this
         )
     }
@@ -76,10 +72,8 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
             requireContext().startActivity(intent)
             myPreferences.setString(Define.LOGIN_DATA, "")
             activity?.finishAffinity()
-
         } else {
             yesButton.visibility = View.VISIBLE
-//            progressBar.visibility = View.GONE
             Toast.makeText(
                 requireContext(),
                 "logout Failed...Please try sometimes later",

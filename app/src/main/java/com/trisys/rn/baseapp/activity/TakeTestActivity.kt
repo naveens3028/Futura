@@ -5,21 +5,23 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.database.DatabaseHelper
+import com.trisys.rn.baseapp.model.TestPaperResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
-import com.trisys.rn.baseapp.model.onBoarding.TestStatusResponse
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.network.URLHelper.testStatus
 import com.trisys.rn.baseapp.network.UrlConstants.kSTARTED
 import com.trisys.rn.baseapp.practiceTest.TodayTestActivity
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_take_test.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONException
@@ -30,8 +32,12 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
+    private lateinit var db: DatabaseHelper
     lateinit var testPaperId: String
     lateinit var testPaperName: String
+    var duration = 0
+    var timeLeft = 0
+    var isPauseAllow = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,25 +52,19 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
+        db = DatabaseHelper(this)
 
         assignValue(intent)
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
         takeTest.setOnClickListener {
-            startTest()
+            getTest()
         }
     }
 
-    private fun assignValue(intent: Intent) {
-        durationValue.text = intent.getStringExtra("duration")
-        questionValue.text = intent.getStringExtra("questionCount")
-        attemptedValue.text = intent.getStringExtra("noAttempted")
-        heading.text = intent.getStringExtra("date")
-        testPaperId = intent.getStringExtra("testPaperId") ?: ""
-        testPaperName = intent.getStringExtra("testPaperName") ?: ""
-    }
-
-    private fun startTest() {
+    private fun getTest() {
+        stateful.showProgress()
+        stateful.setProgressText("Downloading Test..")
         val jsonObject = JSONObject()
         try {
             jsonObject.put("testPaperId", testPaperId)
@@ -81,6 +81,30 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             ApiUtils.getHeader(this),
             this
         )
+        networkHelper.getCall(
+            URLHelper.getStudentTestPaper + "?testPaperId=$testPaperId&studentId=${loginData.userDetail?.userDetailId.toString()}",
+            "getStudentTestPaper",
+            ApiUtils.getHeader(this),
+            this
+        )
+        /*networkHelper.getCall(
+            URLHelper.testPaperForStudent + "?testPaperId=$testPaperId&userDetailId=${loginData.userDetail?.userDetailId.toString()}",
+            "testPaperForStudent",
+            ApiUtils.getHeader(this),
+            this
+        )*/
+    }
+
+    private fun assignValue(intent: Intent) {
+        duration = intent.getIntExtra("duration",0)
+        timeLeft = intent.getIntExtra("timeLeft",0)
+        durationValue.text = Utils.getDuration(duration)
+        questionValue.text = intent.getStringExtra("questionCount")
+        attemptedValue.text = intent.getStringExtra("noAttempted")
+        heading.text = intent.getStringExtra("date")
+        testPaperId = intent.getStringExtra("testPaperId") ?: ""
+        testPaperName = intent.getStringExtra("testPaperName") ?: ""
+        isPauseAllow = intent.getBooleanExtra("isPauseAllow",false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -105,13 +129,24 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if ( tag == "testStatus") {
+        if (responseCode == networkHelper.responseSuccess && tag == "getStudentTestPaper") {
+            val testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
+            for (question in testPaperResponse.quesionList) {
+                question.testPaperId = testPaperId
+                db.addQuestions(question)
+            }
+            stateful.showContent()
             val intent = Intent(this, TodayTestActivity::class.java)
             intent.putExtra("testPaperId", testPaperId)
             intent.putExtra("studentId", loginData.userDetail?.userDetailId)
             intent.putExtra("date", heading.text)
             intent.putExtra("testName", testPaperName)
+            intent.putExtra("duration", duration)
+            intent.putExtra("timeLeft", timeLeft)
+            intent.putExtra("isPauseAllow", isPauseAllow)
+            intent.putExtra("attemptedValue", intent.getStringExtra("noAttempted"))
             startActivity(intent)
+            finish()
         }
     }
 

@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.QuestionNumberItem
 import com.trisys.rn.baseapp.model.QuestionType
+import com.trisys.rn.baseapp.practiceTest.QuestionClickListener
 import kotlinx.android.synthetic.main.row_question_number_list.view.*
 
 
 class QuestionNumberAdapter(
     val context: Context,
-    private var questionNumberItem: ArrayList<QuestionNumberItem>
+    private var questionNumberItem: ArrayList<QuestionNumberItem>,
+    var questionClick: QuestionClickListener
 ) : RecyclerView.Adapter<QuestionNumberAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -29,6 +31,9 @@ class QuestionNumberAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val questionNumber = questionNumberItem[position]
         holder.itemView.questionNumber.text = questionNumber.questionNumber.toString()
+        holder.itemView.setOnClickListener {
+            questionClick.onQuestionClicked(position)
+        }
         when (questionNumber.questionType) {
             QuestionType.ATTEMPT -> {
                 holder.itemView.numberBackground.setCardBackgroundColor(

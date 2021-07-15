@@ -6,15 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.model.MergedTest
-import com.trisys.rn.baseapp.utils.Utils
+import com.trisys.rn.baseapp.model.MOCKTEST
 import com.trisys.rn.baseapp.utils.Utils.getDateValue
 import kotlinx.android.synthetic.main.row_scheduled_test.view.*
 
 
 class ScheduledTestAdapter(
     val context: Context,
-    private val scheduledItems: List<MergedTest>,
+    private val scheduledItems: List<MOCKTEST>,
     private var testClickListener: TestClickListener
 ) : RecyclerView.Adapter<ScheduledTestAdapter.ViewHolder>() {
 
@@ -28,11 +27,10 @@ class ScheduledTestAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val scheduledTest = scheduledItems[position]
-        holder.itemView.testName.text = scheduledTest.name
-        holder.itemView.marks.text = scheduledTest.questionCount.toString()
-        Utils.testLog(scheduledTest.publishDate.toString())
+        holder.itemView.testName.text = scheduledTest.testPaperVo?.name
+        holder.itemView.marks.text = scheduledTest.testPaperVo?.questionCount.toString()
         holder.itemView.date.text = getDateValue(scheduledTest.publishDate)
-        holder.itemView.duration.text = scheduledTest.duration.toString()
+        holder.itemView.duration.text = scheduledTest.testPaperVo?.duration.toString()
         holder.itemView.takeTest.setOnClickListener {
             testClickListener.onTestClicked(true, scheduledTest)
         }

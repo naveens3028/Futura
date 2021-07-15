@@ -52,7 +52,7 @@ class QuestionAdapter(
         answerChooseItem.add(AnswerChooseItem(item.optionC?.replace("\n", "")))
         answerChooseItem.add(AnswerChooseItem(item.optionD?.replace("\n", "")))
         itemView.answerChoose.adapter =
-            AnswerChooseAdapter(mContext, answerChooseItem, answerClickListener, position, isReview)
+            AnswerChooseAdapter(mContext, answerChooseItem,item.answer, answerClickListener, position, isReview)
         container.addView(itemView)
         return itemView
     }

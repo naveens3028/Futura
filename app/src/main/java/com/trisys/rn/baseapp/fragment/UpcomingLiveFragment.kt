@@ -120,7 +120,7 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             URLHelper.getSessions,
             jsonObject,
             "upcomingSessions",
-            ApiUtils.getAuthorizationHeader(requireContext()),
+            ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
             this
         )
     }

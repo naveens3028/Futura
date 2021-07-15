@@ -154,7 +154,8 @@ data class Course(
 
 @Entity(tableName = "AverageBatch")
 data class AverageBatchTests(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    var averageBatchID: Int = 0,
     @ColumnInfo(name = "studentAverage")
     @SerializedName("studentAverage") var studentAverage: Double,
     @ColumnInfo(name = "classAverage")

@@ -15,7 +15,6 @@ import com.trisys.rn.baseapp.model.AnswerChooseItem
 import com.trisys.rn.baseapp.model.QuestionItem
 import com.trisys.rn.baseapp.model.QuestionNumberItem
 import com.trisys.rn.baseapp.model.QuestionType
-import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import kotlinx.android.synthetic.main.activity_test_review.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
@@ -42,7 +41,7 @@ class TestReviewActivity : AppCompatActivity() {
             showDialog()
         }
 
-        questionNumberItem.add(QuestionNumberItem(1, QuestionType.ATTEMPT))
+        /*questionNumberItem.add(QuestionNumberItem(1, QuestionType.ATTEMPT))
         questionNumberItem.add(QuestionNumberItem(2, QuestionType.NOT_ATTEMPT))
         questionNumberItem.add(QuestionNumberItem(3, QuestionType.MARK_FOR_REVIEW))
         questionNumberItem.add(QuestionNumberItem(4, QuestionType.NOT_ATTEMPT))
@@ -52,8 +51,8 @@ class TestReviewActivity : AppCompatActivity() {
         questionNumberItem.add(QuestionNumberItem(8, QuestionType.NOT_ATTEMPT))
         questionNumberItem.add(QuestionNumberItem(9, QuestionType.NOT_ATTEMPT))
         questionNumberItem.add(QuestionNumberItem(10, QuestionType.ATTEMPT))
-        val questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem)
-        questionNumberRecycler.adapter = questionNumberAdapter
+        val questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, )
+        questionNumberRecycler.adapter = questionNumberAdapter*/
 
         answerChooseItem.add(AnswerChooseItem("a). Has to reduced."))
         answerChooseItem.add(AnswerChooseItem("b). Has to be increased."))
@@ -119,8 +118,9 @@ class TestReviewActivity : AppCompatActivity() {
             dialog.cancel()
             dialog.hide()
         }
-        val questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem)
-        dialog.questionNumber.adapter = questionNumberAdapter
+        /*val questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
+        dialog.questionNumber.adapter = questionNumberAdapter*/
         dialog.show()
     }
+
 }

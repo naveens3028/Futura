@@ -1,8 +1,6 @@
 package com.trisys.rn.baseapp.database.dao
 
 import androidx.room.*
-import com.trisys.rn.baseapp.model.MOCKTEST
-import com.trisys.rn.baseapp.model.MergedTest
 import com.trisys.rn.baseapp.model.Quesion
 import com.trisys.rn.baseapp.model.TestPaperVo
 
@@ -10,18 +8,7 @@ import com.trisys.rn.baseapp.model.TestPaperVo
 interface TestDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addTest(mockTest: MOCKTEST)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addTestPaper(testPaperVo: TestPaperVo)
-
-    @Query("DELETE FROM test_detail")
-    fun deleteTest()
-
-    @Transaction
-    @Query("SELECT * FROM test_detail JOIN test_paper WHERE test_detail.testPaperId = test_paper.id")
-    fun getAll(): MutableList<MergedTest>
-
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addQuestionList(question: Quesion)
@@ -29,5 +16,9 @@ interface TestDAO {
     @Transaction
     @Query("SELECT * FROM question_list WHERE testPaperId = :id")
     fun getQuestion(id: String): MutableList<Quesion>
+
+    @Transaction
+    @Query("UPDATE question_list SET answer=:answer WHERE id = :id")
+    fun updateQuestion(id: String, answer: String?)
 
 }

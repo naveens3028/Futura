@@ -1,8 +1,6 @@
 package com.trisys.rn.baseapp.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 data class ScheduledClass(
@@ -10,13 +8,11 @@ data class ScheduledClass(
     val PRACTICE: List<Any>
 )
 
-@Entity(tableName = "test_detail")
 data class MOCKTEST(
     val batchIds: String?,
     val batchList: String?,
     val branchIds: String?,
     val coachingCenterId: String,
-    @Ignore
     val coachingCentre: CoachingCentre1?,
     val courseIds: String?,
     val createdAt: Long,
@@ -24,63 +20,17 @@ data class MOCKTEST(
     val expiryDate: String?,
     val expiryDateTime: String?,
     val expiryTime: String?,
-    @PrimaryKey
     val id: String,
     val publishDate: Long,
     val publishDateTime: Long,
     val publishTime: String?,
     val status: String,
     val testPaperId: String,
-    @Ignore
     val testPaperVo: TestPaperVo?,
     val testStatus: String,
     val updatedAt: Long,
     val updatedBy: String?
-) {
-    constructor(
-        batchIds: String?,
-        batchList: String?,
-        branchIds: String?,
-        coachingCenterId: String,
-        courseIds: String?,
-        createdAt: Long,
-        createdBy: String?,
-        expiryDate: String?,
-        expiryDateTime: String?,
-        expiryTime: String?,
-        id: String,
-        publishDate: Long,
-        publishDateTime: Long,
-        publishTime: String?,
-        status: String,
-        testPaperId: String,
-        testStatus: String,
-        updatedAt: Long,
-        updatedBy: String?
-    ) : this(
-        batchIds,
-        batchList,
-        branchIds,
-        coachingCenterId,
-        null,
-        courseIds,
-        createdAt,
-        createdBy,
-        expiryDate,
-        expiryDateTime,
-        expiryTime,
-        id,
-        publishDate,
-        publishDateTime,
-        publishTime,
-        status,
-        testPaperId,
-        null,
-        testStatus,
-        updatedAt,
-        updatedBy
-    )
-}
+)
 
 data class CoachingCentre1(
     val address1: String,

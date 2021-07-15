@@ -1,4 +1,4 @@
-package com.trisys.rn.baseapp.fragment.Test
+package com.trisys.rn.baseapp.fragment.practiceTest
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -16,12 +16,13 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
+import com.trisys.rn.baseapp.utils.Utils.getMarkPercentage
 import kotlinx.android.synthetic.main.row_average_student.view.*
 import kotlinx.android.synthetic.main.row_chart.view.*
 
 class CarouselAdapter(
     val context: Context,
-    val testResult: MutableList<AverageBatchTests>
+    private val testResult: MutableList<AverageBatchTests>
 ) : RecyclerView.Adapter<CarouselAdapter.ViewHolder>() {
 
     companion object {
@@ -55,11 +56,9 @@ class CarouselAdapter(
             0 -> {
                 holder.itemView.stud_rank.text = testResult[0].rank.toString()
                 holder.itemView.yourAvgScoretxt.text =
-                    String.format("%.2f", testResult[0].studentAverage) + "%"
-                holder.itemView.classAvgtxt.text =
-                    String.format("%.2f", testResult[0].classAverage) + "%"
-                holder.itemView.topperAvgTxt.text =
-                    String.format("%.2f", testResult[0].topperAverage) + "%"
+                    getMarkPercentage(testResult[0].studentAverage)
+                holder.itemView.classAvgtxt.text = getMarkPercentage(testResult[0].classAverage)
+                holder.itemView.topperAvgTxt.text = getMarkPercentage(testResult[0].topperAverage)
                 holder.itemView.outOfStud.text = "Out of ${testResult[0].rank} Students "
             }
             1 -> {

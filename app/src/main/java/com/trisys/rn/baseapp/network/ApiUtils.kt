@@ -14,12 +14,12 @@ object ApiUtils {
         return headers
     }
 
-    fun getAuthorizationHeader(context: Context?): HashMap<String, String> {
+    fun getAuthorizationHeader(context: Context?,contentLength:Int): HashMap<String, String> {
         val myPreferences = MyPreferences(context)
         val headers = HashMap<String, String>()
         headers["access_token"] = myPreferences.getString(Define.ACCESS_TOKEN).toString()
         headers["Content-Type"] = "application/json; charset=UTF-8"
-        headers["Content-Length"] = "268"
+        headers["Content-Length"] = contentLength.toString()
         headers["Host"] = "api.upmyranks.com"
         Utils.log(
             "NetworkHelper",

@@ -111,8 +111,7 @@ class NetworkHelper(context: Context) {
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onResponse(response: JSONObject) {
-                    // do anything with response
-                    Log.e(TAG, "response -$tag  $response")
+                    Utils.log(TAG, "response -$tag  $response")
                     if (context != null)
                         onNetworkResponse.onNetworkResponse(
                             responseSuccess,
@@ -122,8 +121,7 @@ class NetworkHelper(context: Context) {
                 }
 
                 override fun onError(error: ANError) {
-                    // handle error
-                    Log.e("NetworkError", error.errorBody!!)
+                    Utils.log(TAG,"NetworkError -$tag ${error.errorBody!!} ${error.errorCode}")
                     if (BuildConfig.DEBUG) {
                         val response =
                             "URL :" + url + "\nError Code : " + error.errorCode + "response : \n" + error.errorDetail
@@ -210,11 +208,11 @@ class NetworkHelper(context: Context) {
                             response.toString(),
                             tag
                         )
-                    Log.e(TAG, "response -$tag  $response")
+                    Utils.log(TAG, "response -$tag  $response")
                 }
 
                 override fun onError(error: ANError) {
-                    Log.e("NetworkError", error.toString())
+                    Utils.log(TAG, "NetworkError -$tag $error ${error.errorCode}")
                     if (context != null)
                         if (error.errorDetail.equals("connectionError")) {
                             onNetworkResponse.onNetworkResponse(
@@ -435,7 +433,10 @@ class NetworkHelper(context: Context) {
                     )
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(TAG, "ErrorListener -$tag $error ${error.networkResponse.statusCode} ${error.networkResponse}")
+                    Utils.log(
+                        TAG,
+                        "ErrorListener -$tag $error ${error.networkResponse.statusCode} ${error.networkResponse}"
+                    )
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,

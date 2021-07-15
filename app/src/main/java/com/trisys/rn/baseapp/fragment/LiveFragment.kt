@@ -148,7 +148,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
             getSessions,
             jsonObject,
             "liveSessions",
-            getAuthorizationHeader(requireContext()),
+            getAuthorizationHeader(requireContext(),jsonObject.toString().length),
             this
         )
     }

@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".onBoarding.LoginFragment">
+    tools:context=".onBoarding.fragment.LoginFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -26,10 +26,10 @@
                 android:hint="@string/email_address"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:text="21QR1026"
                 android:padding="@dimen/_10sdp"
                 android:paddingStart="@dimen/_20sdp"
                 android:paddingEnd="@dimen/_10sdp"
+                android:text="21QR1026"
                 android:textColor="@color/charcoal"
                 android:textColorHint="@color/platinum"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -43,13 +43,13 @@
                 android:layout_margin="@dimen/_15sdp"
                 android:background="@drawable/rounded_circle_filled"
                 android:hint="@string/mobile_number"
-                android:text="upmyranks123"
                 android:inputType="textPassword"
                 android:maxLength="12"
                 android:maxLines="1"
                 android:padding="@dimen/_10sdp"
                 android:paddingStart="@dimen/_20sdp"
                 android:paddingEnd="@dimen/_10sdp"
+                android:text="upmyranks123"
                 android:textColor="@color/charcoal"
                 android:textColorHint="@color/platinum"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -169,8 +169,8 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp"
-                app:layout_constraintTop_toBottomOf="@+id/google"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/google" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

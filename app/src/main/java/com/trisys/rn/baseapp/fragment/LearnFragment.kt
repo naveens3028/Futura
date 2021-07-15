@@ -20,7 +20,7 @@ import com.trisys.rn.baseapp.activity.ChapterActivity
 import com.trisys.rn.baseapp.adapter.CourseAdapter
 import com.trisys.rn.baseapp.adapter.SubjectClickListener
 import com.trisys.rn.baseapp.adapter.SubjectsAdapter
-import com.trisys.rn.baseapp.fragment.Test.CourseListener
+import com.trisys.rn.baseapp.fragment.practiceTest.CourseListener
 import com.trisys.rn.baseapp.model.CourseResponse
 import com.trisys.rn.baseapp.model.Datum
 import com.trisys.rn.baseapp.model.onBoarding.LoginData

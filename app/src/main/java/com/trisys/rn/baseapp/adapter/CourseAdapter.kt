@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.fragment.Test.CourseListener
+import com.trisys.rn.baseapp.fragment.practiceTest.CourseListener
 import com.trisys.rn.baseapp.model.onBoarding.batchItem
 import com.trisys.rn.baseapp.utils.ColorConstant
 import java.util.*

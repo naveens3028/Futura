@@ -1,4 +1,4 @@
-package com.trisys.rn.baseapp.fragment.Test
+package com.trisys.rn.baseapp.fragment.practiceTest
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.androidnetworking.common.Priority
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
@@ -20,8 +19,8 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_test.*
-import org.json.JSONObject
 
 class TestFragment : Fragment(), OnNetworkResponse {
 
@@ -51,8 +50,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-//        averBatchTest = db.getAllAverageBatchTest()
-
+        averBatchTest = db.getAllAverageBatchTest()
 
         if (averBatchTest.isNullOrEmpty()) {
             requestSessions()
@@ -61,7 +59,6 @@ class TestFragment : Fragment(), OnNetworkResponse {
         }
 
         requestSessions()
-
 
         allResults.setOnClickListener {
             val intent = Intent(requireContext(), AttemptedResultsActivity::class.java)
@@ -95,30 +92,11 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
     private fun requestSessions() {
 
-        val params = HashMap<String, String>()
-        params["batchId"] = loginData.userDetail?.batchIds?.get(0).toString()
-        params["studentId"] = loginData.userDetail?.usersId.toString()
-
-        networkHelper.call(
-            networkHelper.GET,
-            networkHelper.RESTYPE_OBJECT,
-            URLHelper.averageBatchTests,
-            params,
-            Priority.HIGH,
-            "getAssessments",
-            this
-        )
-
-        val jsonObject1 = JSONObject()
-        jsonObject1.put("branchIds", "bfd13c0e-6e83-4387-915e-4bd0c3d1dc8c")
-        jsonObject1.put("coachingCentreId", "85075500-8044-492e-a590-f7ca04670cce")
-        jsonObject1.put("batchIds", "23628f56-8128-498c-8ec8-2e6cffb4b22b")
-        jsonObject1.put("sessionTense", "LIVE")
-
-        networkHelper.postCall(
-            URLHelper.getSessions,
-            jsonObject1,
-            "getSessions",
+        networkHelper.getCall(
+            URLHelper.averageBatchTests + "?batchId=${
+                loginData.userDetail?.batchIds?.get(0).toString()
+            }&studentId=${loginData.userDetail?.usersId.toString()}",
+            "averageBatchTests",
             ApiUtils.getHeader(requireContext()),
             this
         )
@@ -126,7 +104,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode == networkHelper.responseSuccess && tag == "getAssessments") {
+        if (responseCode == networkHelper.responseSuccess && tag == "averageBatchTests") {
             val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
             db.saveAvg(testResponse)
             carouselView.adapter = CarouselAdapter(requireContext(), db.getAllAverageBatchTest())

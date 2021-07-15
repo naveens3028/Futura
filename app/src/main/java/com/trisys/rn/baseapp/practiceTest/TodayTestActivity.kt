@@ -6,38 +6,37 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.*
-import android.widget.RelativeLayout
+import android.view.Gravity
+import android.view.MenuItem
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.gson.Gson
+import com.google.android.material.snackbar.Snackbar
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.database.DatabaseHelper
-import com.trisys.rn.baseapp.model.*
-import com.trisys.rn.baseapp.network.ApiUtils
-import com.trisys.rn.baseapp.network.NetworkHelper
-import com.trisys.rn.baseapp.network.OnNetworkResponse
-import com.trisys.rn.baseapp.network.URLHelper
-import com.trisys.rn.baseapp.network.URLHelper.getStudentTestPaper
-import com.trisys.rn.baseapp.network.URLHelper.testPaperForStudent
+import com.trisys.rn.baseapp.model.Quesion
+import com.trisys.rn.baseapp.model.QuestionNumberItem
+import com.trisys.rn.baseapp.model.QuestionType
+import com.trisys.rn.baseapp.network.*
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_today_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
-import kotlinx.android.synthetic.main.fragment_learn.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 
-class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickListener {
+
+class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickListener,
+    QuestionClickListener {
 
     private val questionNumberItem = ArrayList<QuestionNumberItem>()
     private lateinit var questionNumberAdapter: QuestionNumberAdapter
@@ -47,12 +46,15 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     lateinit var studentId: String
     lateinit var testName: String
     private lateinit var db: DatabaseHelper
+    lateinit var cd: ConnectionDetector
     lateinit var questionList: List<Quesion>
     lateinit var date: String
     var noMarked: Int = 0
     var currentPosition = 0
-    private lateinit var testPaperResponse: TestPaperResponse
-    private lateinit var testStudentResponse: TestPaperForStudentResponse
+    private var isPauseAllow = false
+    private var testDuration = 0
+    private var attemptedValue = ""
+    private lateinit var dialog: Dialog
 
     private lateinit var questionAdapter: QuestionAdapter
 
@@ -64,6 +66,16 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         studentId = intent.extras?.getString("studentId") ?: ""
         testName = intent.extras?.getString("testName") ?: ""
         date = intent.extras?.getString("date") ?: ""
+        isPauseAllow = intent.extras?.getBoolean("isPauseAllow")!!
+        val timeLeft = intent.extras?.getInt("timeLeft") ?: 0
+        testDuration = intent.extras?.getInt("duration") ?: 0
+        attemptedValue = intent.extras?.getString("attemptedValue") ?: ""
+        durationValue.base =
+            SystemClock.elapsedRealtime() + testDuration.times(10000)
+        if (timeLeft > 0) {
+            durationValue.base =
+                SystemClock.elapsedRealtime() + (timeLeft * 10000)
+        }
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
@@ -76,7 +88,27 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
         db = DatabaseHelper(this)
-        getTest()
+        cd = ConnectionDetector(this)
+        dialog = Dialog(this)
+
+        markReview()
+
+        questionList = db.getQuestionList(testPaperId)
+        val noCompleted = questionList.filter {
+            !it.answer.isNullOrEmpty() && it.answer != "-"
+        }.size
+        val completedValueText = "$noCompleted Out of ${questionList.size}"
+        completedValue.text = completedValueText
+        formQuestionItem(questionList.size)
+
+        if (isPauseAllow) {
+            pause.isEnabled = true
+            pause.alpha = 0f
+        } else {
+            pause.isEnabled = false
+            pause.alpha = 0.6f
+        }
+        pause.isEnabled = isPauseAllow
 
         questionGroup.setOnClickListener {
             showDialog()
@@ -100,22 +132,30 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             }
 
             override fun onPageSelected(position: Int) {
-                if (currentPosition < position)
+                if (currentPosition == position - 1)
                     saveNext(position - 1)
-                else if (currentPosition > position)
+                else if (currentPosition - 1 == position)
                     saveNext(position + 1)
                 currentPosition = position
-//                val start = System.currentTimeMillis()
-//                val runTime = System.currentTimeMillis() - start
+                /*val start = System.currentTimeMillis()
+                val runTime = System.currentTimeMillis() - start*/
             }
-
         })
         markForReview.setOnClickListener {
-            questionNumberItem[viewPager.currentItem].questionType = QuestionType.MARK_FOR_REVIEW
-            noMarked += 1
-            markedValue.text = noMarked.toString()
-            viewPager.currentItem = viewPager.currentItem++
+            Utils.testLog("Oif")
+            if (questionNumberItem[viewPager.currentItem].questionType == QuestionType.NOT_ATTEMPT || questionNumberItem[viewPager.currentItem].questionType == QuestionType.NOT_VISITED) {
+                Utils.testLog("if")
+                ++noMarked
+                markReview()
+                questionNumberItem[viewPager.currentItem].questionType =
+                    QuestionType.MARK_FOR_REVIEW
+                questionNumberAdapter.setItems(questionNumberItem)
+                questionNumberAdapter.notifyDataSetChanged()
+            }
+            viewPager.currentItem++
         }
+
+        assignQuestion()
 
         next.setOnClickListener {
             viewPager.currentItem++
@@ -126,124 +166,98 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         submitTest.setOnClickListener {
             submitTestPaper()
         }
+        durationValue.start()
+    }
 
+    private fun markReview() {
+        markedValue.text = noMarked.toString()
     }
 
     private fun submitTestPaper() {
-        val jsonObject = JSONObject()
-        try {
-            jsonObject.put("testPaperId", testPaperId)
-            jsonObject.put("attempt", testStudentResponse.data.testPaper.attempts)
-            jsonObject.put("studentId", studentId)
-            jsonObject.put("testDurationTime", testStudentResponse.data.testPaper.duration)
-            val jsonArray = JSONArray()
-            val jsonAnsObject = JSONObject()
-            jsonAnsObject.put(
-                "questionPaperId",
-                questionList[viewPager.currentItem].id
-            )
-            jsonAnsObject.put(
-                "answer",
-                questionList[viewPager.currentItem].optionSelected
-            )
-            jsonAnsObject.put(
-                "timeSpent",
-                questionList[viewPager.currentItem].timeSpent
-            )
-            jsonArray.put(jsonAnsObject)
-            jsonObject.put("questionAnswerList", jsonArray)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
         statefulLayout.showProgress()
         statefulLayout.setProgressText("Loading..")
-        networkHelper.postCall(
-            URLHelper.submitTestPaper,
-            jsonObject,
-            "submitTestPaper",
-            ApiUtils.getHeader(this),
-            this
-        )
-    }
-
-    private fun saveNext(position: Int) {
-        if (position >= 0 && !questionList[position].optionSelected.isNullOrEmpty()) {
-            val noCompleted = questionList.filter { it.isAnswered }.size
-            completedValue.text =
-                "$noCompleted Out of ${testStudentResponse.data.testPaper.questionCount}"
-            if (questionList[position].optionSelected == "-") {
-                questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
-            } else if (questionList[position].optionSelected!!.isEmpty()) {
-                questionNumberItem[position].questionType = QuestionType.ATTEMPT
-            }
-            questionNumberAdapter.setItems(questionNumberItem)
-            questionNumberAdapter.notifyDataSetChanged()
-
+        if (cd.isConnectingToInternet()) {
             val jsonObject = JSONObject()
-            try {
-                jsonObject.put("testPaperId", testPaperId)
-                jsonObject.put("attempt", testStudentResponse.data.testPaper.attempts)
-                jsonObject.put("studentId", studentId)
-                jsonObject.put("testDurationTime", testStudentResponse.data.testPaper.duration)
-                jsonObject.put(
+            jsonObject.put("testPaperId", testPaperId)
+            jsonObject.put("attempt", attemptedValue)
+            jsonObject.put("studentId", studentId)
+            jsonObject.put("testDurationTime", testDuration)
+            val jsonArray = JSONArray()
+            for (question in questionList) {
+                val jsonAnsObject = JSONObject()
+                jsonAnsObject.put(
                     "questionPaperId",
-                    questionList[viewPager.currentItem].id
+                    question.id
                 )
-                jsonObject.put(
+                jsonAnsObject.put(
                     "answer",
-                    questionList[viewPager.currentItem].optionSelected
+                    question.answer
                 )
-                jsonObject.put(
+                jsonAnsObject.put(
                     "timeSpent",
-                    questionList[viewPager.currentItem].timeSpent
+                    question.timeSpent
                 )
-            } catch (e: JSONException) {
-                e.printStackTrace()
+                jsonArray.put(jsonAnsObject)
             }
+            jsonObject.put("questionAnswerList", jsonArray)
             networkHelper.postCall(
-                URLHelper.next,
+                URLHelper.submitTestPaper,
                 jsonObject,
-                "next",
+                "submitTestPaper",
                 ApiUtils.getHeader(this),
                 this
             )
+
         } else {
-            try {
-                if (questionNumberItem[position].questionType != QuestionType.MARK_FOR_REVIEW) {
-                    questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
-                }
-                questionNumberAdapter.setItems(questionNumberItem)
-                questionNumberAdapter.notifyDataSetChanged()
-            } catch (e: IndexOutOfBoundsException) {
-
+            for (question in questionList) {
+                db.updateAnswer(question.id, question.answer)
             }
-
+            val returnIntent = Intent()
+            setResult(RESULT_OK, returnIntent)
+            finish()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        try {
-            menuInflater.inflate(R.menu.menu_learn, menu)
-            val item1 =
-                menu.findItem(R.id.action_menu_notification).actionView.findViewById(R.id.layoutNotification) as RelativeLayout
-            item1.setOnClickListener {
-                startActivity(Intent(this, NotificationsActivity::class.java))
+    private fun saveNext(position: Int) {
+        if (questionList[position].answer.isNullOrEmpty()) {
+            if (questionNumberItem[position].questionType != QuestionType.MARK_FOR_REVIEW) {
+                questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            questionNumberAdapter.setItems(questionNumberItem)
+            questionNumberAdapter.notifyDataSetChanged()
+        } else {
+            val noCompleted =
+                questionList.filter { !it.answer.isNullOrEmpty() && it.answer != "-" }.size
+            val completedValueText = "$noCompleted Out of ${questionList.size}"
+            completedValue.text = completedValueText
+            when {
+                questionNumberItem[position].questionType == QuestionType.MARK_FOR_REVIEW -> {
+
+                }
+                questionList[position].answer == "-" -> {
+                    questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
+                }
+                else -> {
+                    questionNumberItem[position].questionType = QuestionType.ATTEMPT
+                }
+            }
+            questionNumberAdapter.setItems(questionNumberItem)
+            questionNumberAdapter.notifyDataSetChanged()
         }
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> finish()
+            android.R.id.home -> Snackbar.make(
+                window.decorView.rootView,
+                "Test is going you are not able to go back",
+                Snackbar.LENGTH_LONG
+            ).show()
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun showDialog() {
-        val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
@@ -262,88 +276,32 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         val manager = FlexboxLayoutManager(this, FlexDirection.ROW)
         manager.justifyContent = JustifyContent.CENTER
         dialog.questionNumber.layoutManager = manager
-        val questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem)
+        val questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
         dialog.questionNumber.adapter = questionNumberAdapter
         dialog.show()
     }
 
-    private fun getTest() {
-        statefulLayout.showProgress()
-        statefulLayout.setProgressText("Loading..")
-        networkHelper.getCall(
-            getStudentTestPaper + "?testPaperId=$testPaperId&studentId=$studentId",
-            "getStudentTestPaper",
-            ApiUtils.getHeader(this),
-            this
-        )
-        networkHelper.getCall(
-            testPaperForStudent + "?testPaperId=$testPaperId&userDetailId=$studentId",
-            "testPaperForStudent",
-            ApiUtils.getHeader(this),
-            this
-        )
-    }
-
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (tag == "getStudentTestPaper") {
-            statefulLayout.showContent()
-            durationValue.start()
-            if (responseCode == networkHelper.responseSuccess) {
-                testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
-                questionList = questionList
-                assignQuestionOnline()
-            } else {
-                assignQuestionOffline()
-            }
-
-        } else if (responseCode == networkHelper.responseSuccess && tag == "testPaperForStudent") {
-            testStudentResponse =
-                Gson().fromJson(response, TestPaperForStudentResponse::class.java)
-            actionBar?.title = testStudentResponse.data.testPaper.name
-            durationValue.base =
-                SystemClock.elapsedRealtime() + (testStudentResponse.data.testPaper.duration * 10000)
-            if (testStudentResponse.data.testPaper.timeLeft > 0) {
-                durationValue.base =
-                    SystemClock.elapsedRealtime() + (testStudentResponse.data.testPaper.timeLeft * 10000)
-            }
-            completedValue.text =
-                "0 Out of ${testStudentResponse.data.testPaper.questionCount}"
-            markedValue.text = noMarked.toString()
-            if (testStudentResponse.data.testPaper.isPauseAllow) {
-                pause.isEnabled = true
-                pause.alpha = 0f
-            } else {
-                pause.isEnabled = false
-                pause.alpha = 0.6f
-            }
-            pause.isEnabled = testStudentResponse.data.testPaper.isPauseAllow
-            formQuestionItem(testStudentResponse.data.testPaper.questionCount)
-        } else if (tag == "submitTestPaper") {
-            statefulLayout.showContent()
-            if (responseCode == networkHelper.responseSuccess) {
-                finish()
-            }
-
+        statefulLayout.showContent()
+        if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
+            val returnIntent = Intent()
+            setResult(RESULT_OK, returnIntent)
+            finish()
         }
     }
 
     private fun formQuestionItem(questionCount: Int) {
         for (i in 1..questionCount) {
-            questionNumberItem.add(QuestionNumberItem(i, QuestionType.NOT_VISITED))
+            if (questionList[i - 1].answer.isNullOrEmpty())
+                questionNumberItem.add(QuestionNumberItem(i, QuestionType.NOT_VISITED))
+            else
+                questionNumberItem.add(QuestionNumberItem(i, QuestionType.ATTEMPT))
         }
-        questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem)
+        questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
         questionNumberRecycler.adapter = questionNumberAdapter
     }
 
-    private fun assignQuestionOnline() {
-        questionAdapter = QuestionAdapter(this, questionList, this, false)
-        viewPager.adapter = questionAdapter
-        viewPager.offscreenPageLimit = 15
-    }
-
-    private fun assignQuestionOffline() {
-        questionList = db.getQuestionList(testPaperId)
-        formQuestionItem(questionList.size)
+    private fun assignQuestion() {
         questionAdapter = QuestionAdapter(this, questionList, this, false)
         viewPager.adapter = questionAdapter
         viewPager.offscreenPageLimit = 15
@@ -351,7 +309,35 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
 
     override fun onAnswerClicked(isClicked: Boolean, option: Char, position: Int) {
         questionList[position].isAnswered = isClicked
-        questionList[position].optionSelected = option.toString()
+        if (!isClicked) {
+            questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
+            questionNumberAdapter.setItems(questionNumberItem)
+            questionNumberAdapter.notifyDataSetChanged()
+        }
+        questionList[position].answer = option.toString()
+        if (questionNumberItem[position].questionType == QuestionType.MARK_FOR_REVIEW && option.toString()
+                .isNotEmpty()
+        ) {
+            noMarked--
+            markReview()
+        }
+    }
+
+    override fun onBackPressed() {
+        Snackbar.make(
+            window.decorView.rootView,
+            "Test is going you are not able to go back",
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
+
+    override fun onQuestionClicked(position: Int) {
+        if (dialog.isShowing) {
+            dialog.cancel()
+            dialog.hide()
+        }
+        saveNext(viewPager.currentItem)
+        viewPager.currentItem = position
     }
 
 }

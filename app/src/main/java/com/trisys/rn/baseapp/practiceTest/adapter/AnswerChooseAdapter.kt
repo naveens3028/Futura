@@ -12,12 +12,14 @@ import com.jstarczewski.pc.mathview.src.TextAlign
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.model.AnswerChooseItem
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_answer_choose_list.view.*
 
 
 class AnswerChooseAdapter(
     val context: Context,
     private val answerChooseItem: ArrayList<AnswerChooseItem>,
+    private val answer: String?,
     private val answerClickListener: AnswerClickListener,
     private val questionPosition: Int,
     private val isReview: Boolean
@@ -81,6 +83,11 @@ class AnswerChooseAdapter(
                     answerClickListener.onAnswerClicked(false, '-', questionPosition)
                 }
             }
+        }
+        val ansPosition = answer?.get(0)?.code?.minus(97)
+        if (ansPosition == position && previousPosition < 0) {
+            previousPosition = position
+            answerItem.isSelected = true
         }
 
         if (answerItem.isSelected) {

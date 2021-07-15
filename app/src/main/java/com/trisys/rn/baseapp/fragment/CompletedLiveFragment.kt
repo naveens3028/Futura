@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
@@ -121,7 +120,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
             URLHelper.getSessions,
             jsonObject,
             "completedSessions",
-            ApiUtils.getAuthorizationHeader(requireContext()),
+            ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
             this
         )
     }

@@ -89,13 +89,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/questionsIcon" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/completedValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_2sdp"
                     android:text="0 Out of 10"
                     android:textColor="@color/carolina_blue"
                     android:textSize="@dimen/_10sdp"
-                    android:id="@+id/completedValue"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@id/questionsIcon"
                     app:layout_constraintStart_toStartOf="@id/questionsIcon"
@@ -124,11 +124,10 @@
                     app:layout_constraintTop_toBottomOf="@+id/attemptIcon" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/markedValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_2sdp"
-                    android:id="@+id/markedValue"
-                    android:text="1"
                     android:textColor="@color/carolina_blue"
                     android:textSize="@dimen/_10sdp"
                     android:textStyle="bold"

@@ -1,11 +1,12 @@
-package com.trisys.rn.baseapp.fragment.Test
+package com.trisys.rn.baseapp.fragment.practiceTest
 
+import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
+import android.view.*
 import androidx.fragment.app.Fragment
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
@@ -17,9 +18,8 @@ import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.adapter.test.AttemptedTestAdapter
 import com.trisys.rn.baseapp.adapter.test.UnAttemptedTestAdapter
 import com.trisys.rn.baseapp.database.DatabaseHelper
-import com.trisys.rn.baseapp.model.MergedTest
+import com.trisys.rn.baseapp.model.MOCKTEST
 import com.trisys.rn.baseapp.model.ScheduledClass
-import com.trisys.rn.baseapp.model.TestPaperResponse
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.model.onBoarding.UnAttempted
@@ -30,6 +30,8 @@ import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
+import kotlinx.android.synthetic.main.dialog_confirm_test.*
+import kotlinx.android.synthetic.main.dialog_jump_to_questions.close
 import kotlinx.android.synthetic.main.fragment_test_tab.*
 
 class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
@@ -68,17 +70,16 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         arrowscheduled.rotation = arrowscheduled.rotation + 180
 
-
-
-
         arrowscheduled.setOnClickListener {
             if (checkVisible == false) {
                 arrowscheduled.rotation = arrowscheduled.rotation + 180
                 scheduleTestRecyclerView.visibility = View.GONE
+                noTest.visibility = View.GONE
                 checkVisible = true
             } else {
                 arrowscheduled.rotation = arrowscheduled.rotation + 180
                 scheduleTestRecyclerView.visibility = View.VISIBLE
+                noTest.visibility = View.VISIBLE
                 checkVisible = false
             }
         }
@@ -162,15 +163,53 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     }
 
-    override fun onTestClicked(isClicked: Boolean, mergedTest: MergedTest) {
-        val intent = Intent(requireContext(), TakeTestActivity::class.java)
-        intent.putExtra("duration", Utils.getDuration(mergedTest.duration))
-        intent.putExtra("questionCount", mergedTest.questionCount.toString())
-        intent.putExtra("noAttempted", mergedTest.attempts.toString())
-        intent.putExtra("date", Utils.getDateValue(mergedTest.publishDateTime))
-        intent.putExtra("testPaperId", mergedTest.testPaperId)
-        intent.putExtra("testPaperName", mergedTest.name)
-        startActivity(intent)
+    override fun onTestClicked(isClicked: Boolean, mockTest: MOCKTEST) {
+        showDialog(mockTest)
+    }
+
+    private fun showDialog(mockTest: MOCKTEST) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.dialog_confirm_test)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.setGravity(Gravity.CENTER)
+        dialog.window!!.attributes.gravity = Gravity.CENTER
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.close.setOnClickListener {
+            dialog.cancel()
+            dialog.hide()
+        }
+        dialog.disagree.setOnClickListener {
+            dialog.cancel()
+            dialog.hide()
+        }
+        dialog.agree.setOnClickListener {
+            val intent = Intent(requireContext(), TakeTestActivity::class.java)
+            intent.putExtra("duration", mockTest.testPaperVo?.duration)
+            intent.putExtra("timeLeft", mockTest.testPaperVo?.timeLeft)
+            intent.putExtra("questionCount", mockTest.testPaperVo?.questionCount.toString())
+            intent.putExtra("noAttempted", mockTest.testPaperVo?.attempts.toString())
+            intent.putExtra("date", Utils.getDateValue(mockTest.publishDateTime))
+            intent.putExtra("testPaperId", mockTest.testPaperId)
+            intent.putExtra("testPaperName", mockTest.testPaperVo?.name)
+            intent.putExtra("isPauseAllow", mockTest.testPaperVo?.isPauseAllow)
+            startActivityForResult(intent, Utils.LAUNCH_SECOND_ACTIVITY)
+        }
+        dialog.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Utils.LAUNCH_SECOND_ACTIVITY) {
+            if (resultCode == Activity.RESULT_OK) {
+                requestTest()
+            }
+        }
     }
 
     override fun onResultClicked(isClicked: Boolean) {
@@ -192,68 +231,26 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
             val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
             attemptedSetup(attempted)
-        }
-        if (view != null) {
-            if (responseCode == networkHelper.responseSuccess && tag == "getStudentTestPaper") {
-                val testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
-                for (question in testPaperResponse.quesionList) {
-                    question.testPaperId = testPaperId
-                    db.addQuestions(question)
-                }
-            } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
-                val scheduledTestResponse =
-                    Gson().fromJson(response, ScheduledClass::class.java)
-                if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
-                    if (db.getAllTest().isEmpty()) {
-                        /*recycler.visibility = View.GONE
-                        noData.visibility = View.VISIBLE*/
-                    } else {
-                        val scheduledTestAdapter = ScheduledTestAdapter(
-                            requireView().context,
-                            db.getAllTest(),
-                            this
-                        )
-                        scheduleTestRecyclerView.adapter = scheduledTestAdapter
-                    }
-                } else {
-                    db.deleteTestList()
-                    for (mockTest in scheduledTestResponse.MOCK_TEST) {
-                        getTest(mockTest.testPaperId)
-                        db.saveTestList(mockTest)
-                        db.saveTestPaper(mockTest.testPaperVo!!)
-                    }
-                    val scheduledTestAdapter = ScheduledTestAdapter(
-                        requireView().context,
-                        db.getAllTest(),
-                        this
-                    )
-                    scheduleTestRecyclerView.adapter = scheduledTestAdapter
-                }
+        } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+            val scheduledTestResponse =
+                Gson().fromJson(response, ScheduledClass::class.java)
+            if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
+                scheduleTestRecyclerView.visibility = View.GONE
+                noTest.visibility = View.VISIBLE
             } else {
-                if (db.getAllTest().isEmpty())
-                    Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG)
-                        .show()
-                else {
-                    val scheduledTestAdapter = ScheduledTestAdapter(
-                        requireView().context,
-                        db.getAllTest(),
-                        this
-                    )
-                    scheduleTestRecyclerView.adapter = scheduledTestAdapter
-                }
+                scheduleTestRecyclerView.visibility = View.VISIBLE
+                noTest.visibility = View.GONE
+                val scheduledTestAdapter = ScheduledTestAdapter(
+                    requireView().context,
+                    scheduledTestResponse.MOCK_TEST,
+                    this
+                )
+                scheduleTestRecyclerView.adapter = scheduledTestAdapter
             }
+
         }
     }
 
-    private fun getTest(testPaperId: String) {
-        this.testPaperId = testPaperId
-        networkHelper.getCall(
-            URLHelper.getStudentTestPaper + "?testPaperId=$testPaperId&studentId=${loginData.userDetail?.userDetailId}",
-            "getStudentTestPaper",
-            ApiUtils.getHeader(requireContext()),
-            this
-        )
-    }
 
     private fun unAttemptedSetup(unAttempted: UnAttempted) {
         if (view != null) {
