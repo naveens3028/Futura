@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.adapter.test
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
-import com.trisys.rn.baseapp.utils.Utils
-import kotlinx.android.synthetic.main.row_scheduled_test.view.*
+import com.trisys.rn.baseapp.practiceTest.TestReviewActivity
+import kotlinx.android.synthetic.main.row_attempted_test.view.*
 
 class AttemptedTestAdapter(
     val context: Context,
@@ -21,7 +22,7 @@ class AttemptedTestAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.row_scheduled_test, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.row_attempted_test, parent, false)
         return ViewHolder(v)
     }
 
@@ -29,13 +30,17 @@ class AttemptedTestAdapter(
         val scheduledTest = scheduledTestItems[position]
         holder.itemView.testName.text = scheduledTest.name
         holder.itemView.backgroundColor.setBackgroundColor(context.getColor(R.color.carolina_blue))
-        holder.itemView.marks.text =
-            (scheduledTest.questionCount * scheduledTest.correctMarks).toString()
-        holder.itemView.date.text = Utils.getDateValue(scheduledTest.publishDateTime)
-        holder.itemView.duration.text = scheduledTest.duration.toString()
-        holder.itemView.takeTest.text = "Result"
-        holder.itemView.takeTest.setOnClickListener {
-            testClickListener.onResultClicked(scheduledTest.totalAttempts, scheduledTest.studentId, scheduledTest.testPaperId)
+        holder.itemView.review.setOnClickListener {
+            testClickListener.onResultClicked(
+                scheduledTest.totalAttempts,
+                scheduledTest.studentId,
+                scheduledTest.testPaperId
+            )
+        }
+        holder.itemView.result.setOnClickListener {
+            val intent = Intent(context, TestReviewActivity::class.java)
+            intent.putExtra("AttemptedTest", scheduledTest)
+            context.startActivity(intent)
         }
     }
 

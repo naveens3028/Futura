@@ -49,8 +49,8 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/durationValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="8dp"
                 android:layout_margin="@dimen/_2sdp"
                 android:text="Easy"
                 android:textColor="@color/carolina_blue"
@@ -83,8 +83,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/questionsIcon" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="12dp"
+                android:layout_height="5dp"
+                android:id="@+id/timeTaken"
                 android:layout_margin="@dimen/_2sdp"
                 android:text="0s"
                 android:textColor="@color/carolina_blue"
@@ -119,6 +120,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/topperTime"
                 android:layout_margin="@dimen/_2sdp"
                 android:text="0s"
                 android:textColor="@color/carolina_blue"

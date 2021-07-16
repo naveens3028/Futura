@@ -6,9 +6,7 @@
     android:layout_width="@dimen/_25sdp"
     android:layout_height="@dimen/_25sdp"
     android:layout_margin="@dimen/_6sdp"
-    app:cardBackgroundColor="@color/alice_blue"
-    app:cardCornerRadius="250dp"
-    app:cardElevation="@dimen/_2sdp">
+    app:cardCornerRadius="@dimen/_12sdp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/questionNumber"

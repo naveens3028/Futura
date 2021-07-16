@@ -28,7 +28,6 @@ import com.trisys.rn.baseapp.utils.Utils.LAUNCH_SECOND_ACTIVITY
 import kotlinx.android.synthetic.main.dialog_confirm_test.*
 import kotlinx.android.synthetic.main.fragment_scheduled_test.*
 
-
 class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     private var loginData = LoginData()

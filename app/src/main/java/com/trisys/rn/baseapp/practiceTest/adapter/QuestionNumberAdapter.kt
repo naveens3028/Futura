@@ -12,7 +12,6 @@ import com.trisys.rn.baseapp.model.QuestionType
 import com.trisys.rn.baseapp.practiceTest.QuestionClickListener
 import kotlinx.android.synthetic.main.row_question_number_list.view.*
 
-
 class QuestionNumberAdapter(
     val context: Context,
     private var questionNumberItem: ArrayList<QuestionNumberItem>,

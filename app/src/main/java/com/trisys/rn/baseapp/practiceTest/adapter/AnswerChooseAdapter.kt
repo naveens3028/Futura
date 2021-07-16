@@ -12,7 +12,6 @@ import com.jstarczewski.pc.mathview.src.TextAlign
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.model.AnswerChooseItem
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_answer_choose_list.view.*
 
 
@@ -84,11 +83,14 @@ class AnswerChooseAdapter(
                 }
             }
         }
-        val ansPosition = answer?.get(0)?.code?.minus(97)
-        if (ansPosition == position && previousPosition < 0) {
-            previousPosition = position
-            answerItem.isSelected = true
+        if (!answer.isNullOrEmpty()) {
+            val ansPosition = answer[0].code.minus(97)
+            if (ansPosition == position && previousPosition < 0) {
+                previousPosition = position
+                answerItem.isSelected = true
+            }
         }
+
 
         if (answerItem.isSelected) {
             holder.itemView.answer.setImageResource(R.drawable.ic_check_circle)

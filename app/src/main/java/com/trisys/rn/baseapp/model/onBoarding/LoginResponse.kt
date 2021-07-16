@@ -1,9 +1,11 @@
 package com.trisys.rn.baseapp.model.onBoarding
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -208,19 +210,20 @@ data class AttemptedResponse(
     val pRACTICE: List<String>
 )
 
-data class AttemptedTest(
+@Parcelize
+data class AttemptedTest (
     @SerializedName("completeStatus")
-    val completeStatus: String,
+    val completeStatus: String?,
     @SerializedName("correctMarks")
     val correctMarks: Int = 1,
     @SerializedName("duration")
     val duration: Int,
     @SerializedName("expiryDate")
-    val expiryDate: String,
+    val expiryDate: String?,
     @SerializedName("expiryDateTime")
-    val expiryDateTime: String,
+    val expiryDateTime: String?,
     @SerializedName("expiryTime")
-    val expiryTime: String,
+    val expiryTime: String?,
     @SerializedName("name")
     val name: String,
     @SerializedName("publishDate")
@@ -238,7 +241,7 @@ data class AttemptedTest(
     @SerializedName("studentId")
     val studentId: String,
     @SerializedName("studentName")
-    val studentName: String,
+    val studentName: String?,
     @SerializedName("testCode")
     val testCode: String,
     @SerializedName("testPaperId")
@@ -248,10 +251,11 @@ data class AttemptedTest(
     @SerializedName("totalAttempts")
     val totalAttempts: Int,
     @SerializedName("totalDuration")
-    val totalDuration: String,
+    val totalDuration: String?,
     @SerializedName("totalMarks")
-    val totalMarks: String
-)
+    val totalMarks: String?
+) : Parcelable
+
 
 @Serializable
 data class TestStatusResponse(

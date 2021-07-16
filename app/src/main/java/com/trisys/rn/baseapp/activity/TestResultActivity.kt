@@ -2,7 +2,6 @@ package com.trisys.rn.baseapp.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.RelativeLayout
@@ -11,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.helper.MyProgressBar
-import com.trisys.rn.baseapp.model.TestResultsData
 import com.trisys.rn.baseapp.model.TestResultsModel
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
@@ -45,7 +43,7 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-        attempt = intent.getIntExtra("attempt",0)
+        attempt = intent.getIntExtra("attempt", 0)
         studentId = intent.getStringExtra("studentId")
         testPaperId = intent.getStringExtra("testPaperId")
 
@@ -65,15 +63,14 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
         myProgressBar.show()
 
         val jsonObject = JSONObject()
-        jsonObject.put("attempt",  attempt.toString())
+        jsonObject.put("attempt", attempt.toString())
         jsonObject.put("studentId", studentId.toString())
         jsonObject.put("testPaperId", testPaperId.toString())
 
-        Log.e("testfrage", jsonObject.toString())
         networkHelper.postCall(
             URLHelper.answeredTestPapers,
             jsonObject,
-            "getResultApi",
+            "answeredTestPapers",
             ApiUtils.getHeader(this),
             this
         )
@@ -103,18 +100,16 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        Log.e("poppersResult", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
         val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
         setValuestoUI(testResponseResult)
-        Log.e("getResultApi", testResponseResult.toString())
     }
 
-    private fun setValuestoUI(testResultsModel: TestResultsModel){
+    private fun setValuestoUI(testResultsModel: TestResultsModel) {
         myProgressBar.dismiss()
-        outofStudents.text = "Out of "+testResultsModel.totalRank.toString()+ " Students"
+        outofStudents.text = "Out of " + testResultsModel.totalRank.toString() + " Students"
         yourScoreTxt.text = testResultsModel.totalObtainedMarks.toString()
         rankCircle.text = testResultsModel.currentRank.toString()
-        outOfScoretxt.text = "Out of "+testResultsModel.totalQuestions.toString()
+        outOfScoretxt.text = "Out of " + testResultsModel.totalQuestions.toString()
         correctAnsTxt.text = testResultsModel.totalCorrectMarks.toString()
         inCorrectAnsTxts.text = testResultsModel.totalWrongAttemptedQuestions.toString()
         unansweredTxtView.text = testResultsModel.totalUnAttemptedQuestons.toString()

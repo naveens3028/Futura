@@ -89,7 +89,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         networkHelper = NetworkHelper(this)
         db = DatabaseHelper(this)
         cd = ConnectionDetector(this)
-        dialog = Dialog(this)
 
         markReview()
 
@@ -100,6 +99,28 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         val completedValueText = "$noCompleted Out of ${questionList.size}"
         completedValue.text = completedValueText
         formQuestionItem(questionList.size)
+
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.dialog_jump_to_questions)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.setGravity(Gravity.CENTER)
+        dialog.window!!.attributes.gravity = Gravity.CENTER
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.close.setOnClickListener {
+            dialog.cancel()
+            dialog.hide()
+        }
+        val manager = FlexboxLayoutManager(this, FlexDirection.ROW)
+        manager.justifyContent = JustifyContent.CENTER
+        dialog.questionNumber.layoutManager = manager
+        questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
+        dialog.questionNumber.adapter = questionNumberAdapter
 
         if (isPauseAllow) {
             pause.isEnabled = true
@@ -114,10 +135,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             showDialog()
         }
 
-        submitTest.setOnClickListener {
-            val intent = Intent(this, TestReviewActivity::class.java)
-            startActivity(intent)
-        }
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -258,26 +275,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     }
 
     private fun showDialog() {
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.setContentView(R.layout.dialog_jump_to_questions)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window!!.setGravity(Gravity.CENTER)
-        dialog.window!!.attributes.gravity = Gravity.CENTER
-        dialog.window!!.setLayout(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
-        dialog.close.setOnClickListener {
-            dialog.cancel()
-            dialog.hide()
-        }
-        val manager = FlexboxLayoutManager(this, FlexDirection.ROW)
-        manager.justifyContent = JustifyContent.CENTER
-        dialog.questionNumber.layoutManager = manager
-        val questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
-        dialog.questionNumber.adapter = questionNumberAdapter
         dialog.show()
     }
 
