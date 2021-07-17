@@ -27,7 +27,6 @@ import com.trisys.rn.baseapp.network.*
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_today_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -120,7 +119,9 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         manager.justifyContent = JustifyContent.CENTER
         dialog.questionNumber.layoutManager = manager
         questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
+        questionNumberRecycler.adapter = questionNumberAdapter
         dialog.questionNumber.adapter = questionNumberAdapter
+
 
         if (isPauseAllow) {
             pause.isEnabled = true
@@ -157,9 +158,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             }
         })
         markForReview.setOnClickListener {
-            Utils.testLog("Oif")
             if (questionNumberItem[viewPager.currentItem].questionType == QuestionType.NOT_ATTEMPT || questionNumberItem[viewPager.currentItem].questionType == QuestionType.NOT_VISITED) {
-                Utils.testLog("if")
                 ++noMarked
                 markReview()
                 questionNumberItem[viewPager.currentItem].questionType =
@@ -204,10 +203,16 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                     "questionPaperId",
                     question.id
                 )
-                jsonAnsObject.put(
-                    "answer",
-                    question.answer
-                )
+                if (question?.answer == "-")
+                    jsonAnsObject.put(
+                        "answer",
+                        question.answer
+                    )
+                else
+                    jsonAnsObject.put(
+                        "answer",
+                        question.answer ?: ""
+                    )
                 jsonAnsObject.put(
                     "timeSpent",
                     question.timeSpent
@@ -219,7 +224,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 URLHelper.submitTestPaper,
                 jsonObject,
                 "submitTestPaper",
-                ApiUtils.getHeader(this),
+                ApiUtils.getAuthorizationHeader(this,jsonObject.toString().length),
                 this
             )
 
@@ -292,20 +297,22 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             else
                 questionNumberItem.add(QuestionNumberItem(i, QuestionType.ATTEMPT))
         }
-        questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
-        questionNumberRecycler.adapter = questionNumberAdapter
     }
 
     private fun assignQuestion() {
         questionAdapter = QuestionAdapter(this, questionList, this, false)
         viewPager.adapter = questionAdapter
-        viewPager.offscreenPageLimit = 15
+        viewPager.offscreenPageLimit = 10
     }
 
     override fun onAnswerClicked(isClicked: Boolean, option: Char, position: Int) {
         questionList[position].isAnswered = isClicked
         if (!isClicked) {
             questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
+            questionNumberAdapter.setItems(questionNumberItem)
+            questionNumberAdapter.notifyDataSetChanged()
+        } else {
+            questionNumberItem[position].questionType = QuestionType.ATTEMPT
             questionNumberAdapter.setItems(questionNumberItem)
             questionNumberAdapter.notifyDataSetChanged()
         }
