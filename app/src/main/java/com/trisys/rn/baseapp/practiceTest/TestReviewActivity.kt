@@ -15,6 +15,7 @@ import com.jstarczewski.pc.mathview.src.TextAlign
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
+import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.model.QuestionNumberItem
 import com.trisys.rn.baseapp.model.QuestionType
 import com.trisys.rn.baseapp.model.SectionQuestion
@@ -40,6 +41,8 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
     lateinit var networkHelper: NetworkHelper
     lateinit var questionList: List<SectionQuestion?>
     private lateinit var questionNumberAdapter: QuestionNumberAdapter
+    private lateinit var attemptedTest: AttemptedTest
+    lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,10 +56,11 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
 
 
         networkHelper = NetworkHelper(this)
+        db = DatabaseHelper(this)
 
-        val attemptedTest: AttemptedTest? = intent.getParcelableExtra("AttemptedTest")
-        actionBar?.title = attemptedTest?.name
-        actionBar?.subtitle = Utils.getDateValue(attemptedTest?.publishDate!!)
+        attemptedTest = intent.getParcelableExtra("AttemptedTest")!!
+        actionBar?.title = attemptedTest.name
+        actionBar?.subtitle = Utils.getDateValue(attemptedTest.publishDate)
         requestAttemptedTest(attemptedTest)
 
         dialog = Dialog(this)
@@ -178,7 +182,23 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
             }
             timeTaken.text = "${testResponseResult.totalConsumeTime}s"
             topperTime.text = "${testResponseResult.totalTimeTakenByTopper}s"
-            subjectName.text = testResponseResult.sectionsData?.get(0)?.sectionName.toString()
+            subjectName.text = testResponseResult.sectionsData[0]?.sectionName.toString()
+            assignQuestion()
+            formQuestionItem(questionList.size)
+        }else{
+            val testResponseResult = db.getTestResponse(attemptedTest.testPaperId)
+            questionList = testResponseResult.sectionsData[0]?.sectionQuestion!!
+            val ans = getAns(questionList[0]?.correctAnswer!!,0)
+            ansMathView.apply {
+                textZoom = 60
+                textColor = Color.GREEN.toString()
+                textAlign = TextAlign.LEFT
+                backgroundColor = "#D5FBD3"
+                text = ans
+            }
+            timeTaken.text = "${testResponseResult.totalConsumeTime}s"
+            topperTime.text = "${testResponseResult.totalTimeTakenByTopper}s"
+            subjectName.text = testResponseResult.sectionsData[0]?.sectionName.toString()
             assignQuestion()
             formQuestionItem(questionList.size)
         }

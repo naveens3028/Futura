@@ -154,8 +154,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 else if (currentPosition - 1 == position)
                     saveNext(position + 1)
                 currentPosition = position
-                /*val start = System.currentTimeMillis()
-                val runTime = System.currentTimeMillis() - start*/
             }
         })
         markForReview.setOnClickListener {
