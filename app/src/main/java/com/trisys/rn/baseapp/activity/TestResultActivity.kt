@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.TestResultsData
 import com.trisys.rn.baseapp.model.TestResultsModel
@@ -33,6 +34,7 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
     private var studentId: String? = null
     private var testPaperId: String? = null
     lateinit var myProgressBar: MyProgressBar
+    lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +50,8 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
         attempt = intent.getIntExtra("attempt",0)
         studentId = intent.getStringExtra("studentId")
         testPaperId = intent.getStringExtra("testPaperId")
+
+        db = DatabaseHelper(this)
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
@@ -105,8 +109,10 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         Log.e("poppersResult", "response: $response  tags: $tag  responseCode: $responseCode.toString()")
         val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
+        db.saveResult(testResponseResult)
         setValuestoUI(testResponseResult)
         Log.e("getResultApi", testResponseResult.toString())
+        Log.e("getResultApi", db.getAllResult().toString())
     }
 
     private fun setValuestoUI(testResultsModel: TestResultsModel){

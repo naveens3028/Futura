@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import com.trisys.rn.baseapp.database.model.NotificationItem
 import com.trisys.rn.baseapp.model.Quesion
 import com.trisys.rn.baseapp.model.TestPaperVo
+import com.trisys.rn.baseapp.model.TestResultsModel
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
 class DatabaseHelper(context: Context) {
@@ -21,6 +22,14 @@ class DatabaseHelper(context: Context) {
 
     fun getAllAverageBatchTest(): MutableList<AverageBatchTests> {
         return db!!.averageBatchDao.getAll()
+    }
+
+    fun saveResult(testResultsModel: TestResultsModel) {
+        db!!.resultsDao.addResult(testResultsModel)
+    }
+
+    fun getAllResult(): MutableList<TestResultsModel> {
+        return db!!.resultsDao.getAll()
     }
 
     fun saveNotificationItem(notificationItem: NotificationItem): Long {

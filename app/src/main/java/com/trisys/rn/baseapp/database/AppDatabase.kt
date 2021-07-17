@@ -5,21 +5,23 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.trisys.rn.baseapp.database.dao.TestDAO
 import com.trisys.rn.baseapp.database.model.NotificationItem
-import com.trisys.rn.baseapp.model.Quesion
-import com.trisys.rn.baseapp.model.TestPaperVo
+import com.trisys.rn.baseapp.model.*
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
 @Database(
-    entities = [NotificationItem::class, AverageBatchTests::class, TestPaperVo::class, Quesion::class],
+    entities = [NotificationItem::class, AverageBatchTests::class, TestPaperVo::class, Quesion::class, TestResultsModel::class],
     version = 1,
     exportSchema = false
 )
+@TypeConverters(SectionsDatumConverter::class, ListTopRankerConverter::class, SectionQuestionConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val notificationDao: NotificationDao
     abstract val averageBatchDao: AverageBatchDao
+    abstract val resultsDao: TestResponseDao
     abstract val testDAO: TestDAO
 
     companion object {
