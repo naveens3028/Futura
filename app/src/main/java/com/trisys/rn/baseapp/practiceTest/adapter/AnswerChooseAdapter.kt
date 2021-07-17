@@ -18,13 +18,15 @@ import kotlinx.android.synthetic.main.row_answer_choose_list.view.*
 class AnswerChooseAdapter(
     val context: Context,
     private val answerChooseItem: ArrayList<AnswerChooseItem>,
-    private val answer: String?,
+    private val submittedAnswer: String?,
+    private val correctAnswer: String? = "",
     private val answerClickListener: AnswerClickListener,
     private val questionPosition: Int,
     private val isReview: Boolean
 ) : RecyclerView.Adapter<AnswerChooseAdapter.ViewHolder>() {
 
     private var previousPosition = -1
+    private var ansPosition = -1
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -83,47 +85,76 @@ class AnswerChooseAdapter(
                 }
             }
         }
-        if (!answer.isNullOrEmpty()) {
-            val ansPosition = answer[0].code.minus(97)
+        if (!submittedAnswer.isNullOrEmpty()) {
+            ansPosition = submittedAnswer[0].code.minus(97)
             if (ansPosition == position && previousPosition < 0) {
                 previousPosition = position
                 answerItem.isSelected = true
             }
         }
 
-
-        if (answerItem.isSelected) {
-            holder.itemView.answer.setImageResource(R.drawable.ic_check_circle)
-            holder.itemView.parentView.background.setTint(
-                ContextCompat.getColor(
-                    context,
-                    R.color.tea_green
+        if (isReview) {
+            if (submittedAnswer.equals(
+                    correctAnswer,
+                    ignoreCase = true
+                ) && position == ansPosition
+            ) {
+                holder.itemView.answer.setImageResource(R.drawable.ic_check_circle)
+                holder.itemView.parentView.background.setTint(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.tea_green
+                    )
                 )
-            )
-            holder.itemView.mvTest.apply {
-                backgroundColor = "#D5FBD3"
-            }
-        } else if (isReview && position == 1) {
-            holder.itemView.answer.setImageResource(R.drawable.ic_close_outline)
-            holder.itemView.parentView.background.setTint(
-                ContextCompat.getColor(
-                    context,
-                    R.color.pale_pink
+                holder.itemView.mvTest.apply {
+                    backgroundColor = "#D5FBD3"
+                }
+            } else if (position == ansPosition) {
+                holder.itemView.answer.setImageResource(R.drawable.ic_close_outline)
+                holder.itemView.parentView.background.setTint(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.pale_pink
+                    )
                 )
-            )
-            holder.itemView.mvTest.apply {
-                backgroundColor = "#FBD3D3"
+                holder.itemView.mvTest.apply {
+                    backgroundColor = "#FBD3D3"
+                }
+            } else {
+                holder.itemView.answer.setImageResource(R.drawable.ic_circle_outline)
+                holder.itemView.parentView.background.setTint(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.alice_blue
+                    )
+                )
+                holder.itemView.mvTest.apply {
+                    backgroundColor = "#EEF4FA"
+                }
             }
         } else {
-            holder.itemView.answer.setImageResource(R.drawable.ic_circle_outline)
-            holder.itemView.parentView.background.setTint(
-                ContextCompat.getColor(
-                    context,
-                    R.color.alice_blue
+            if (answerItem.isSelected) {
+                holder.itemView.answer.setImageResource(R.drawable.ic_check_circle)
+                holder.itemView.parentView.background.setTint(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.tea_green
+                    )
                 )
-            )
-            holder.itemView.mvTest.apply {
-                backgroundColor = "#EEF4FA"
+                holder.itemView.mvTest.apply {
+                    backgroundColor = "#D5FBD3"
+                }
+            } else {
+                holder.itemView.answer.setImageResource(R.drawable.ic_circle_outline)
+                holder.itemView.parentView.background.setTint(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.alice_blue
+                    )
+                )
+                holder.itemView.mvTest.apply {
+                    backgroundColor = "#EEF4FA"
+                }
             }
         }
     }

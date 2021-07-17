@@ -56,6 +56,7 @@ class ReviewAdapter(
                 mContext,
                 answerChooseItem,
                 item?.submittedAnswered,
+                item?.correctAnswer,
                 answerClickListener,
                 position,
                 isReview

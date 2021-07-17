@@ -9,11 +9,16 @@ import android.view.*
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import com.google.gson.Gson
+import com.jstarczewski.pc.mathview.src.TextAlign
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
-import com.trisys.rn.baseapp.model.*
+import com.trisys.rn.baseapp.model.QuestionNumberItem
+import com.trisys.rn.baseapp.model.QuestionType
+import com.trisys.rn.baseapp.model.SectionQuestion
+import com.trisys.rn.baseapp.model.TestResultsModel
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -21,20 +26,16 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.ReviewAdapter
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_test_review.*
-import kotlinx.android.synthetic.main.activity_test_review.questionGroup
-import kotlinx.android.synthetic.main.activity_test_review.questionNumberRecycler
-import kotlinx.android.synthetic.main.activity_test_review.viewPager
-import kotlinx.android.synthetic.main.activity_today_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONObject
 
-class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickListener,QuestionClickListener {
+class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickListener,
+    QuestionClickListener {
 
     private val questionNumberItem = ArrayList<QuestionNumberItem>()
-    private val questionItems = ArrayList<QuestionItem>()
-    private val answerChooseItem = ArrayList<AnswerChooseItem>()
     private lateinit var dialog: Dialog
     lateinit var networkHelper: NetworkHelper
     lateinit var questionList: List<SectionQuestion?>
@@ -49,14 +50,16 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        actionBar?.subtitle = "19th Mar,12:04PM"
+
 
         networkHelper = NetworkHelper(this)
 
         val attemptedTest: AttemptedTest? = intent.getParcelableExtra("AttemptedTest")
+        actionBar?.title = attemptedTest?.name
+        actionBar?.subtitle = Utils.getDateValue(attemptedTest?.publishDate!!)
         requestAttemptedTest(attemptedTest)
 
-        val dialog = Dialog(this)
+        dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
@@ -72,54 +75,58 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
             dialog.cancel()
             dialog.hide()
         }
-       /* questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
-        dialog.questionNumber.adapter = questionNumberAdapter*/
+
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                questionNumberRecycler.layoutManager?.scrollToPosition(position)
+            }
+
+            override fun onPageSelected(position: Int) {
+                val correctAnswer =
+                    getAns(questionList[position]?.correctAnswer.toString(), position)
+                Utils.testLog(position.toString() + correctAnswer)
+                ansMathView.apply {
+                    textZoom = 60
+                    textColor = Color.GREEN.toString()
+                    textAlign = TextAlign.LEFT
+                    backgroundColor = "#D5FBD3"
+                    text = correctAnswer
+                }
+            }
+        })
 
         questionGroup.setOnClickListener {
             dialog.show()
         }
 
-        /*questionNumberItem.add(QuestionNumberItem(1, QuestionType.ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(2, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(3, QuestionType.MARK_FOR_REVIEW))
-        questionNumberItem.add(QuestionNumberItem(4, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(5, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(6, QuestionType.ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(7, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(8, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(9, QuestionType.NOT_ATTEMPT))
-        questionNumberItem.add(QuestionNumberItem(10, QuestionType.ATTEMPT))
-        val questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, )
-        questionNumberRecycler.adapter = questionNumberAdapter*/
+    }
 
-        answerChooseItem.add(AnswerChooseItem("a). Has to reduced."))
-        answerChooseItem.add(AnswerChooseItem("b). Has to be increased."))
-        answerChooseItem.add(AnswerChooseItem("c). Needs no adjustment."))
-        questionItems.add(
-            QuestionItem(
-                "A pendulum clock is set to give correct time at the sea level. This clock is moved to hill station at an altitude of above sea level. In order to keep correct time of hill station, the length the pendulum",
-                answerChooseItem
-            )
-        )
-        questionItems.add(
-            QuestionItem(
-                "A pendulum clock is set to give correct time at the sea level. This clock is moved to hill station at an altitude of above sea level. In order to keep correct time of hill station, the length the pendulum",
-                answerChooseItem
-            )
-        )
-        questionItems.add(
-            QuestionItem(
-                "A pendulum clock is set to give correct time at the sea level. This clock is moved to hill station at an altitude of above sea level. In order to keep correct time of hill station, the length the pendulum",
-                answerChooseItem
-            )
-        )
-        /*val questionAdapter = QuestionAdapter(this, questionItems,true)
-        viewPager.adapter = questionAdapter*/
-
+    fun getAns(ans: String, pos: Int): String {
+        return when (ans) {
+            "a", "A" -> {
+                questionList[pos]?.optionA!!.replace("\n", "").replace("<p class=\\\"p4\\\">", "")
+            }
+            "b", "B" -> {
+                questionList[pos]?.optionB!!.replace("\n", "").replace("<p class=\\\"p4\\\">", "")
+            }
+            "c", "C" -> {
+                questionList[pos]?.optionC!!.replace("\n", "").replace("<p class=\\\"p4\\\">", "")
+            }
+            else -> {
+                questionList[pos]?.optionD!!.replace("\n", "").replace("<p class=\\\"p4\\\">", "")
+            }
+        }
     }
 
     private fun requestAttemptedTest(attemptedTest: AttemptedTest?) {
-
 
         val jsonObject = JSONObject()
         jsonObject.put("attempt", attemptedTest?.totalAttempts)
@@ -161,8 +168,17 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
         if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapers") {
             val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
             questionList = testResponseResult?.sectionsData?.get(0)?.sectionQuestion!!
-            timeTaken.text = "${testResponseResult?.totalConsumeTime}s"
-            topperTime.text = "${testResponseResult?.totalTimeTakenByTopper}s"
+            val ans = getAns(questionList[0]?.correctAnswer!!,0)
+            ansMathView.apply {
+                textZoom = 60
+                textColor = Color.GREEN.toString()
+                textAlign = TextAlign.LEFT
+                backgroundColor = "#D5FBD3"
+                text = ans
+            }
+            timeTaken.text = "${testResponseResult.totalConsumeTime}s"
+            topperTime.text = "${testResponseResult.totalTimeTakenByTopper}s"
+            subjectName.text = testResponseResult.sectionsData?.get(0)?.sectionName.toString()
             assignQuestion()
             formQuestionItem(questionList.size)
         }
@@ -189,6 +205,7 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
         }
         questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
         questionNumberRecycler.adapter = questionNumberAdapter
+        dialog.questionNumber.adapter = questionNumberAdapter
     }
 
     override fun onAnswerClicked(isClicked: Boolean, option: Char, position: Int) {

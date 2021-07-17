@@ -20,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:maxHeight="@dimen/_120sdp"
             android:layout_marginVertical="@dimen/_4sdp"
             app:engine="MathJax"
             app:layout_constraintEnd_toStartOf="@+id/answer"
