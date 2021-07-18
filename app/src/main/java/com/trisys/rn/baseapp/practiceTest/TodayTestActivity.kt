@@ -180,7 +180,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             viewPager.currentItem--
         }
         submitTest.setOnClickListener {
-            submitTestPaper()
+            showDialogSubmit()
         }
         durationValue.start()
     }
@@ -188,6 +188,36 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     private fun markReview() {
         markedValue.text = noMarked.toString()
     }
+
+    private fun showDialogSubmit(){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.dialog_submit)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.setGravity(Gravity.CENTER)
+        dialog.window!!.attributes.gravity = Gravity.CENTER
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.close.setOnClickListener {
+            dialog.cancel()
+            dialog.hide()
+        }
+        dialog.disagree.setOnClickListener {
+            dialog.cancel()
+            dialog.hide()
+        }
+        dialog.agree.setOnClickListener {
+            submitTestPaper()
+        }
+        dialog.show()
+    }
+
+
+
 
     private fun submitTestPaper() {
         statefulLayout.showProgress()
