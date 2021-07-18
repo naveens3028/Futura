@@ -27,12 +27,14 @@ class QuestionAdapter(
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view === `object`
+        return view == `object`
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val itemView =
-            LayoutInflater.from(mContext).inflate(R.layout.row_question_list, container, false)
+        val inflater = container.context
+            .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val itemView = inflater.inflate(R.layout.row_question_list, container, false) as View
+
         val item = questionItems[position]
 
         itemView.questionNumber.text = "Question: " + (position + 1)
@@ -52,12 +54,21 @@ class QuestionAdapter(
         answerChooseItem.add(AnswerChooseItem(item.optionC?.replace("\n", "")))
         answerChooseItem.add(AnswerChooseItem(item.optionD?.replace("\n", "")))
         itemView.answerChoose.adapter =
-            AnswerChooseAdapter(mContext, answerChooseItem,item.answer,"", answerClickListener, position, isReview)
-        container.addView(itemView)
+            AnswerChooseAdapter(
+                mContext,
+                answerChooseItem,
+                item.answer,
+                "",
+                answerClickListener,
+                position,
+                isReview
+            )
+        container.addView(itemView, 0)
         return itemView
     }
 
-
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {}
+    override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
+        container.removeView(view as View)
+    }
 
 }

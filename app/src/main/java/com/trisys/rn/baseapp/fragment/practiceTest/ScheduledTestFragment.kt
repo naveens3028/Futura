@@ -95,6 +95,8 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
             intent.putExtra("testPaperName", mockTest.testPaperVo?.name)
             intent.putExtra("isPauseAllow", mockTest.testPaperVo?.isPauseAllow)
             startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY)
+            dialog.cancel()
+            dialog.hide()
         }
         dialog.show()
     }
