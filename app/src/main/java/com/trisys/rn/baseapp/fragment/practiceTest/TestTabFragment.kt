@@ -189,6 +189,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             dialog.hide()
         }
         dialog.agree.setOnClickListener {
+            myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, true)
             val intent = Intent(requireContext(), TakeTestActivity::class.java)
             intent.putExtra("duration", mockTest.testPaperVo?.duration)
             intent.putExtra("timeLeft", mockTest.testPaperVo?.timeLeft)
@@ -225,29 +226,33 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode == networkHelper.responseSuccess && tag == "getUnAttempted") {
-            val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
-            unAttemptedSetup(unAttempted)
-        } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
-            val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
-            attemptedSetup(attempted)
-        } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
-            val scheduledTestResponse =
-                Gson().fromJson(response, ScheduledClass::class.java)
-            if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
-                scheduleTestRecyclerView.visibility = View.GONE
-                noTest.visibility = View.VISIBLE
-            } else {
-                scheduleTestRecyclerView.visibility = View.VISIBLE
-                noTest.visibility = View.GONE
-                val scheduledTestAdapter = ScheduledTestAdapter(
-                    requireView().context,
-                    scheduledTestResponse.MOCK_TEST,
-                    this
-                )
-                scheduleTestRecyclerView.adapter = scheduledTestAdapter
-            }
+        try {
+            if (responseCode == networkHelper.responseSuccess && tag == "getUnAttempted") {
+                val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
+                unAttemptedSetup(unAttempted)
+            } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
+                val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
+                attemptedSetup(attempted)
+            } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+                val scheduledTestResponse =
+                    Gson().fromJson(response, ScheduledClass::class.java)
+                if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
+                    scheduleTestRecyclerView.visibility = View.GONE
+                    noTest.visibility = View.VISIBLE
+                } else {
+                    scheduleTestRecyclerView.visibility = View.VISIBLE
+                    noTest.visibility = View.GONE
+                    val scheduledTestAdapter = ScheduledTestAdapter(
+                        requireView().context,
+                        scheduledTestResponse.MOCK_TEST,
+                        this
+                    )
+                    scheduleTestRecyclerView.adapter = scheduledTestAdapter
+                }
 
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

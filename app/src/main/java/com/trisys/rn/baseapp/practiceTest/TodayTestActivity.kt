@@ -26,6 +26,7 @@ import com.trisys.rn.baseapp.model.QuestionType
 import com.trisys.rn.baseapp.network.*
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
+import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_today_test.*
@@ -191,39 +192,41 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     private fun submitTestPaper() {
         statefulLayout.showProgress()
         statefulLayout.setProgressText("Loading..")
-        if (cd.isConnectingToInternet()) {
-            val jsonObject = JSONObject()
-            jsonObject.put("testPaperId", testPaperId)
-            jsonObject.put("attempt", attemptedValue)
-            jsonObject.put("studentId", studentId)
-            jsonObject.put("testDurationTime", testDuration)
-            val jsonArray = JSONArray()
-            for (question in questionList) {
-                val jsonAnsObject = JSONObject()
-                jsonAnsObject.put(
-                    "questionPaperId",
-                    question.id
+        if(!myPreferences.getBoolean(Define.TAKE_TEST_MODE_OFFLINE)) {
+            if (cd.isConnectingToInternet()) {
+                val jsonObject = JSONObject()
+                jsonObject.put("testPaperId", testPaperId)
+                jsonObject.put("attempt", attemptedValue)
+                jsonObject.put("studentId", studentId)
+                jsonObject.put("testDurationTime", testDuration)
+                val jsonArray = JSONArray()
+                for (question in questionList) {
+                    val jsonAnsObject = JSONObject()
+                    jsonAnsObject.put(
+                        "questionPaperId",
+                        question.id
+                    )
+                    jsonAnsObject.put(
+                        "answer",
+                        question.answer
+                    )
+                    jsonAnsObject.put(
+                        "timeSpent",
+                        question.timeSpent
+                    )
+                    jsonArray.put(jsonAnsObject)
+                }
+                jsonObject.put("questionAnswerList", jsonArray)
+                networkHelper.postCall(
+                    URLHelper.submitTestPaper,
+                    jsonObject,
+                    "submitTestPaper",
+                    ApiUtils.getHeader(this),
+                    this
                 )
-                jsonAnsObject.put(
-                    "answer",
-                    question.answer
-                )
-                jsonAnsObject.put(
-                    "timeSpent",
-                    question.timeSpent
-                )
-                jsonArray.put(jsonAnsObject)
-            }
-            jsonObject.put("questionAnswerList", jsonArray)
-            networkHelper.postCall(
-                URLHelper.submitTestPaper,
-                jsonObject,
-                "submitTestPaper",
-                ApiUtils.getHeader(this),
-                this
-            )
 
-        } else {
+            }
+        }else {
             for (question in questionList) {
                 db.updateAnswer(question.id, question.answer)
             }
@@ -324,6 +327,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             "Test is going you are not able to go back",
             Snackbar.LENGTH_LONG
         ).show()
+        super.onBackPressed()
     }
 
     override fun onQuestionClicked(position: Int) {
