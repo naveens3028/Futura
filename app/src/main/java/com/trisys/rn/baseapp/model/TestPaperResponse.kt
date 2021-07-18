@@ -1,7 +1,9 @@
 package com.trisys.rn.baseapp.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -49,6 +51,41 @@ data class Quesion(
     @SerialName("testPaperId")
     var testPaperId: String
 )
+
+@Entity(tableName = "completed_test")
+@Serializable
+class CompletedTest {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    @SerializedName("id")
+    var id: Int = 0
+
+    @SerialName("testPaperId")
+    @ColumnInfo(name = "testPaperId")
+    var testPaperId: String?= null
+
+    @SerialName("attempt")
+    @ColumnInfo(name = "attempt")
+    var attempt: String? = null
+
+    @SerialName("studentId")
+    @ColumnInfo(name = "studentId")
+    var studentId: String? = null
+
+    @SerialName("testDurationTime")
+    @ColumnInfo(name = "testDurationTime")
+    var testDurationTime: Int = 0
+
+    @SerialName("questionAnswerList")
+    @ColumnInfo(name = "questionAnswerList")
+    var questionAnswerList: String? = null
+
+    @SerialName("status")
+    @ColumnInfo(name = "status")
+    var status: Int = 0
+
+}
+
 
 @Serializable
 data class Section(

@@ -3,6 +3,7 @@ package com.trisys.rn.baseapp.database
 import android.content.Context
 import android.os.AsyncTask
 import com.trisys.rn.baseapp.database.model.NotificationItem
+import com.trisys.rn.baseapp.model.CompletedTest
 import com.trisys.rn.baseapp.model.Quesion
 import com.trisys.rn.baseapp.model.TestPaperVo
 import com.trisys.rn.baseapp.model.TestResultsModel
@@ -85,4 +86,11 @@ class DatabaseHelper(context: Context) {
         db!!.testDAO.updateQuestion(questionId, answer)
     }
 
+    fun addCompletedTest(completedTest: CompletedTest) {
+        if(completedTest.id == 0) {
+            db!!.completedTestDAO.add(completedTest)
+        }else{
+            db!!.completedTestDAO.update(completedTest)
+        }
+    }
 }

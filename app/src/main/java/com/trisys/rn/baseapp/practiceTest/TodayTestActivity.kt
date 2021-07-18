@@ -17,9 +17,11 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.database.DatabaseHelper
+import com.trisys.rn.baseapp.model.CompletedTest
 import com.trisys.rn.baseapp.model.Quesion
 import com.trisys.rn.baseapp.model.QuestionNumberItem
 import com.trisys.rn.baseapp.model.QuestionType
@@ -31,6 +33,8 @@ import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_today_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
+import kotlinx.android.synthetic.main.dialog_jump_to_questions.close
+import kotlinx.android.synthetic.main.dialog_submit.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -203,25 +207,39 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             WindowManager.LayoutParams.WRAP_CONTENT
         )
         dialog.close.setOnClickListener {
-            dialog.cancel()
-            dialog.hide()
+            dialog.dismiss()
         }
         dialog.disagree.setOnClickListener {
-            dialog.cancel()
-            dialog.hide()
+            dialog.dismiss()
         }
         dialog.agree.setOnClickListener {
             submitTestPaper()
+            dialog.dismiss()
         }
         dialog.show()
     }
 
-
-
-
     private fun submitTestPaper() {
         statefulLayout.showProgress()
         statefulLayout.setProgressText("Loading..")
+
+        val jsonArray = JSONArray()
+        for (question in questionList) {
+            val jsonAnsObject = JSONObject()
+            jsonAnsObject.put(
+                "questionPaperId",
+                question.id
+            )
+            jsonAnsObject.put(
+                "answer",
+                question.answer
+            )
+            jsonAnsObject.put(
+                "timeSpent",
+                question.timeSpent
+            )
+            jsonArray.put(jsonAnsObject)
+        }
         if(!myPreferences.getBoolean(Define.TAKE_TEST_MODE_OFFLINE)) {
             if (cd.isConnectingToInternet()) {
                 val jsonObject = JSONObject()
@@ -229,23 +247,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 jsonObject.put("attempt", attemptedValue)
                 jsonObject.put("studentId", studentId)
                 jsonObject.put("testDurationTime", testDuration)
-                val jsonArray = JSONArray()
-                for (question in questionList) {
-                    val jsonAnsObject = JSONObject()
-                    jsonAnsObject.put(
-                        "questionPaperId",
-                        question.id
-                    )
-                    jsonAnsObject.put(
-                        "answer",
-                        question.answer
-                    )
-                    jsonAnsObject.put(
-                        "timeSpent",
-                        question.timeSpent
-                    )
-                    jsonArray.put(jsonAnsObject)
-                }
+
                 jsonObject.put("questionAnswerList", jsonArray)
                 networkHelper.postCall(
                     URLHelper.submitTestPaper,
@@ -260,6 +262,16 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             for (question in questionList) {
                 db.updateAnswer(question.id, question.answer)
             }
+
+            val completedTest = CompletedTest()
+            completedTest.testPaperId = testPaperId
+            completedTest.attempt = attemptedValue
+            completedTest.studentId = studentId
+            completedTest.testDurationTime = testDuration
+            completedTest.questionAnswerList = Gson().toJson(jsonArray)
+            db.addCompletedTest(completedTest)
+
+
             val returnIntent = Intent()
             setResult(RESULT_OK, returnIntent)
             finish()
