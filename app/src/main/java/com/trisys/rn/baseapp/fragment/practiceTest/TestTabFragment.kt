@@ -185,25 +185,30 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             dialog.hide()
         }
         dialog.disagree.setOnClickListener {
-            dialog.cancel()
-            dialog.hide()
+            myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, false)
+            goToTestScreen(mockTest)
+            dialog.dismiss()
         }
         dialog.agree.setOnClickListener {
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, true)
-            val intent = Intent(requireContext(), TakeTestActivity::class.java)
-            intent.putExtra("duration", mockTest.testPaperVo?.duration)
-            intent.putExtra("timeLeft", mockTest.testPaperVo?.timeLeft)
-            intent.putExtra("questionCount", mockTest.testPaperVo?.questionCount.toString())
-            intent.putExtra("noAttempted", mockTest.testPaperVo?.attempts.toString())
-            intent.putExtra("date", Utils.getDateValue(mockTest.publishDateTime))
-            intent.putExtra("testPaperId", mockTest.testPaperId)
-            intent.putExtra("testPaperName", mockTest.testPaperVo?.name)
-            intent.putExtra("isPauseAllow", mockTest.testPaperVo?.isPauseAllow)
-            startActivityForResult(intent, Utils.LAUNCH_SECOND_ACTIVITY)
+            goToTestScreen(mockTest)
+            dialog.dismiss()
         }
         dialog.show()
     }
 
+    fun goToTestScreen(mockTest: MOCKTEST){
+        val intent = Intent(requireContext(), TakeTestActivity::class.java)
+        intent.putExtra("duration", mockTest.testPaperVo?.duration)
+        intent.putExtra("timeLeft", mockTest.testPaperVo?.timeLeft)
+        intent.putExtra("questionCount", mockTest.testPaperVo?.questionCount.toString())
+        intent.putExtra("noAttempted", mockTest.testPaperVo?.attempts.toString())
+        intent.putExtra("date", Utils.getDateValue(mockTest.publishDateTime))
+        intent.putExtra("testPaperId", mockTest.testPaperId)
+        intent.putExtra("testPaperName", mockTest.testPaperVo?.name)
+        intent.putExtra("isPauseAllow", mockTest.testPaperVo?.isPauseAllow)
+        startActivityForResult(intent, Utils.LAUNCH_SECOND_ACTIVITY)
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Utils.LAUNCH_SECOND_ACTIVITY) {
