@@ -171,6 +171,7 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapers") {
             val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
+
             questionList = testResponseResult?.sectionsData?.get(0)?.sectionQuestion!!
             val ans = getAns(questionList[0]?.correctAnswer!!,0)
             ansMathView.apply {

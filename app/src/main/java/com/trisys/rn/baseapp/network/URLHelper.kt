@@ -11,19 +11,19 @@ object URLHelper {
 
     //    private var url = baseURL+baseBATH
     private var url = "http://65.2.90.171/app/api/v1/"
-    private var productionUrl = "https://api.upmyranks.com/app/api/v1"
+    private var productionUrl = "https://api.upmyranks.com/app/api/v1/"
 
 
     private val baseURLSession = productionUrl + "session/"
     val getSessions = baseURLSession + "getSessions"
-    val baseURLAuth = url + "auth/"
-    val courseURL = url + "course/child/"
-    private val testPaperAssign = url + "testPaperAssign/"
-    private val testPaperVo = url + "testPaperVo/"
-    private val studentAnswer = url + "studentAnswer/"
-    private val studentTestPaperAnswer = url + "studentTestPaperAnswer/"
+    val baseURLAuth = productionUrl + "auth/"
+    val courseURL = productionUrl + "course/child/"
+    private val testPaperAssign = productionUrl + "testPaperAssign/"
+    private val testPaperVo = productionUrl + "testPaperVo/"
+    private val studentAnswer = productionUrl + "studentAnswer/"
+    private val studentTestPaperAnswer = productionUrl + "studentTestPaperAnswer/"
     val answeredTestPapers = studentTestPaperAnswer + "answeredTestPaper"
-    private val material = url + "material/"
+    private val material = productionUrl + "material/"
     val testResultUrl = studentTestPaperAnswer + "myTestResultList"
     val averageBatchTests = testPaperAssign + "averageBatchTests"
     val unattemptedTests = testPaperAssign + "unattemptedTests"

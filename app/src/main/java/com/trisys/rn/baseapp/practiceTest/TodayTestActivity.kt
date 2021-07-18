@@ -18,8 +18,10 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.snackbar.Snackbar
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.TakeTestActivity
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.database.DatabaseHelper
+import com.trisys.rn.baseapp.model.MOCKTEST
 import com.trisys.rn.baseapp.model.Quesion
 import com.trisys.rn.baseapp.model.QuestionNumberItem
 import com.trisys.rn.baseapp.model.QuestionType
@@ -29,7 +31,9 @@ import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_today_test.*
+import kotlinx.android.synthetic.main.dialog_confirm_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.*
+import kotlinx.android.synthetic.main.dialog_jump_to_questions.close
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -179,10 +183,40 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             viewPager.currentItem--
         }
         submitTest.setOnClickListener {
-            submitTestPaper()
+            showDialogSubmit()
         }
         durationValue.start()
     }
+
+    private fun showDialogSubmit(){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.dialog_submit)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.setGravity(Gravity.CENTER)
+        dialog.window!!.attributes.gravity = Gravity.CENTER
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.close.setOnClickListener {
+            dialog.cancel()
+            dialog.hide()
+        }
+        dialog.disagree.setOnClickListener {
+            dialog.cancel()
+            dialog.hide()
+        }
+        dialog.agree.setOnClickListener {
+            submitTestPaper()
+        }
+        dialog.show()
+    }
+
+
+
 
     private fun markReview() {
         markedValue.text = noMarked.toString()
