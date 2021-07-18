@@ -97,8 +97,24 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
             startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY)
             dialog.cancel()
             dialog.hide()
+            myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, true)
+            goToTestScreen(mockTest)
+            dialog.dismiss()
         }
         dialog.show()
+    }
+
+    fun goToTestScreen(mockTest: MOCKTEST){
+        val intent = Intent(requireContext(), TakeTestActivity::class.java)
+        intent.putExtra("duration", mockTest.testPaperVo?.duration)
+        intent.putExtra("timeLeft", mockTest.testPaperVo?.timeLeft)
+        intent.putExtra("questionCount", mockTest.testPaperVo?.questionCount.toString())
+        intent.putExtra("noAttempted", mockTest.testPaperVo?.attempts.toString())
+        intent.putExtra("date", Utils.getDateValue(mockTest.publishDateTime))
+        intent.putExtra("testPaperId", mockTest.testPaperId)
+        intent.putExtra("testPaperName", mockTest.testPaperVo?.name)
+        intent.putExtra("isPauseAllow", mockTest.testPaperVo?.isPauseAllow)
+        startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -110,7 +126,7 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
         }
     }
 
-    override fun onResultClicked(isClicked: Boolean) {
+    override fun onResultClicked(id: String) {
 
     }
 
@@ -141,6 +157,11 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
             } else {
                 recycler.visibility = View.VISIBLE
                 noData.visibility = View.GONE
+                val completedList = db.getCompletedTest()
+                completedList.forEachIndexed { _, completedListElement ->
+                    scheduledTestResponse.MOCK_TEST =
+                        scheduledTestResponse.MOCK_TEST.filterNot { it.testPaperId == completedListElement.testPaperId }
+                }
                 val scheduledTestAdapter = ScheduledTestAdapter(
                     requireView().context,
                     scheduledTestResponse.MOCK_TEST,

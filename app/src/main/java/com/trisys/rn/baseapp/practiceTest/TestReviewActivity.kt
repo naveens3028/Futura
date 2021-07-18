@@ -96,7 +96,6 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
             override fun onPageSelected(position: Int) {
                 val correctAnswer =
                     getAns(questionList[position]?.correctAnswer.toString(), position)
-                Utils.testLog(position.toString() + correctAnswer)
                 ansMathView.apply {
                     textZoom = 60
                     textColor = Color.GREEN.toString()

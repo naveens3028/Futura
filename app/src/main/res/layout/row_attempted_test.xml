@@ -28,11 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_8sdp"
             android:ellipsize="end"
+            android:maxLength="45"
             android:maxLines="1"
             android:textColor="@color/text_color"
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/review"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
             app:layout_constraintStart_toEndOf="@+id/backgroundColor"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,9 +57,16 @@
             android:textColor="@color/text_color"
             android:textSize="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/review"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
             app:layout_constraintStart_toEndOf="@+id/dateIcon"
             app:layout_constraintTop_toBottomOf="@+id/testName" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_tags="review,submit" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/review"
@@ -87,6 +95,24 @@
             android:paddingHorizontal="@dimen/_8sdp"
             android:paddingVertical="@dimen/_4sdp"
             android:text="@string/result"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/submit"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/take_test_background"
+            android:paddingHorizontal="@dimen/_8sdp"
+            android:paddingVertical="@dimen/_4sdp"
+            android:text="@string/submit"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold"

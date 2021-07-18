@@ -12,5 +12,6 @@ object Define {
     val LOGIN_DATA = "login_data"
     val VIDEO_DATA = "video_data"
     val VIDEO_NEXT = "video_next"
+    val TAKE_TEST_MODE_OFFLINE = "take_test_mode_offline"
 
 }

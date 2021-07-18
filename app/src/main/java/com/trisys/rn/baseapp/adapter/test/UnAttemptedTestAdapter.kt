@@ -37,7 +37,7 @@ class UnAttemptedTestAdapter(
         holder.itemView.date.text = SimpleDateFormat.format(Date(scheduledTest.publishDate!!))
         holder.itemView.duration.text = scheduledTest.duration.toString()
         holder.itemView.takeTest.setOnClickListener {
-            testClickListener.onResultClicked(true)
+            testClickListener.onResultClicked(scheduledTest.testPaperId.toString())
         }
     }
 

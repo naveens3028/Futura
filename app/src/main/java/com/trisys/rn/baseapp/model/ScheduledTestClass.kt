@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 data class ScheduledClass(
-    val MOCK_TEST: List<MOCKTEST>,
+    var MOCK_TEST: List<MOCKTEST>,
     val PRACTICE: List<Any>
 )
 
