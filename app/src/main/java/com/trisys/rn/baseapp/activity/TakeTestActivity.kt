@@ -1,5 +1,6 @@
 package com.trisys.rn.baseapp.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -157,5 +158,4 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             }
         }
     }
-
 }

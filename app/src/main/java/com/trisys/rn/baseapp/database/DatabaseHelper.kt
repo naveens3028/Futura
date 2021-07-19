@@ -87,10 +87,22 @@ class DatabaseHelper(context: Context) {
     }
 
     fun addCompletedTest(completedTest: CompletedTest) {
-        if(completedTest.id == 0) {
+        if (completedTest.id == 0) {
             db!!.completedTestDAO.add(completedTest)
-        }else{
+        } else {
             db!!.completedTestDAO.update(completedTest)
         }
+    }
+
+    fun getCompletedTest(): List<CompletedTest> {
+        return db!!.completedTestDAO.getAll()
+    }
+
+    fun getCompletedTest(id:String): CompletedTest {
+        return db!!.completedTestDAO.getTest(id)
+    }
+
+    fun deleteTest(id:String) {
+        db!!.completedTestDAO.deleteTest(id)
     }
 }

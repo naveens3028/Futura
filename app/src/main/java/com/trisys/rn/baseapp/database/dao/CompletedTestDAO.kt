@@ -1,24 +1,28 @@
 package com.trisys.rn.baseapp.database.dao
 
 import androidx.room.*
-import com.trisys.rn.baseapp.database.model.NotificationItem
 import com.trisys.rn.baseapp.model.CompletedTest
-import com.trisys.rn.baseapp.model.Quesion
-import com.trisys.rn.baseapp.model.TestPaperVo
 
 @Dao
 interface CompletedTestDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(completedTest: CompletedTest): Long
+
     @Update
     fun update(completedTest: CompletedTest)
 
     @Delete
     fun delete(completedTest: CompletedTest)
 
+    @Query("DELETE FROM completed_test where testPaperId = :id")
+    fun deleteTest(id: String)
+
     @Query("SELECT * FROM completed_test ORDER BY id ASC")
     fun getAll(): List<CompletedTest>
+
+    @Query("SELECT * FROM completed_test where testPaperId =:id")
+    fun getTest(id: String): CompletedTest
 
 //    @Transaction
 //    @Query("SELECT * FROM completed_test WHERE testPaperId = :id")

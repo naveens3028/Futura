@@ -205,7 +205,7 @@ data class MockTest(
 
 data class AttemptedResponse(
     @SerializedName("MOCK_TEST")
-    val mOCKTEST: List<AttemptedTest>,
+    var mOCKTEST: MutableList<AttemptedTest>,
     @SerializedName("PRACTICE")
     val pRACTICE: List<String>
 )

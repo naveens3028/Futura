@@ -35,6 +35,8 @@ class QuestionAdapter(
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val itemView = inflater.inflate(R.layout.row_question_list, container, false) as View
 
+        mContext.cacheDir.deleteRecursively()
+
         val item = questionItems[position]
 
         itemView.questionNumber.text = "Question: " + (position + 1)

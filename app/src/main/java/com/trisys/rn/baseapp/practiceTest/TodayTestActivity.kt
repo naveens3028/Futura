@@ -197,7 +197,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         markedValue.text = noMarked.toString()
     }
 
-    private fun showDialogSubmit(){
+    private fun showDialogSubmit() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -244,7 +244,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             )
             jsonArray.put(jsonAnsObject)
         }
-        if(!myPreferences.getBoolean(Define.TAKE_TEST_MODE_OFFLINE)) {
+        if (!myPreferences.getBoolean(Define.TAKE_TEST_MODE_OFFLINE)) {
             if (cd.isConnectingToInternet()) {
                 val jsonObject = JSONObject()
                 jsonObject.put("testPaperId", testPaperId)
@@ -262,7 +262,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 )
 
             }
-        }else {
+        } else {
             for (question in questionList) {
                 db.updateAnswer(question.id, question.answer)
             }
@@ -272,7 +272,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             completedTest.attempt = attemptedValue
             completedTest.studentId = studentId
             completedTest.testDurationTime = testDuration
-            completedTest.questionAnswerList = Gson().toJson(jsonArray)
+            completedTest.questionAnswerList = jsonArray.toString()
             db.addCompletedTest(completedTest)
 
             val returnIntent = Intent()
@@ -352,10 +352,11 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
 
     override fun onAnswerClicked(isClicked: Boolean, option: Char, position: Int) {
         questionList[position].isAnswered = isClicked
-        if (!isClicked) {
-            questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
+        if (isClicked) {
+            questionNumberItem[position].questionType = QuestionType.ATTEMPT
             questionNumberAdapter.setItems(questionNumberItem)
             questionNumberAdapter.notifyDataSetChanged()
+            questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
         }
         questionList[position].answer = option.toString()
         if (questionNumberItem[position].questionType == QuestionType.MARK_FOR_REVIEW && option.toString()
