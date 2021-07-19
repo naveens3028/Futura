@@ -26,6 +26,7 @@
 			 />
 
 		<TextView
+			style="@style/TextAppearance.AppCompat.Medium"
 			android:id="@+id/state_text"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

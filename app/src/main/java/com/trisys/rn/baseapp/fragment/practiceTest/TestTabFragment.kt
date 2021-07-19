@@ -19,6 +19,8 @@ import com.trisys.rn.baseapp.adapter.test.UnAttemptedTestAdapter
 import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.model.MOCKTEST
 import com.trisys.rn.baseapp.model.ScheduledClass
+import com.trisys.rn.baseapp.model.SubmittedResult
+import com.trisys.rn.baseapp.model.TestResultsModel
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedResponse
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
@@ -27,7 +29,9 @@ import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
+import com.trisys.rn.baseapp.practiceTest.TestReviewActivity
 import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.DialogUtils
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.dialog_confirm_test.*
@@ -46,8 +50,10 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
     lateinit var db: DatabaseHelper
+    lateinit var dialogUtils: DialogUtils
     lateinit var testPaperId: String
-    lateinit var attemptedTest: MutableList<MOCKTEST>
+    lateinit var attempt1: AttemptedTest
+    var attemptedTest: ArrayList<MOCKTEST>? = ArrayList()
     var clickedTestPaperId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +61,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         myPreferences = MyPreferences(requireContext())
         networkHelper = NetworkHelper(requireContext())
         db = DatabaseHelper(requireContext())
+        dialogUtils = DialogUtils()
     }
 
     override fun onCreateView(
@@ -87,7 +94,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             "getUnAttempted",
             this
         )
-        getAttemptedTest()
+
 
         networkHelper.call(
             networkHelper.POST,
@@ -112,7 +119,6 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     private fun getAttemptedTest() {
-
         val params = HashMap<String, String>()
         params["batchId"] = loginData.userDetail?.batchIds?.get(0).toString()
         params["studentId"] = loginData.userDetail?.usersId.toString()
@@ -155,18 +161,6 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             dialog.dismiss()
         }
         dialog.agree.setOnClickListener {
-            val intent = Intent(requireContext(), TakeTestActivity::class.java)
-            intent.putExtra("duration", mockTest.testPaperVo?.duration)
-            intent.putExtra("timeLeft", mockTest.testPaperVo?.timeLeft)
-            intent.putExtra("questionCount", mockTest.testPaperVo?.questionCount.toString())
-            intent.putExtra("noAttempted", mockTest.testPaperVo?.attempts.toString())
-            intent.putExtra("date", Utils.getDateValue(mockTest.publishDateTime))
-            intent.putExtra("testPaperId", mockTest.testPaperId)
-            intent.putExtra("testPaperName", mockTest.testPaperVo?.name)
-            intent.putExtra("isPauseAllow", mockTest.testPaperVo?.isPauseAllow)
-            startActivityForResult(intent, Utils.LAUNCH_SECOND_ACTIVITY)
-            dialog.cancel()
-            dialog.hide()
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, true)
             goToTestScreen(mockTest)
             dialog.dismiss()
@@ -176,14 +170,15 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     private fun goToTestScreen(mockTest: MOCKTEST) {
         val intent = Intent(requireContext(), TakeTestActivity::class.java)
-        intent.putExtra("duration", mockTest.testPaperVo?.duration)
+        intent.putExtra("mockTest", mockTest)
+        /*intent.putExtra("duration", mockTest.testPaperVo?.duration)
         intent.putExtra("timeLeft", mockTest.testPaperVo?.timeLeft)
         intent.putExtra("questionCount", mockTest.testPaperVo?.questionCount.toString())
         intent.putExtra("noAttempted", mockTest.testPaperVo?.attempts.toString())
         intent.putExtra("date", Utils.getDateValue(mockTest.publishDateTime))
         intent.putExtra("testPaperId", mockTest.testPaperId)
         intent.putExtra("testPaperName", mockTest.testPaperVo?.name)
-        intent.putExtra("isPauseAllow", mockTest.testPaperVo?.isPauseAllow)
+        intent.putExtra("isPauseAllow", mockTest.testPaperVo?.isPauseAllow)*/
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivityForResult(intent, Utils.LAUNCH_SECOND_ACTIVITY)
     }
@@ -270,12 +265,49 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         )
     }
 
-    override fun onResultClicked(attempt: Int, studentId: String, testPaperId: String) {
-        val intent = Intent(requireContext(), TestResultActivity::class.java)
-        intent.putExtra("attempt", attempt)
-        intent.putExtra("studentId", studentId)
-        intent.putExtra("testPaperId", testPaperId)
-        startActivity(intent)
+    override fun onResultClicked(attempt: Int, studentId: String, testPaperID: String) {
+        testPaperId = testPaperID
+        if (db.isExists(testPaperID)) {
+            val intent = Intent(requireContext(), TestResultActivity::class.java)
+            intent.putExtra("testPaperId", testPaperID)
+            startActivity(intent)
+        } else {
+            getAttempt(attempt, studentId, testPaperID, "answeredTestPapersResult")
+        }
+
+    }
+
+    private fun getAttempt(attempt: Int, studentId: String, testPaperId: String, tag: String) {
+        dialogUtils.showLoader(requireContext())
+        val jsonObject = JSONObject()
+        jsonObject.put("attempt", attempt.toString())
+        jsonObject.put("studentId", studentId)
+        jsonObject.put("testPaperId", testPaperId)
+
+        networkHelper.postCall(
+            URLHelper.answeredTestPapers,
+            jsonObject,
+            tag,
+            ApiUtils.getHeader(requireContext()),
+            this
+        )
+    }
+
+    override fun onReviewClicked(attempt: AttemptedTest) {
+        testPaperId = attempt.testPaperId
+        attempt1 = attempt
+        if (db.isExists(testPaperId)) {
+            val intent = Intent(context, TestReviewActivity::class.java)
+            intent.putExtra("AttemptedTest", attempt)
+            startActivity(intent)
+        } else {
+            getAttempt(
+                attempt.totalAttempts,
+                attempt.studentId,
+                attempt.testPaperId,
+                "answeredTestPapersReview"
+            )
+        }
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
@@ -285,32 +317,34 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 unAttemptedSetup(unAttempted)
             } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
                 val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
-                for (attempt in attemptedTest) {
-                    attempted.mOCKTEST.add(
-                        AttemptedTest(
-                            "completed",
-                            attempt.testPaperVo?.correctMark!!,
-                            attempt.testPaperVo.duration,
-                            attempt.expiryDate,
-                            attempt.expiryDateTime,
-                            attempt.expiryTime,
-                            attempt.testPaperVo.name,
-                            attempt.publishDate,
-                            attempt.publishDateTime,
-                            attempt.publishTime!!,
-                            attempt.testPaperVo.questionCount,
-                            attempt.testPaperVo.status,
-                            "",
-                            loginData.userDetail?.usersId!!,
-                            loginData.userDetail?.userName!!,
-                            attempt.testPaperVo.testCode,
-                            attempt.testPaperId,
-                            attempt.testPaperVo.testType,
-                            attempt.testPaperVo.attempts,
-                            attempt.testPaperVo.duration.toString(),
-                            attempt.testPaperVo.correctMark.toString(),
+                if (attemptedTest?.size!! > 0) {
+                    for (attempt in attemptedTest!!) {
+                        attempted.mOCKTEST.add(
+                            AttemptedTest(
+                                "completed",
+                                attempt.testPaperVo?.correctMark!!,
+                                attempt.testPaperVo.duration,
+                                attempt.expiryDate,
+                                attempt.expiryDateTime,
+                                attempt.expiryTime,
+                                attempt.testPaperVo.name,
+                                attempt.publishDate,
+                                attempt.publishDateTime,
+                                attempt.publishTime!!,
+                                attempt.testPaperVo.questionCount,
+                                attempt.testPaperVo.status,
+                                "",
+                                loginData.userDetail?.usersId!!,
+                                loginData.userDetail?.userName!!,
+                                attempt.testPaperVo.testCode,
+                                attempt.testPaperId,
+                                attempt.testPaperVo.testType,
+                                attempt.testPaperVo.attempts,
+                                attempt.testPaperVo.duration.toString(),
+                                attempt.testPaperVo.correctMark.toString(),
+                            )
                         )
-                    )
+                    }
                 }
                 attemptedSetup(attempted)
             } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
@@ -324,9 +358,9 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                     noTest.visibility = View.GONE
                     val completedList = db.getCompletedTest()
                     completedList.forEachIndexed { _, completedListElement ->
-                        attemptedTest =
+                        attemptedTest!!.addAll(
                             scheduledTestResponse.MOCK_TEST.filter { it.testPaperId == completedListElement.testPaperId }
-                                .toMutableList()
+                                .toMutableList())
                         scheduledTestResponse.MOCK_TEST =
                             scheduledTestResponse.MOCK_TEST.filterNot { it.testPaperId == completedListElement.testPaperId }
                     }
@@ -337,10 +371,33 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                     )
                     scheduleTestRecyclerView.adapter = scheduledTestAdapter
                 }
-
-            } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
-                db.deleteTest(testPaperId)
                 getAttemptedTest()
+            } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
+                val submittedResult = Gson().fromJson(response, SubmittedResult::class.java)
+                db.deleteTest(submittedResult.testPaperId)
+                attemptedTest =
+                    attemptedTest?.filterNot { it.testPaperId == submittedResult.testPaperId } as ArrayList<MOCKTEST>?
+                getAttemptedTest()
+            } else if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapersResult") {
+                dialogUtils.dismissLoader()
+                val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
+                testResponseResult.testPaperId = testPaperId
+                db.saveResult(testResponseResult)
+                val intent = Intent(requireContext(), TestResultActivity::class.java)
+//                intent.putExtra("attempt", attempt)
+//                intent.putExtra("studentId", studentId)
+                intent.putExtra("testPaperId", testPaperId)
+                startActivity(intent)
+
+            } else if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapersReview") {
+                dialogUtils.dismissLoader()
+                val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
+                testResponseResult.testPaperId = testPaperId
+                db.saveResult(testResponseResult)
+                val intent = Intent(context, TestReviewActivity::class.java)
+                intent.putExtra("AttemptedTest", attempt1)
+                startActivity(intent)
+
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -362,7 +419,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         if (view != null) {
             val attemptedAdapter = AttemptedTestAdapter(
                 requireContext(),
-                attempted.mOCKTEST, this
+                attempted.mOCKTEST.reversed(), this
             )
             attemptedTestRecyclerView.adapter = attemptedAdapter
         }

@@ -37,6 +37,10 @@ class DatabaseHelper(context: Context) {
         return db!!.resultsDao.getResponse(testPaperId)
     }
 
+    fun isExists(testPaperId: String): Boolean {
+        return db!!.resultsDao.isExists(testPaperId)
+    }
+
     fun saveNotificationItem(notificationItem: NotificationItem): Long {
         var notificationID: Long = 0
 

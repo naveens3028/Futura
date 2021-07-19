@@ -29,6 +29,9 @@ class DoubtFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        stateful.showEmpty()
+        stateful.setEmptyText("This feature coming soon..")
+        stateful.setEmptyImageResource(R.drawable.icon_happy)
         childFragmentManager.beginTransaction().replace(R.id.doubtFrameLayout, ClarifiedFragment.newInstance("","")).commit()
 
         doubtTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
