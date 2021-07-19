@@ -208,8 +208,6 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         intent.putExtra("testPaperName", mockTest.testPaperVo?.name)
         intent.putExtra("isPauseAllow", mockTest.testPaperVo?.isPauseAllow)
         startActivityForResult(intent, Utils.LAUNCH_SECOND_ACTIVITY)
-            dialog.cancel()
-            dialog.hide()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -184,7 +184,11 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             viewPager.currentItem--
         }
         submitTest.setOnClickListener {
-            showDialogSubmit()
+            if(myPreferences.getBoolean(Define.TAKE_TEST_MODE_OFFLINE)) {
+                showDialogSubmit()
+            }else{
+                submitTestPaper()
+            }
         }
         durationValue.start()
     }
@@ -270,7 +274,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             completedTest.testDurationTime = testDuration
             completedTest.questionAnswerList = Gson().toJson(jsonArray)
             db.addCompletedTest(completedTest)
-
 
             val returnIntent = Intent()
             setResult(RESULT_OK, returnIntent)
