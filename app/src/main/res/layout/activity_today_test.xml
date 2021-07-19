@@ -30,109 +30,89 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/durationIcon"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
-                    android:layout_marginHorizontal="@dimen/_8sdp"
-                    android:layout_marginVertical="@dimen/_16sdp"
-                    android:src="@drawable/duration"
-                    app:layout_constraintEnd_toStartOf="@id/questionsIcon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/duration"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:text="@string/time_remaining"
-                    android:textSize="@dimen/_8sdp"
-                    app:layout_constraintEnd_toEndOf="@id/durationIcon"
-                    app:layout_constraintStart_toStartOf="@id/durationIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/durationIcon" />
+                    android:orientation="horizontal"
+                    android:id="@+id/lnrlyt"
+                    android:layout_margin="@dimen/_5sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:weightSum="3">
 
-                <Chronometer
-                    android:id="@+id/durationValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_2sdp"
-                    android:countDown="true"
-                    android:fontFamily="@font/news_gothic_bold"
-                    android:textColor="@color/carolina_blue"
-                    android:textSize="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@id/durationIcon"
-                    app:layout_constraintStart_toStartOf="@id/durationIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/duration" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/questionsIcon"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
-                    android:layout_marginHorizontal="@dimen/_8sdp"
-                    android:layout_marginVertical="@dimen/_16sdp"
-                    android:src="@drawable/question_answer"
-                    app:layout_constraintEnd_toStartOf="@id/attemptIcon"
-                    app:layout_constraintStart_toEndOf="@+id/durationIcon"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_8sdp"
+                        android:text="@string/time_remaining"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/questionAnswer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:text="@string/qs_completed"
-                    android:textSize="@dimen/_8sdp"
-                    app:layout_constraintEnd_toEndOf="@id/questionsIcon"
-                    app:layout_constraintStart_toStartOf="@id/questionsIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/questionsIcon" />
+                        <Chronometer
+                            android:id="@+id/durationValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:textStyle="bold"
+                            android:countDown="true"
+                            android:fontFamily="@font/news_gothic_bold"
+                            android:textColor="@color/carolina_blue"
+                            android:textSize="@dimen/_10sdp" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/completedValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_2sdp"
-                    android:text="0 Out of 10"
-                    android:textColor="@color/carolina_blue"
-                    android:textSize="@dimen/_10sdp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@id/questionsIcon"
-                    app:layout_constraintStart_toStartOf="@id/questionsIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/questionAnswer" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/attemptIcon"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
-                    android:layout_marginHorizontal="@dimen/_8sdp"
-                    android:layout_marginVertical="@dimen/_16sdp"
-                    android:src="@drawable/attempt"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/questionsIcon"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_8sdp"
+                            android:text="@string/qs_completed"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/attempt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:text="@string/marked_for_review"
-                    android:textSize="@dimen/_8sdp"
-                    app:layout_constraintEnd_toEndOf="@id/attemptIcon"
-                    app:layout_constraintStart_toStartOf="@id/attemptIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/attemptIcon" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/completedValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_15sdp"
+                            android:textColor="@color/carolina_blue"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_10sdp"
+                            android:text="0 Out of 90"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/markedValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_2sdp"
-                    android:textColor="@color/carolina_blue"
-                    android:textSize="@dimen/_10sdp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@id/attemptIcon"
-                    app:layout_constraintStart_toStartOf="@id/attemptIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/attempt" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_8sdp"
+                            android:text="@string/marked_for_review"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/markedValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_15sdp"
+                            android:textColor="@color/carolina_blue"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_10sdp"
+                          />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                 <View
                     android:id="@+id/divider"
@@ -141,7 +121,7 @@
                     android:layout_marginVertical="@dimen/_25sdp"
                     android:background="@color/alice_blue"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/durationValue" />
+                    app:layout_constraintTop_toBottomOf="@+id/lnrlyt" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/questionNumberRecycler"
