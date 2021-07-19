@@ -21,10 +21,8 @@ import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.database.DatabaseHelper
-import com.trisys.rn.baseapp.model.CompletedTest
-import com.trisys.rn.baseapp.model.Quesion
-import com.trisys.rn.baseapp.model.QuestionNumberItem
-import com.trisys.rn.baseapp.model.QuestionType
+import com.trisys.rn.baseapp.model.*
+import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.*
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionAdapter
 import com.trisys.rn.baseapp.practiceTest.adapter.QuestionNumberAdapter
@@ -47,18 +45,21 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     private lateinit var questionNumberAdapter: QuestionNumberAdapter
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
-    lateinit var testPaperId: String
-    lateinit var studentId: String
-    lateinit var testName: String
     private lateinit var db: DatabaseHelper
+    private var loginData = LoginData()
     lateinit var cd: ConnectionDetector
     lateinit var questionList: List<Quesion>
+    lateinit var mockTest: MOCKTEST
+
+    /*lateinit var testPaperId: String
+    lateinit var studentId: String
+    lateinit var testName: String
     lateinit var date: String
-    var noMarked: Int = 0
-    var currentPosition = 0
     private var isPauseAllow = false
     private var testDuration = 0
-    private var attemptedValue = ""
+    private var attemptedValue = ""*/
+    var noMarked: Int = 0
+    var currentPosition = 0
     private lateinit var dialog: Dialog
 
     private lateinit var questionAdapter: QuestionAdapter
@@ -67,19 +68,23 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_today_test)
 
-        testPaperId = intent.extras?.getString("testPaperId") ?: ""
+        /*testPaperId = intent.extras?.getString("testPaperId") ?: ""
         studentId = intent.extras?.getString("studentId") ?: ""
         testName = intent.extras?.getString("testName") ?: ""
         date = intent.extras?.getString("date") ?: ""
         isPauseAllow = intent.extras?.getBoolean("isPauseAllow")!!
         val timeLeft = intent.extras?.getInt("timeLeft") ?: 0
         testDuration = intent.extras?.getInt("duration") ?: 0
-        attemptedValue = intent.extras?.getString("attemptedValue") ?: ""
+        attemptedValue = intent.extras?.getString("attemptedValue") ?: ""*/
+
+        mockTest = intent.getParcelableExtra("mockTest")!!
+
+
         durationValue.base =
-            SystemClock.elapsedRealtime() + testDuration.times(10000)
-        if (timeLeft > 0) {
+            SystemClock.elapsedRealtime() + mockTest.testPaperVo?.duration?.times(10000)!!
+        if (mockTest.testPaperVo?.timeLeft?.toInt()!! > 0) {
             durationValue.base =
-                SystemClock.elapsedRealtime() + (timeLeft * 10000)
+                SystemClock.elapsedRealtime() + (mockTest.testPaperVo?.timeLeft?.toInt()!! * 10000)
         }
 
         //Assign Appbar properties
@@ -87,17 +92,20 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        actionBar?.title = testName
-        actionBar?.subtitle = date
+        actionBar?.title = mockTest.testPaperVo?.name
+        actionBar?.subtitle = Utils.getDateValue(mockTest.publishDate)
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
         db = DatabaseHelper(this)
         cd = ConnectionDetector(this)
 
+        loginData =
+            Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
+
         markReview()
 
-        questionList = db.getQuestionList(testPaperId)
+        questionList = db.getQuestionList(mockTest.testPaperId)
         val noCompleted = questionList.filter {
             !it.answer.isNullOrEmpty() && it.answer != "-"
         }.size
@@ -125,16 +133,17 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         manager.justifyContent = JustifyContent.CENTER
         dialog.questionNumber.layoutManager = manager
         questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
+        questionNumberRecycler.adapter = questionNumberAdapter
         dialog.questionNumber.adapter = questionNumberAdapter
 
-        if (isPauseAllow) {
+        if (mockTest.testPaperVo?.isPauseAllow!!) {
             pause.isEnabled = true
             pause.alpha = 0f
         } else {
             pause.isEnabled = false
             pause.alpha = 0.6f
         }
-        pause.isEnabled = isPauseAllow
+        pause.isEnabled = mockTest.testPaperVo?.isPauseAllow!!
 
         questionGroup.setOnClickListener {
             showDialog()
@@ -184,9 +193,9 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             viewPager.currentItem--
         }
         submitTest.setOnClickListener {
-            if(myPreferences.getBoolean(Define.TAKE_TEST_MODE_OFFLINE)) {
+            if (myPreferences.getBoolean(Define.TAKE_TEST_MODE_OFFLINE)) {
                 showDialogSubmit()
-            }else{
+            } else {
                 submitTestPaper()
             }
         }
@@ -247,10 +256,10 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         if (!myPreferences.getBoolean(Define.TAKE_TEST_MODE_OFFLINE)) {
             if (cd.isConnectingToInternet()) {
                 val jsonObject = JSONObject()
-                jsonObject.put("testPaperId", testPaperId)
-                jsonObject.put("attempt", attemptedValue)
-                jsonObject.put("studentId", studentId)
-                jsonObject.put("testDurationTime", testDuration)
+                jsonObject.put("testPaperId", mockTest.testPaperId)
+                jsonObject.put("attempt", mockTest.testPaperVo?.attempts)
+                jsonObject.put("studentId", loginData.userDetail?.usersId)
+                jsonObject.put("testDurationTime", mockTest.testPaperVo?.duration)
 
                 jsonObject.put("questionAnswerList", jsonArray)
                 networkHelper.postCall(
@@ -268,10 +277,10 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             }
 
             val completedTest = CompletedTest()
-            completedTest.testPaperId = testPaperId
-            completedTest.attempt = attemptedValue
-            completedTest.studentId = studentId
-            completedTest.testDurationTime = testDuration
+            completedTest.testPaperId = mockTest.testPaperId
+            completedTest.attempt = mockTest.testPaperVo?.attempts.toString()
+            completedTest.studentId = loginData.userDetail?.usersId
+            completedTest.testDurationTime = mockTest.testPaperVo?.duration!!
             completedTest.questionAnswerList = jsonArray.toString()
             db.addCompletedTest(completedTest)
 
@@ -340,8 +349,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             else
                 questionNumberItem.add(QuestionNumberItem(i, QuestionType.ATTEMPT))
         }
-        questionNumberAdapter = QuestionNumberAdapter(this, questionNumberItem, this)
-        questionNumberRecycler.adapter = questionNumberAdapter
     }
 
     private fun assignQuestion() {
@@ -354,6 +361,11 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         questionList[position].isAnswered = isClicked
         if (isClicked) {
             questionNumberItem[position].questionType = QuestionType.ATTEMPT
+            questionNumberAdapter.setItems(questionNumberItem)
+            questionNumberAdapter.notifyDataSetChanged()
+            questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
+        }else{
+            questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT
             questionNumberAdapter.setItems(questionNumberItem)
             questionNumberAdapter.notifyDataSetChanged()
             questionNumberItem[position].questionType = QuestionType.NOT_ATTEMPT

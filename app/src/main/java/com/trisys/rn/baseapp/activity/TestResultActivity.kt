@@ -19,6 +19,7 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_test_results.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONObject
@@ -28,8 +29,8 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
-    private var attempt: Int? = null
-    private var studentId: String? = null
+//    private var attempt: Int? = null
+//    private var studentId: String? = null
     private var testPaperId: String? = null
     lateinit var myProgressBar: MyProgressBar
     lateinit var db: DatabaseHelper
@@ -45,8 +46,8 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-        attempt = intent.getIntExtra("attempt", 0)
-        studentId = intent.getStringExtra("studentId")
+//        attempt = intent.getIntExtra("attempt", 0)
+//        studentId = intent.getStringExtra("studentId")
         testPaperId = intent.getStringExtra("testPaperId")
 
         db = DatabaseHelper(this)
@@ -58,11 +59,13 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         actionBar?.title = "Test Result"
 
-        requestSessions()
+//        requestSessions()
+
+        setValuestoUI(db.getTestResponse(testPaperId!!))
 
     }
 
-    private fun requestSessions() {
+    /*private fun requestSessions() {
 
         myProgressBar.show()
 
@@ -79,7 +82,7 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
             this
         )
 
-    }
+    }*/
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -105,14 +108,14 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
-        testResponseResult.testPaperId = testPaperId.toString()
-        db.saveResult(testResponseResult)
-        setValuestoUI(testResponseResult)
+//        testResponseResult.testPaperId = testPaperId.toString()
+//        db.saveResult(testResponseResult)
+//        setValuestoUI(testResponseResult)
     }
 
     private fun setValuestoUI(testResultsModel: TestResultsModel) {
         myProgressBar.dismiss()
-        outofStudents.text = "Out of " + testResultsModel.totalRank.toString() + " Students"
+        outofStudents.text = "Out of ${testResultsModel.totalRank} Students"
         yourScoreTxt.text = testResultsModel.totalObtainedMarks.toString()
         rankCircle.text = testResultsModel.currentRank.toString()
         outOfScoretxt.text = "Out of " + testResultsModel.totalQuestions.toString()

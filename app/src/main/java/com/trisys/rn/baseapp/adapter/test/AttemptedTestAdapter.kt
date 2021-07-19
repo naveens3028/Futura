@@ -1,7 +1,6 @@
 package com.trisys.rn.baseapp.adapter.test
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
-import com.trisys.rn.baseapp.practiceTest.TestReviewActivity
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_attempted_test.view.*
 
@@ -49,9 +47,9 @@ class AttemptedTestAdapter(
             )
         }
         holder.itemView.result.setOnClickListener {
-            val intent = Intent(context, TestReviewActivity::class.java)
-            intent.putExtra("AttemptedTest", scheduledTest)
-            context.startActivity(intent)
+            testClickListener.onReviewClicked(
+                scheduledTest
+            )
         }
         holder.itemView.submit.setOnClickListener {
             testClickListener.onResultClicked(scheduledTest.testPaperId)

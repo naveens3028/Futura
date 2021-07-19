@@ -16,6 +16,7 @@ import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.model.MOCKTEST
 import com.trisys.rn.baseapp.model.ScheduledClass
+import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -132,6 +133,10 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     override fun onResultClicked(attempt: Int, studentId: String, testPaperId: String) {
 
+    }
+
+    override fun onReviewClicked(attempt: AttemptedTest) {
+        TODO("Not yet implemented")
     }
 
 
