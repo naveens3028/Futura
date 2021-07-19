@@ -29,7 +29,7 @@
                 android:padding="@dimen/_10sdp"
                 android:paddingStart="@dimen/_20sdp"
                 android:paddingEnd="@dimen/_10sdp"
-                android:text="demonltb2"
+                android:text="qr1002"
                 android:textColor="@color/charcoal"
                 android:textColorHint="@color/platinum"
                 app:layout_constraintEnd_toEndOf="parent"

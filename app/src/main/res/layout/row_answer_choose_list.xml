@@ -18,16 +18,15 @@
         <com.jstarczewski.pc.mathview.src.MathView
             android:id="@+id/mvTest"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:maxHeight="@dimen/_120sdp"
+            android:maxHeight="@dimen/_80sdp"
             android:layout_marginVertical="@dimen/_4sdp"
             app:engine="MathJax"
             app:layout_constraintEnd_toStartOf="@+id/answer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:text="$F=mg$" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <View
             android:layout_width="0dp"

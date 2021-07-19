@@ -42,13 +42,15 @@ class AnswerChooseAdapter(
         val answerItem = answerChooseItem[position]
         if (answerItem.isSelected) previousPosition = position
 
-        val ans = answerItem.answer!!.replace("\n", "").replace("<p class=\\\"p4\\\">", "")
-        holder.itemView.mvTest.apply {
-            textZoom = 60
-            textColor = Color.GREEN.toString()
-            textAlign = TextAlign.LEFT
-            backgroundColor = "#EEF4FA"
-            text = ans
+        if(answerItem.answer != null) {
+            val ans = answerItem.answer!!.replace("\n", "").replace("<p class=\\\"p4\\\">", "")
+            holder.itemView.mvTest.apply {
+                textZoom = 60
+                textColor = Color.GREEN.toString()
+                textAlign = TextAlign.LEFT
+                backgroundColor = "#EEF4FA"
+                text = ans
+            }
         }
 
         if (!isReview) {
