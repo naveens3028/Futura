@@ -130,7 +130,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        stateful.showContent()
+
         if (responseCode == networkHelper.responseSuccess && tag == "getStudentTestPaper") {
             val testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
             for (question in testPaperResponse.quesionList) {
@@ -154,7 +154,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             stateful.setOfflineText(response)
             stateful.setOfflineImageResource(R.drawable.icon_error)
             stateful.setOfflineRetryOnClickListener {
-                // add retry method
+                getTest()
             }
         }
     }
