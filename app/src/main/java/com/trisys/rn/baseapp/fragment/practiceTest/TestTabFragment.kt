@@ -47,7 +47,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     lateinit var myPreferences: MyPreferences
     lateinit var db: DatabaseHelper
     lateinit var testPaperId: String
-    lateinit var attemptedTest: MutableList<MOCKTEST>
+    var attemptedTest: ArrayList<MOCKTEST>? = ArrayList()
     var clickedTestPaperId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +87,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             "getUnAttempted",
             this
         )
-        getAttemptedTest()
+
 
         networkHelper.call(
             networkHelper.POST,
@@ -273,32 +273,35 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 unAttemptedSetup(unAttempted)
             } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
                 val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
-                for (attempt in attemptedTest) {
-                    attempted.mOCKTEST.add(
-                        AttemptedTest(
-                            "completed",
-                            attempt.testPaperVo?.correctMark!!,
-                            attempt.testPaperVo.duration,
-                            attempt.expiryDate,
-                            attempt.expiryDateTime,
-                            attempt.expiryTime,
-                            attempt.testPaperVo.name,
-                            attempt.publishDate,
-                            attempt.publishDateTime,
-                            attempt.publishTime!!,
-                            attempt.testPaperVo.questionCount,
-                            attempt.testPaperVo.status,
-                            "",
-                            loginData.userDetail?.usersId!!,
-                            loginData.userDetail?.userName!!,
-                            attempt.testPaperVo.testCode,
-                            attempt.testPaperId,
-                            attempt.testPaperVo.testType,
-                            attempt.testPaperVo.attempts,
-                            attempt.testPaperVo.duration.toString(),
-                            attempt.testPaperVo.correctMark.toString(),
+
+                if(attemptedTest != null) {
+                    for (attempt in attemptedTest!!) {
+                        attempted.mOCKTEST.add(
+                            AttemptedTest(
+                                "completed",
+                                attempt.testPaperVo?.correctMark!!,
+                                attempt.testPaperVo.duration,
+                                attempt.expiryDate,
+                                attempt.expiryDateTime,
+                                attempt.expiryTime,
+                                attempt.testPaperVo.name,
+                                attempt.publishDate,
+                                attempt.publishDateTime,
+                                attempt.publishTime!!,
+                                attempt.testPaperVo.questionCount,
+                                attempt.testPaperVo.status,
+                                "",
+                                loginData.userDetail?.usersId!!,
+                                loginData.userDetail?.userName!!,
+                                attempt.testPaperVo.testCode,
+                                attempt.testPaperId,
+                                attempt.testPaperVo.testType,
+                                attempt.testPaperVo.attempts,
+                                attempt.testPaperVo.duration.toString(),
+                                attempt.testPaperVo.correctMark.toString(),
+                            )
                         )
-                    )
+                    }
                 }
                 attemptedSetup(attempted)
             } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
@@ -312,9 +315,9 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                     noTest.visibility = View.GONE
                     val completedList = db.getCompletedTest()
                     completedList.forEachIndexed { _, completedListElement ->
-                        attemptedTest =
+                        attemptedTest!!.addAll(
                             scheduledTestResponse.MOCK_TEST.filter { it.testPaperId == completedListElement.testPaperId }
-                                .toMutableList()
+                                .toMutableList())
                         scheduledTestResponse.MOCK_TEST =
                             scheduledTestResponse.MOCK_TEST.filterNot { it.testPaperId == completedListElement.testPaperId }
                     }
@@ -325,7 +328,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                     )
                     scheduleTestRecyclerView.adapter = scheduledTestAdapter
                 }
-
+                getAttemptedTest()
             } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
                 db.deleteTest(testPaperId)
                 getAttemptedTest()
@@ -350,7 +353,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         if (view != null) {
             val attemptedAdapter = AttemptedTestAdapter(
                 requireContext(),
-                attempted.mOCKTEST, this
+                attempted.mOCKTEST.reversed(), this
             )
             attemptedTestRecyclerView.adapter = attemptedAdapter
         }

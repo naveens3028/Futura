@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:background="@drawable/take_test_background"
+            android:background="@drawable/submit_test_background"
             android:paddingHorizontal="@dimen/_8sdp"
             android:paddingVertical="@dimen/_4sdp"
             android:text="@string/submit"
