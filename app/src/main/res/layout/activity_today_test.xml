@@ -32,8 +32,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/durationIcon"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
                     android:layout_marginHorizontal="@dimen/_8sdp"
                     android:layout_marginVertical="@dimen/_16sdp"
                     android:src="@drawable/duration"
@@ -67,8 +67,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/questionsIcon"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
                     android:layout_marginHorizontal="@dimen/_8sdp"
                     android:layout_marginVertical="@dimen/_16sdp"
                     android:src="@drawable/question_answer"
@@ -102,8 +102,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/attemptIcon"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
                     android:layout_marginHorizontal="@dimen/_8sdp"
                     android:layout_marginVertical="@dimen/_16sdp"
                     android:src="@drawable/attempt"
@@ -147,7 +147,7 @@
                     android:id="@+id/questionNumberRecycler"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_15sdp"
+                    android:layout_margin="@dimen/_10sdp"
                     android:background="@android:color/transparent"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -183,7 +183,7 @@
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginHorizontal="@dimen/_8sdp"
-                    android:layout_marginVertical="@dimen/_30sdp"
+                    android:layout_marginVertical="@dimen/_15sdp"
                     android:backgroundTint="@color/bittersweet"
                     android:text="@string/mark_for_review"
                     android:textAllCaps="false"
@@ -201,7 +201,7 @@
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginHorizontal="@dimen/_8sdp"
-                    android:layout_marginVertical="@dimen/_30sdp"
+                    android:layout_marginVertical="@dimen/_15sdp"
                     android:backgroundTint="@color/carolina_blue"
                     android:text="@string/pause"
                     android:textAllCaps="false"
