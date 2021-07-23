@@ -41,10 +41,9 @@
             android:id="@+id/subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/_4sdp"
             android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginVertical="@dimen/_4sdp"
             android:fontFamily="@font/roboto_bold"
-            android:text="Mathematics"
             android:textColor="@color/white"
             android:textSize="@dimen/_12sdp"
             app:layout_constraintStart_toStartOf="@id/backgroundLayout"
@@ -54,12 +53,11 @@
             android:id="@+id/lesson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/_4sdp"
             android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginVertical="@dimen/_4sdp"
             android:ellipsize="end"
             android:fontFamily="@font/roboto_bold"
             android:maxLines="2"
-            android:text="L2 - Functions and Binary Operations"
             android:textColor="@color/white"
             android:textSize="@dimen/_14sdp"
             app:layout_constraintEnd_toEndOf="@id/backgroundLayout"
@@ -67,37 +65,32 @@
             app:layout_constraintTop_toBottomOf="@id/subject" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/count"
+            android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/_4sdp"
             android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginVertical="@dimen/_4sdp"
             android:fontFamily="@font/roboto_regular"
-            android:text="4 Of 8 Lesson"
             android:textColor="@color/white"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="@id/backgroundLayout"
-            app:layout_constraintEnd_toEndOf="@id/backgroundLayout"
             app:layout_constraintStart_toStartOf="@id/backgroundLayout"
             app:layout_constraintTop_toBottomOf="@+id/lesson" />
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:layout_width="@dimen/_35sdp"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/time"
+            android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/_4sdp"
             android:layout_marginHorizontal="@dimen/_8sdp"
-            android:max="100"
-            android:id="@+id/progressBar"
-            app:trackCornerRadius="@dimen/_4sdp"
-            app:indicatorColor="@color/carolina_blue"
-            app:layout_constraintBottom_toBottomOf="@+id/count"
+            android:layout_marginVertical="@dimen/_4sdp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/date"
             app:layout_constraintEnd_toEndOf="@id/backgroundLayout"
-            app:layout_constraintHorizontal_bias="0.85"
-            app:layout_constraintStart_toStartOf="@+id/count"
-            app:layout_constraintTop_toTopOf="@+id/count"
-            app:trackColor="@color/alice_blue"
-            app:trackThickness="@dimen/_4sdp" />
-
+            app:layout_constraintStart_toEndOf="@+id/date"
+            app:layout_constraintTop_toTopOf="@+id/date" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

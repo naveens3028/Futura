@@ -11,10 +11,15 @@ import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
 import com.trisys.rn.baseapp.model.CompletedLiveItem
 import com.trisys.rn.baseapp.model.LiveResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
-import com.trisys.rn.baseapp.network.*
+import com.trisys.rn.baseapp.network.ApiUtils
+import com.trisys.rn.baseapp.network.NetworkHelper
+import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
+import com.trisys.rn.baseapp.network.UrlConstants.kUPCOMING
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -108,10 +113,10 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
 
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("branchIds", loginData.userDetail?.branchIds.toString())
+            jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
             jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-            jsonObject.put("batchIds", loginData.userDetail?.batchIds.toString())
-            jsonObject.put("sessionTense", UrlConstants.kUPCOMING)
+            jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
+            jsonObject.put("sessionTense", kUPCOMING)
         } catch (e: JSONException) {
             e.printStackTrace()
         }

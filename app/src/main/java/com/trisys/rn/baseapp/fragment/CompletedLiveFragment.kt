@@ -12,9 +12,11 @@ import com.trisys.rn.baseapp.model.CompletedLiveItem
 import com.trisys.rn.baseapp.model.LiveResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.*
+import com.trisys.rn.baseapp.network.UrlConstants.kPREVIOUS
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -108,10 +110,10 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("branchIds", loginData.userDetail?.branchIds.toString())
+            jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
             jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-            jsonObject.put("batchIds", loginData.userDetail?.batchIds.toString())
-            jsonObject.put("sessionTense", UrlConstants.kPREVIOUS)
+            jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
+            jsonObject.put("sessionTense", kPREVIOUS)
         } catch (e: JSONException) {
             e.printStackTrace()
         }

@@ -199,4 +199,13 @@ object Utils {
         return "$bd%"
     }
 
+    fun isPackageInstalled(context: Context, packageName: String?): Boolean {
+        return try {
+            context.packageManager.getApplicationInfo(packageName!!, 0)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+    }
+
 }

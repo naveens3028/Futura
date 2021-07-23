@@ -313,7 +313,7 @@ class NetworkHelper(context: Context) {
 
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(TAG, "ErrorListener -$tag ${error.networkResponse.data} ${error.networkResponse.statusCode}")
+                    Utils.log(TAG, "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}")
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,
@@ -379,7 +379,7 @@ class NetworkHelper(context: Context) {
 
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(TAG, "ErrorListener -$tag ${error.networkResponse.data} ${error.networkResponse.statusCode}")
+                    Utils.log(TAG, "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}")
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,
@@ -433,7 +433,7 @@ class NetworkHelper(context: Context) {
                     )
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(TAG, "ErrorListener -$tag ${error.networkResponse.data} ${error.networkResponse.statusCode}")
+                    Utils.log(TAG, "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}")
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,
