@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
 import com.trisys.rn.baseapp.model.CompletedLiveItem
 import com.trisys.rn.baseapp.model.LiveResponse
+import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -87,6 +89,8 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             )
         )
 
+        Log.e("completedup","up")
+
     }
 
     companion object {
@@ -133,15 +137,14 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (activity != null) {
             if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
-                val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
-                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
+                val liveItemResponse = ArrayList<CompletedSession>()
+                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList,liveItemResponse, false)
                 recycler.adapter = completedLiveAdapter
             } else {
                 if (view != null) {
-                    val completedLiveAdapter =
-                        CompletedLiveAdapter(requireView().context, completedLiveList)
+                    val liveItemResponse = ArrayList<CompletedSession>()
+                    val completedLiveAdapter = CompletedLiveAdapter(requireView().context, completedLiveList,liveItemResponse,false)
                     recycler.adapter = completedLiveAdapter
-//                Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
                 }
             }
         }

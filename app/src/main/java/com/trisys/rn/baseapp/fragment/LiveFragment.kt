@@ -1,4 +1,5 @@
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper.getSessions
 import com.trisys.rn.baseapp.network.UrlConstants.kLIVE
+import com.trisys.rn.baseapp.network.UrlConstants.kPREVIOUS
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_live.*
@@ -158,13 +160,15 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "liveSessions") {
             val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
-            val studyAdapter = StudyAdapter(requireContext(), liveItemResponse.data)
-            studyRecycler.adapter = studyAdapter
+            if(liveItemResponse.data.size > 0) {
+                val studyAdapter = StudyAdapter(requireContext(), liveItemResponse.data)
+                studyRecycler.adapter = studyAdapter
+            }
         } else {
-            val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
-            studyRecycler.adapter = studyAdapter
-//            Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+            studyList.let {
+                val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
+                studyRecycler.adapter = studyAdapter
+            }
         }
-
     }
 }

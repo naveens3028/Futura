@@ -1,15 +1,20 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
 import com.trisys.rn.baseapp.model.CompletedLiveItem
 import com.trisys.rn.baseapp.model.LiveResponse
+import com.trisys.rn.baseapp.model.TestResultsData
+import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.*
 import com.trisys.rn.baseapp.network.UrlConstants.kPREVIOUS
@@ -19,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.lang.Exception
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -74,7 +80,6 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
                 R.color.light_coral
             )
         )
-        requestSessions()
         completedLiveList.add(
             CompletedLiveItem(
                 "Mathematics",
@@ -83,6 +88,8 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
                 R.color.caribbean_green
             )
         )
+        Log.e("completed", "success")
+        requestSessions()
 
     }
 
@@ -98,7 +105,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            UpcomingLiveFragment().apply {
+            CompletedLiveFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -109,17 +116,14 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
     private fun requestSessions() {
 
         val jsonObject = JSONObject()
-        try {
+        val jsonArray = JSONArray()
+        jsonArray.put(loginData.userDetail?.batchIds!![0])
             jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
             jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-            jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
-            jsonObject.put("sessionTense", kPREVIOUS)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
+            jsonObject.put("batchIds", jsonArray)
 
-        networkHelper.postCall(
-            URLHelper.getSessions,
+        networkHelper.postCallResponseArray(
+            URLHelper.getCompletedSessionsSubject,
             jsonObject,
             "completedSessions",
             ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
@@ -129,13 +133,15 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "completedSessions") {
-            val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
-            val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
-            recycler.adapter = completedLiveAdapter
+            Log.e("soppers", "responseCode: " +responseCode.toString() + "response: " + response + " tag: " + tag)
+          /*  val arrayTutorialType = object : TypeToken<ArrayList<CompletedSession>>() {}.type
+            val liveItemResponse: ArrayList<CompletedSession> = Gson().fromJson(response, arrayTutorialType)
+            liveItemResponse.let {
+                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList,liveItemResponse, true)
+                recycler.adapter = completedLiveAdapter
+            }*/
         } else {
-            val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
-            recycler.adapter = completedLiveAdapter
-//            Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "No completed sessions available", Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -343,6 +343,48 @@ class NetworkHelper(context: Context) {
         }
     }
 
+    fun postCallResponseArray(
+        url: String,
+        params: JSONObject,
+        tag: String,
+        headers: HashMap<String, String>,
+        onNetworkResponse: OnNetworkResponse,
+    ) {
+        Utils.log(TAG, "url $url")
+        Utils.log(TAG, "params $params")
+        Utils.log(TAG, "headers $headers")
+
+        AndroidNetworking.post(url)
+            .addBodyParameter(params)
+            .addHeaders(headers)
+            .setTag(tag)
+            .doNotCacheResponse()
+            .build()
+            .getAsJSONArray( object : JSONArrayRequestListener {
+                override fun onResponse(response: JSONArray) {
+                    Log.e(TAG, "response1 -$tag  $response")
+                    if (context != null)
+                        onNetworkResponse.onNetworkResponse(
+                            responseSuccess,
+                            response.toString(),
+                            tag
+                        )
+                }
+
+                override fun onError(error: ANError) {
+                    Utils.log("NetworkError1", error.errorDetail.toString())
+                    val response = "Error Code2 : " + error.errorCode + " " + error.errorDetail
+
+                    if (error.errorCode == 0) {
+                        onNetworkResponse.onNetworkResponse(responseFailed, response, tag)
+                    } else {
+                        onNetworkResponse.onNetworkResponse(responseFailed, response, tag)
+                    }
+                }
+            })
+    }
+
+
     fun getCall(
         url: String,
         tag: String,
