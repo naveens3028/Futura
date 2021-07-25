@@ -10,12 +10,14 @@ object URLHelper {
     private var baseBATH = mRemoteConfig.getString(Define.BASE_PATH)
 
     //    private var url = baseURL+baseBATH
-    private var url = "http://65.2.90.171/app/api/v1/"
-    private var productionUrl = "https://api.upmyranks.com/app/api/v1"
+//    private var url = "http://65.2.90.171/app/api/v1/"
+    private var productionUrl = "https://api.upmyranks.com/app/api/v1/"
+    private var url = "https://api.upmyranks.com/app/api/v1/"
 
 
     private val baseURLSession = productionUrl + "session/"
     val getSessions = baseURLSession + "getSessions"
+    val getCompletedSessionsSubject = baseURLSession + "getCompletedSessionsSubject"
     val baseURLAuth = url + "auth/"
     val courseURL = url + "course/child/"
     private val testPaperAssign = url + "testPaperAssign/"

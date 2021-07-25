@@ -1,8 +1,8 @@
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
@@ -20,10 +20,11 @@ import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper.getSessions
 import com.trisys.rn.baseapp.network.UrlConstants.kLIVE
+import com.trisys.rn.baseapp.network.UrlConstants.kPREVIOUS
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_live.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -111,7 +112,10 @@ class LiveFragment : Fragment(), OnNetworkResponse {
                             .commit()
                     1 ->
                         childFragmentManager.beginTransaction()
-                            .replace(R.id.liveFrameLayout, CompletedLiveFragment.newInstance("", ""))
+                            .replace(
+                                R.id.liveFrameLayout,
+                                CompletedLiveFragment.newInstance("", "")
+                            )
                             .commit()
                 }
             }
@@ -136,9 +140,9 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("branchIds", loginData.userDetail?.branchIds.toString())
+            jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
             jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-            jsonObject.put("batchIds", loginData.userDetail?.batchIds.toString())
+            jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
             jsonObject.put("sessionTense", kLIVE)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -148,7 +152,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
             getSessions,
             jsonObject,
             "liveSessions",
-            getAuthorizationHeader(requireContext(),jsonObject.toString().length),
+            getAuthorizationHeader(requireContext(), jsonObject.toString().length),
             this
         )
     }
@@ -156,13 +160,15 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "liveSessions") {
             val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
-            val studyAdapter = StudyAdapter(requireContext(), liveItemResponse.data[0])
-            studyRecycler.adapter = studyAdapter
+            if(liveItemResponse.data.size > 0) {
+                val studyAdapter = StudyAdapter(requireContext(), liveItemResponse.data)
+                studyRecycler.adapter = studyAdapter
+            }
         } else {
-            val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
-            studyRecycler.adapter = studyAdapter
-//            Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
+            studyList.let {
+                val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
+                studyRecycler.adapter = studyAdapter
+            }
         }
-
     }
 }

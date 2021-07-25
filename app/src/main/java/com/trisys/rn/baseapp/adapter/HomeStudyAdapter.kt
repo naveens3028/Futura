@@ -29,8 +29,8 @@ class HomeStudyAdapter(
         val studyItem = studyItems[position]
         holder.itemView.subject.text = studyItem.subject
         holder.itemView.lesson.text = studyItem.lesson
-        holder.itemView.count.text = studyItem.count
-        holder.itemView.progressBar.progress = studyItem.progress
+        holder.itemView.date.text = studyItem.count
+//        holder.itemView.progressBar.progress = studyItem.progress
         holder.itemView.backgroundLayout.setBackgroundColor(context.getColor(studyItem.color))
         GlideApp.with(context).load(studyItem.imageID).into(holder.itemView.studyImg)
     }

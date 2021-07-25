@@ -19,4 +19,7 @@ interface TestResponseDao {
     @Query("SELECT * FROM ResultReview where testPaperId=:testPaperId")
     fun getResponse(testPaperId: String): TestResultsModel
 
+    @Query("SELECT EXISTS(SELECT * FROM ResultReview WHERE testPaperId=:testPaperId)")
+    fun isExists(testPaperId: String): Boolean
+
 }

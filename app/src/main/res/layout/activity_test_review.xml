@@ -28,6 +28,7 @@
                 android:id="@+id/durationIcon"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
+                android:visibility="gone"
                 android:layout_marginHorizontal="@dimen/_8sdp"
                 android:layout_marginVertical="@dimen/_16sdp"
                 android:src="@drawable/question_answer"
@@ -40,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_4sdp"
+                android:visibility="gone"
                 android:text="@string/question_difficulty"
                 android:textSize="@dimen/_8sdp"
                 app:layout_constraintEnd_toEndOf="@id/durationIcon"
@@ -50,6 +52,7 @@
                 android:id="@+id/durationValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_margin="@dimen/_2sdp"
                 android:text="Easy"
                 android:textColor="@color/carolina_blue"
@@ -63,6 +66,7 @@
                 android:id="@+id/questionsIcon"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
+                android:visibility="gone"
                 android:layout_marginHorizontal="@dimen/_8sdp"
                 android:layout_marginVertical="@dimen/_16sdp"
                 android:src="@drawable/duration"
@@ -74,6 +78,7 @@
                 android:id="@+id/questionAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_margin="@dimen/_4sdp"
                 android:text="@string/time_taken_by_you"
                 android:textSize="@dimen/_8sdp"
@@ -86,6 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_2sdp"
+                android:visibility="gone"
                 android:text="0s"
                 android:textColor="@color/carolina_blue"
                 android:textSize="@dimen/_10sdp"
@@ -99,6 +105,7 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginHorizontal="@dimen/_8sdp"
+                android:visibility="gone"
                 android:layout_marginVertical="@dimen/_16sdp"
                 android:src="@drawable/duration"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +116,7 @@
                 android:id="@+id/attempt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_margin="@dimen/_4sdp"
                 android:text="@string/time_taken_by_topper"
                 android:textSize="@dimen/_8sdp"
@@ -122,6 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_2sdp"
                 android:text="0s"
+                android:visibility="gone"
                 android:textColor="@color/carolina_blue"
                 android:textSize="@dimen/_10sdp"
                 android:textStyle="bold"
@@ -136,7 +145,7 @@
                 android:layout_marginVertical="@dimen/_25sdp"
                 android:background="@color/alice_blue"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/durationValue" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/questionNumberRecycler"
@@ -178,6 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_8sdp"
                 android:layout_marginVertical="@dimen/_30sdp"
+                android:visibility="gone"
                 android:backgroundTint="@color/text_color"
                 android:src="@drawable/ic_forward"
                 app:layout_constraintStart_toStartOf="parent"
@@ -191,6 +201,7 @@
                 android:layout_marginHorizontal="@dimen/_8sdp"
                 android:layout_marginVertical="@dimen/_30sdp"
                 android:backgroundTint="@color/carolina_blue"
+                android:visibility="gone"
                 android:text="@string/physics"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
@@ -206,6 +217,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_8sdp"
+                android:visibility="gone"
                 android:layout_marginVertical="@dimen/_30sdp"
                 android:backgroundTint="@color/text_color"
                 android:rotation="180"
@@ -218,7 +230,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toTopOf="@+id/divider1"
-                app:layout_constraintTop_toBottomOf="@+id/subjectName" />
+                app:layout_constraintTop_toBottomOf="@+id/questionNumberRecycler" />
 
             <View
                 android:id="@+id/divider1"

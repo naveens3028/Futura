@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,17 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
 import com.trisys.rn.baseapp.model.CompletedLiveItem
 import com.trisys.rn.baseapp.model.LiveResponse
+import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
-import com.trisys.rn.baseapp.network.*
+import com.trisys.rn.baseapp.network.ApiUtils
+import com.trisys.rn.baseapp.network.NetworkHelper
+import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
+import com.trisys.rn.baseapp.network.UrlConstants.kUPCOMING
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -82,6 +89,8 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             )
         )
 
+        Log.e("completedup","up")
+
     }
 
     companion object {
@@ -108,10 +117,10 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
 
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("branchIds", loginData.userDetail?.branchIds.toString())
+            jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
             jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-            jsonObject.put("batchIds", loginData.userDetail?.batchIds.toString())
-            jsonObject.put("sessionTense", UrlConstants.kUPCOMING)
+            jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
+            jsonObject.put("sessionTense", kUPCOMING)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -128,15 +137,14 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (activity != null) {
             if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
-                val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
-                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList)
+                val liveItemResponse = ArrayList<CompletedSession>()
+                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList,liveItemResponse, false)
                 recycler.adapter = completedLiveAdapter
             } else {
                 if (view != null) {
-                    val completedLiveAdapter =
-                        CompletedLiveAdapter(requireView().context, completedLiveList)
+                    val liveItemResponse = ArrayList<CompletedSession>()
+                    val completedLiveAdapter = CompletedLiveAdapter(requireView().context, completedLiveList,liveItemResponse,false)
                     recycler.adapter = completedLiveAdapter
-//                Toast.makeText(requireContext(), "Data unable to load", Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.row_upcoming_live.view.subject
 
 class StudyAdapter(
     val context: Context,
-    private val studyItem: Data
+    private val studyItem: List<Data>
 ) : RecyclerView.Adapter<StudyAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -26,11 +26,11 @@ class StudyAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val studyItem = studyItems[position]
+        val studyItem = studyItem[position]
         holder.itemView.subject.text = studyItem.subject.courseName
         holder.itemView.lesson.text = studyItem.topicName
-//        holder.itemView.count.text = studyItem.count
-        holder.itemView.progressBar.progress = 70
+        holder.itemView.date.text = Utils.getDateValue(studyItem.sessionDate)
+//        holder.itemView.time.progress = 70
         holder.itemView.backgroundLayout.setBackgroundColor(context.getColor(R.color.caribbean_green))
         GlideApp.with(context).load(R.drawable.mathematics).into(holder.itemView.studyImg)
     }

@@ -1,6 +1,5 @@
 package com.trisys.rn.baseapp.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -11,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.database.DatabaseHelper
+import com.trisys.rn.baseapp.model.MOCKTEST
 import com.trisys.rn.baseapp.model.TestPaperResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
@@ -22,7 +22,6 @@ import com.trisys.rn.baseapp.network.UrlConstants.kSTARTED
 import com.trisys.rn.baseapp.practiceTest.TodayTestActivity
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_take_test.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONException
@@ -34,11 +33,12 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
     private lateinit var db: DatabaseHelper
-    lateinit var testPaperId: String
+    lateinit var mockTest: MOCKTEST
+    /*lateinit var testPaperId: String
     lateinit var testPaperName: String
     var duration = 0
     var timeLeft = 0
-    var isPauseAllow = false
+    var isPauseAllow = false*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +68,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
         stateful.setProgressText("Downloading Test..")
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("testPaperId", testPaperId)
+            jsonObject.put("testPaperId", mockTest.testPaperId)
             jsonObject.put("studentId", loginData.userDetail?.userDetailId.toString())
             jsonObject.put("batchIds", loginData.userDetail?.batchIds.toString())
             jsonObject.put("status", kSTARTED)
@@ -83,7 +83,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             this
         )
         networkHelper.getCall(
-            URLHelper.getStudentTestPaper + "?testPaperId=$testPaperId&studentId=${loginData.userDetail?.userDetailId.toString()}",
+            URLHelper.getStudentTestPaper + "?testPaperId=${mockTest.testPaperId}&studentId=${loginData.userDetail?.userDetailId.toString()}",
             "getStudentTestPaper",
             ApiUtils.getHeader(this),
             this
@@ -97,15 +97,16 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     private fun assignValue(intent: Intent) {
-        duration = intent.getIntExtra("duration",0)
-        timeLeft = intent.getIntExtra("timeLeft",0)
+        mockTest = intent.getParcelableExtra("mockTest")!!
+        /*duration = intent.getIntExtra("duration", 0)
+        timeLeft = intent.getIntExtra("timeLeft", 0)
         durationValue.text = Utils.getDuration(duration)
         questionValue.text = intent.getStringExtra("questionCount")
         attemptedValue.text = intent.getStringExtra("noAttempted")
         heading.text = intent.getStringExtra("date")
         testPaperId = intent.getStringExtra("testPaperId") ?: ""
         testPaperName = intent.getStringExtra("testPaperName") ?: ""
-        isPauseAllow = intent.getBooleanExtra("isPauseAllow",false)
+        isPauseAllow = intent.getBooleanExtra("isPauseAllow", false)*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -134,22 +135,23 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
         if (responseCode == networkHelper.responseSuccess && tag == "getStudentTestPaper") {
             val testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
             for (question in testPaperResponse.quesionList) {
-                question.testPaperId = testPaperId
+                question.testPaperId = mockTest.testPaperId
                 db.addQuestions(question)
             }
             stateful.showContent()
             val intent = Intent(this, TodayTestActivity::class.java)
-            intent.putExtra("testPaperId", testPaperId)
+            intent.putExtra("mockTest", mockTest)
+            /*intent.putExtra("testPaperId", testPaperId)
             intent.putExtra("studentId", loginData.userDetail?.userDetailId)
             intent.putExtra("date", heading.text)
             intent.putExtra("testName", testPaperName)
             intent.putExtra("duration", duration)
             intent.putExtra("timeLeft", timeLeft)
             intent.putExtra("isPauseAllow", isPauseAllow)
-            intent.putExtra("attemptedValue", intent.getStringExtra("noAttempted"))
+            intent.putExtra("attemptedValue", intent.getStringExtra("noAttempted"))*/
             startActivity(intent)
             finish()
-        }else if(responseCode == networkHelper.responseFailed && tag.equals("getStudentTestPaper")){
+        } else if (responseCode == networkHelper.responseFailed && tag == "getStudentTestPaper") {
             stateful.showOffline()
             stateful.setOfflineText(response)
             stateful.setOfflineImageResource(R.drawable.icon_error)

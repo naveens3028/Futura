@@ -1,14 +1,17 @@
 package com.trisys.rn.baseapp.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "ResultReview")
-data class TestResultsModel (
+@Parcelize
+data class TestResultsModel(
     @PrimaryKey
     @ColumnInfo(name = "sectionsData")
     @SerializedName("sectionsData")
@@ -96,18 +99,19 @@ data class TestResultsModel (
     @SerializedName("avgTimePerQuesByTopper")
     var avgTimePerQuesByTopper: Int? = null
 
-)
+) : Parcelable
 
-
-data class SectionsDatum (
+@Parcelize
+data class SectionsDatum(
     @SerializedName("sectionName")
     var sectionName: String,
 
     @SerializedName("sectionQuestion")
     var sectionQuestion: List<SectionQuestion?>? = null,
-)
+) : Parcelable
 
-data class SectionQuestion (
+@Parcelize
+data class SectionQuestion(
     @SerializedName("id")
     var id: String,
 
@@ -155,9 +159,10 @@ data class SectionQuestion (
 
     @SerializedName("timeSpentByTopper")
     var timeSpentByTopper: String? = null
-)
+) : Parcelable
 
-data class ListTopRanker (
+@Parcelize
+data class ListTopRanker(
     @SerializedName("studentName")
     var studentName: String,
 
@@ -169,7 +174,7 @@ data class ListTopRanker (
 
     @SerializedName("totalMarks")
     var totalMarks: Int? = null,
-)
+) :Parcelable
 
 
 class SectionsDatumConverter {
@@ -178,7 +183,8 @@ class SectionsDatumConverter {
     fun listToJson(value: List<SectionsDatum>?) = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToList(value: String) = Gson().fromJson(value, Array<SectionsDatum>::class.java).toList()
+    fun jsonToList(value: String) =
+        Gson().fromJson(value, Array<SectionsDatum>::class.java).toList()
 }
 
 class SectionQuestionConverter {
@@ -187,7 +193,8 @@ class SectionQuestionConverter {
     fun listToJson(value: List<SectionQuestion>?) = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToList(value: String) = Gson().fromJson(value, Array<SectionQuestion>::class.java).toList()
+    fun jsonToList(value: String) =
+        Gson().fromJson(value, Array<SectionQuestion>::class.java).toList()
 }
 
 
@@ -197,6 +204,7 @@ class ListTopRankerConverter {
     fun listToJson(value: List<ListTopRanker>?) = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToList(value: String) = Gson().fromJson(value, Array<ListTopRanker>::class.java).toList()
+    fun jsonToList(value: String) =
+        Gson().fromJson(value, Array<ListTopRanker>::class.java).toList()
 }
 
