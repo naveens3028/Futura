@@ -25,3 +25,4 @@ app/src/main/java/com/trisys/rn/baseapp/database/model/DataModel_BACKUP_1962.kt
 app/src/main/java/com/trisys/rn/baseapp/database/model/DataModel_BASE_1962.kt
 app/src/main/java/com/trisys/rn/baseapp/database/model/DataModel_LOCAL_1962.kt
 app/src/main/java/com/trisys/rn/baseapp/database/model/DataModel_REMOTE_1962.kt
+app/release/
