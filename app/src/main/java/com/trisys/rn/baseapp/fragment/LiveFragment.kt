@@ -129,6 +129,9 @@ class LiveFragment : Fragment(), OnNetworkResponse {
                 studyRecycler.visibility = View.GONE
                 noUpcomingSession.visibility = View.VISIBLE
             }
+        }else{
+            studyRecycler.visibility = View.GONE
+            noUpcomingSession.visibility = View.VISIBLE
         }
     }
 }

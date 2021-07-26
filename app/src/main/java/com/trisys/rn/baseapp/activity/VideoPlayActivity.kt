@@ -30,11 +30,13 @@ class VideoPlayActivity : AppCompatActivity() {
 
         player = SimpleExoPlayer.Builder(this).build()
         player.setThrowsWhenUsingWrongThread(false)
-        player_view.setPlayer(player)
+        player_view.player = player
 
-        val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
-
-        val id = videoData.description.replace("https://vimeo.com/","")
+        var id = intent.getStringExtra("videoId")
+        if (id.isNullOrEmpty()){
+            val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
+            id = videoData.description.replace("https://vimeo.com/","")
+        }
 
         VimeoExtractor.getInstance()
             .fetchVideoWithIdentifier(id, null, object : OnVimeoExtractionListener {

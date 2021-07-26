@@ -10,7 +10,7 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.vpnews24.utils.ImageLoader
+import com.trisys.rn.baseapp.utils.ImageLoader
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
