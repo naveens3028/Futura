@@ -10,17 +10,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.android.volley.toolbox.ImageLoader
-import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.VideoPlayActivity
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.utils.Define
+import com.trisys.rn.baseapp.utils.ImageLoader
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_video.*
-import org.intellij.lang.annotations.RegExp
 import java.io.*
 import java.security.SecureRandom
 import javax.crypto.Cipher
@@ -66,7 +64,7 @@ class VideoFragment : Fragment() {
 //
 //        val id = videoData.description.replace("https://vimeo.com/","")
 
-        com.vpnews24.utils.ImageLoader.loadFull(requireContext(),videoData.filePath,videoPlaceholder)
+        ImageLoader.loadFull(requireContext(),videoData.filePath,videoPlaceholder)
 
 //        VimeoExtractor.getInstance()
 //            .fetchVideoWithIdentifier(id, null, object : OnVimeoExtractionListener {

@@ -34,4 +34,5 @@
             android:textSize="8sp"
             android:visibility="gone" />
     </RelativeLayout>
+
 </RelativeLayout>
