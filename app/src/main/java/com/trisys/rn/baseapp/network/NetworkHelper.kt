@@ -3,9 +3,7 @@ package com.trisys.rn.baseapp.network
 import android.content.Context
 import android.util.Log
 import com.android.volley.*
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
+import com.android.volley.toolbox.*
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.BuildConfig
 import com.androidnetworking.common.Priority
@@ -18,6 +16,8 @@ import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.UnsupportedEncodingException
+import java.nio.charset.Charset
 import java.util.*
 
 
@@ -121,7 +121,7 @@ class NetworkHelper(context: Context) {
                 }
 
                 override fun onError(error: ANError) {
-                    Utils.log(TAG,"NetworkError -$tag ${error.errorBody!!} ${error.errorCode}")
+                    Utils.log(TAG, "NetworkError -$tag ${error.errorBody!!} ${error.errorCode}")
                     if (BuildConfig.DEBUG) {
                         val response =
                             "URL :" + url + "\nError Code : " + error.errorCode + "response : \n" + error.errorDetail
@@ -313,7 +313,10 @@ class NetworkHelper(context: Context) {
 
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(TAG, "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}")
+                    Utils.log(
+                        TAG,
+                        "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}"
+                    )
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,
@@ -421,7 +424,10 @@ class NetworkHelper(context: Context) {
 
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(TAG, "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}")
+                    Utils.log(
+                        TAG,
+                        "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}"
+                    )
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,
@@ -475,7 +481,10 @@ class NetworkHelper(context: Context) {
                     )
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(TAG, "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}")
+                    Utils.log(
+                        TAG,
+                        "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}"
+                    )
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,

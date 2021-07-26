@@ -1,5 +1,4 @@
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,20 +6,16 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.adapter.HomeStudyAdapter
 import com.trisys.rn.baseapp.adapter.StudyAdapter
 import com.trisys.rn.baseapp.fragment.CompletedLiveFragment
 import com.trisys.rn.baseapp.fragment.UpcomingLiveFragment
 import com.trisys.rn.baseapp.model.LiveResponse
-import com.trisys.rn.baseapp.model.StudyItem
-import com.trisys.rn.baseapp.model.UpcomingLiveItem
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils.getAuthorizationHeader
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper.getSessions
 import com.trisys.rn.baseapp.network.UrlConstants.kLIVE
-import com.trisys.rn.baseapp.network.UrlConstants.kPREVIOUS
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_live.*
@@ -35,8 +30,6 @@ private const val ARG_PARAM2 = "param2"
 
 class LiveFragment : Fragment(), OnNetworkResponse {
 
-    private var upcomingLiveList = ArrayList<UpcomingLiveItem>()
-    private var studyList = ArrayList<StudyItem>()
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
@@ -61,41 +54,8 @@ class LiveFragment : Fragment(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-        //Sample Data
-        studyList.add(
-            StudyItem(
-                "Mathematics",
-                "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.caribbean_green
-            )
-        )
-        studyList.add(
-            StudyItem(
-                "Physics", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.blue_violet_crayola
-            )
-        )
-        studyList.add(
-            StudyItem(
-                "Chemistry", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.safety_yellow
-            )
-        )
-        studyList.add(
-            StudyItem(
-                "Biology", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.light_coral
-            )
-        )
-
         requestSessions()
 
-
-
-        upcomingLiveList.add(UpcomingLiveItem("Mathematics", R.drawable.mathematics))
-        upcomingLiveList.add(UpcomingLiveItem("Physics", R.drawable.mathematics))
-        upcomingLiveList.add(UpcomingLiveItem("Chemistry", R.drawable.mathematics))
-        upcomingLiveList.add(UpcomingLiveItem("Biology", R.drawable.mathematics))
     }
 
     override fun onStart() {
@@ -160,14 +120,14 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "liveSessions") {
             val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
-            if(liveItemResponse.data.size > 0) {
+            if (liveItemResponse.data.isNotEmpty()) {
                 val studyAdapter = StudyAdapter(requireContext(), liveItemResponse.data)
                 studyRecycler.adapter = studyAdapter
-            }
-        } else {
-            studyList.let {
-                val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
-                studyRecycler.adapter = studyAdapter
+                studyRecycler.visibility = View.VISIBLE
+                noUpcomingSession.visibility = View.GONE
+            }else{
+                studyRecycler.visibility = View.GONE
+                noUpcomingSession.visibility = View.VISIBLE
             }
         }
     }
