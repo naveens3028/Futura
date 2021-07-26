@@ -41,7 +41,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/window_background"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:padding="@dimen/_7sdp">
 
@@ -91,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
+                    android:background="@color/white"
                     android:layout_marginStart="15dp"
                     android:layout_toRightOf="@id/rlt_play"
                     android:orientation="vertical">
@@ -100,9 +101,8 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_centerHorizontal="true"
-
                         android:src="@drawable/ic_question"
-                        app:tint="@color/text_color" />
+                        app:tint="@color/black" />
 
                     <TextView
                         android:layout_width="32dp"
@@ -113,7 +113,8 @@
                         android:text="10"
                         android:textAlignment="center"
                         android:textSize="8sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/charcoal"
+                        />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -122,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
+                    android:background="@color/white"
                     android:layout_marginStart="15dp"
                     android:orientation="vertical">
 
