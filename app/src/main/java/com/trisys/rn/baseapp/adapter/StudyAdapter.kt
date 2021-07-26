@@ -3,6 +3,7 @@ package com.trisys.rn.baseapp.adapter
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,7 @@ class StudyAdapter(
         val studyItem = studyItem[position]
         holder.itemView.subject.text = studyItem.subject.courseName
         holder.itemView.lesson.text = studyItem.topicName
-        holder.itemView.date.text = Utils.getDateValue(studyItem.sessionDate)
+        holder.itemView.date.text = Utils.getDateValue(studyItem.startDateTime)
         holder.itemView.backgroundLayout.setBackgroundColor(context.getColor(R.color.caribbean_green))
         GlideApp.with(context).load(R.drawable.mathematics).into(holder.itemView.studyImg)
         holder.itemView.setOnClickListener {
