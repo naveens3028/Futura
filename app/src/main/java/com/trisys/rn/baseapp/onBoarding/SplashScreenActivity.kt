@@ -9,7 +9,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import com.trisys.rn.baseapp.MainActivity
+import com.trisys.rn.baseapp.activity.MainActivity
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences

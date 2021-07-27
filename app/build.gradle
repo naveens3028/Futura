@@ -9,14 +9,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.trisys.rn.baseapp"
         minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 1
+        targetSdkVersion 31
+        versionCode 4
         versionName "1.13"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -24,8 +24,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -121,7 +121,7 @@ dependencies {
     //vimeo video url
     implementation 'com.github.ed-george:AndroidVimeoExtractor:1.2.1'
 
-    implementation 'com.google.android.exoplayer:exoplayer:2.14.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.14.2'
 
     //QR Scanner
     implementation 'com.budiyev.android:code-scanner:2.1.0'

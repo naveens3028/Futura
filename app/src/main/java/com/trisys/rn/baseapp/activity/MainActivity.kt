@@ -1,4 +1,4 @@
-package com.trisys.rn.baseapp
+package com.trisys.rn.baseapp.activity
 
 import android.Manifest
 import android.content.Intent
@@ -19,7 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
-import com.trisys.rn.baseapp.activity.NotificationsActivity
+import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
 import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.doubt.AskDoubtActivity
@@ -34,7 +34,6 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.ImageLoader
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.layout_notification_icon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.nav_header_main.*
@@ -49,8 +48,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var headerLayout: View
     lateinit var loginResponse: LoginData
     private val imageLoader = ImageLoader
-
-
     lateinit var databaseHelper: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,9 +59,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-
-//        databaseHelper = DatabaseHelper(this)
-//        databaseHelper.getAllNotification()
         loginResponse =
             Gson().fromJson(MyPreferences(this).getString(Define.LOGIN_DATA), LoginData::class.java)
 
@@ -85,10 +79,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         listeners()
 
         networkHelper = NetworkHelper(this)
-
-        val params = HashMap<String, String>()
-        params.put("", "")
-//        networkHelper.call(networkHelper.GET, "", params, Priority.HIGH, "login", this)
 
         bottomNavigationBehavior = BottomNavigationBehavior()
         val layoutParams = navigationView.layoutParams as CoordinatorLayout.LayoutParams
@@ -113,16 +103,16 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
     private fun setNavigationValue(response: LoginData) {
         var userName = ""
-        if (!response.userDetail!!.firstName.isNullOrEmpty()) userName =
-            response.userDetail!!.firstName.toString()
+        if (!response.userDetail?.firstName.isNullOrEmpty()) userName =
+            response.userDetail?.firstName.toString()
         if (!response.userDetail?.lastName.isNullOrEmpty()) {
-            userName += response.userDetail!!.lastName.toString()
+            userName += response.userDetail?.lastName.toString()
         }
         if (userName.isNotEmpty()) {
             headerLayout.name.text = userName
         }
         if (!response.userDetail?.profileImagePath.isNullOrEmpty())
-            imageLoader.loadFit(this, response.userDetail?.profileImagePath!!, headerLayout.image)
+            imageLoader.loadFit(this, response.userDetail?.profileImagePath.toString(), headerLayout.image)
 
     }
 

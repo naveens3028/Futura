@@ -10,6 +10,7 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_video.*
 import vimeoextractor.OnVimeoExtractionListener
 import vimeoextractor.VimeoExtractor
