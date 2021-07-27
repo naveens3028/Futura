@@ -34,7 +34,6 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.ImageLoader
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.layout_notification_icon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.nav_header_main.*
@@ -62,9 +61,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-
-//        databaseHelper = DatabaseHelper(this)
-//        databaseHelper.getAllNotification()
         loginResponse =
             Gson().fromJson(MyPreferences(this).getString(Define.LOGIN_DATA), LoginData::class.java)
 
@@ -88,7 +84,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
         val params = HashMap<String, String>()
         params.put("", "")
-//        networkHelper.call(networkHelper.GET, "", params, Priority.HIGH, "login", this)
 
         bottomNavigationBehavior = BottomNavigationBehavior()
         val layoutParams = navigationView.layoutParams as CoordinatorLayout.LayoutParams

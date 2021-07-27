@@ -34,11 +34,6 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var myPreferences: MyPreferences
     private lateinit var db: DatabaseHelper
     lateinit var mockTest: MOCKTEST
-    /*lateinit var testPaperId: String
-    lateinit var testPaperName: String
-    var duration = 0
-    var timeLeft = 0
-    var isPauseAllow = false*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
