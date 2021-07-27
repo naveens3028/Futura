@@ -72,7 +72,7 @@
         <activity
             android:name=".activity.AttemptedResultsActivity" />
         <activity
-            android:name=".activity.MainActivity" />
+            android:name=".MainActivity" />
     </application>
 
 </manifest>

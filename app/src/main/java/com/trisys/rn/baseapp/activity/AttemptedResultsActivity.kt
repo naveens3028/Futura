@@ -4,13 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.test.AllResultsAdapter
+import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.TestResultsData
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
@@ -30,6 +33,7 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
+    lateinit var myProgressBar: MyProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,8 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
+        myProgressBar = MyProgressBar(this)
+
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
@@ -67,6 +73,8 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
 
 
     private fun requestSessions() {
+
+        myProgressBar.show()
 
         val params = HashMap<String, String>()
         params["studentId"] = loginData.userDetail?.usersId.toString()
@@ -111,6 +119,7 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
         if (tag == "getResults") {
             val arrayTutorialType = object : TypeToken<ArrayList<TestResultsData>>() {}.type
             val newList: ArrayList<TestResultsData> = Gson().fromJson(response, arrayTutorialType)
+            myProgressBar.dismiss()
             recyclerCall(newList)
         }
     }

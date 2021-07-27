@@ -1,4 +1,4 @@
-package com.trisys.rn.baseapp.activity
+package com.trisys.rn.baseapp
 
 import android.Manifest
 import android.content.Intent
@@ -19,7 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
-import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
 import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.doubt.AskDoubtActivity
@@ -79,6 +79,9 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         listeners()
 
         networkHelper = NetworkHelper(this)
+
+        val params = HashMap<String, String>()
+        params.put("", "")
 
         bottomNavigationBehavior = BottomNavigationBehavior()
         val layoutParams = navigationView.layoutParams as CoordinatorLayout.LayoutParams

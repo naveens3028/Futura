@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +30,6 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_learn.*
 
 
@@ -60,18 +60,10 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-        recyclerviewcourse.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                LinearLayoutManager.HORIZONTAL
-            )
-        )
-        Utils.testLog("${loginData.userDetail?.batchList?.toString()}")
-        val adapter =
-            loginData.userDetail?.batchList?.let { CourseAdapter(requireContext(), this, it)
-            }
-        recyclerviewcourse.adapter = adapter
-        requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId.toString())
+        courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
+
+        courseCall()
+        requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
     }
 
     private fun subjectCall(subjectList: ArrayList<Datum>) {
@@ -89,6 +81,20 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         }
     }
 
+    @SuppressLint("WrongConstant")
+    private fun courseCall() {
+        courseRecycler.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+
+        courseRecycler.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                LinearLayoutManager.HORIZONTAL
+            )
+        )
+        val adapter = CourseAdapter(requireContext(), this, loginData.userDetail?.batchList!!)
+        courseRecycler.adapter = adapter
+    }
+
     private fun requestSessions(batchId: String) {
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
@@ -96,6 +102,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
             ApiUtils.getHeader(requireContext()),
             this
         )
+
     }
 
     override fun onSubjectClicked(batchId: String, title: String) {

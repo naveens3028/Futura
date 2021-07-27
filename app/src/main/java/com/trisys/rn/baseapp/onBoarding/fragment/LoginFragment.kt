@@ -21,7 +21,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.gson.Gson
-import com.trisys.rn.baseapp.activity.MainActivity
+import com.trisys.rn.baseapp.MainActivity
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.onBoarding.LoginResponse
