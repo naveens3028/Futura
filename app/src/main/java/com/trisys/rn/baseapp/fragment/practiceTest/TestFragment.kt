@@ -89,7 +89,6 @@ class TestFragment : Fragment(), OnNetworkResponse {
         })
     }
 
-
     private fun requestSessions() {
 
         networkHelper.getCall(
@@ -110,8 +109,5 @@ class TestFragment : Fragment(), OnNetworkResponse {
             carouselView.adapter = CarouselAdapter(requireContext(), db.getAllAverageBatchTest())
         }
     }
-
-
-
 
 }

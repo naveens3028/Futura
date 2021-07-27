@@ -116,14 +116,11 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode== networkHelper.responseSuccess && tag == "getResults") {
+        if (tag == "getResults") {
             val arrayTutorialType = object : TypeToken<ArrayList<TestResultsData>>() {}.type
             val newList: ArrayList<TestResultsData> = Gson().fromJson(response, arrayTutorialType)
             myProgressBar.dismiss()
             recyclerCall(newList)
-        }else{
-            myProgressBar.dismiss()
-            Toast.makeText(this,"No Results Available at this time", Toast.LENGTH_SHORT).show()
         }
     }
 }
