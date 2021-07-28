@@ -48,8 +48,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var headerLayout: View
     lateinit var loginResponse: LoginData
     private val imageLoader = ImageLoader
-
-
     lateinit var databaseHelper: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,16 +106,16 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
     private fun setNavigationValue(response: LoginData) {
         var userName = ""
-        if (!response.userDetail!!.firstName.isNullOrEmpty()) userName =
-            response.userDetail!!.firstName.toString()
+        if (!response.userDetail?.firstName.isNullOrEmpty()) userName =
+            response.userDetail?.firstName.toString()
         if (!response.userDetail?.lastName.isNullOrEmpty()) {
-            userName += response.userDetail!!.lastName.toString()
+            userName += response.userDetail?.lastName.toString()
         }
         if (userName.isNotEmpty()) {
             headerLayout.name.text = userName
         }
         if (!response.userDetail?.profileImagePath.isNullOrEmpty())
-            imageLoader.loadFit(this, response.userDetail?.profileImagePath!!, headerLayout.image)
+            imageLoader.loadFit(this, response.userDetail?.profileImagePath.toString(), headerLayout.image)
 
     }
 

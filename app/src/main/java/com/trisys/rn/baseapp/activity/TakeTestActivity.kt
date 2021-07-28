@@ -83,25 +83,10 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             ApiUtils.getHeader(this),
             this
         )
-        /*networkHelper.getCall(
-            URLHelper.testPaperForStudent + "?testPaperId=$testPaperId&userDetailId=${loginData.userDetail?.userDetailId.toString()}",
-            "testPaperForStudent",
-            ApiUtils.getHeader(this),
-            this
-        )*/
     }
 
     private fun assignValue(intent: Intent) {
         mockTest = intent.getParcelableExtra("mockTest")!!
-        /*duration = intent.getIntExtra("duration", 0)
-        timeLeft = intent.getIntExtra("timeLeft", 0)
-        durationValue.text = Utils.getDuration(duration)
-        questionValue.text = intent.getStringExtra("questionCount")
-        attemptedValue.text = intent.getStringExtra("noAttempted")
-        heading.text = intent.getStringExtra("date")
-        testPaperId = intent.getStringExtra("testPaperId") ?: ""
-        testPaperName = intent.getStringExtra("testPaperName") ?: ""
-        isPauseAllow = intent.getBooleanExtra("isPauseAllow", false)*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -136,14 +121,6 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             stateful.showContent()
             val intent = Intent(this, TodayTestActivity::class.java)
             intent.putExtra("mockTest", mockTest)
-            /*intent.putExtra("testPaperId", testPaperId)
-            intent.putExtra("studentId", loginData.userDetail?.userDetailId)
-            intent.putExtra("date", heading.text)
-            intent.putExtra("testName", testPaperName)
-            intent.putExtra("duration", duration)
-            intent.putExtra("timeLeft", timeLeft)
-            intent.putExtra("isPauseAllow", isPauseAllow)
-            intent.putExtra("attemptedValue", intent.getStringExtra("noAttempted"))*/
             startActivity(intent)
             finish()
         } else if (responseCode == networkHelper.responseFailed && tag == "getStudentTestPaper") {

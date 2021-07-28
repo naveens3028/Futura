@@ -39,6 +39,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerviewcourse"
                             android:layout_width="wrap_content"
+                            android:orientation="horizontal"
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="false"
                             tools:listitem="@layout/activity_course" />
