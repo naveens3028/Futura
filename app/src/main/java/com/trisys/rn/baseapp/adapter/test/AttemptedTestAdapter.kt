@@ -39,14 +39,14 @@ class AttemptedTestAdapter(
             holder.itemView.result.visibility = View.VISIBLE
             holder.itemView.submit.visibility = View.GONE
         }
-        holder.itemView.review.setOnClickListener {
+        holder.itemView.result.setOnClickListener {
             testClickListener.onResultClicked(
                 scheduledTest.totalAttempts,
                 scheduledTest.studentId,
                 scheduledTest.testPaperId
             )
         }
-        holder.itemView.result.setOnClickListener {
+        holder.itemView.review.setOnClickListener {
             testClickListener.onReviewClicked(
                 scheduledTest
             )

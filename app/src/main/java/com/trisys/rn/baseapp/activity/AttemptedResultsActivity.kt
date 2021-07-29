@@ -3,6 +3,7 @@ package com.trisys.rn.baseapp.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
@@ -71,6 +72,13 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     private fun requestSessions() {
 
@@ -108,7 +116,6 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
 
     }
 
-
     private fun recyclerCall(resultList: ArrayList<TestResultsData>) {
         val adapter = AllResultsAdapter(this, resultList)
         //now adding the adapter to recyclerview
@@ -123,4 +130,5 @@ class AttemptedResultsActivity : AppCompatActivity(), OnNetworkResponse {
             recyclerCall(newList)
         }
     }
+
 }

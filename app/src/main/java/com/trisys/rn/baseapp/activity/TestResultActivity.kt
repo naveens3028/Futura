@@ -19,7 +19,6 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_test_results.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONObject
@@ -29,11 +28,10 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
-//    private var attempt: Int? = null
-//    private var studentId: String? = null
     private var testPaperId: String? = null
+    private var attempt: Int? = null
+    private var studentId: String? = null
     lateinit var myProgressBar: MyProgressBar
-    lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +44,10 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-//        attempt = intent.getIntExtra("attempt", 0)
-//        studentId = intent.getStringExtra("studentId")
         testPaperId = intent.getStringExtra("testPaperId")
+        attempt = intent.getIntExtra("attempt", 0)
+        studentId = intent.getStringExtra("studentId")
 
-        db = DatabaseHelper(this)
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
@@ -59,31 +56,9 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         actionBar?.title = "Test Result"
 
-//        requestSessions()
-
-        setValuestoUI(db.getTestResponse(testPaperId!!))
+        getAttempt(attempt, studentId!!, testPaperId!!, "answeredTestPapersResult" )
 
     }
-
-    /*private fun requestSessions() {
-
-        myProgressBar.show()
-
-        val jsonObject = JSONObject()
-        jsonObject.put("attempt", attempt.toString())
-        jsonObject.put("studentId", studentId.toString())
-        jsonObject.put("testPaperId", testPaperId.toString())
-
-        networkHelper.postCall(
-            URLHelper.answeredTestPapers,
-            jsonObject,
-            "answeredTestPapers",
-            ApiUtils.getHeader(this),
-            this
-        )
-
-    }*/
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         try {
@@ -107,11 +82,28 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
-//        testResponseResult.testPaperId = testPaperId.toString()
-//        db.saveResult(testResponseResult)
-//        setValuestoUI(testResponseResult)
+        if (tag == "answeredTestPapersResult") {
+            val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
+            setValuestoUI(testResponseResult)
+        }
     }
+
+    private fun getAttempt(attempt: Int?, studentId: String, testPaperId: String, tag: String) {
+        myProgressBar.show()
+        val jsonObject = JSONObject()
+        jsonObject.put("attempt", attempt.toString())
+        jsonObject.put("studentId", studentId)
+        jsonObject.put("testPaperId", testPaperId)
+
+        networkHelper.postCall(
+            URLHelper.answeredTestPapers,
+            jsonObject,
+            tag,
+            ApiUtils.getHeader(this),
+            this
+        )
+    }
+
 
     private fun setValuestoUI(testResultsModel: TestResultsModel) {
         myProgressBar.dismiss()
