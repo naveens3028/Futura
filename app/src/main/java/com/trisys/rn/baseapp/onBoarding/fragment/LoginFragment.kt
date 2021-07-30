@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -93,24 +95,16 @@ class LoginFragment : Fragment(), OnNetworkResponse {
                 if (task.isSuccessful) {
                     val updated = task.result
                     Log.d("LoginFragment", "Config params updated: $updated")
-//                    Toast.makeText(
-//                        requireContext(), "Fetch and activate succeeded",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-                } else {
-//                    Toast.makeText(
-//                        requireContext(), "Fetch failed",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+
                 }
             }
 
         continueButton.setOnClickListener {
             requestLogin()
-//            requireActivity().supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, OTPFragment()).addToBackStack(null)
-//                .commitAllowingStateLoss()
+
         }
+
+
         google.setOnClickListener {
             signIn()
         }
@@ -144,8 +138,6 @@ class LoginFragment : Fragment(), OnNetworkResponse {
                 }
 
                 myProgressBar.show()
-//                requireActivity().stateful.showProgress()
-//                requireActivity().stateful.setProgressText("Loading..")
 
                 networkHelper.postCall(
                     URLHelper.baseURLAuth,
