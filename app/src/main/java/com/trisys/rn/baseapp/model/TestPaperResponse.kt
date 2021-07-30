@@ -22,32 +22,32 @@ data class Quesion(
     @SerialName("answer")
     var answer: String?,
     @SerialName("answeredMark")
-    val answeredMark: Int,
+    var answeredMark: Int,
     @PrimaryKey
     @SerialName("id")
-    val id: String,
+    var id: String,
     @SerialName("optionA")
-    val optionA: String?,
+    var optionA: String?,
     @SerialName("optionB")
-    val optionB: String?,
+    var optionB: String?,
     @SerialName("optionC")
-    val optionC: String?,
+    var optionC: String?,
     @SerialName("optionD")
-    val optionD: String?,
+    var optionD: String?,
     @SerialName("position")
-    val position: Int,
+    var position: Int,
     @SerialName("isAnswered")
     var isAnswered: Boolean = false,
     @SerialName("questionContent")
-    val questionContent: String,
+    var questionContent: String?,
     @SerialName("questionType")
-    val questionType: String,
+    var questionType: String?,
     @SerialName("unAnsweredMark")
-    val unAnsweredMark: Int,
+    var unAnsweredMark: Int,
     @SerialName("wrongMark")
-    val wrongMark: Int,
+    var wrongMark: Int,
     @SerialName("timeSpent")
-    val timeSpent: Long = 0,
+    var timeSpent: Long = 0,
     @SerialName("testPaperId")
     var testPaperId: String
 )
