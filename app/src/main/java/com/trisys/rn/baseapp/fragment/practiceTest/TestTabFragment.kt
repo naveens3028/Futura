@@ -267,47 +267,20 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     override fun onResultClicked(attempt: Int, studentId: String, testPaperID: String) {
         testPaperId = testPaperID
-        if (db.isExists(testPaperID)) {
-            val intent = Intent(requireContext(), TestResultActivity::class.java)
-            intent.putExtra("testPaperId", testPaperID)
-            startActivity(intent)
-        } else {
-            getAttempt(attempt, studentId, testPaperID, "answeredTestPapersResult")
-        }
+        val intent = Intent(requireContext(), TestResultActivity::class.java)
+        intent.putExtra("attempt", attempt)
+        intent.putExtra("studentId", studentId)
+        intent.putExtra("testPaperId", testPaperID)
+        startActivity(intent)
 
-    }
-
-    private fun getAttempt(attempt: Int, studentId: String, testPaperId: String, tag: String) {
-        dialogUtils.showLoader(requireContext())
-        val jsonObject = JSONObject()
-        jsonObject.put("attempt", attempt.toString())
-        jsonObject.put("studentId", studentId)
-        jsonObject.put("testPaperId", testPaperId)
-
-        networkHelper.postCall(
-            URLHelper.answeredTestPapers,
-            jsonObject,
-            tag,
-            ApiUtils.getHeader(requireContext()),
-            this
-        )
     }
 
     override fun onReviewClicked(attempt: AttemptedTest) {
         testPaperId = attempt.testPaperId
         attempt1 = attempt
-        if (db.isExists(testPaperId)) {
-            val intent = Intent(context, TestReviewActivity::class.java)
-            intent.putExtra("AttemptedTest", attempt)
-            startActivity(intent)
-        } else {
-            getAttempt(
-                attempt.totalAttempts,
-                attempt.studentId,
-                attempt.testPaperId,
-                "answeredTestPapersReview"
-            )
-        }
+        val intent = Intent(context, TestReviewActivity::class.java)
+        intent.putExtra("AttemptedTest", attempt)
+        startActivity(intent)
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
@@ -384,20 +357,8 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 testResponseResult.testPaperId = testPaperId
                 db.saveResult(testResponseResult)
                 val intent = Intent(requireContext(), TestResultActivity::class.java)
-//                intent.putExtra("attempt", attempt)
-//                intent.putExtra("studentId", studentId)
                 intent.putExtra("testPaperId", testPaperId)
                 startActivity(intent)
-
-            } else if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapersReview") {
-                dialogUtils.dismissLoader()
-                val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
-                testResponseResult.testPaperId = testPaperId
-                db.saveResult(testResponseResult)
-                val intent = Intent(context, TestReviewActivity::class.java)
-                intent.putExtra("AttemptedTest", attempt1)
-                startActivity(intent)
-
             }
         } catch (e: Exception) {
             e.printStackTrace()

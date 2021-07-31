@@ -225,10 +225,17 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 "questionPaperId",
                 question.id
             )
-            jsonAnsObject.put(
-                "answer",
-                question.answer
-            )
+            if (question.answer.isNullOrEmpty()) {
+                jsonAnsObject.put(
+                    "answer",
+                    ""
+                )
+            }else{
+                jsonAnsObject.put(
+                    "answer",
+                    question.answer.toString()
+                )
+            }
             jsonAnsObject.put(
                 "timeSpent",
                 question.timeSpent

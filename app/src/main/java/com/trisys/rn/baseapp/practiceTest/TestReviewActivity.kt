@@ -16,6 +16,7 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.AnswerClickListener
 import com.trisys.rn.baseapp.database.DatabaseHelper
+import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.QuestionNumberItem
 import com.trisys.rn.baseapp.model.QuestionType
 import com.trisys.rn.baseapp.model.SectionQuestion
@@ -39,14 +40,17 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
     private val questionNumberItem = ArrayList<QuestionNumberItem>()
     private lateinit var dialog: Dialog
     lateinit var networkHelper: NetworkHelper
+    lateinit var myProgressBar: MyProgressBar
     lateinit var questionList: List<SectionQuestion?>
     private lateinit var questionNumberAdapter: QuestionNumberAdapter
     private lateinit var attemptedTest: AttemptedTest
-    lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_review)
+
+        dialog = Dialog(this)
+        myProgressBar = MyProgressBar(this)
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
@@ -56,7 +60,6 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
 
 
         networkHelper = NetworkHelper(this)
-        db = DatabaseHelper(this)
 
         attemptedTest = intent.getParcelableExtra("AttemptedTest")!!
         actionBar?.title = attemptedTest.name
@@ -131,6 +134,7 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
 
     private fun requestAttemptedTest(attemptedTest: AttemptedTest?) {
 
+        myProgressBar.show()
         val jsonObject = JSONObject()
         jsonObject.put("attempt", attemptedTest?.totalAttempts)
         jsonObject.put("studentId", attemptedTest?.studentId)
@@ -169,25 +173,9 @@ class TestReviewActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLi
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapers") {
+            myProgressBar.dismiss()
             val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
-
             questionList = testResponseResult?.sectionsData?.get(0)?.sectionQuestion!!
-            val ans = getAns(questionList[0]?.correctAnswer!!,0)
-            ansMathView.apply {
-                textZoom = 60
-                textColor = Color.GREEN.toString()
-                textAlign = TextAlign.LEFT
-                backgroundColor = "#D5FBD3"
-                text = ans
-            }
-            timeTaken.text = "${testResponseResult.totalConsumeTime}s"
-            topperTime.text = "${testResponseResult.totalTimeTakenByTopper}s"
-            subjectName.text = testResponseResult.sectionsData[0]?.sectionName.toString()
-            assignQuestion()
-            formQuestionItem(questionList.size)
-        }else{
-            val testResponseResult = db.getTestResponse(attemptedTest.testPaperId)
-            questionList = testResponseResult.sectionsData[0]?.sectionQuestion!!
             val ans = getAns(questionList[0]?.correctAnswer!!,0)
             ansMathView.apply {
                 textZoom = 60
