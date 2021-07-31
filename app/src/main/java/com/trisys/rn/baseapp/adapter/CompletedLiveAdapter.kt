@@ -14,9 +14,7 @@ import kotlinx.android.synthetic.main.row_completed_live.view.*
 
 class CompletedLiveAdapter(
     val context: Context,
-    private val completedLiveItems: ArrayList<CompletedLiveItem>,
-    private val complLive : ArrayList<CompletedSession>,
-    private val isCompletedLive: Boolean
+    private val completedLive : ArrayList<CompletedSession>,
 ) : RecyclerView.Adapter<CompletedLiveAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -28,24 +26,14 @@ class CompletedLiveAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (isCompletedLive) {
-            val completedLive = complLive[position]
-            holder.itemView.subject.text = completedLive.courseName
-            holder.itemView.backgroundColor.setBackgroundColor(context.getColor(R.color.mikado_yellow))
-            holder.itemView.lesson.text = completedLive.description
-        }else{
-            val completedLive = completedLiveItems[position]
-            holder.itemView.subject.text = completedLive.subject
-            holder.itemView.backgroundColor.setBackgroundColor(context.getColor(completedLive.color))
-            holder.itemView.lesson.text = completedLive.lesson
-        }
+
+        val completedLive = completedLive[position]
+        holder.itemView.subject.text = completedLive.courseName
+        holder.itemView.backgroundColor.setBackgroundColor(context.getColor(R.color.mikado_yellow))
+        holder.itemView.lesson.text = completedLive.description
     }
 
     override fun getItemCount(): Int {
-        if (isCompletedLive) {
-            return complLive.size
-        }else{
-            return completedLiveItems.size
-        }
+            return completedLive.size
     }
 }

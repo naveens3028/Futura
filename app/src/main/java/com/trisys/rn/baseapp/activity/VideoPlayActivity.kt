@@ -10,6 +10,7 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_video.*
 import vimeoextractor.OnVimeoExtractionListener
 import vimeoextractor.VimeoExtractor
@@ -30,11 +31,13 @@ class VideoPlayActivity : AppCompatActivity() {
 
         player = SimpleExoPlayer.Builder(this).build()
         player.setThrowsWhenUsingWrongThread(false)
-        player_view.setPlayer(player)
+        player_view.player = player
 
-        val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
-
-        val id = videoData.description.replace("https://vimeo.com/","")
+        var id = intent.getStringExtra("videoId")
+        if (id.isNullOrEmpty()){
+            val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
+            id = videoData.description.replace("https://vimeo.com/","")
+        }
 
         VimeoExtractor.getInstance()
             .fetchVideoWithIdentifier(id, null, object : OnVimeoExtractionListener {

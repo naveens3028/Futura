@@ -51,13 +51,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     lateinit var questionList: List<Quesion>
     lateinit var mockTest: MOCKTEST
 
-    /*lateinit var testPaperId: String
-    lateinit var studentId: String
-    lateinit var testName: String
-    lateinit var date: String
-    private var isPauseAllow = false
-    private var testDuration = 0
-    private var attemptedValue = ""*/
     var noMarked: Int = 0
     var currentPosition = 0
     private lateinit var dialog: Dialog
@@ -67,15 +60,6 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_today_test)
-
-        /*testPaperId = intent.extras?.getString("testPaperId") ?: ""
-        studentId = intent.extras?.getString("studentId") ?: ""
-        testName = intent.extras?.getString("testName") ?: ""
-        date = intent.extras?.getString("date") ?: ""
-        isPauseAllow = intent.extras?.getBoolean("isPauseAllow")!!
-        val timeLeft = intent.extras?.getInt("timeLeft") ?: 0
-        testDuration = intent.extras?.getInt("duration") ?: 0
-        attemptedValue = intent.extras?.getString("attemptedValue") ?: ""*/
 
         mockTest = intent.getParcelableExtra("mockTest")!!
 
@@ -171,9 +155,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
             }
         })
         markForReview.setOnClickListener {
-            Utils.testLog("Oif")
             if (questionNumberItem[viewPager.currentItem].questionType == QuestionType.NOT_ATTEMPT || questionNumberItem[viewPager.currentItem].questionType == QuestionType.NOT_VISITED) {
-                Utils.testLog("if")
                 ++noMarked
                 markReview()
                 questionNumberItem[viewPager.currentItem].questionType =
@@ -243,10 +225,17 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
                 "questionPaperId",
                 question.id
             )
-            jsonAnsObject.put(
-                "answer",
-                question.answer
-            )
+            if (question.answer.isNullOrEmpty()) {
+                jsonAnsObject.put(
+                    "answer",
+                    ""
+                )
+            }else{
+                jsonAnsObject.put(
+                    "answer",
+                    question.answer.toString()
+                )
+            }
             jsonAnsObject.put(
                 "timeSpent",
                 question.timeSpent

@@ -1,4 +1,4 @@
-package com.vpnews24.utils
+package com.trisys.rn.baseapp.utils
 
 import android.content.Context
 import android.os.AsyncTask

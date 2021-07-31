@@ -1,7 +1,6 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,6 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
-import com.trisys.rn.baseapp.model.CompletedLiveItem
-import com.trisys.rn.baseapp.model.LiveResponse
 import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
@@ -30,7 +27,6 @@ private const val ARG_PARAM2 = "param2"
 
 class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
 
-    private var completedLiveList = ArrayList<CompletedLiveItem>()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
     private var loginData = LoginData()
@@ -55,41 +51,8 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Chemistry",
-                "",
-                "L2 -Chemical Reaction and Periodic Table",
-                R.color.safety_yellow
-            )
-        )
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Physics",
-                "",
-                "L3 - Universe, Galaxy and Solar System",
-                R.color.blue_violet_crayola
-            )
-        )
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Biology",
-                "",
-                "L4 - Digestive System and Human Brain",
-                R.color.light_coral
-            )
-        )
         requestSessions()
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Mathematics",
-                "",
-                "L5 - Trigonometry and Functions",
-                R.color.caribbean_green
-            )
-        )
 
-        Log.e("completedup","up")
 
     }
 
@@ -135,18 +98,20 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (activity != null) {
-            if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
-                val liveItemResponse = ArrayList<CompletedSession>()
-                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList,liveItemResponse, false)
+        if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
+            val liveItemResponse = ArrayList<CompletedSession>()
+            if (liveItemResponse.isEmpty()){
+                recycler.visibility = View.GONE
+                noCompletedSession.visibility = View.VISIBLE
+            }else{
+                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), liveItemResponse)
                 recycler.adapter = completedLiveAdapter
-            } else {
-                if (view != null) {
-                    val liveItemResponse = ArrayList<CompletedSession>()
-                    val completedLiveAdapter = CompletedLiveAdapter(requireView().context, completedLiveList,liveItemResponse,false)
-                    recycler.adapter = completedLiveAdapter
-                }
+                recycler.visibility = View.VISIBLE
+                noCompletedSession.visibility = View.GONE
             }
+        } else {
+            recycler.visibility = View.GONE
+            noCompletedSession.visibility = View.VISIBLE
         }
     }
 }

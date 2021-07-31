@@ -10,6 +10,10 @@ import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_attempted_test.view.*
+import kotlinx.android.synthetic.main.row_attempted_test.view.backgroundColor
+import kotlinx.android.synthetic.main.row_attempted_test.view.date
+import kotlinx.android.synthetic.main.row_attempted_test.view.testName
+import kotlinx.android.synthetic.main.row_scheduled_test.view.*
 
 class AttemptedTestAdapter(
     val context: Context,
@@ -28,7 +32,7 @@ class AttemptedTestAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val scheduledTest = scheduledTestItems[position]
         holder.itemView.testName.text = scheduledTest.name
-        holder.itemView.date.text = Utils.getDateValue(scheduledTest.duration.toLong())
+        holder.itemView.date.text = Utils.getDateValue(scheduledTest.publishDate)
         holder.itemView.backgroundColor.setBackgroundColor(context.getColor(R.color.carolina_blue))
         if (scheduledTest.completeStatus == "completed") {
             holder.itemView.review.visibility = View.GONE
@@ -39,14 +43,14 @@ class AttemptedTestAdapter(
             holder.itemView.result.visibility = View.VISIBLE
             holder.itemView.submit.visibility = View.GONE
         }
-        holder.itemView.review.setOnClickListener {
+        holder.itemView.result.setOnClickListener {
             testClickListener.onResultClicked(
                 scheduledTest.totalAttempts,
                 scheduledTest.studentId,
                 scheduledTest.testPaperId
             )
         }
-        holder.itemView.result.setOnClickListener {
+        holder.itemView.review.setOnClickListener {
             testClickListener.onReviewClicked(
                 scheduledTest
             )
