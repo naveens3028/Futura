@@ -249,8 +249,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                     == PackageManager.PERMISSION_GRANTED
                 ) {
-                    val intent = Intent(this, QRCodeActivity::class.java)
-                    startActivity(intent)
+                    openQRCodeScreen()
                 } else {
                     ActivityCompat.requestPermissions(
                         this,
@@ -268,6 +267,17 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<out String>,grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions!!, grantResults!!)
+        if(requestCode == 100){
+            openQRCodeScreen()
+        }
+    }
+
+    fun openQRCodeScreen(){
+        val intent = Intent(this, QRCodeActivity::class.java)
+        startActivity(intent)
+    }
     override fun onBackPressed() {
         //Back event handled when drawer open
         when {

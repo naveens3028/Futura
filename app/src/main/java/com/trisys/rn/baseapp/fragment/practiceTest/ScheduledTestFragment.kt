@@ -153,27 +153,36 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
-            val scheduledTestResponse =
-                Gson().fromJson(response, ScheduledClass::class.java)
-            if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
-                recycler.visibility = View.GONE
-                noData.visibility = View.VISIBLE
-            } else {
-                recycler.visibility = View.VISIBLE
-                noData.visibility = View.GONE
-                val completedList = db.getCompletedTest()
-                completedList.forEachIndexed { _, completedListElement ->
-                    scheduledTestResponse.MOCK_TEST =
-                        scheduledTestResponse.MOCK_TEST.filterNot { it.testPaperId == completedListElement.testPaperId }
+        try {
+            if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+                val scheduledTestResponse =
+                    Gson().fromJson(response, ScheduledClass::class.java)
+                if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
+                    recycler.visibility = View.GONE
+                    noData.visibility = View.VISIBLE
+                } else {
+                    recycler.visibility = View.VISIBLE
+                    noData.visibility = View.GONE
+                    val completedList = db.getCompletedTest()
+                    completedList.forEachIndexed { _, completedListElement ->
+                        scheduledTestResponse.MOCK_TEST =
+                            scheduledTestResponse.MOCK_TEST.filterNot { it.testPaperId == completedListElement.testPaperId }
+                    }
+                    val scheduledTestAdapter = ScheduledTestAdapter(
+                        requireView().context,
+                        scheduledTestResponse.MOCK_TEST,
+                        this
+                    )
+                    recycler.adapter = scheduledTestAdapter
                 }
-                val scheduledTestAdapter = ScheduledTestAdapter(
-                    requireView().context,
-                    scheduledTestResponse.MOCK_TEST,
-                    this
-                )
-                recycler.adapter = scheduledTestAdapter
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        networkHelper.cancel("scheduledTest")
     }
 }

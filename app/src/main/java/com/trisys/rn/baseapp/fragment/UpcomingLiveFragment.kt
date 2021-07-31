@@ -98,20 +98,29 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
-            val liveItemResponse = ArrayList<CompletedSession>()
-            if (liveItemResponse.isEmpty()){
+        try {
+            if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
+                val liveItemResponse = ArrayList<CompletedSession>()
+                if (liveItemResponse.isEmpty()){
+                    recycler.visibility = View.GONE
+                    noCompletedSession.visibility = View.VISIBLE
+                }else{
+                    val completedLiveAdapter = CompletedLiveAdapter(requireContext(), liveItemResponse)
+                    recycler.adapter = completedLiveAdapter
+                    recycler.visibility = View.VISIBLE
+                    noCompletedSession.visibility = View.GONE
+                }
+            } else {
                 recycler.visibility = View.GONE
                 noCompletedSession.visibility = View.VISIBLE
-            }else{
-                val completedLiveAdapter = CompletedLiveAdapter(requireContext(), liveItemResponse)
-                recycler.adapter = completedLiveAdapter
-                recycler.visibility = View.VISIBLE
-                noCompletedSession.visibility = View.GONE
             }
-        } else {
-            recycler.visibility = View.GONE
-            noCompletedSession.visibility = View.VISIBLE
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        networkHelper.cancel("upcomingSessions")
     }
 }

@@ -21,7 +21,8 @@
         android:theme="@style/Theme.UpMyRanks"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".qrCode.QRCodeActivity"/>
+        <activity android:name=".qrCode.QRCodeActivity"
+            android:theme="@style/AppFullScreenTheme"/>
         <activity
             android:name=".activity.VideoPlayActivity"
             android:label="@string/title_activity_video_play"
