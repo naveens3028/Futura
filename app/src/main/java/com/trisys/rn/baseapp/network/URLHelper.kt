@@ -39,4 +39,5 @@ object URLHelper {
     val next = studentAnswer + "next"
     val publishedMaterialsByChapter = material + "publishedMaterialsByChapter"
     val logout = baseURLAuth + "logout"
+    val qrcode = productionUrl + "qrcode/getById/"
 }
