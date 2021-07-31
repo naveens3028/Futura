@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.DialogFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
@@ -93,7 +94,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if (position == 4) askDoubt.visibility = View.VISIBLE
+                if (position == 4) askDoubt.visibility = View.GONE
                 else askDoubt.visibility = View.GONE
             }
         })
@@ -127,6 +128,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 R.id.logOut -> {
                     drawer.closeDrawer(GravityCompat.START)
                     val bottomSheetFragment = LogOutBottomSheetFragment()
+                    bottomSheetFragment.setStyle(DialogFragment.STYLE_NORMAL,R.style.DialogStyle)
                     bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
                 }
             }

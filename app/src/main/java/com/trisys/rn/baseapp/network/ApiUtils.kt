@@ -32,7 +32,7 @@ object ApiUtils {
         val myPreferences = MyPreferences(context)
         val headers = HashMap<String, String>()
         headers["access_token"] = myPreferences.getString(Define.ACCESS_TOKEN).toString()
-        headers["Host"] = "api.upmyranks.com"
+//        headers["Host"] = "api.upmyranks.com"
         Utils.log(
             "NetworkHelper",
             "access_token ${myPreferences.getString(Define.ACCESS_TOKEN).toString()}"

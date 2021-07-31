@@ -53,6 +53,7 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
 
     private fun logoutRequest() {
         yesButton.visibility = View.INVISIBLE
+        progressBar.visibility = View.VISIBLE
         val jsonObject = JSONObject()
         jsonObject.put("id", myPreferences.getString(Define.ACCESS_TOKEN).toString())
 
@@ -74,6 +75,7 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
             activity?.finishAffinity()
         } else {
             yesButton.visibility = View.VISIBLE
+            progressBar.visibility = View.INVISIBLE
             Toast.makeText(
                 requireContext(),
                 "logout Failed...Please try sometimes later",
