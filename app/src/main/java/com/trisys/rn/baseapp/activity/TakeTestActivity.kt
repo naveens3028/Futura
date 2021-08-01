@@ -22,6 +22,7 @@ import com.trisys.rn.baseapp.network.UrlConstants.kSTARTED
 import com.trisys.rn.baseapp.practiceTest.TodayTestActivity
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils.getDuration
 import kotlinx.android.synthetic.main.activity_take_test.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONException
@@ -87,6 +88,13 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
 
     private fun assignValue(intent: Intent) {
         mockTest = intent.getParcelableExtra("mockTest")!!
+
+        if(mockTest.testPaperVo != null) {
+            heading.text = mockTest.testPaperVo!!.name
+            questionValue.text = mockTest.testPaperVo!!.questionCount.toString()
+            durationValue.text = getDuration(mockTest.testPaperVo!!.duration)
+            attemptedValue.text = mockTest.testPaperVo!!.attempts.toString()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

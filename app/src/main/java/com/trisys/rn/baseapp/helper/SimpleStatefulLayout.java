@@ -104,8 +104,9 @@ public class SimpleStatefulLayout extends StatefulLayout {
 
 	public void setProgressText(CharSequence progressText) {
 		TextView progressTextView = ((TextView) getProgressView().findViewById(R.id.state_text));
-		if(progressTextView != null)
+		if(progressTextView != null) {
 			progressTextView.setText(progressText);
+		}
 	}
 	public void setEmptyText(CharSequence emptyText) {
 		TextView emptyTextView = ((TextView) getEmptyView().findViewById(R.id.state_text));

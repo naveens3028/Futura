@@ -18,6 +18,8 @@ import com.trisys.rn.baseapp.network.UrlConstants.kUPCOMING
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
+import kotlinx.android.synthetic.main.fragment_upcoming_live.stateful
+import kotlinx.android.synthetic.main.layout_recyclerview.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -88,6 +90,8 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             e.printStackTrace()
         }
 
+        stateful.showProgress()
+        stateful.setProgressText("")
         networkHelper.postCall(
             URLHelper.getSessions,
             jsonObject,
@@ -99,23 +103,30 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         try {
+            stateful.showContent()
             if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
                 val liveItemResponse = ArrayList<CompletedSession>()
                 if (liveItemResponse.isEmpty()){
-                    recycler.visibility = View.GONE
-                    noCompletedSession.visibility = View.VISIBLE
+                    showErrorMsg(resources.getString(R.string.no_upcoming_session_found))
                 }else{
                     val completedLiveAdapter = CompletedLiveAdapter(requireContext(), liveItemResponse)
                     recycler.adapter = completedLiveAdapter
-                    recycler.visibility = View.VISIBLE
-                    noCompletedSession.visibility = View.GONE
                 }
             } else {
-                recycler.visibility = View.GONE
-                noCompletedSession.visibility = View.VISIBLE
+                showErrorMsg(resources.getString(R.string.no_upcoming_session_found))
             }
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+
+    fun showErrorMsg(errorMsg: String) {
+        stateful.showOffline()
+        stateful.setOfflineText(errorMsg)
+        stateful.setOfflineImageResource(R.drawable.ic_no_data)
+        stateful.setOfflineRetryOnClickListener {
+            requestSessions()
         }
     }
 

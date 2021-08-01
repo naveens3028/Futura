@@ -123,14 +123,17 @@ class LiveFragment : Fragment(), OnNetworkResponse {
             if (liveItemResponse.data.isNotEmpty()) {
                 val studyAdapter = StudyAdapter(requireContext(), liveItemResponse.data)
                 studyRecycler.adapter = studyAdapter
-                studyRecycler.visibility = View.VISIBLE
+                upcomingSession.visibility = View.VISIBLE
+                StudyLabel.visibility = View.VISIBLE
                 noUpcomingSession.visibility = View.GONE
             }else{
-                studyRecycler.visibility = View.GONE
+                upcomingSession.visibility = View.GONE
+                StudyLabel.visibility = View.GONE
                 noUpcomingSession.visibility = View.VISIBLE
             }
         }else{
-            studyRecycler.visibility = View.GONE
+            upcomingSession.visibility = View.GONE
+            StudyLabel.visibility = View.GONE
             noUpcomingSession.visibility = View.VISIBLE
         }
     }

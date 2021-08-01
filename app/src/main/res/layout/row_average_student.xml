@@ -121,6 +121,8 @@
                     android:layout_marginRight="@dimen/_3sdp"
                     android:fontFamily="@font/roboto_bold"
                     android:padding="@dimen/_5sdp"
+                    android:maxLines="1"
+                    android:gravity="center"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sdp" />
@@ -134,6 +136,7 @@
                 android:layout_alignEnd="@id/crdavgscore"
                 android:fontFamily="@font/roboto_bold"
                 android:padding="@dimen/_5sdp"
+                android:gravity="center"
                 android:text="Your\nAverage score"
                 android:textAlignment="center"
                 android:textSize="@dimen/_8sdp"
@@ -157,6 +160,8 @@
                     android:fontFamily="@font/roboto_bold"
                     android:padding="@dimen/_5sdp"
                     android:textAlignment="center"
+                    android:maxLines="1"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sdp" />
 
@@ -172,6 +177,7 @@
                 android:padding="@dimen/_5sdp"
                 android:text="Class\nAverage score"
                 android:textAlignment="center"
+                android:gravity="center"
                 android:textSize="@dimen/_8sdp"
                 android:textStyle="bold" />
 
@@ -191,6 +197,8 @@
                     android:layout_marginRight="@dimen/_3sdp"
                     android:fontFamily="@font/roboto_bold"
                     android:padding="@dimen/_5sdp"
+                    android:maxLines="1"
+                    android:gravity="center"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sdp" />
@@ -207,6 +215,7 @@
                 android:padding="@dimen/_5sdp"
                 android:text="Topper\nAverage score"
                 android:textAlignment="center"
+                android:gravity="center"
                 android:textSize="@dimen/_8sdp"
                 android:textStyle="bold" />
 

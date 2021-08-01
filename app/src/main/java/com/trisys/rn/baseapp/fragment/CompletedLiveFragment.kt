@@ -17,6 +17,7 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -114,6 +115,8 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
         jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
         jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
 
+        stateful.showProgress()
+        stateful.setProgressText("")
         networkHelper.postCallResponseArray(
             URLHelper.getCompletedSessionsSubject,
             jsonObject,
@@ -124,20 +127,33 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        if (responseCode == networkHelper.responseSuccess && tag == "completedSessions") {
-            Log.e(
-                "soppers",
-                "responseCode: " + responseCode.toString() + "response: " + response + " tag: " + tag
-            )
-            /*  val arrayTutorialType = object : TypeToken<ArrayList<CompletedSession>>() {}.type
-              val liveItemResponse: ArrayList<CompletedSession> = Gson().fromJson(response, arrayTutorialType)
-              liveItemResponse.let {
-                  val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList,liveItemResponse, true)
-                  recycler.adapter = completedLiveAdapter
-              }*/
-        } else {
-            Toast.makeText(requireContext(), "No completed sessions available", Toast.LENGTH_SHORT)
-                .show()
+        try {
+            stateful.showContent()
+            if (responseCode == networkHelper.responseSuccess && tag == "completedSessions") {
+                Log.e(
+                    "soppers",
+                    "responseCode: " + responseCode.toString() + "response: " + response + " tag: " + tag
+                )
+                /*  val arrayTutorialType = object : TypeToken<ArrayList<CompletedSession>>() {}.type
+                  val liveItemResponse: ArrayList<CompletedSession> = Gson().fromJson(response, arrayTutorialType)
+                  liveItemResponse.let {
+                      val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList,liveItemResponse, true)
+                      recycler.adapter = completedLiveAdapter
+                  }*/
+            } else {
+                showErrorMsg("No completed sessions available")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun showErrorMsg(errorMsg: String) {
+        stateful.showOffline()
+        stateful.setOfflineText(errorMsg)
+        stateful.setOfflineImageResource(R.drawable.ic_no_data)
+        stateful.setOfflineRetryOnClickListener {
+            requestSessions()
         }
     }
 }
