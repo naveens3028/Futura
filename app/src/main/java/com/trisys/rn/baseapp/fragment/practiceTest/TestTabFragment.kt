@@ -191,7 +191,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         arrowscheduled.rotation = arrowscheduled.rotation + 180
 
-        arrowscheduled.setOnClickListener {
+        layoutSchedule.setOnClickListener {
             if (checkVisible == false) {
                 arrowscheduled.rotation = arrowscheduled.rotation + 180
                 scheduleTestRecyclerView.visibility = View.GONE
@@ -205,7 +205,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             }
         }
 
-        arrowsUnAttempted.setOnClickListener {
+        layoutUnAttempted.setOnClickListener {
             if (!unAttemptedIsVisible) {
                 arrowsUnAttempted.rotation = arrowsUnAttempted.rotation + 180
                 unattemptedTestRecyclerView.visibility = View.VISIBLE
@@ -217,7 +217,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             }
         }
 
-        arrowsAttempted.setOnClickListener {
+        layoutAttempted.setOnClickListener {
             if (!attemptedIsVisible) {
                 arrowsAttempted.rotation = arrowsAttempted.rotation + 180
                 attemptedTestRecyclerView.visibility = View.VISIBLE

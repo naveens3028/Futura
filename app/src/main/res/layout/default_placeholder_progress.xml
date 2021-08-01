@@ -16,12 +16,12 @@
             android:layout_marginBottom="0dp">
 
             <ProgressBar
-                android:layout_width="@dimen/_55sdp"
-                android:layout_height="@dimen/_55sdp"
+                android:layout_width="@dimen/_65sdp"
+                android:layout_height="@dimen/_65sdp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:indeterminateTint="#55075b"
-                android:indeterminateTintMode="src_atop"></ProgressBar>
+                android:indeterminateTintMode="src_atop"/>
 
             <ImageView
                 style="@style/TextAppearance.AppCompat.Small"

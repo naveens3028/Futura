@@ -152,6 +152,7 @@ class LoginFragment : Fragment(), OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         requireActivity().stateful.showContent()
+        myProgressBar.dismiss()
         if (responseCode == networkHelper.responseSuccess && tag.equals("login")) {
             loginResponseData(response)
         } else {

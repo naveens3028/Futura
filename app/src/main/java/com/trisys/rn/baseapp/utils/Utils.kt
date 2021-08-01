@@ -168,7 +168,7 @@ object Utils {
             if (myDate[Calendar.MONTH] <= 11) {
                 dateVal = dateVal + months[myDate[Calendar.MONTH]] + ", "
             }
-            dateVal += dateFormat.format(date).uppercase(Locale.getDefault())
+           // dateVal += dateFormat.format(date).uppercase(Locale.getDefault())
 
         } catch (e: ParseException) {
             e.printStackTrace()

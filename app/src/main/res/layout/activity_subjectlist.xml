@@ -79,6 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:text="8"
+                        android:visibility="gone"
                         android:textAlignment="center"
                         android:textColor="@color/charcoal"
                         android:textSize="@dimen/_8sdp" />
@@ -111,6 +112,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginTop="3dp"
                         android:text="10"
+                        android:visibility="gone"
                         android:textAlignment="center"
                         android:textSize="8sp"
                         android:textColor="@color/charcoal"
@@ -143,6 +145,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginTop="3dp"
                         android:text="1h 25mins"
+                        android:visibility="gone"
                         android:textAlignment="center"
                         android:textColor="@color/charcoal"
                         android:textSize="@dimen/_8sdp" />
