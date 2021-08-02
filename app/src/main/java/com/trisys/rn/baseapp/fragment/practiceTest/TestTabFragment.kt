@@ -2,6 +2,7 @@ package com.trisys.rn.baseapp.fragment.practiceTest
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -62,6 +63,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         networkHelper = NetworkHelper(requireContext())
         db = DatabaseHelper(requireContext())
         dialogUtils = DialogUtils()
+
     }
 
     override fun onCreateView(
@@ -74,6 +76,21 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     private fun requestTest() {
+
+        val nightModeFlags: Int = requireContext().resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
+        when (nightModeFlags) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                arrowscheduled.setImageResource(R.drawable.downarrow_wt)
+                arrowsAttempted.setImageResource(R.drawable.downarrow_wt)
+                arrowsUnAttempted.setImageResource(R.drawable.downarrow_wt)
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+
+            }
+        }
 
         val params = HashMap<String, String>()
         params["batchId"] = loginData.userDetail?.batchIds?.get(0).toString()

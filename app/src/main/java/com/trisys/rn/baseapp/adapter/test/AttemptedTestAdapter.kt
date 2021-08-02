@@ -10,10 +10,6 @@ import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_attempted_test.view.*
-import kotlinx.android.synthetic.main.row_attempted_test.view.backgroundColor
-import kotlinx.android.synthetic.main.row_attempted_test.view.date
-import kotlinx.android.synthetic.main.row_attempted_test.view.testName
-import kotlinx.android.synthetic.main.row_scheduled_test.view.*
 
 class AttemptedTestAdapter(
     val context: Context,
@@ -30,6 +26,7 @@ class AttemptedTestAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val scheduledTest = scheduledTestItems[position]
         holder.itemView.testName.text = scheduledTest.name
         holder.itemView.date.text = Utils.getDateValue(scheduledTest.publishDate)
