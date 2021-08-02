@@ -58,7 +58,6 @@
         android:textSize="@dimen/_13sdp"
         android:gravity="center"
         android:minHeight="@dimen/_80sdp"
-        android:textStyle="bold"
         android:visibility="gone" />
 
     <View
@@ -115,7 +114,6 @@
         android:textSize="@dimen/_13sdp"
         android:gravity="center"
         android:minHeight="@dimen/_80sdp"
-        android:textStyle="bold"
         android:visibility="gone" />
     <View
         android:layout_width="match_parent"
@@ -171,7 +169,6 @@
         android:textSize="@dimen/_13sdp"
         android:gravity="center"
         android:minHeight="@dimen/_80sdp"
-        android:textStyle="bold"
         android:visibility="gone" />
     <View
         android:layout_width="match_parent"

@@ -195,12 +195,12 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             if (checkVisible == false) {
                 arrowscheduled.rotation = arrowscheduled.rotation + 180
                 scheduleTestRecyclerView.visibility = View.GONE
-                noTest.visibility = View.GONE
+                noTestScheduled.visibility = View.GONE
                 checkVisible = true
             } else {
                 arrowscheduled.rotation = arrowscheduled.rotation + 180
                 scheduleTestRecyclerView.visibility = View.VISIBLE
-                noTest.visibility = View.VISIBLE
+                noTestScheduled.visibility = View.VISIBLE
                 checkVisible = false
             }
         }
@@ -325,10 +325,10 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                     Gson().fromJson(response, ScheduledClass::class.java)
                 if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
                     scheduleTestRecyclerView.visibility = View.GONE
-                    noTest.visibility = View.VISIBLE
+                    noTestScheduled.visibility = View.VISIBLE
                 } else {
                     scheduleTestRecyclerView.visibility = View.VISIBLE
-                    noTest.visibility = View.GONE
+                    noTestScheduled.visibility = View.GONE
                     val completedList = db.getCompletedTest()
                     completedList.forEachIndexed { _, completedListElement ->
                         attemptedTest!!.addAll(
@@ -368,21 +368,35 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     private fun unAttemptedSetup(unAttempted: UnAttempted) {
         if (view != null) {
-            val unattemptedAdapter = UnAttemptedTestAdapter(
-                requireContext(),
-                unAttempted.mockTest!!, this
-            )
-            unattemptedTestRecyclerView.adapter = unattemptedAdapter
+            if (unAttempted.mockTest != null) {
+                if (unAttempted.mockTest!!.size > 0) {
+                    noTestUnAttempted.visibility = View.VISIBLE
+                    val unattemptedAdapter = UnAttemptedTestAdapter(
+                        requireContext(),
+                        unAttempted.mockTest!!, this
+                    )
+                    unattemptedTestRecyclerView.adapter = unattemptedAdapter
+                } else {
+                    noTestUnAttempted.visibility = View.VISIBLE
+                }
+            }
+        }else{
+            noTestUnAttempted.visibility = View.VISIBLE
         }
     }
 
     private fun attemptedSetup(attempted: AttemptedResponse) {
         if (view != null) {
-            val attemptedAdapter = AttemptedTestAdapter(
-                requireContext(),
-                attempted.mOCKTEST.reversed(), this
-            )
-            attemptedTestRecyclerView.adapter = attemptedAdapter
+            if(attempted.mOCKTEST.size > 0) {
+                noTestAttempted.visibility = View.GONE
+                val attemptedAdapter = AttemptedTestAdapter(
+                    requireContext(),
+                    attempted.mOCKTEST.reversed(), this
+                )
+                attemptedTestRecyclerView.adapter = attemptedAdapter
+            }else {
+                noTestAttempted.visibility = View.VISIBLE
+            }
         }
     }
 }
