@@ -1,11 +1,9 @@
 package com.trisys.rn.baseapp.activity
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.RelativeLayout
@@ -13,7 +11,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.TestResultsModel
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
@@ -24,7 +21,6 @@ import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_test_results.*
-import kotlinx.android.synthetic.main.fragment_test_tab.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONObject
 
@@ -61,7 +57,7 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         actionBar?.title = "Test Result"
 
-        getAttempt(attempt, studentId!!, testPaperId!!, "answeredTestPapersResult" )
+        getAttempt(attempt, studentId!!, testPaperId!!, "answeredTestPapersResult")
 
     }
 
@@ -107,10 +103,10 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
             ApiUtils.getHeader(this),
             this
         )
-        val nightModeFlags: Int = applicationContext.resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
+        val nightModeFlags: Int =
+            applicationContext.resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
         when (nightModeFlags) {
             Configuration.UI_MODE_NIGHT_YES -> {
-                Log.e("popsi","1")
                 circletxtLeader.setTextColor(Color.parseColor("#FFFFFF"))
                 yourScoreTxt.setTextColor(Color.parseColor("#FFFFFF"))
             }
