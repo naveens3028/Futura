@@ -131,7 +131,6 @@
                 android:background="@drawable/ic_circle_outline"
                 android:layout_below="@id/leaderboard"
                 android:gravity="center"
-                android:textColor="@color/black"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="1"
