@@ -53,11 +53,11 @@
         android:id="@+id/noTestScheduled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="@dimen/_80sdp"
         android:text="No Test Found"
         android:textAlignment="center"
         android:textSize="@dimen/_13sdp"
-        android:gravity="center"
-        android:minHeight="@dimen/_80sdp"
         android:visibility="gone" />
 
     <View
@@ -105,16 +105,18 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="1"
         tools:listitem="@layout/row_completed_live" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/noTestAttempted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="@dimen/_80sdp"
         android:text="No Test Found"
         android:textAlignment="center"
         android:textSize="@dimen/_13sdp"
-        android:gravity="center"
-        android:minHeight="@dimen/_80sdp"
         android:visibility="gone" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -160,16 +162,18 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="1"
         tools:listitem="@layout/row_completed_live" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/noTestUnAttempted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="@dimen/_80sdp"
         android:text="No Test Found"
         android:textAlignment="center"
         android:textSize="@dimen/_13sdp"
-        android:gravity="center"
-        android:minHeight="@dimen/_80sdp"
         android:visibility="gone" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
