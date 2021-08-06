@@ -122,7 +122,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
             val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
             subjectCall(courseResponse.data!!)
         } else {
-            showErrorMsg(resources.getString(R.string.sfl_default_error))
+            showErrorMsg(requireActivity().getString(R.string.sfl_default_error))
         }
     }
 

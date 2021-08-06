@@ -9,6 +9,7 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.StudyAdapter
 import com.trisys.rn.baseapp.fragment.CompletedLiveFragment
 import com.trisys.rn.baseapp.fragment.UpcomingLiveFragment
+import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.LiveResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils.getAuthorizationHeader
@@ -19,6 +20,7 @@ import com.trisys.rn.baseapp.network.UrlConstants.kLIVE
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_live.*
+import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -33,11 +35,13 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
+    lateinit var myProgressBar: MyProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myPreferences = MyPreferences(requireContext())
         networkHelper = NetworkHelper(requireContext())
+        myProgressBar = MyProgressBar(requireActivity())
     }
 
     override fun onCreateView(
@@ -118,23 +122,34 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+        myProgressBar.dismiss()
         if (responseCode == networkHelper.responseSuccess && tag == "liveSessions") {
             val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
             if (liveItemResponse.data.isNotEmpty()) {
                 val studyAdapter = StudyAdapter(requireContext(), liveItemResponse.data)
                 studyRecycler.adapter = studyAdapter
+                errorLive.visibility = View.GONE
+                recyclerScroll.visibility = View.VISIBLE
                 upcomingSession.visibility = View.VISIBLE
                 StudyLabel.visibility = View.VISIBLE
                 noUpcomingSession.visibility = View.GONE
             }else{
-                upcomingSession.visibility = View.GONE
-                StudyLabel.visibility = View.GONE
-                noUpcomingSession.visibility = View.VISIBLE
+                recyclerScroll.visibility = View.GONE
+                errorLive.visibility = View.VISIBLE
+                StudyLabel.visibility = View.VISIBLE
+                retryLive.setOnClickListener {
+                    myProgressBar.show()
+                    requestSessions()
+                }
             }
         }else{
-            upcomingSession.visibility = View.GONE
-            StudyLabel.visibility = View.GONE
-            noUpcomingSession.visibility = View.VISIBLE
+            recyclerScroll.visibility = View.GONE
+            errorLive.visibility = View.VISIBLE
+            StudyLabel.visibility = View.VISIBLE
+            retryLive.setOnClickListener {
+                myProgressBar.show()
+                requestSessions()
+            }
         }
     }
 }

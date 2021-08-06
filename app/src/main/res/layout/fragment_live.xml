@@ -35,19 +35,42 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/StudyLabel">
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/errorLive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_20sdp"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_height="wrap_content"
                     android:text="@string/no_upcoming_session_found"
-                    android:textStyle="bold"
-                    android:visibility="gone"
+                    android:visibility="visible"
+                    android:textColor="@color/greytext"
                     android:gravity="center"
                     android:id="@+id/noUpcomingSession"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="@string/sfl_retry"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="visible"
+                    android:gravity="center"
+                    android:id="@+id/retryLive"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.trisys.rn.baseapp.helper.NestedScrollableHost
                     android:id="@+id/recyclerScroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <androidx.recyclerview.widget.RecyclerView

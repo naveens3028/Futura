@@ -106,7 +106,7 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             stateful.showContent()
             if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
                 val liveItemResponse = ArrayList<CompletedSession>()
-                if (liveItemResponse.isEmpty()){
+                if (liveItemResponse.isNullOrEmpty()){
                     showErrorMsg(resources.getString(R.string.no_upcoming_session_found))
                 }else{
                     val completedLiveAdapter = CompletedLiveAdapter(requireContext(), liveItemResponse)

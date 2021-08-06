@@ -109,6 +109,7 @@
     <string name="result">Result</string>
     <string name="review">Review</string>
     <string name="no_upcoming_session_found">No Upcoming Session Found</string>
+    <string name="no_live_session_found">No Live Session Found</string>
     <string name="no_completed_session_found">No Completed Session Found</string>
     <string name="qr_scanner">QR Scanner</string>
 
