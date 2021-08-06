@@ -3,7 +3,6 @@ package com.trisys.rn.baseapp.adapter
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.trisys.rn.baseapp.model.Data
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.row_study.view.*
 import kotlinx.android.synthetic.main.row_upcoming_live.view.subject
-
 
 class StudyAdapter(
     val context: Context,

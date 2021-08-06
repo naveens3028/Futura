@@ -60,7 +60,12 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
         requestSessions()
 
-    }
+        refreshLayout.setOnRefreshListener {
+            requestSessions()
+            refreshLayout.isRefreshing = false
+        }
+
+        }
 
     override fun onStart() {
         super.onStart()
@@ -101,7 +106,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     }
 
     private fun requestSessions() {
-
+        myProgressBar.show()
         val jsonObject = JSONObject()
         try {
             jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
@@ -138,7 +143,6 @@ class LiveFragment : Fragment(), OnNetworkResponse {
                 errorLive.visibility = View.VISIBLE
                 StudyLabel.visibility = View.VISIBLE
                 retryLive.setOnClickListener {
-                    myProgressBar.show()
                     requestSessions()
                 }
             }
@@ -147,7 +151,6 @@ class LiveFragment : Fragment(), OnNetworkResponse {
             errorLive.visibility = View.VISIBLE
             StudyLabel.visibility = View.VISIBLE
             retryLive.setOnClickListener {
-                myProgressBar.show()
                 requestSessions()
             }
         }
