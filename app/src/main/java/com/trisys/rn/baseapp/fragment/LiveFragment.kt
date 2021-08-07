@@ -81,10 +81,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
                             .commit()
                     1 ->
                         childFragmentManager.beginTransaction()
-                            .replace(
-                                R.id.liveFrameLayout,
-                                CompletedLiveFragment.newInstance("", "")
-                            )
+                            .replace(R.id.liveFrameLayout, CompletedLiveFragment.newInstance("", ""))
                             .commit()
                 }
             }
