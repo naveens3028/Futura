@@ -16,8 +16,8 @@ android {
         applicationId "com.trisys.rn.baseapp"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 12
-        versionName "1.20"
+        versionCode 13
+        versionName "1.21"
 
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -126,4 +126,7 @@ dependencies {
 
     //QR Scanner
     implementation 'com.budiyev.android:code-scanner:2.1.0'
+
+    //Cache videos
+    implementation 'com.danikula:videocache:2.7.1'
 }

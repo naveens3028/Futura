@@ -10,8 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.danikula.videocache.HttpProxyCacheServer
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
+import com.trisys.rn.baseapp.MyApplication.Companion.getProxy
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.VideoPlayActivity
 import com.trisys.rn.baseapp.model.VideoMaterial
@@ -65,6 +67,8 @@ class VideoFragment : Fragment() {
 //        val id = videoData.description.replace("https://vimeo.com/","")
 
         ImageLoader.loadFull(requireContext(),videoData.filePath,videoPlaceholder)
+
+
 
 //        VimeoExtractor.getInstance()
 //            .fetchVideoWithIdentifier(id, null, object : OnVimeoExtractionListener {

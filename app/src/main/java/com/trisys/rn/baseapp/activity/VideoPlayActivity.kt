@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.danikula.videocache.HttpProxyCacheServer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
+import com.trisys.rn.baseapp.MyApplication.Companion.getProxy
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.model.CourseResponse
 import com.trisys.rn.baseapp.model.GetQRCode
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.network.ApiUtils
@@ -18,7 +19,6 @@ import com.trisys.rn.baseapp.network.URLHelper.qrcode
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_video_play.*
-import kotlinx.android.synthetic.main.activity_video_play.statefulLayout
 import kotlinx.android.synthetic.main.fragment_video.player_view
 import vimeoextractor.OnVimeoExtractionListener
 import vimeoextractor.VimeoExtractor
@@ -59,23 +59,23 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
 
     private fun playVideo(id:String){
         val videoId = id.replace("https://vimeo.com/", "")
-        VimeoExtractor.getInstance()
-            .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
-                override fun onSuccess(video: VimeoVideo) {
-                    val hdStream = video.streams["720p"]
-                    println("VIMEO VIDEO STREAM$hdStream")
-                    hdStream?.let {
-                        runOnUiThread {
-                            //code that runs in main
-                            preparExoPlayer(it)
+            VimeoExtractor.getInstance()
+                .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
+                    override fun onSuccess(video: VimeoVideo) {
+                        val hdStream = video.streams["720p"]
+                        println("VIMEO VIDEO STREAM$hdStream")
+                        hdStream?.let {
+                            runOnUiThread {
+                                //code that runs in main
+                                preparExoPlayer(it)
+                            }
                         }
                     }
-                }
 
-                override fun onFailure(throwable: Throwable) {
-                    Log.d("failure", throwable.message!!)
-                }
-            })
+                    override fun onFailure(throwable: Throwable) {
+                        Log.d("failure", throwable.message!!)
+                    }
+                })
     }
 
     private fun getVideoId(id: String) {
@@ -88,8 +88,11 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     fun preparExoPlayer(url: String) {
+        Log.e("pollers", url.toString())
+        val proxy: HttpProxyCacheServer = getProxy(this)
+        var proxyUrl = proxy.getProxyUrl(url)
         // Build the media item.
-        val mediaItem: MediaItem = MediaItem.fromUri(url)
+        val mediaItem: MediaItem = MediaItem.fromUri(proxyUrl)
         // Set the media item to be played.
         player.setMediaItem(mediaItem)
         // Prepare the player.
