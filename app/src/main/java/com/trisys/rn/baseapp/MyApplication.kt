@@ -1,27 +1,23 @@
 package com.trisys.rn.baseapp
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.interceptors.GzipRequestInterceptor
-import com.danikula.videocache.HttpProxyCacheServer
 import okhttp3.OkHttpClient
 import com.trisys.rn.baseapp.MyApplication as MyApplication1
 
 
 class MyApplication: MultiDexApplication() {
     var mInstance: MyApplication1? = null
-    var proxy: HttpProxyCacheServer? = null
 
     override fun onCreate() {
         super.onCreate()
         mInstance = this
-        //disable screenshot and Video recording all screens
 
+        //disable screenshot and Video recording all screens
         setupActivityListener()
         val okHttpClient = OkHttpClient().newBuilder()
             .addInterceptor(GzipRequestInterceptor())
@@ -32,25 +28,13 @@ class MyApplication: MultiDexApplication() {
         MultiDex.install(this)
     }
 
-    private fun newProxy(): HttpProxyCacheServer {
-        return HttpProxyCacheServer(this)
-    }
-
-    companion object {
-        fun getProxy(context: Context): HttpProxyCacheServer {
-            val app = context.applicationContext as com.trisys.rn.baseapp.MyApplication
-            return if (app.proxy == null) app.newProxy()
-                .also { app.proxy = it } else app.proxy!!
-        }
-    }
-
     private fun setupActivityListener() {
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                activity.window.setFlags(
+           /*     activity.window.setFlags(
                     WindowManager.LayoutParams.FLAG_SECURE,
                     WindowManager.LayoutParams.FLAG_SECURE
-                )
+                )*/
             }
             override fun onActivityStarted(activity: Activity) {}
             override fun onActivityResumed(activity: Activity) {}

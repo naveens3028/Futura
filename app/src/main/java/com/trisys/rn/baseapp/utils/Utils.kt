@@ -35,6 +35,7 @@ object Utils {
         return versonName
     }
 
+
     fun getAppVersionName(context: Context): String? {
         var versonName: String? = ""
         try {

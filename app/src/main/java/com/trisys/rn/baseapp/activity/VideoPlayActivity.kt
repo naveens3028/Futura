@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.danikula.videocache.HttpProxyCacheServer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
-import com.trisys.rn.baseapp.MyApplication.Companion.getProxy
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.GetQRCode
 import com.trisys.rn.baseapp.model.VideoMaterial
@@ -24,10 +22,12 @@ import vimeoextractor.OnVimeoExtractionListener
 import vimeoextractor.VimeoExtractor
 import vimeoextractor.VimeoVideo
 
+
 class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var player: SimpleExoPlayer
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
+    // private var mediaSource :MediaSource? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +43,7 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         player.setThrowsWhenUsingWrongThread(false)
         player_view.player = player
 
+
         var id = intent.getStringExtra("videoId")
         if (id.isNullOrEmpty()) {
             val videoData = Gson().fromJson(
@@ -57,26 +58,47 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         }
     }
 
-    private fun playVideo(id:String){
+    private fun playVideo(id: String) {
         val videoId = id.replace("https://vimeo.com/", "")
-            VimeoExtractor.getInstance()
-                .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
-                    override fun onSuccess(video: VimeoVideo) {
-                        val hdStream = video.streams["720p"]
-                        println("VIMEO VIDEO STREAM$hdStream")
-                        hdStream?.let {
-                            runOnUiThread {
-                                //code that runs in main
-                                preparExoPlayer(it)
-                            }
+        VimeoExtractor.getInstance()
+            .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
+                override fun onSuccess(video: VimeoVideo) {
+                    val hdStream = video.streams["720p"]
+                    println("VIMEO VIDEO STREAM$hdStream")
+                    hdStream?.let {
+                        runOnUiThread {
+                            //code that runs in main
+                            preparExoPlayer(it)
                         }
                     }
+                }
 
-                    override fun onFailure(throwable: Throwable) {
-                        Log.d("failure", throwable.message!!)
-                    }
-                })
+                override fun onFailure(throwable: Throwable) {
+                    Log.d("failure", throwable.message!!)
+                }
+            })
     }
+
+    /*   override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+           when (playbackState) {
+               Player.STATE_READY -> {
+                   Log.d("ZAQ", "STATE_READY")
+                   if (player?.playWhenReady == true) onPlayerPlaying()
+               }
+               //Player.STATE_BUFFERING -> Log.d("ZAQ", "STATE_BUFFERING")
+               //Player.STATE_ENDED -> Log.d("ZAQ", "STATE_ENDED")
+               //Player.STATE_IDLE -> Log.d("ZAQ", "STATE_IDLE")
+           }
+       }*/
+
+/*    private fun onPlayerPlaying() {
+        // Set the media item to be played.
+        player.setMediaSource(mediaSource!!)
+        // Prepare the player.
+        player.prepare()
+        // Start the playback.
+        player.play()
+    }*/
 
     private fun getVideoId(id: String) {
         networkHelper.getCall(
@@ -88,11 +110,11 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     fun preparExoPlayer(url: String) {
-        Log.e("pollers", url.toString())
-        val proxy: HttpProxyCacheServer = getProxy(this)
-        var proxyUrl = proxy.getProxyUrl(url)
         // Build the media item.
-        val mediaItem: MediaItem = MediaItem.fromUri(proxyUrl)
+        /*       mediaSource = buildMediaSource(Uri.parse(url))
+               // Set the media item to be played.
+               player.setMediaSource(mediaSource!!)*/
+        val mediaItem: MediaItem = MediaItem.fromUri(url)
         // Set the media item to be played.
         player.setMediaItem(mediaItem)
         // Prepare the player.
@@ -100,6 +122,17 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         // Start the playback.
         player.play()
     }
+
+
+/*
+    private fun buildMediaSource(uri: Uri): MediaSource {
+        val cacheDataSourceFactory = CacheDataSourceFactory(
+            VideoCache.get(this),
+            DefaultHttpDataSourceFactory("exoplayer-demo")
+        )
+        return ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri)
+    }
+*/
 
     override fun onStop() {
         super.onStop()
@@ -112,8 +145,13 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         if (responseCode == networkHelper.responseSuccess && tag == "qrcode") {
             val qrResponse = Gson().fromJson(response, GetQRCode::class.java)
             playVideo(qrResponse.data.videoUrl)
-        }else{
-            Toast.makeText(this,"Unable to view the video... Try again later...",Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(
+                this,
+                "Unable to view the video... Try again later...",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
+
 }

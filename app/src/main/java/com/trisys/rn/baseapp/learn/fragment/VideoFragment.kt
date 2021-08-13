@@ -10,10 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.danikula.videocache.HttpProxyCacheServer
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
-import com.trisys.rn.baseapp.MyApplication.Companion.getProxy
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.VideoPlayActivity
 import com.trisys.rn.baseapp.model.VideoMaterial
@@ -36,7 +34,6 @@ class VideoFragment : Fragment() {
     private lateinit var fileName: String
     lateinit var sharedPreferences: SharedPreferences
     lateinit var myPreferences: MyPreferences
-    //    private var videoData = VideoMaterial
     lateinit var file: File
     lateinit var player: SimpleExoPlayer
 
