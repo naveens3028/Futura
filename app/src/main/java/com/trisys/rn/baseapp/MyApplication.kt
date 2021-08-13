@@ -2,6 +2,7 @@ package com.trisys.rn.baseapp
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.androidnetworking.AndroidNetworking
@@ -31,10 +32,10 @@ class MyApplication: MultiDexApplication() {
     private fun setupActivityListener() {
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-           /*     activity.window.setFlags(
+                activity.window.setFlags(
                     WindowManager.LayoutParams.FLAG_SECURE,
                     WindowManager.LayoutParams.FLAG_SECURE
-                )*/
+                )
             }
             override fun onActivityStarted(activity: Activity) {}
             override fun onActivityResumed(activity: Activity) {}
