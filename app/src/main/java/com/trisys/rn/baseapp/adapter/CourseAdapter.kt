@@ -33,7 +33,7 @@ class CourseAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 
-        holder.subjectTxt.text = courseList[position].course.courseName
+        holder.subjectTxt.text = courseList[position].course!!.courseName
 
         when (position) {
             0 -> {
@@ -95,7 +95,12 @@ class CourseAdapter(
             }
         }
         holder.subjectTxt.setOnClickListener {
-            courseListener.onCourseClicked(courseList[position].courseId,position)
+            courseList[position].let { it1 -> it1.courseId?.let { it2 ->
+                it1.id?.let { it3 ->
+                    courseListener.onCourseClicked(
+                        it2, it3,position)
+                }
+            } }
             index = position
             notifyDataSetChanged()
         }

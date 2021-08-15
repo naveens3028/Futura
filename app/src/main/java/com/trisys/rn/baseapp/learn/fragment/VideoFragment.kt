@@ -34,7 +34,6 @@ class VideoFragment : Fragment() {
     private lateinit var fileName: String
     lateinit var sharedPreferences: SharedPreferences
     lateinit var myPreferences: MyPreferences
-    //    private var videoData = VideoMaterial
     lateinit var file: File
     lateinit var player: SimpleExoPlayer
 
@@ -65,6 +64,8 @@ class VideoFragment : Fragment() {
 //        val id = videoData.description.replace("https://vimeo.com/","")
 
         ImageLoader.loadFull(requireContext(),videoData.filePath,videoPlaceholder)
+
+
 
 //        VimeoExtractor.getInstance()
 //            .fetchVideoWithIdentifier(id, null, object : OnVimeoExtractionListener {

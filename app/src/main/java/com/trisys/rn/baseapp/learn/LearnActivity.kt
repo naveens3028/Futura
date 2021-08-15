@@ -48,12 +48,12 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
         actionBar?.title = intent.getStringExtra("title")
 
         chapterId = intent.getStringExtra("id")!!
+        batchId = intent.getStringExtra("batchID")!!
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        batchId = "d433f757-ee3e-4632-a6f5-68a7d96fce5a"
         requestChapter()
 
     }

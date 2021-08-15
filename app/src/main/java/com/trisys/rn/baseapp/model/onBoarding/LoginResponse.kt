@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.serialization.SerialName
@@ -102,45 +103,45 @@ data class branchItem(
 
 data class batchItem(
     @SerialName("additionalCourse")
-    val additionalCourse: String,
+    val additionalCourse: AdditionalCourse? = null,
     @SerialName("additionalCourseId")
-    val additionalCourseId: String,
+    val additionalCourseId: String?=null,
     @SerialName("batchEndDate")
-    val batchEndDate: String,
+    val batchEndDate: String?=null,
     @SerialName("batchName")
-    val batchName: String,
+    val batchName: String?=null,
     @SerialName("batchSize")
-    val batchSize: String,
+    val batchSize: String?=null,
     @SerialName("batchStartDate")
-    val batchStartDate: String,
+    val batchStartDate: String?=null,
     @SerialName("coachingCenterBranchId")
-    val coachingCenterBranchId: String,
+    val coachingCenterBranchId: String?=null,
     @SerialName("coachingCenterId")
-    val coachingCenterId: String,
+    val coachingCenterId: String?=null,
     @SerialName("coachingCentre")
-    val coachingCentre: CoachingCentre,
+    val coachingCentre: CoachingCentre?=null,
     @SerialName("course")
-    val course: Course,
+    val course: Course?=null,
     @SerialName("courseId")
-    val courseId: String,
+    val courseId: String?=null,
     @SerialName("createdAt")
-    val createdAt: Long,
+    val createdAt: Long?=null,
     @SerialName("createdBy")
-    val createdBy: String,
+    val createdBy: String?=null,
     @SerialName("description")
-    val description: String,
+    val description: String?=null,
     @SerialName("endTiming")
-    val endTiming: String,
+    val endTiming: String?=null,
     @SerialName("id")
-    val id: String,
+    val id: String?=null,
     @SerialName("startTiming")
-    val startTiming: String,
+    val startTiming: String?=null,
     @SerialName("status")
-    val status: String,
+    val status: String?=null,
     @SerialName("updatedAt")
-    val updatedAt: Long,
+    val updatedAt: Long?=null,
     @SerialName("updatedBy")
-    val updatedBy: String
+    val updatedBy: String?=null
 )
 
 data class Course(
@@ -262,3 +263,53 @@ data class TestStatusResponse(
     @SerialName("data")
     val `data`: String
 )
+
+class AdditionalCourse {
+    @SerializedName("id")
+    @Expose
+    var id: String? = null
+
+    @SerializedName("courseName")
+    @Expose
+    var courseName: String? = null
+
+    @SerializedName("parentId")
+    @Expose
+    var parentId: Any? = null
+
+    @SerializedName("parentName")
+    @Expose
+    var parentName: Any? = null
+
+    @SerializedName("description")
+    @Expose
+    var description: String? = null
+
+    @SerializedName("status")
+    @Expose
+    var status: String? = null
+
+    @SerializedName("coachingCentre")
+    @Expose
+    var coachingCentre: CoachingCentre? = null
+
+    @SerializedName("coachingCentreId")
+    @Expose
+    var coachingCentreId: String? = null
+
+    @SerializedName("createdAt")
+    @Expose
+    var createdAt: Long? = null
+
+    @SerializedName("updatedAt")
+    @Expose
+    var updatedAt: Long? = null
+
+    @SerializedName("createdBy")
+    @Expose
+    var createdBy: Any? = null
+
+    @SerializedName("updatedBy")
+    @Expose
+    var updatedBy: Any? = null
+}

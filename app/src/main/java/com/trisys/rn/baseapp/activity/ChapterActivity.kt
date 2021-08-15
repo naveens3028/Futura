@@ -26,6 +26,7 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
     lateinit var subjectId: String
+    lateinit var batchId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chapter)
@@ -34,6 +35,7 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         networkHelper = NetworkHelper(this)
 
         subjectId = intent.getStringExtra("id")!!
+        batchId = intent.getStringExtra("batchId")!!
 
         //Assign Appbar properties
         setSupportActionBar(toolbar)
@@ -63,7 +65,7 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
             recyclerView.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             recyclerView.setPadding(16, 0, 16, 0)
-            val adapter = SubjectListAdapter(this, subjectList, "")
+            val adapter = SubjectListAdapter(this, subjectList, batchId)
 
             //now adding the adapter to recyclerview
             recyclerView.adapter = adapter

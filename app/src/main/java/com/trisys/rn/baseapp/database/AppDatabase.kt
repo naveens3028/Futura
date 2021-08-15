@@ -14,7 +14,7 @@ import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
 @Database(
     entities = [NotificationItem::class, AverageBatchTests::class, TestPaperVo::class, Quesion::class, TestResultsModel::class, CompletedTest::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(SectionsDatumConverter::class, ListTopRankerConverter::class, SectionQuestionConverter::class)

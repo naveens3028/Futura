@@ -8,7 +8,6 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.model.CourseResponse
 import com.trisys.rn.baseapp.model.GetQRCode
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.network.ApiUtils
@@ -18,16 +17,17 @@ import com.trisys.rn.baseapp.network.URLHelper.qrcode
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_video_play.*
-import kotlinx.android.synthetic.main.activity_video_play.statefulLayout
 import kotlinx.android.synthetic.main.fragment_video.player_view
 import vimeoextractor.OnVimeoExtractionListener
 import vimeoextractor.VimeoExtractor
 import vimeoextractor.VimeoVideo
 
+
 class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var player: SimpleExoPlayer
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
+    // private var mediaSource :MediaSource? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +43,7 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         player.setThrowsWhenUsingWrongThread(false)
         player_view.player = player
 
+
         var id = intent.getStringExtra("videoId")
         if (id.isNullOrEmpty()) {
             val videoData = Gson().fromJson(
@@ -57,7 +58,7 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         }
     }
 
-    private fun playVideo(id:String){
+    private fun playVideo(id: String) {
         val videoId = id.replace("https://vimeo.com/", "")
         VimeoExtractor.getInstance()
             .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
@@ -78,6 +79,27 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
             })
     }
 
+    /*   override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+           when (playbackState) {
+               Player.STATE_READY -> {
+                   Log.d("ZAQ", "STATE_READY")
+                   if (player?.playWhenReady == true) onPlayerPlaying()
+               }
+               //Player.STATE_BUFFERING -> Log.d("ZAQ", "STATE_BUFFERING")
+               //Player.STATE_ENDED -> Log.d("ZAQ", "STATE_ENDED")
+               //Player.STATE_IDLE -> Log.d("ZAQ", "STATE_IDLE")
+           }
+       }*/
+
+/*    private fun onPlayerPlaying() {
+        // Set the media item to be played.
+        player.setMediaSource(mediaSource!!)
+        // Prepare the player.
+        player.prepare()
+        // Start the playback.
+        player.play()
+    }*/
+
     private fun getVideoId(id: String) {
         networkHelper.getCall(
             qrcode + id,
@@ -89,6 +111,9 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
 
     fun preparExoPlayer(url: String) {
         // Build the media item.
+        /*       mediaSource = buildMediaSource(Uri.parse(url))
+               // Set the media item to be played.
+               player.setMediaSource(mediaSource!!)*/
         val mediaItem: MediaItem = MediaItem.fromUri(url)
         // Set the media item to be played.
         player.setMediaItem(mediaItem)
@@ -97,6 +122,17 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         // Start the playback.
         player.play()
     }
+
+
+/*
+    private fun buildMediaSource(uri: Uri): MediaSource {
+        val cacheDataSourceFactory = CacheDataSourceFactory(
+            VideoCache.get(this),
+            DefaultHttpDataSourceFactory("exoplayer-demo")
+        )
+        return ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri)
+    }
+*/
 
     override fun onStop() {
         super.onStop()
@@ -109,8 +145,13 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         if (responseCode == networkHelper.responseSuccess && tag == "qrcode") {
             val qrResponse = Gson().fromJson(response, GetQRCode::class.java)
             playVideo(qrResponse.data.videoUrl)
-        }else{
-            Toast.makeText(this,"Unable to view the video... Try again later...",Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(
+                this,
+                "Unable to view the video... Try again later...",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
+
 }
