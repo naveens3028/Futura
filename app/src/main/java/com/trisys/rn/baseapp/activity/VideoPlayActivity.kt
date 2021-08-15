@@ -1,11 +1,15 @@
 package com.trisys.rn.baseapp.activity
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
+import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.GetQRCode
@@ -16,6 +20,7 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper.qrcode
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.VideoCache
 import kotlinx.android.synthetic.main.activity_video_play.*
 import kotlinx.android.synthetic.main.fragment_video.player_view
 import vimeoextractor.OnVimeoExtractionListener
@@ -27,7 +32,7 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var player: SimpleExoPlayer
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
-    // private var mediaSource :MediaSource? =null
+    private var mediaSource: MediaSource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,14 +96,14 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
            }
        }*/
 
-/*    private fun onPlayerPlaying() {
+    private fun onPlayerPlaying() {
         // Set the media item to be played.
         player.setMediaSource(mediaSource!!)
         // Prepare the player.
         player.prepare()
         // Start the playback.
         player.play()
-    }*/
+    }
 
     private fun getVideoId(id: String) {
         networkHelper.getCall(
@@ -111,12 +116,12 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
 
     fun preparExoPlayer(url: String) {
         // Build the media item.
-        /*       mediaSource = buildMediaSource(Uri.parse(url))
-               // Set the media item to be played.
-               player.setMediaSource(mediaSource!!)*/
-        val mediaItem: MediaItem = MediaItem.fromUri(url)
+        mediaSource = buildMediaSource(Uri.parse(url))
         // Set the media item to be played.
-        player.setMediaItem(mediaItem)
+        player.setMediaSource(mediaSource!!)
+        // val mediaItem: MediaItem = MediaItem.fromUri(url)
+        // Set the media item to be played.
+        //player.setMediaItem(mediaItem)
         // Prepare the player.
         player.prepare()
         // Start the playback.
@@ -124,7 +129,6 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
 
-/*
     private fun buildMediaSource(uri: Uri): MediaSource {
         val cacheDataSourceFactory = CacheDataSourceFactory(
             VideoCache.get(this),
@@ -132,7 +136,6 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         )
         return ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri)
     }
-*/
 
     override fun onStop() {
         super.onStop()
