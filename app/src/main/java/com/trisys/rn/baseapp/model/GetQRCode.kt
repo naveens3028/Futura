@@ -1,5 +1,5 @@
 package com.trisys.rn.baseapp.model
-
+import com.google.gson.annotations.SerializedName
 data class GetQRCode(
     val `data`: QRData
 )
