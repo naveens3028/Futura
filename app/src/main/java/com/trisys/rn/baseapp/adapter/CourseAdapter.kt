@@ -95,7 +95,12 @@ class CourseAdapter(
             }
         }
         holder.subjectTxt.setOnClickListener {
-            courseList[position].courseId?.let { it1 -> courseListener.onCourseClicked(it1,position) }
+            courseList[position].let { it1 -> it1.courseId?.let { it2 ->
+                it1.id?.let { it3 ->
+                    courseListener.onCourseClicked(
+                        it2, it3,position)
+                }
+            } }
             index = position
             notifyDataSetChanged()
         }

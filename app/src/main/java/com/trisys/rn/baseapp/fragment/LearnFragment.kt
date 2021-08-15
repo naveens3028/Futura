@@ -3,6 +3,7 @@ package com.trisys.rn.baseapp.fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     private var loginData = LoginData()
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
+    var batchIds : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +74,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         recyclerview.layoutManager = manager
         if (subjectList.size > 0) {
             //adding a layoutmanager
-            val adapter = SubjectsAdapter(requireContext(), subjectList, this)
+            val adapter = SubjectsAdapter(requireContext(), subjectList, batchIds.toString(),this)
 
             //now adding the adapter to recyclerview
             recyclerview.adapter = adapter
@@ -105,17 +107,14 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
     }
 
-    override fun onSubjectClicked(batchId: String, title: String) {
+    override fun onSubjectClicked(batchId: String,id: String, title: String) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
         intent.putExtra("id", batchId)
+        intent.putExtra("batchId", id)
         intent.putExtra("title", title)
         startActivity(intent)
     }
 
-    override fun onCourseClicked(batchId: String, position: Int) {
-        courseRecycler.layoutManager?.scrollToPosition(position)
-        requestSessions(batchId)
-    }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "getCourse") {
@@ -133,5 +132,11 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         stateful.setOfflineRetryOnClickListener {
             requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
         }
+    }
+
+    override fun onCourseClicked(batchId: String, id: String, position: Int) {
+        courseRecycler.layoutManager?.scrollToPosition(position)
+        batchIds = id
+        requestSessions(batchId)
     }
 }

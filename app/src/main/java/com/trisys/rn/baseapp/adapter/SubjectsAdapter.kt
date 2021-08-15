@@ -13,6 +13,7 @@ import com.trisys.rn.baseapp.model.Datum
 class SubjectsAdapter(
     val context: Context,
     val subjects: ArrayList<Datum>,
+    val batchIds: String,
     var subjectClickListener: SubjectClickListener
 ) :
     RecyclerView.Adapter<SubjectsAdapter.ViewHolder>() {
@@ -31,7 +32,7 @@ class SubjectsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.subjectTxt.text = subjects[position].courseName
         holder.cardView.setOnClickListener {
-            subjectClickListener.onSubjectClicked(subjects[position].id.toString(),subjects[position].courseName.toString())
+            subjectClickListener.onSubjectClicked(subjects[position].id.toString(),batchIds,subjects[position].courseName.toString())
         }
     }
 
