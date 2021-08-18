@@ -18,12 +18,15 @@ import com.google.android.flexbox.JustifyContent
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.ChapterActivity
+import com.trisys.rn.baseapp.activity.TestVideoActivity
 import com.trisys.rn.baseapp.adapter.CourseAdapter
+import com.trisys.rn.baseapp.adapter.Learn.VideoLearnAdapter
 import com.trisys.rn.baseapp.adapter.SubjectClickListener
 import com.trisys.rn.baseapp.adapter.SubjectsAdapter
 import com.trisys.rn.baseapp.fragment.practiceTest.CourseListener
 import com.trisys.rn.baseapp.model.CourseResponse
 import com.trisys.rn.baseapp.model.Datum
+import com.trisys.rn.baseapp.model.VideoDataModel
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -32,6 +35,8 @@ import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_learn.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetworkResponse {
@@ -115,10 +120,17 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         startActivity(intent)
     }
 
+    @SuppressLint("WrongConstant")
+    override fun onTestClicked() {
+        val intent = Intent(requireContext(), TestVideoActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "getCourse") {
             val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
+            courseResponse.data?.add(Datum(id = "test", courseName = "test", parentId = "test", parentName = "test", description = "test",
+                status = "test", "test", "test", createdAt = null, null, null))
             subjectCall(courseResponse.data!!)
         } else {
             showErrorMsg(requireActivity().getString(R.string.sfl_default_error))

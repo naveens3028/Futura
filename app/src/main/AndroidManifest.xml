@@ -76,6 +76,13 @@
         <activity
             android:name=".activity.AttemptedResultsActivity" />
         <activity
+            android:name=".activity.TestVideoActivity" />
+        <activity
+            android:name=".activity.TestVideoPlayerActivity"
+            android:label="@string/title_activity_video_play"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
             android:name=".MainActivity" />
     </application>
 

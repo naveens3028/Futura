@@ -6,10 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -25,6 +24,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.MainActivity
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.fragment.practiceTest.TestTabFragment
 import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.onBoarding.LoginResponse
 import com.trisys.rn.baseapp.network.ApiUtils.getHeader
@@ -37,6 +37,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.json.JSONException
 import org.json.JSONObject
+
 
 class LoginFragment : Fragment(), OnNetworkResponse {
 
@@ -104,13 +105,14 @@ class LoginFragment : Fragment(), OnNetworkResponse {
 
         }
 
-
         google.setOnClickListener {
             signIn()
         }
         facebook.setOnClickListener {
             auth.signOut()
         }
+
+
     }
 
     private fun requestLogin() {
@@ -230,4 +232,6 @@ class LoginFragment : Fragment(), OnNetworkResponse {
         private const val TAG = "GoogleActivity"
         private const val RC_SIGN_IN = 9001
     }
+
+
 }
