@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">UpMyRanks</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -10,7 +10,6 @@
     <string name="mobile_number">Password</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="continue_label">Continue</string>
-    <string name="or_connect_with">Or connect with</string>
     <string name="google">Google</string>
     <string name="facebook">Facebook</string>
     <string name="enter_verification_code">Enter Verification Code</string>
@@ -112,5 +111,16 @@
     <string name="no_live_session_found">No Live Session Found</string>
     <string name="no_completed_session_found">No Completed Session Found</string>
     <string name="qr_scanner">QR Scanner</string>
+    <string name="phoneno">Phone Number</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confrompswd">Confirm Password</string>
+    <string name="signup"> Sign Up</string>
+
+        <string name="usertype1">Select User</string>
+        <string-array name="usertype">
+            <item>Student</item>
+            <item>Institute</item>
+        </string-array>
 
 </resources>

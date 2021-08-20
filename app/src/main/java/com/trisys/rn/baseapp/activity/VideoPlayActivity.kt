@@ -84,27 +84,6 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
             })
     }
 
-    /*   override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-           when (playbackState) {
-               Player.STATE_READY -> {
-                   Log.d("ZAQ", "STATE_READY")
-                   if (player?.playWhenReady == true) onPlayerPlaying()
-               }
-               //Player.STATE_BUFFERING -> Log.d("ZAQ", "STATE_BUFFERING")
-               //Player.STATE_ENDED -> Log.d("ZAQ", "STATE_ENDED")
-               //Player.STATE_IDLE -> Log.d("ZAQ", "STATE_IDLE")
-           }
-       }*/
-
-    private fun onPlayerPlaying() {
-        // Set the media item to be played.
-        player.setMediaSource(mediaSource!!)
-        // Prepare the player.
-        player.prepare()
-        // Start the playback.
-        player.play()
-    }
-
     private fun getVideoId(id: String) {
         networkHelper.getCall(
             qrcode + id,

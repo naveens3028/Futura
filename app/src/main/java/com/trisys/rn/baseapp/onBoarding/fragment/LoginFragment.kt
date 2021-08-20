@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -24,7 +23,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.MainActivity
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.fragment.practiceTest.TestTabFragment
+import com.trisys.rn.baseapp.activity.RegistrationActivity
 import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.onBoarding.LoginResponse
 import com.trisys.rn.baseapp.network.ApiUtils.getHeader
@@ -102,16 +101,12 @@ class LoginFragment : Fragment(), OnNetworkResponse {
 
         continueButton.setOnClickListener {
             requestLogin()
-
         }
 
-        google.setOnClickListener {
-            signIn()
+        signupTxt.setOnClickListener {
+            val intent = Intent(requireContext(), RegistrationActivity::class.java)
+            requireContext().startActivity(intent)
         }
-        facebook.setOnClickListener {
-            auth.signOut()
-        }
-
 
     }
 

@@ -1,0 +1,36 @@
+package com.trisys.rn.baseapp.activity.login
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.adapter.CourseSelectionAdapter
+import kotlinx.android.synthetic.main.activity_all_results.*
+import kotlinx.android.synthetic.main.activity_course_selection.*
+
+class CourseSelectionActivity : AppCompatActivity() {
+
+    private val myList= ArrayList<String>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_course_selection)
+
+        myList?.apply {
+            this.add("NEET")
+            this.add("JEE")
+            this.add("Foundation")
+            this.add("NEET")
+            this.add("Grade 12 (NEET)")
+            this.add("Grade 11 (NEET)")
+        }
+
+        recyclerCall(myList)
+    }
+
+    private fun recyclerCall(resultList: ArrayList<String>?) {
+        val adapter = CourseSelectionAdapter(this, resultList)
+        //now adding the adapter to recyclerview
+        courseSelectionRecycler.adapter = adapter
+    }
+
+}

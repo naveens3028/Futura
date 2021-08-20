@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,13 +9,15 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
+import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.utils.VideoCache
 import kotlinx.android.synthetic.main.activity_test_video.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
-
 
 class TestVideoPlayerActivity : AppCompatActivity() {
 
@@ -28,6 +31,7 @@ class TestVideoPlayerActivity : AppCompatActivity() {
 
         url = intent.getStringExtra("url")
         testRecycler.visibility = View.GONE
+        toolbarLayout.visibility = View.GONE
         videoView.visibility = View.VISIBLE
 
 
@@ -47,12 +51,12 @@ class TestVideoPlayerActivity : AppCompatActivity() {
 
     fun preparExoPlayer(url: String) {
         // Build the media item.
-        val mediaItem: MediaItem = MediaItem.fromUri(url)
+        mediaSource = buildMediaSource(Uri.parse(url))
         // Set the media item to be played.
-        //player.setMediaSource(mediaSource!!)
+        player.setMediaSource(mediaSource!!)
         // val mediaItem: MediaItem = MediaItem.fromUri(url)
         // Set the media item to be played.
-        player.setMediaItem(mediaItem)
+        //player.setMediaItem(mediaItem)
         // Prepare the player.
         player.prepare()
         // Start the playback.
@@ -78,6 +82,14 @@ class TestVideoPlayerActivity : AppCompatActivity() {
         super.onStop()
         player.stop()
         player.release()
+    }
+
+    private fun buildMediaSource(uri: Uri): MediaSource {
+        val cacheDataSourceFactory = CacheDataSourceFactory(
+            VideoCache.get(this),
+            DefaultHttpDataSourceFactory("exoplayer-demo")
+        )
+        return ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri)
     }
 
 

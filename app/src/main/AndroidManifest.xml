@@ -76,6 +76,12 @@
         <activity
             android:name=".activity.AttemptedResultsActivity" />
         <activity
+            android:name=".activity.RegistrationActivity" />
+        <activity
+            android:name=".activity.login.OtpActivity" />
+        <activity
+            android:name=".activity.login.CourseSelectionActivity" />
+        <activity
             android:name=".activity.TestVideoActivity" />
         <activity
             android:name=".activity.TestVideoPlayerActivity"
