@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1079916578156-5eqaqdk6b0mh14pj2jt65ot14dupsmgm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trisys.rn.baseapp",
+            "certificate_hash": "ed6dbb5115a7c0477df563b5434ab7b4acbf339e"
+          }
+        },
+        {
           "client_id": "1079916578156-5f95ih25fsseg92f605megbbhdf6iies.apps.googleusercontent.com",
           "client_type": 3
         }
