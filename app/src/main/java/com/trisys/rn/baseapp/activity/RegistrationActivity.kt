@@ -1,6 +1,6 @@
 package com.trisys.rn.baseapp.activity
 
-import android.content.Intent
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +8,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
+import com.google.android.gms.safetynet.SafetyNet
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
@@ -16,9 +23,13 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.activity.login.CourseSelectionActivity
 import kotlinx.android.synthetic.main.activity_register.*
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.util.*
+import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 
 class RegistrationActivity: AppCompatActivity() {
@@ -35,11 +46,11 @@ class RegistrationActivity: AppCompatActivity() {
 
 
         // The test phone number and code should be whitelisted in the console.
-        val phoneNumber = "+919790733050"
+        val phoneNumber = "+918778701851"
         val smsCode = "000000"
 
         mAuth = Firebase.auth
-        val firebaseAuthSettings = mAuth.firebaseAuthSettings
+        mAuth.setLanguageCode(Locale.getDefault().language)
 
         myList.apply {
             this.add("Student")
@@ -47,6 +58,32 @@ class RegistrationActivity: AppCompatActivity() {
         }
 
         val newList: List<String> = myList
+        initClient()
+
+        val nonce: ByteArray? = getRequestNonce()
+
+        nonce?.let {
+            SafetyNet.getClient(this).attest(it,"AIzaSyDEqF4TGq1014yZ1wgEiNprajpBLS_U2QY")
+                .addOnSuccessListener(this) {
+                    // Indicates communication with the service was successful.
+                    // Use response.getJwsResult() to get the result data.
+                    Log.e("popsi1", "success")
+                }
+                .addOnFailureListener(this) { e ->
+                    // An error occurred while communicating with the service.
+                    if (e is ApiException) {
+                        // An error with the Google Play services API contains some
+                        // additional details.
+                        val apiException = e as ApiException
+
+                        // You can retrieve the status code using the
+                        // apiException.statusCode property.
+                    } else {
+                        // A different, unknown type of error occurred.
+                        Log.e("popsi2", "Error: " + e.message)
+                    }
+                }
+        }
 
         val adapter = ArrayAdapter.createFromResource(
             this,
@@ -132,4 +169,56 @@ class RegistrationActivity: AppCompatActivity() {
         }
         }
 
+    private fun initClient() {
+        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
+            == ConnectionResult.SUCCESS
+        ) {
+            // The SafetyNet Attestation API is available.
+            Toast.makeText(this@RegistrationActivity, "SafetyNet", Toast.LENGTH_LONG).show()
+
+           // onClicks()
+        }
     }
+
+    private fun getRequestNonce(): ByteArray? {
+        val data = System.currentTimeMillis().toString()
+        val byteStream = ByteArrayOutputStream()
+        val bytes = ByteArray(24)
+        val random = Random()
+        random.nextBytes(bytes)
+        try {
+            byteStream.write(bytes)
+            byteStream.write(data.toByteArray())
+        } catch (e: IOException) {
+            return null
+        }
+        return byteStream.toByteArray()
+    }
+
+/*
+    fun onClicks() {
+        SafetyNet.getClient(this).verifyWithRecaptcha("AIzaSyDEqF4TGq1014yZ1wgEiNprajpBLS_U2QY")
+            .addOnSuccessListener(this as Executor, OnSuccessListener { response ->
+                // Indicates communication with reCAPTCHA service was
+                // successful.
+                val userResponseToken = response.tokenResult
+                if (response.tokenResult?.isNotEmpty() == true) {
+                    // Validate the user response token using the
+                    // reCAPTCHA siteverify API.
+                }
+            })
+            .addOnFailureListener(this as Executor, OnFailureListener { e ->
+                if (e is ApiException) {
+                    // An error occurred when communicating with the
+                    // reCAPTCHA service. Refer to the status code to
+                    // handle the error appropriately.
+                    Log.d(TAG, "Error: ${CommonStatusCodes.getStatusCodeString(e.statusCode)}")
+                } else {
+                    // A different, unknown type of error occurred.
+                    Log.d(TAG, "Error: ${e.message}")
+                }
+            })
+    }
+*/
+
+}

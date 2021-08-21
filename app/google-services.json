@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "1079916578156-igqhp5b48qac6ujrn596svirgnb27835.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trisys.rn.baseapp",
+            "certificate_hash": "c6e86b77c45a0436900d06c63dff91ad20205abe"
+          }
+        },
+        {
           "client_id": "1079916578156-5f95ih25fsseg92f605megbbhdf6iies.apps.googleusercontent.com",
           "client_type": 3
         }
