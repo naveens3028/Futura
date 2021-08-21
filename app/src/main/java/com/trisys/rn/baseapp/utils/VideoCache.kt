@@ -7,7 +7,7 @@ import java.io.File
 
 object VideoCache {
     private var downloadCache: SimpleCache? = null
-    private const val maxCacheSize: Long = 20 * 1024 * 1024
+    private const val maxCacheSize: Long = 1024 * 1024 * 1024
     private const val dirName: String = "media"
 
     fun get(context : Context) : SimpleCache{

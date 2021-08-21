@@ -7,6 +7,9 @@ import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.interceptors.GzipRequestInterceptor
+import com.google.android.exoplayer2.database.ExoDatabaseProvider
+import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
+import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import okhttp3.OkHttpClient
 import com.trisys.rn.baseapp.MyApplication as MyApplication1
 
@@ -14,9 +17,20 @@ import com.trisys.rn.baseapp.MyApplication as MyApplication1
 class MyApplication: MultiDexApplication() {
     var mInstance: MyApplication1? = null
 
+    companion object {
+        lateinit var simpleCache: SimpleCache
+        const val exoPlayerCacheSize: Long = 90 * 1024 * 1024
+        lateinit var leastRecentlyUsedCacheEvictor: LeastRecentlyUsedCacheEvictor
+        lateinit var exoDatabaseProvider: ExoDatabaseProvider
+    }
+
     override fun onCreate() {
         super.onCreate()
         mInstance = this
+
+        leastRecentlyUsedCacheEvictor = LeastRecentlyUsedCacheEvictor(exoPlayerCacheSize)
+        exoDatabaseProvider = ExoDatabaseProvider(this)
+        simpleCache = SimpleCache(cacheDir, leastRecentlyUsedCacheEvictor, exoDatabaseProvider)
 
         //disable screenshot and Video recording all screens
         setupActivityListener()
