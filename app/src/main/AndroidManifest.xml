@@ -83,6 +83,9 @@
             android:name=".activity.login.CourseSelectionActivity" />
         <activity
             android:name=".activity.TestVideoActivity" />
+
+        <activity
+            android:name=".activity.login.PlanSelectionActivity" />
         <activity
             android:name=".activity.TestVideoPlayerActivity"
             android:label="@string/title_activity_video_play"

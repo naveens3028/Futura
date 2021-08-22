@@ -1,13 +1,18 @@
 package com.trisys.rn.baseapp.activity
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
@@ -23,6 +28,8 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.login.CourseSelectionActivity
+import com.trisys.rn.baseapp.activity.login.OtpActivity
 import kotlinx.android.synthetic.main.activity_register.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -58,10 +65,11 @@ class RegistrationActivity: AppCompatActivity() {
         }
 
         val newList: List<String> = myList
-        initClient()
+       // initClient()
 
-        val nonce: ByteArray? = getRequestNonce()
+       // val nonce: ByteArray? = getRequestNonce()
 
+/*
         nonce?.let {
             SafetyNet.getClient(this).attest(it,"AIzaSyDEqF4TGq1014yZ1wgEiNprajpBLS_U2QY")
                 .addOnSuccessListener(this) {
@@ -84,6 +92,7 @@ class RegistrationActivity: AppCompatActivity() {
                     }
                 }
         }
+*/
 
         val adapter = ArrayAdapter.createFromResource(
             this,
@@ -97,7 +106,7 @@ class RegistrationActivity: AppCompatActivity() {
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>,
                                         view: View, position: Int, id: Long) {
-                Toast.makeText(this@RegistrationActivity, newList[position],Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@RegistrationActivity, newList[position],Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -105,13 +114,64 @@ class RegistrationActivity: AppCompatActivity() {
             }
         }
 
+        password.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                if (!confrompswd.text.isNullOrEmpty()) {
+                    if (s.toString() != confrompswd.text.toString()) {
+                        confrompswd.setBackgroundResource(R.drawable.ic_rectangle_red)
+                    }else{
+                        confrompswd.setBackgroundResource(R.drawable.ic_rectangle_new)
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+            }
+        })
+
+
+        confrompswd.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                if (s.toString() != password.text.toString()){
+                    confrompswd.setBackgroundResource(R.drawable.ic_rectangle_red)
+                }else{
+                    confrompswd.setBackgroundResource(R.drawable.ic_rectangle_new)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+            }
+        })
+
         sbtbtn.setOnClickListener {
+
+            if (validate()){
+                val intent = Intent(this@RegistrationActivity, OtpActivity::class.java)
+                startActivity(intent)
+            }else{
+                Toast.makeText(this@RegistrationActivity, "Please Enter All Fields",Toast.LENGTH_SHORT).show()
+
+            }
+
+
             // Configure faking the auto-retrieval with the whitelisted numbers.
 
         /*    // Turn off phone auth app verification.
             mAuth.getFirebaseAuthSettings()
                 .setAppVerificationDisabledForTesting(true);*/
-            val options = PhoneAuthOptions.newBuilder(mAuth)
+          /*  val options = PhoneAuthOptions.newBuilder(mAuth)
                 .setPhoneNumber(phoneNumber)
                 .setTimeout(60L, TimeUnit.SECONDS)
                 .setActivity(this)
@@ -143,7 +203,7 @@ class RegistrationActivity: AppCompatActivity() {
                     }
                 })
                 .build()
-            PhoneAuthProvider.verifyPhoneNumber(options)
+            PhoneAuthProvider.verifyPhoneNumber(options)*/
             //  firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(phoneNumber, smsCode)
 
           /*  val options = PhoneAuthOptions.newBuilder(mAuth)
@@ -220,5 +280,26 @@ class RegistrationActivity: AppCompatActivity() {
             })
     }
 */
+
+    private fun validate(): Boolean{
+        var isValid: Boolean = true
+        if (userName.text.isNullOrEmpty()){
+            isValid = false
+        }
+        if (phoneNumber.text.isNullOrEmpty()){
+            isValid = false
+        }
+        if (emailUser.text.isNullOrEmpty()){
+            isValid = false
+        }
+        if (password.text.isNullOrEmpty()){
+            isValid = false
+        }
+        if (confrompswd.text.isNullOrEmpty()){
+            isValid = false
+        }
+
+        return isValid
+    }
 
 }

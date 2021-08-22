@@ -23,7 +23,7 @@
         android:layout_marginTop="@dimen/_15sdp"
         android:padding="@dimen/_8sdp"
         android:background="@drawable/ic_rectangle_new"
-        android:hint="@string/sfl_retry"
+        android:hint="@string/name"
         android:id="@+id/userName"/>
 
     <androidx.appcompat.widget.AppCompatEditText

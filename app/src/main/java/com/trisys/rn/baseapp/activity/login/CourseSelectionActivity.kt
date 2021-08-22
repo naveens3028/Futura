@@ -1,5 +1,6 @@
 package com.trisys.rn.baseapp.activity.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.trisys.rn.baseapp.R
@@ -25,6 +26,12 @@ class CourseSelectionActivity : AppCompatActivity() {
         }
 
         recyclerCall(myList)
+
+        submitCorse.setOnClickListener {
+            val intent = Intent(this, PlanSelectionActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun recyclerCall(resultList: ArrayList<String>?) {
