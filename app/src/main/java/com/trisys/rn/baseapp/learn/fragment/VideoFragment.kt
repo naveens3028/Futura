@@ -2,6 +2,7 @@ package com.trisys.rn.baseapp.learn.fragment
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Base64
@@ -10,10 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.MediaMetadata
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.util.Assertions
+import com.google.android.exoplayer2.util.Util
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.VideoPlayActivity
+import com.trisys.rn.baseapp.helper.exoplayer.IntentUtil
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.ImageLoader
@@ -21,11 +27,13 @@ import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_video.*
 import java.io.*
 import java.security.SecureRandom
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import kotlin.collections.ArrayList
 
 
 class VideoFragment : Fragment() {
@@ -102,8 +110,42 @@ class VideoFragment : Fragment() {
         super.onStart()
 
         videoPlaceholder.setOnClickListener {
-            val intent = Intent(requireContext(),VideoPlayActivity::class.java)
-            startActivity(intent)
+            buildMediaItems("https://eduinstitute-videos.s3.ap-south-1.amazonaws.com/VID-20190430-WA0010.mp4")
+        }
+    }
+
+    fun buildMediaItems(url: String) {
+        val extension = null
+        val subtitleUri = null
+        val title = url
+        val uri = Uri.parse(url)
+        val mediaItem = MediaItem.Builder()
+        val adaptiveMimeType =
+            Util.getAdaptiveMimeTypeForContentType(Util.inferContentType(uri, extension))
+        mediaItem
+            .setUri(uri)
+            .setMediaMetadata(MediaMetadata.Builder().setTitle(title).build())
+            .setMimeType(adaptiveMimeType)
+
+        val playlist= PlaylistHolder(title, listOf(mediaItem.build()))
+        val intent = Intent(requireContext(), VideoPlayActivity::class.java)
+        intent.putExtra(
+            IntentUtil.PREFER_EXTENSION_DECODERS_EXTRA,
+            true
+            )
+
+        IntentUtil.addToIntent(playlist.mediaItems, intent)
+        startActivity(intent)
+
+    }
+    class PlaylistHolder constructor(title: String, mediaItems: List<MediaItem>) {
+        val title: String
+        val mediaItems: List<MediaItem>
+
+        init {
+            Assertions.checkArgument(!mediaItems.isEmpty())
+            this.title = title
+            this.mediaItems = Collections.unmodifiableList(ArrayList(mediaItems))
         }
     }
 

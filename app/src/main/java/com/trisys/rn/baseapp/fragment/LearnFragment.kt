@@ -69,6 +69,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     private fun subjectCall(subjectList: ArrayList<Datum>) {
+        stateful.showContent()
         val manager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
         manager.justifyContent = JustifyContent.CENTER
         recyclerview.layoutManager = manager
@@ -98,6 +99,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     private fun requestSessions(batchId: String) {
+        stateful.showProgress()
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
             "getCourse",
