@@ -2,6 +2,7 @@ package com.trisys.rn.baseapp.onBoarding
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.onBoarding.fragment.LoginFragment
 
@@ -14,7 +15,7 @@ class LoginActivity : AppCompatActivity() {
         //Create initial fragment
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.container, LoginFragment()).addToBackStack(null)
+                .add(R.id.containers, LoginFragment()).addToBackStack(null)
                 .commitAllowingStateLoss()
         }
 
@@ -31,3 +32,4 @@ class LoginActivity : AppCompatActivity() {
     }
 
 }
+

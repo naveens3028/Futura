@@ -84,91 +84,40 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/forgetPassword" />
 
-            <TextView
+          <!--  <TextView
                 android:id="@+id/orConnectWith"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_12sdp"
-                android:text="@string/or_connect_with"
                 android:textColor="@color/charcoal"
                 android:textSize="@dimen/_12sdp"
+                -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/continueButton" />
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/continueButton" >
 
-            <View
-                android:id="@+id/google"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_margin="@dimen/_15sdp"
-                android:background="@drawable/rounded_circle_filled"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/orConnectWith"
-                app:layout_constraintWidth_percent="0.4" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Don't have an account yet?"/>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/googleLogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_google"
-                app:layout_constraintBottom_toBottomOf="@+id/google"
-                app:layout_constraintEnd_toEndOf="@+id/google"
-                app:layout_constraintEnd_toStartOf="@+id/googleText"
-                app:layout_constraintStart_toStartOf="@+id/google"
-                app:layout_constraintTop_toTopOf="@+id/google" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/signupTxt"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:textColor="@color/carolina_blue"
+                    android:textStyle="bold"
+                    android:text="@string/signup"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/googleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/google"
-                android:textColor="@color/charcoal"
-                android:textSize="@dimen/_12sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/googleLogo"
-                app:layout_constraintEnd_toEndOf="@+id/google"
-                app:layout_constraintStart_toEndOf="@+id/googleLogo"
-                app:layout_constraintTop_toTopOf="@+id/googleLogo" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            <View
-                android:id="@+id/facebook"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_margin="@dimen/_15sdp"
-                android:background="@drawable/rounded_circle_filled"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/google"
-                app:layout_constraintTop_toBottomOf="@+id/orConnectWith"
-                app:layout_constraintWidth_percent="0.4" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/facebookLogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_facebook"
-                app:layout_constraintBottom_toBottomOf="@+id/facebook"
-                app:layout_constraintEnd_toEndOf="@+id/facebook"
-                app:layout_constraintEnd_toStartOf="@+id/facebookText"
-                app:layout_constraintStart_toStartOf="@+id/facebook"
-                app:layout_constraintTop_toTopOf="@+id/facebook" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/facebookText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/facebook"
-                android:textColor="@color/charcoal"
-                android:textSize="@dimen/_12sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/facebookLogo"
-                app:layout_constraintEnd_toEndOf="@+id/facebook"
-                app:layout_constraintStart_toEndOf="@+id/facebookLogo"
-                app:layout_constraintTop_toTopOf="@+id/facebookLogo" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/google" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

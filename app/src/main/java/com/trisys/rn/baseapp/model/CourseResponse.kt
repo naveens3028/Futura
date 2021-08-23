@@ -7,40 +7,40 @@ data class CourseResponse(
     var data: ArrayList<Datum>? = null
 )
 
-class Datum {
+data class Datum (
     @SerializedName("id")
-    var id: String? = null
+    var id: String? = null,
 
     @SerializedName("courseName")
-    var courseName: String? = null
+    var courseName: String? = null,
 
     @SerializedName("parentId")
-    var parentId: String? = null
+    var parentId: String? = null,
 
     @SerializedName("parentName")
-    var parentName: Any? = null
+    var parentName: Any? = null,
 
     @SerializedName("description")
-    var description: String? = null
+    var description: String? = null,
 
     @SerializedName("status")
-    var status: String? = null
+    var status: String? = null,
 
     @SerializedName("coachingCentre")
-    var coachingCentre: Any? = null
+    var coachingCentre: Any? = null,
 
     @SerializedName("coachingCentreId")
-    var coachingCentreId: Any? = null
+    var coachingCentreId: Any? = null,
 
     @SerializedName("createdAt")
-    var createdAt: Long? = null
+    var createdAt: Long? = null,
 
     @SerializedName("updatedAt")
-    var updatedAt: Long? = null
+    var updatedAt: Long? = null,
 
     @SerializedName("createdBy")
-    var createdBy: Any? = null
+    var createdBy: Any? = null,
 
     @SerializedName("updatedBy")
     var updatedBy: Any? = null
-}
+)

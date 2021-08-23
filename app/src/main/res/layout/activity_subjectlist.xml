@@ -68,8 +68,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgplay"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="30dp"
+                        android:layout_height="29dp"
                         android:src="@drawable/ic_plays"
                         app:tint="@color/black" />
 
@@ -121,6 +121,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/timerLearn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"

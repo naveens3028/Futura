@@ -31,8 +31,19 @@ class SubjectsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.subjectTxt.text = subjects[position].courseName
-        holder.cardView.setOnClickListener {
-            subjectClickListener.onSubjectClicked(subjects[position].id.toString(),batchIds,subjects[position].courseName.toString())
+        if (subjects[position].courseName.equals("test")){
+            holder.cardView.setOnClickListener {
+                subjectClickListener.onTestClicked()
+            }
+
+        }else {
+            holder.cardView.setOnClickListener {
+                subjectClickListener.onSubjectClicked(
+                    subjects[position].id.toString(),
+                    batchIds,
+                    subjects[position].courseName.toString()
+                )
+            }
         }
     }
 

@@ -175,11 +175,9 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
             releasePlayer()
         }
     }
-
     override fun onDestroy() {
         super.onDestroy()
     }
-
     private fun updateStartPosition() {
         if (player != null) {
             startAutoPlay = player!!.playWhenReady
