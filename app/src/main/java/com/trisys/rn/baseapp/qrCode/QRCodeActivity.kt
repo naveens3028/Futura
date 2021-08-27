@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.budiyev.android.codescanner.*
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.TestVideoPlayerActivity
 import com.trisys.rn.baseapp.activity.VideoPlayActivity
 import com.trisys.rn.baseapp.utils.MyPreferences
 
@@ -31,7 +32,7 @@ class QRCodeActivity : AppCompatActivity() {
         // Callbacks
         codeScanner.decodeCallback = DecodeCallback {
             runOnUiThread {
-               val intent = Intent (this,VideoPlayActivity::class.java)
+                val intent = Intent (this,TestVideoPlayerActivity::class.java)
                 intent.putExtra("videoId",it.text)
                 startActivity(intent)
                 // Toast.makeText(applicationContext,"under development", Toast.LENGTH_LONG).show()

@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class TestVideoPlayerActivity : AppCompatActivity() {
 
     private var url: String? = null
+    private var videoId: String? = null
     lateinit var player: SimpleExoPlayer
     private var mediaSource: MediaSource? = null
 
@@ -30,6 +31,11 @@ class TestVideoPlayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_test_video)
 
         url = intent.getStringExtra("url")
+        videoId = intent.getStringExtra("videoId")
+
+        if (!videoId.isNullOrEmpty()){
+
+        }
         testRecycler.visibility = View.GONE
         toolbarLayout.visibility = View.GONE
         videoView.visibility = View.VISIBLE
