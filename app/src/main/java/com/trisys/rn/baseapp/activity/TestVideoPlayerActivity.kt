@@ -67,17 +67,20 @@ class TestVideoPlayerActivity : AppCompatActivity() {
        // preparExoPlayer(url!!)
         if (!videoId.isNullOrEmpty()){
 
-            val url1 = "https://static.upmyranks.com/entrance/Chemistry/1.Somebasicconceptofchemistry/EC1001.mp4"
+            val baseurl = "https://static.upmyranks.com/"
 
             Log.e("videoid", videoId!!)
             val myCredentials: AWSCredentials =
                 BasicAWSCredentials(accessKey, secretKey)
             val s3client: AmazonS3 = AmazonS3Client(myCredentials)
             s3client.setRegion(Region.getRegion(Regions.AP_SOUTH_1))
-            val request = GeneratePresignedUrlRequest(bucketName, videoId)
+            val request = GeneratePresignedUrlRequest(bucketName, videoId+".mp4")
             val objectURL: URL = s3client.generatePresignedUrl(request)
-            Toast.makeText(this,objectURL.toString(),Toast.LENGTH_LONG).show()
-            preparExoPlayer(objectURL.toString()+".mp4")
+            Toast.makeText(this,"url" +objectURL.toString(),Toast.LENGTH_LONG).show()
+           // preparExoPlayer(baseurl+videoId+".mp4")
+            preparExoPlayer(objectURL.toString())
+            Toast.makeText(this,videoId.toString(),Toast.LENGTH_LONG).show()
+            Toast.makeText(this,baseurl+videoId+".mp4",Toast.LENGTH_LONG).show()
 
 
             /*         window.setFormat(PixelFormat.TRANSLUCENT)
