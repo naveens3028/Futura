@@ -76,6 +76,7 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
        // preparExoPlayer(url!!)
         if (!videoId.isNullOrEmpty()){
 
+            Toast.makeText(this, "if", Toast.LENGTH_LONG).show()
 
             getVideoId(videoId!!)
 
@@ -101,9 +102,12 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     private fun getVideoId(id: String) {
+
+        Toast.makeText(this, "net", Toast.LENGTH_LONG).show()
+
         networkHelper.getCall(
             URLHelper.qrcode + id,
-            "qrcode",
+            "qrcode1",
             ApiUtils.getHeader(this),
             this
         )
@@ -162,12 +166,13 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         statefulLayout.showContent()
-        if (responseCode == networkHelper.responseSuccess && tag == "qrcode") {
+        if (responseCode == networkHelper.responseSuccess && tag == "qrcode1") {
             val qrResponse = Gson().fromJson(response, GetQRCode::class.java)
             Toast.makeText(this,"codeurl "+ qrResponse.data.qrCodeUrl, Toast.LENGTH_LONG).show()
             Toast.makeText(this, qrResponse.data.videoUrl, Toast.LENGTH_LONG).show()
             val baseurl = "https://static.upmyranks.com/"
             preparExoPlayer(baseurl+qrResponse.data.videoUrl+".mp4")
+
         }else{
             Toast.makeText(this,"Unable to view the video... Try again later...",Toast.LENGTH_LONG).show()
         }
