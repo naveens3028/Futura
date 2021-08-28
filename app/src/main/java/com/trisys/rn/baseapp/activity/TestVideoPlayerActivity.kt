@@ -25,14 +25,21 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
+import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.model.GetQRCode
+import com.trisys.rn.baseapp.network.ApiUtils
+import com.trisys.rn.baseapp.network.NetworkHelper
+import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.VideoCache
 import kotlinx.android.synthetic.main.activity_test_video.*
+import kotlinx.android.synthetic.main.activity_video_play.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import java.net.URL
 
 
-class TestVideoPlayerActivity : AppCompatActivity() {
+class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
 
     private var url: String? = null
     private var videoId: String? = null
@@ -41,11 +48,13 @@ class TestVideoPlayerActivity : AppCompatActivity() {
     private var secretKey: String = "e91cw0BftVWuuF/x/+9pQySSuyFPUxAi6oi/YT3s"
     lateinit var player: SimpleExoPlayer
     private var mediaSource: MediaSource? = null
+    lateinit var networkHelper: NetworkHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_video)
 
+        networkHelper = NetworkHelper(this)
         url = intent.getStringExtra("url")
         videoId = intent.getStringExtra("videoId")
 
@@ -67,9 +76,10 @@ class TestVideoPlayerActivity : AppCompatActivity() {
        // preparExoPlayer(url!!)
         if (!videoId.isNullOrEmpty()){
 
-            val baseurl = "https://static.upmyranks.com/"
 
-            Log.e("videoid", videoId!!)
+            getVideoId(videoId!!)
+
+           /* Log.e("videoid", videoId!!)
             val myCredentials: AWSCredentials =
                 BasicAWSCredentials(accessKey, secretKey)
             val s3client: AmazonS3 = AmazonS3Client(myCredentials)
@@ -80,22 +90,23 @@ class TestVideoPlayerActivity : AppCompatActivity() {
            // preparExoPlayer(baseurl+videoId+".mp4")
             preparExoPlayer(objectURL.toString())
             Toast.makeText(this,videoId.toString(),Toast.LENGTH_LONG).show()
-            Toast.makeText(this,baseurl+videoId+".mp4",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,baseurl+videoId+".mp4",Toast.LENGTH_LONG).show()*/
 
 
-            /*         window.setFormat(PixelFormat.TRANSLUCENT)
-                     val mediaCtrl = MediaController(this)
-                     mediaCtrl.setMediaPlayer(videoView)
-                     videoView.setMediaController(mediaCtrl)
-                     val clip = Uri.parse(objectURL.toString())
-                     videoView.setVideoURI(clip)
-                     videoView.requestFocus()
-                     videoView.start()*/
         }else{
             url?.let { preparExoPlayer(it) }
         }
 
 
+    }
+
+    private fun getVideoId(id: String) {
+        networkHelper.getCall(
+            URLHelper.qrcode + id,
+            "qrcode",
+            ApiUtils.getHeader(this),
+            this
+        )
     }
 
     fun preparExoPlayer(url: String) {
@@ -147,6 +158,19 @@ class TestVideoPlayerActivity : AppCompatActivity() {
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+        statefulLayout.showContent()
+        if (responseCode == networkHelper.responseSuccess && tag == "qrcode") {
+            val qrResponse = Gson().fromJson(response, GetQRCode::class.java)
+            Toast.makeText(this,"codeurl "+ qrResponse.data.qrCodeUrl, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, qrResponse.data.videoUrl, Toast.LENGTH_LONG).show()
+            val baseurl = "https://static.upmyranks.com/"
+            preparExoPlayer(baseurl+qrResponse.data.videoUrl+".mp4")
+        }else{
+            Toast.makeText(this,"Unable to view the video... Try again later...",Toast.LENGTH_LONG).show()
+        }
     }
 
 }
