@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,7 +20,9 @@ import com.google.android.exoplayer2.util.Util
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.VideoPlayActivity
+import com.trisys.rn.baseapp.helper.exoplayer.ExoUtil.buildMediaItems
 import com.trisys.rn.baseapp.helper.exoplayer.IntentUtil
+import com.trisys.rn.baseapp.helper.exoplayer.PlaylistHolder
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.ImageLoader
@@ -43,7 +46,7 @@ class VideoFragment : Fragment() {
     lateinit var sharedPreferences: SharedPreferences
     lateinit var myPreferences: MyPreferences
     lateinit var file: File
-    lateinit var player: SimpleExoPlayer
+    var videoData : VideoMaterial? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,11 +70,13 @@ class VideoFragment : Fragment() {
 //        player.setThrowsWhenUsingWrongThread(false)
 //        player_view.setPlayer(player)
 
-        val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
+        videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
 //
 //        val id = videoData.description.replace("https://vimeo.com/","")
 
-        ImageLoader.loadFull(requireContext(),videoData.filePath,videoPlaceholder)
+        if(videoData != null) {
+            ImageLoader.loadFull(requireContext(), videoData!!.filePath, videoPlaceholder)
+        }
 
 
 
@@ -110,44 +115,12 @@ class VideoFragment : Fragment() {
         super.onStart()
 
         videoPlaceholder.setOnClickListener {
-            buildMediaItems("https://eduinstitute-videos.s3.ap-south-1.amazonaws.com/VID-20190430-WA0010.mp4")
+            buildMediaItems(requireActivity(),childFragmentManager,"https://eduinstitute-videos.s3.ap-south-1.amazonaws.com/VID-20190430-WA0010.mp4")
         }
     }
 
-    fun buildMediaItems(url: String) {
-        val extension = null
-        val subtitleUri = null
-        val title = url
-        val uri = Uri.parse(url)
-        val mediaItem = MediaItem.Builder()
-        val adaptiveMimeType =
-            Util.getAdaptiveMimeTypeForContentType(Util.inferContentType(uri, extension))
-        mediaItem
-            .setUri(uri)
-            .setMediaMetadata(MediaMetadata.Builder().setTitle(title).build())
-            .setMimeType(adaptiveMimeType)
 
-        val playlist= PlaylistHolder(title, listOf(mediaItem.build()))
-        val intent = Intent(requireContext(), VideoPlayActivity::class.java)
-        intent.putExtra(
-            IntentUtil.PREFER_EXTENSION_DECODERS_EXTRA,
-            true
-            )
 
-        IntentUtil.addToIntent(playlist.mediaItems, intent)
-        startActivity(intent)
-
-    }
-    class PlaylistHolder constructor(title: String, mediaItems: List<MediaItem>) {
-        val title: String
-        val mediaItems: List<MediaItem>
-
-        init {
-            Assertions.checkArgument(!mediaItems.isEmpty())
-            this.title = title
-            this.mediaItems = Collections.unmodifiableList(ArrayList(mediaItems))
-        }
-    }
 
 //    private fun download() {
 //        download.visibility = View.VISIBLE

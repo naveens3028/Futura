@@ -36,9 +36,7 @@ import com.google.android.exoplayer2.util.*
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.MyApplication
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.helper.exoplayer.DemoUtil
-import com.trisys.rn.baseapp.helper.exoplayer.DownloadTracker
-import com.trisys.rn.baseapp.helper.exoplayer.IntentUtil
+import com.trisys.rn.baseapp.helper.exoplayer.*
 import com.trisys.rn.baseapp.learn.fragment.VideoFragment
 import com.trisys.rn.baseapp.model.GetQRCode
 import com.trisys.rn.baseapp.model.VideoMaterial
@@ -126,22 +124,15 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
                 }
 
             mediaItems = createMediaItems(intent)
-            if(!downloadTracker!!.isDownloaded(mediaItems!![0])) {
-                val playlist = PlaylistHolder(mediaItems!![0].mediaId, mediaItems!!)
-                onSampleDownloadButtonClicked(playlist)
-            }else{
-                Toast.makeText(applicationContext,"already downloaded", Toast.LENGTH_LONG).show()
 
-            }
         }
 
         btnDownload.setOnClickListener {
             if(!downloadTracker!!.isDownloaded(mediaItems!![0])) {
                 val playlist = PlaylistHolder(mediaItems!![0].mediaId, mediaItems!!)
-                onSampleDownloadButtonClicked(playlist)
+                ExoUtil.onSampleDownloadButtonClicked(this,playlist,downloadTracker!!, supportFragmentManager)
             }else{
                 Toast.makeText(applicationContext,"already downloaded", Toast.LENGTH_LONG).show()
-
             }
         }
     }
@@ -214,7 +205,7 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
                 return false
             }
         }
-        Handler(mainLooper).postDelayed({
+
         if (player == null) {
             val intent = intent
             mediaItems = createMediaItems(intent)
@@ -246,7 +237,7 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
             }
             player!!.setMediaItems(mediaItems!!,  /* resetPosition= */!haveStartPosition)
             player!!.prepare()
-        }, 10000)
+
         return true
     }
 
@@ -333,60 +324,6 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
             btnDownload.visibility = View.GONE
         }
     }
-
-    private fun onSampleDownloadButtonClicked(playlistHolder: PlaylistHolder) {
-        val downloadUnsupportedStringId: Int = getDownloadUnsupportedStringId(playlistHolder)
-        if (downloadUnsupportedStringId != 0) {
-            Toast.makeText(applicationContext, downloadUnsupportedStringId, Toast.LENGTH_LONG)
-                .show()
-        } else {
-            val renderersFactory: RenderersFactory = DemoUtil.buildRenderersFactory( /* context= */
-                this, isNonNullAndChecked(
-                    preferExtensionDecodersMenuItem
-                )
-            )
-            downloadTracker!!.toggleDownload(
-                supportFragmentManager, playlistHolder.mediaItems.get(0), renderersFactory
-            )
-        }
-    }
-    private fun getDownloadUnsupportedStringId(playlistHolder: PlaylistHolder): Int {
-        if (playlistHolder.mediaItems.size > 1) {
-            return R.string.download_playlist_unsupported
-        }
-        val playbackProperties =
-            Assertions.checkNotNull(playlistHolder.mediaItems[0].playbackProperties)
-        if (playbackProperties.adsConfiguration != null) {
-            return R.string.download_ads_unsupported
-        }
-        val scheme = playbackProperties.uri.scheme
-        return if (!("http" == scheme || "https" == scheme)) {
-            R.string.download_scheme_unsupported
-        } else 0
-    }
-    private fun isNonNullAndChecked(menuItem: MenuItem?): Boolean {
-        // Temporary workaround for layouts that do not inflate the options menu.
-        return menuItem != null && menuItem.isChecked
-    }
-    class PlaylistHolder constructor(title: String, mediaItems: List<MediaItem>) {
-        val title: String
-        val mediaItems: List<MediaItem>
-
-        init {
-            Assertions.checkArgument(!mediaItems.isEmpty())
-            this.title = title
-            this.mediaItems = Collections.unmodifiableList(ArrayList(mediaItems))
-        }
-    }
-
-    private class PlaylistGroup(val title: String) {
-        val playlists: List<PlaylistHolder>
-
-        init {
-            playlists = ArrayList()
-        }
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater

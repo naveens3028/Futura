@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.Learn.OnVideoClicked
 import com.trisys.rn.baseapp.adapter.Learn.VideoLearnAdapter
+import com.trisys.rn.baseapp.helper.exoplayer.ExoUtil
 import com.trisys.rn.baseapp.model.VideoDataModel
 import kotlinx.android.synthetic.main.activity_test_video.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -87,9 +88,7 @@ class TestVideoActivity: AppCompatActivity() , OnVideoClicked {
     }
 
     override fun onVideoSelected(url: String) {
-        val intent = Intent(this, TestVideoPlayerActivity::class.java)
-        intent.putExtra("url", url)
-        startActivity(intent)
+        ExoUtil.buildMediaItems(this,supportFragmentManager,url)
     }
 
 }

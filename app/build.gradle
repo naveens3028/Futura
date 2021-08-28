@@ -48,9 +48,9 @@ android {
         disable 'GoogleAppIndexingWarning','MissingTranslation','IconDensities'
     }
 
-    flavorDimensions "decoderExtensions"
+//    flavorDimensions "decoderExtensions"
 
-    productFlavors {
+   /* productFlavors {
         noDecoderExtensions {
             dimension "decoderExtensions"
             buildConfigField "boolean", "USE_DECODER_EXTENSIONS", "false"
@@ -59,7 +59,7 @@ android {
             dimension "decoderExtensions"
             buildConfigField "boolean", "USE_DECODER_EXTENSIONS", "true"
         }
-    }
+    }*/
 }
 
 dependencies {
