@@ -60,8 +60,7 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
 
         networkHelper = NetworkHelper(this)
         url = intent.getStringExtra("url")
-       // videoId = intent.getStringExtra("videoId")
-        videoId = "EC4004"
+        videoId = intent.getStringExtra("videoId")
 
         testRecycler.visibility = View.GONE
         toolbarLayout.visibility = View.GONE
@@ -79,14 +78,20 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
         videoView.player = player
 
         if (!videoId.isNullOrEmpty()){
-           // getVideoId(videoId!!)
+            getVideoId(videoId!!)
             Log.e("videoid", videoId!!)
 
 
-            val myCredentials: AWSCredentials = BasicAWSCredentials(accessKey, secretKey)
-            val request = GeneratePresignedUrlRequest(bucketName, "entrance/Chemistry/3.classification-of-elements/JC3159.mp4")
-//            Toast.makeText(this,videoId.toString(),Toast.LENGTH_LONG).show()
-//            Toast.makeText(this,baseurl+videoId+".mp4",Toast.LENGTH_LONG).show()
+//            val myCredentials: AWSCredentials = BasicAWSCredentials(accessKey, secretKey)
+//            val s3client: AmazonS3 = AmazonS3Client(myCredentials)
+//            s3client.setRegion(Region.getRegion(Regions.AP_SOUTH_1))
+//            val request = GeneratePresignedUrlRequest(bucketName, "$videoId.mp4")
+//            val objectURL: URL = s3client.generatePresignedUrl(request)
+//            Toast.makeText(this,"url" +objectURL.toString(),Toast.LENGTH_LONG).show()
+//           // preparExoPlayer(baseurl+videoId+".mp4")
+//            preparExoPlayer(objectURL.toString())
+////            Toast.makeText(this,videoId.toString(),Toast.LENGTH_LONG).show()
+////            Toast.makeText(this,baseurl+videoId+".mp4",Toast.LENGTH_LONG).show()
         }else{
             url?.let { preparExoPlayer(it) }
         }
