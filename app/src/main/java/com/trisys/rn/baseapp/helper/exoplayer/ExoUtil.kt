@@ -18,10 +18,10 @@ import com.trisys.rn.baseapp.helper.MyProgressBar
 
 object ExoUtil {
 
-    fun buildMediaItems(activity: Activity, supportFragmentManager:FragmentManager,url: String) {
+    fun buildMediaItems(activity: Activity, supportFragmentManager:FragmentManager,titleFrom: String,url: String,preDownload:Boolean) {
         val extension = null
         val subtitleUri = null
-        val title = url
+        val title = titleFrom
         val uri = Uri.parse(url)
         val mediaItem = MediaItem.Builder()
         val adaptiveMimeType =
@@ -33,16 +33,25 @@ object ExoUtil {
 
         val playlist= PlaylistHolder(title, listOf(mediaItem.build()))
 
-        val myProgress = MyProgressBar(activity)
-        val downloadTracker = DemoUtil.getDownloadTracker( /* context= */activity)
-        if(!downloadTracker!!.isDownloaded(playlist.mediaItems[0])) {
-            val playlist = PlaylistHolder(playlist.mediaItems[0].mediaId, playlist.mediaItems)
-            onSampleDownloadButtonClicked(activity,playlist,downloadTracker, supportFragmentManager)
-            Handler(activity.mainLooper).postDelayed({
-                myProgress.dismiss()
+        if(preDownload) {
+            val myProgress = MyProgressBar(activity)
+            val downloadTracker = DemoUtil.getDownloadTracker( /* context= */activity)
+            if (!downloadTracker!!.isDownloaded(playlist.mediaItems[0])) {
+                val playlist = PlaylistHolder(playlist.mediaItems[0].mediaId, playlist.mediaItems)
+                onSampleDownloadButtonClicked(
+                    activity,
+                    playlist,
+                    downloadTracker,
+                    supportFragmentManager
+                )
+                Handler(activity.mainLooper).postDelayed({
+                    myProgress.dismiss()
+                    goToVideoPlayer(activity, playlist)
+                }, 10000)
+                myProgress.show()
+            } else {
                 goToVideoPlayer(activity, playlist)
-            }, 10000)
-            myProgress.show()
+            }
         }else{
             goToVideoPlayer(activity, playlist)
         }

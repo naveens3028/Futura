@@ -28,6 +28,9 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.ImageLoader
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_video.*
+import vimeoextractor.OnVimeoExtractionListener
+import vimeoextractor.VimeoExtractor
+import vimeoextractor.VimeoVideo
 import java.io.*
 import java.security.SecureRandom
 import java.util.*
@@ -115,10 +118,41 @@ class VideoFragment : Fragment() {
         super.onStart()
 
         videoPlaceholder.setOnClickListener {
-            buildMediaItems(requireActivity(),childFragmentManager,"https://eduinstitute-videos.s3.ap-south-1.amazonaws.com/VID-20190430-WA0010.mp4")
+            if(videoData != null) {
+                if (videoData!!.description.contains("vimeo", true)) {
+                    loadVMEOVideos(videoData!!.courseName,videoData!!.description)
+                }else{
+                    buildMediaItems(
+                        requireActivity(),
+                        childFragmentManager,videoData!!.courseName,videoData!!.description,false)
+                }
+            }
         }
     }
 
+    fun loadVMEOVideos(title: String,url: String){
+        val videoId = url.replace("https://vimeo.com/", "")
+        VimeoExtractor.getInstance()
+            .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
+                override fun onSuccess(video: VimeoVideo) {
+                    val hdStream = video.streams["720p"]
+                    println("VIMEO VIDEO STREAM$hdStream")
+                    hdStream?.let {
+                        requireActivity().runOnUiThread {
+                            //code that runs in main
+                            buildMediaItems(
+                                requireActivity(),
+                                childFragmentManager,title,
+                                it,false)
+                        }
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    Log.d("failure", throwable.message!!)
+                }
+            })
+    }
 
 
 

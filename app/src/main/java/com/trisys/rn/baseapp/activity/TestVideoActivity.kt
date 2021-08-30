@@ -88,7 +88,7 @@ class TestVideoActivity: AppCompatActivity() , OnVideoClicked {
     }
 
     override fun onVideoSelected(url: String) {
-        ExoUtil.buildMediaItems(this,supportFragmentManager,url)
+        ExoUtil.buildMediaItems(this,supportFragmentManager,url,url,false)
     }
 
 }
