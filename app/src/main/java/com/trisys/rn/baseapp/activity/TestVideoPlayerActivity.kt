@@ -20,6 +20,7 @@ import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -36,6 +37,9 @@ import com.trisys.rn.baseapp.utils.VideoCache
 import kotlinx.android.synthetic.main.activity_test_video.*
 import kotlinx.android.synthetic.main.activity_video_play.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import vimeoextractor.OnVimeoExtractionListener
+import vimeoextractor.VimeoExtractor
+import vimeoextractor.VimeoVideo
 import java.net.URL
 
 
@@ -73,27 +77,8 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
         player.setThrowsWhenUsingWrongThread(false)
         videoView.player = player
 
-       // preparExoPlayer(url!!)
         if (!videoId.isNullOrEmpty()){
-
-            //Toast.makeText(this, "if", Toast.LENGTH_LONG).show()
-
             getVideoId(videoId!!)
-
-           /* Log.e("videoid", videoId!!)
-            val myCredentials: AWSCredentials =
-                BasicAWSCredentials(accessKey, secretKey)
-            val s3client: AmazonS3 = AmazonS3Client(myCredentials)
-            s3client.setRegion(Region.getRegion(Regions.AP_SOUTH_1))
-            val request = GeneratePresignedUrlRequest(bucketName, videoId+".mp4")
-            val objectURL: URL = s3client.generatePresignedUrl(request)
-            Toast.makeText(this,"url" +objectURL.toString(),Toast.LENGTH_LONG).show()
-           // preparExoPlayer(baseurl+videoId+".mp4")
-            preparExoPlayer(objectURL.toString())
-            Toast.makeText(this,videoId.toString(),Toast.LENGTH_LONG).show()
-            Toast.makeText(this,baseurl+videoId+".mp4",Toast.LENGTH_LONG).show()*/
-
-
         }else{
             url?.let { preparExoPlayer(it) }
         }
@@ -103,8 +88,6 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
 
     private fun getVideoId(id: String) {
 
-        //Toast.makeText(this, "net", Toast.LENGTH_LONG).show()
-
         networkHelper.getCall(
             URLHelper.qrcode + id,
             "qrcode1",
@@ -113,14 +96,46 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
         )
     }
 
+    private fun playVideo(id:String){
+        val videoId = id.replace("https://vimeo.com/", "")
+        VimeoExtractor.getInstance()
+            .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
+                override fun onSuccess(video: VimeoVideo) {
+                    val hdStream = video.streams["720p"]
+                    println("VIMEO VIDEO STREAM$hdStream")
+                    hdStream?.let {
+                        runOnUiThread {
+                            //code that runs in main
+                            preparExoPlayerForVimeo(it)
+                        }
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    Log.d("failure", throwable.message!!)
+                }
+            })
+    }
+
+
+
+    fun preparExoPlayerForVimeo(url: String) {
+        // Build the media item.
+        val mediaItem: MediaItem = MediaItem.fromUri(url)
+        // Set the media item to be played.
+        player.setMediaItem(mediaItem)
+        // Prepare the player.
+        player.prepare()
+        // Start the playback.
+        player.play()
+    }
+
+
     fun preparExoPlayer(url: String) {
         // Build the media item.
         mediaSource = buildMediaSource(Uri.parse(url))
         // Set the media item to be played.
         player.setMediaSource(mediaSource!!)
-        // val mediaItem: MediaItem = MediaItem.fromUri(url)
-        // Set the media item to be played.
-        //player.setMediaItem(mediaItem)
         // Prepare the player.
         player.prepare()
         // Start the playback.
@@ -168,9 +183,10 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
         if (responseCode == networkHelper.responseSuccess && tag == "qrcode1") {
             val qrResponse = Gson().fromJson(response, GetQRCode::class.java)
             if (qrResponse.data.videoUrl.contains("vimeo", true)){
-
-            }else
-            preparExoPlayer(qrResponse.data.videoUrl)
+                playVideo(qrResponse.data.videoUrl)
+            }else {
+                preparExoPlayer(qrResponse.data.videoUrl)
+            }
         }else{
             Toast.makeText(this,"Unable to view the video... Try again later...",Toast.LENGTH_LONG).show()
         }
