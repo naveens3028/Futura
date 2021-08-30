@@ -167,6 +167,9 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "qrcode1") {
             val qrResponse = Gson().fromJson(response, GetQRCode::class.java)
+            if (qrResponse.data.videoUrl.contains("vimeo", true)){
+
+            }else
             preparExoPlayer(qrResponse.data.videoUrl)
         }else{
             Toast.makeText(this,"Unable to view the video... Try again later...",Toast.LENGTH_LONG).show()

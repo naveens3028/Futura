@@ -33,12 +33,10 @@ class QRCodeActivity : AppCompatActivity() {
         // Callbacks
         codeScanner.decodeCallback = DecodeCallback {
             runOnUiThread {
-               // Toast.makeText(applicationContext, it.toString(), Toast.LENGTH_LONG).show()
                 val intent = Intent (this,TestVideoPlayerActivity::class.java)
                 intent.putExtra("videoId",it.text)
                 startActivity(intent)
                 finish()
-                // Toast.makeText(applicationContext,"under development", Toast.LENGTH_LONG).show()
             }
         }
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
