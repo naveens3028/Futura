@@ -55,7 +55,11 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
                 myPreferences.getString(Define.VIDEO_DATA),
                 VideoMaterial::class.java
             )
-            playVideo(videoData.description)
+            if (videoData.description.contains("vimeo", true)){
+                playVideo(videoData.description)
+            }else {
+                preparExoPlayer(videoData.description)
+            }
         } else {
             statefulLayout.showProgress()
             statefulLayout.setProgressText("Loading..")
@@ -84,17 +88,6 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
             })
     }
 
-    /*   override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-           when (playbackState) {
-               Player.STATE_READY -> {
-                   Log.d("ZAQ", "STATE_READY")
-                   if (player?.playWhenReady == true) onPlayerPlaying()
-               }
-               //Player.STATE_BUFFERING -> Log.d("ZAQ", "STATE_BUFFERING")
-               //Player.STATE_ENDED -> Log.d("ZAQ", "STATE_ENDED")
-               //Player.STATE_IDLE -> Log.d("ZAQ", "STATE_IDLE")
-           }
-       }*/
 
     private fun onPlayerPlaying() {
         // Set the media item to be played.
