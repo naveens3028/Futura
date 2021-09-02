@@ -147,7 +147,11 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
         statefulLayout.showContent()
         if (responseCode == networkHelper.responseSuccess && tag == "qrcode") {
             val qrResponse = Gson().fromJson(response, GetQRCode::class.java)
-            playVideo(qrResponse.data.videoUrl)
+            if (qrResponse.data.videoUrl.contains("vimeo", true)){
+                playVideo(qrResponse.data.videoUrl)
+            }else {
+                preparExoPlayer(qrResponse.data.videoUrl)
+            }
         } else {
             Toast.makeText(
                 this,
