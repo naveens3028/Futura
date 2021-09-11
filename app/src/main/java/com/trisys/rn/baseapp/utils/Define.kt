@@ -13,5 +13,10 @@ object Define {
     val VIDEO_DATA = "video_data"
     val VIDEO_NEXT = "video_next"
     val TAKE_TEST_MODE_OFFLINE = "take_test_mode_offline"
+    val LAST_PLAYED_VIDEO = "last_payed_video"
+    val STARTAUTOPLAY = "startAutoPlay"
+    val STARTWINDOW = "startWindow"
+    val STARTPOSITION = "startPosition"
+
 
 }

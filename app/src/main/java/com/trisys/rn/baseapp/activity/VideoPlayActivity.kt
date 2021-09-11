@@ -78,6 +78,7 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
     private var downloadTracker: DownloadTracker? = null
     private var preferExtensionDecodersMenuItem: MenuItem? = null
     private var useExtensionRenderers = false
+    lateinit var myPreferences: MyPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +86,8 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
             .setAllowCrossProtocolRedirects(true)
         dataSourceFactory = DemoUtil.getDataSourceFactory( /* context= */this)
         setContentView(R.layout.activity_video_play)
+
+        myPreferences = MyPreferences(this)
 
         downloadTracker = DemoUtil.getDownloadTracker( /* context= */this)
         playerView.setControllerVisibilityListener(this)
@@ -152,6 +155,8 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
         if (Util.SDK_INT <= 23) {
             if (playerView != null) {
                 playerView.onPause()
+
+
             }
             releasePlayer()
         }
@@ -174,6 +179,11 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
             startAutoPlay = player!!.playWhenReady
             startWindow = player!!.currentWindowIndex
             startPosition = Math.max(0, player!!.contentPosition)
+            myPreferences.setString(Define.LAST_PLAYED_VIDEO, mediaItems!![0].mediaMetadata!!.title.toString())
+            myPreferences.setInt(Define.STARTWINDOW, player!!.currentWindowIndex)
+            myPreferences.setLong(Define.STARTPOSITION, player!!.contentPosition)
+            myPreferences.setBoolean(Define.STARTAUTOPLAY, player!!.playWhenReady)
+
         }
     }
     protected fun clearStartPosition() {
@@ -207,8 +217,11 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
         }
 
         if (player == null) {
+
             val intent = intent
             mediaItems = createMediaItems(intent)
+
+
 
             val preferExtensionDecoders =
                 intent.getBooleanExtra(IntentUtil.PREFER_EXTENSION_DECODERS_EXTRA, false)
@@ -231,9 +244,18 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
 //            debugViewHelper!!.start()
         }
 
-            val haveStartPosition = startWindow != C.INDEX_UNSET
+            var haveStartPosition = startWindow != C.INDEX_UNSET
             if (haveStartPosition) {
                 player!!.seekTo(startWindow, startPosition)
+            }
+
+            if(myPreferences.getString(Define.LAST_PLAYED_VIDEO).equals(mediaItems!![0].mediaMetadata!!.title.toString())){
+                haveStartPosition = myPreferences.getInt(Define.STARTWINDOW) != C.INDEX_UNSET
+                if (haveStartPosition) {
+                    player!!.seekTo(myPreferences.getInt(Define.STARTWINDOW), myPreferences.getLong(Define.STARTPOSITION))
+                }
+
+                player!!.playWhenReady = myPreferences.getBoolean(Define.STARTAUTOPLAY)
             }
             player!!.setMediaItems(mediaItems!!,  /* resetPosition= */!haveStartPosition)
             player!!.prepare()

@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
         actionBar?.title = "Hi, ${loginResponse.userDetail?.firstName}"
 
+
         //Assign Drawer properties
         val drawer = findViewById<DrawerLayout>(R.id.drawer)
         val toggle = ActionBarDrawerToggle(

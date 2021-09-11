@@ -59,11 +59,12 @@
                         app:show_shuffle_button="true"
                         android:visibility="gone"
                         app:show_subtitle_button="true" />
+
                     <ImageView
                         android:id="@+id/videoPlaceholder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
