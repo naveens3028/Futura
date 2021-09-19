@@ -1,7 +1,10 @@
 package com.trisys.rn.baseapp.model
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
 
 class TopicResponse : ArrayList<TopicResponseItem>()
 
@@ -14,71 +17,51 @@ data class TopicResponseItem(
 )
 
 @Serializable
-data class VideoMaterial(
-    @SerialName("chatUrl")
-    val chatUrl: String,
-    @SerialName("coachingCenterBranchId")
-    val coachingCenterBranchId: String,
-    @SerialName("coachingCenterBranchName")
-    val coachingCenterBranchName: String,
-    @SerialName("coachingCenterId")
-    val coachingCenterId: String,
-    @SerialName("coachingCenterName")
-    val coachingCenterName: String,
-    @SerialName("courseId")
-    val courseId: String,
-    @SerialName("courseName")
-    val courseName: String,
-    @SerialName("createdAt")
-    val createdAt: Long,
-    @SerialName("createdBy")
-    val createdBy: String,
-    @SerialName("description")
-    val description: String,
-    @SerialName("filePath")
-    val filePath: String,
-    @SerialName("id")
-    val id: String,
-    @SerialName("materialType")
-    val materialType: String,
-    @SerialName("orderSequence")
-    val orderSequence: String,
-    @SerialName("status")
-    val status: String,
-    @SerialName("title")
-    val title: String,
-    @SerialName("updatedAt")
-    val updatedAt: Long,
-    @SerialName("updatedBy")
-    val updatedBy: String
+data class VideoMaterial (
+    @SerializedName("description")
+    @Expose
+    var description: String? = null,
+
+    @SerializedName("courseName")
+    @Expose
+    var courseName: String? = null,
+
+    @SerializedName("status")
+    @Expose
+    var status: String? = null,
+
+    @SerializedName("filePath")
+    @Expose
+    var filePath: String? = null,
+
+    @SerializedName("materialType")
+    @Expose
+    var materialType: String? = null,
+
+    @SerializedName("orderSequence")
+    @Expose
+    var orderSequence: String? = null,
+
+    @SerializedName("title")
+    @Expose
+    var title: String? = null,
+
+    @SerializedName("videoId")
+    @Expose
+    var videoId: String? = null
 )
 
 @Serializable
 data class Topic(
-    @SerialName("coachingCentre")
-    val coachingCentre: String,
-    @SerialName("coachingCentreId")
-    val coachingCentreId: String,
-    @SerialName("courseName")
-    val courseName: String,
-    @SerialName("createdAt")
-    val createdAt: Long,
-    @SerialName("createdBy")
-    val createdBy: String,
-    @SerialName("description")
-    val description: String,
-    @SerialName("id")
-    val id: String,
-    @SerialName("parentId")
-    val parentId: String,
-    @SerialName("parentName")
-    val parentName: String,
-    @SerialName("status")
-    val status: String,
-    @SerialName("updatedAt")
-    val updatedAt: Long,
-    @SerialName("updatedBy")
-    val updatedBy: String
+    @SerializedName("description")
+    @Expose
+    var description: String? = null,
+    @SerializedName("courseName")
+    @Expose
+    var courseName: String? = null,
+    @SerializedName("status")
+    @Expose
+    var status: String? = null
 )
 
 @Serializable

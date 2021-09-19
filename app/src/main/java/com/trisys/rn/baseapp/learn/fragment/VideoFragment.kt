@@ -63,7 +63,7 @@ class VideoFragment : Fragment() {
 //
 //        val id = videoData.description.replace("https://vimeo.com/","")
 
-        ImageLoader.loadFull(requireContext(),videoData.filePath,videoPlaceholder)
+        ImageLoader.loadFull(requireContext(), videoData.filePath!!,videoPlaceholder)
 
 
 
@@ -149,7 +149,7 @@ class VideoFragment : Fragment() {
 //            })
 //    }
 
-    private fun encryptDownloadedFile() {
+ /*   private fun encryptDownloadedFile() {
         try {
             val filePath = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
             val fileData = readFile(filePath)
@@ -215,7 +215,7 @@ class VideoFragment : Fragment() {
         bos.write(fileData)
         bos.flush()
         bos.close()
-    }
+    }*/
 
 //    private fun decryptEncryptedFile() {
 //        val filePath = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
@@ -228,7 +228,7 @@ class VideoFragment : Fragment() {
 //        )
 //    }
 
-    @Throws(Exception::class)
+/*    @Throws(Exception::class)
     fun decrypt(yourKey: SecretKey, fileData: ByteArray): ByteArray {
         val decrypted: ByteArray
         val cipher = Cipher.getInstance("AES", "BC")
@@ -242,5 +242,5 @@ class VideoFragment : Fragment() {
 //        player.stop()
 //        player.release()
 //        encryptDownloadedFile()
-    }
+    }*/
 }

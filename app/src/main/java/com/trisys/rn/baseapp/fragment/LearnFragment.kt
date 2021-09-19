@@ -32,6 +32,7 @@ import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_learn.*
+import java.util.HashMap
 
 
 class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetworkResponse {
@@ -64,8 +65,16 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
         courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
 
+        batchIds = if (loginData.userDetail?.batchList!![0].additionalCourseId.isNullOrEmpty()) {
+            loginData.userDetail?.batchList!![0].id
+        }else{
+            loginData.userDetail?.batchList!![0].additionalCourseId
+        }
+
         courseCall()
-        requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
+        if (loginData.userDetail?.batchList?.get(0)?.additionalCourseId.isNullOrEmpty()){
+            requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
+        }else requestSessions(loginData.userDetail?.batchList?.get(0)?.additionalCourseId!!)
     }
 
     private fun subjectCall(subjectList: ArrayList<Datum>) {
@@ -98,10 +107,12 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     private fun requestSessions(batchId: String) {
+        val headers = HashMap<String, String>()
+
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
             "getCourse",
-            ApiUtils.getHeader(requireContext()),
+            headers,
             this
         )
 
@@ -109,6 +120,10 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
     override fun onSubjectClicked(batchId: String,id: String, title: String) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
+        Log.e("popid", batchId.toString() )
+        Log.e("popid3", batchIds.toString() )
+        Log.e("popid1", id.toString() )
+        Log.e("popid2", title.toString() )
         intent.putExtra("id", batchId)
         intent.putExtra("batchId", id)
         intent.putExtra("title", title)
@@ -130,7 +145,9 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.icon_error)
         stateful.setOfflineRetryOnClickListener {
-            requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
+            if (loginData.userDetail?.batchList?.get(0)?.additionalCourseId.isNullOrEmpty()){
+                requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
+            }else requestSessions(loginData.userDetail?.batchList?.get(0)?.additionalCourseId!!)
         }
     }
 

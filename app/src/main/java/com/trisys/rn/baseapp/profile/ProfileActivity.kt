@@ -41,30 +41,36 @@ class ProfileActivity : AppCompatActivity() {
         var userName = ""
         if (!loginResponse.userDetail!!.firstName.isNullOrEmpty()) userName =
             loginResponse.userDetail!!.firstName.toString()
-        if (!loginResponse.userDetail?.lastName.isNullOrEmpty()) {
-            userName += loginResponse.userDetail!!.lastName.toString()
+        if (!loginResponse.userDetail?.userName.isNullOrEmpty()) {
+            userName += loginResponse.userDetail!!.userName.toString()
         }
         if (userName.isNotEmpty()) {
             name.text = userName
             profileName.text = userName
         }
-        if (!loginResponse.userDetail?.profileImagePath.isNullOrEmpty())
-            imageLoader.loadFit(this, loginResponse.userDetail?.profileImagePath!!, image)
+      /*  if (!loginResponse.userDetail?.profileImagePath.isNullOrEmpty())
+            imageLoader.loadFit(this, loginResponse.userDetail?.profileImagePath!!, image)*/
+/*
         if (!loginResponse.userDetail?.mobileNumber.isNullOrEmpty()) {
             mobileNumber.text =
                 loginResponse.userDetail?.mobileNumber
         }
+*/
+/*
         if (!loginResponse.userDetail?.email.isNullOrEmpty()) {
             email.text =
                 loginResponse.userDetail?.email
             email.alpha = 0.0f
         }
+*/
+/*
         if (!loginResponse.userDetail?.dob.isNullOrEmpty()) {
             birthday.text =
                 loginResponse.userDetail?.dob
             birthday.alpha = 0.0f
         }
-        var address = ""
+*/
+      /*  var address = ""
         if (!loginResponse.userDetail?.address1.isNullOrEmpty())
             address = loginResponse.userDetail!!.address1.toString() + ", "
         if (!loginResponse.userDetail?.address2.isNullOrEmpty())
@@ -74,13 +80,13 @@ class ProfileActivity : AppCompatActivity() {
         if (!loginResponse.userDetail?.country.isNullOrEmpty())
             address += loginResponse.userDetail!!.country.toString() + ", "
         if (!loginResponse.userDetail?.zipCode.isNullOrEmpty())
-            address += loginResponse.userDetail!!.zipCode.toString() + ", "
-        if (address.trim().endsWith(","))
+            address += loginResponse.userDetail!!.zipCode.toString() + ", "*/
+      /*  if (address.trim().endsWith(","))
             address = address.substring(0, address.length - 1)
         if (address.isNotEmpty()) {
             location.text = address
             location.alpha = 0.0f
-        }
+        }*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

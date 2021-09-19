@@ -53,7 +53,7 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-        requestSessions()
+        //requestSessions()
 
 
     }
@@ -78,6 +78,7 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             }
     }
 
+/*
     private fun requestSessions() {
 
         val jsonObject = JSONObject()
@@ -100,6 +101,7 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             this
         )
     }
+*/
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         try {
@@ -126,7 +128,7 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.ic_no_data)
         stateful.setOfflineRetryOnClickListener {
-            requestSessions()
+            //requestSessions()
         }
     }
 

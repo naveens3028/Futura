@@ -110,7 +110,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
     private fun requestSessions() {
 
-        val jsonObject = JSONObject()
+      /*  val jsonObject = JSONObject()
         jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
         jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
         jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
@@ -123,7 +123,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
             "completedSessions",
             ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
             this
-        )
+        )*/
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {

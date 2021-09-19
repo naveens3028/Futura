@@ -53,12 +53,12 @@ class TestFragment : Fragment(), OnNetworkResponse {
         averBatchTest = db.getAllAverageBatchTest()
 
         if (averBatchTest.isNullOrEmpty()) {
-            requestSessions()
+            //requestSessions()
         } else {
             carouselView.adapter = CarouselAdapter(requireContext(), averBatchTest)
         }
 
-        requestSessions()
+        //requestSessions()
 
         allResults.setOnClickListener {
             val intent = Intent(requireContext(), AttemptedResultsActivity::class.java)
@@ -89,6 +89,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
         })
     }
 
+/*
     private fun requestSessions() {
 
         networkHelper.getCall(
@@ -101,6 +102,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
         )
 
     }
+*/
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "averageBatchTests") {

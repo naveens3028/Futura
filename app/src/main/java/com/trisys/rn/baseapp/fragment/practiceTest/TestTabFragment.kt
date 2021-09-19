@@ -75,6 +75,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     }
 
+/*
     private fun requestTest() {
 
         val nightModeFlags: Int = requireContext().resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
@@ -134,7 +135,9 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         )
 
     }
+*/
 
+/*
     private fun getAttemptedTest() {
         val params = HashMap<String, String>()
         params["batchId"] = loginData.userDetail?.batchIds?.get(0).toString()
@@ -150,6 +153,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             this
         )
     }
+*/
 
     override fun onTestClicked(isClicked: Boolean, mockTest: MOCKTEST) {
         showDialog(mockTest)
@@ -204,7 +208,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         super.onStart()
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        requestTest()
+        //requestTest()
 
         arrowscheduled.rotation = arrowscheduled.rotation + 180
 
@@ -250,7 +254,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Utils.LAUNCH_SECOND_ACTIVITY) {
-            requestTest()
+          //  requestTest()
         }
     }
 
@@ -361,13 +365,13 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                     )
                     scheduleTestRecyclerView.adapter = scheduledTestAdapter
                 }
-                getAttemptedTest()
+              //  getAttemptedTest()
             } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
                 val submittedResult = Gson().fromJson(response, SubmittedResult::class.java)
                 db.deleteTest(submittedResult.testPaperId)
                 attemptedTest =
                     attemptedTest?.filterNot { it.testPaperId == submittedResult.testPaperId } as ArrayList<MOCKTEST>?
-                getAttemptedTest()
+               // getAttemptedTest()
             } else if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapersResult") {
                 dialogUtils.dismissLoader()
                 val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)

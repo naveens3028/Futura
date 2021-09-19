@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.util.*
 
 
 data class LoginResponse(
@@ -19,129 +18,133 @@ data class LoginResponse(
 data class LoginData(
     @SerializedName("role") var role: String? = null,
     @SerializedName("token") var token: String? = null,
+    @SerializedName("validity") var validity: Any? = null ,
     @SerializedName("userDetail") var userDetail: UserDetails? = null,
 )
 
-data class UserDetails(
-    @SerializedName("userDetailId") var userDetailId: String? = null,
-    @SerializedName("usersId") var usersId: String? = null,
-    @SerializedName("password") var password: String? = null,
-    @SerializedName("address1") var address1: String? = null,
-    @SerializedName("address2") var address2: String? = null,
-    @SerializedName("city") var city: String? = null,
-    @SerializedName("country") var country: String? = null,
-    @SerializedName("dob") var dob: String? = null,
-    @SerializedName("email") var email: String? = null,
-    @SerializedName("enrollmentNumber") var enrollmentNumber: String? = null,
-    @SerializedName("fatherName") var fatherName: String? = null,
-    @SerializedName("firstName") var firstName: String? = null,
-    @SerializedName("lastName") var lastName: String? = "",
-    @SerializedName("mobileNumber") var mobileNumber: String? = null,
-    @SerializedName("profileImagePath") var profileImagePath: String? = null,
-    @SerializedName("qualification") var qualification: String? = null,
-    @SerializedName("salutation") var salutation: String? = null,
-    @SerializedName("shortDiscription") var shortDiscription: String? = null,
-    @SerializedName("state") var state: String? = null,
-    @SerializedName("status") var status: String? = null,
-    @SerializedName("updatedBy") var updatedBy: String? = null,
-    @SerializedName("uploadFileId") var uploadFileId: String? = null,
-    @SerializedName("userName") var userName: String? = null,
-    @SerializedName("userType") var userType: String? = null,
-    @SerializedName("yearOfExperience") var yearOfExperience: String? = null,
-    @SerializedName("zipCode") var zipCode: String? = null,
-    @SerializedName("roleId") var roleId: String? = null,
-    @SerializedName("description") var description: String? = null,
-    @SerializedName("deviceName") var deviceName: String? = null,
-    @SerializedName("coachingCenterId") var coachingCenterId: String? = null,
-    @SerializedName("studentAccess") var studentAccess: Boolean = false,
-    @SerializedName("subject") var subject: String? = null,
-    @SerializedName("coachingCentre") var coachingCentre: CoachingCentre? = null,
-    @SerializedName("branchIds") var branchIds: ArrayList<String>? = null,
-    @SerializedName("batchIds") var batchIds: ArrayList<String>? = null,
-    @SerializedName("branchList") var branchList: ArrayList<branchItem>? = null,
-    @SerializedName("batchList") var batchList: ArrayList<batchItem>,
+data class UserDetails (
+    @SerializedName("userDetailId")
+    var userDetailId: String? = null,
+    @SerializedName("usersId")
+    var usersId: String? = null,
+    @SerializedName("firstName")
+    var firstName: String? = null,
+    @SerializedName("status")
+    var status: String? = null,
+    @SerializedName("userName")
+    var userName: String? = null,
+    @SerializedName("userType")
+    var userType: String? = null,
+    @SerializedName("coachingCentre")
+    var coachingCentre: CoachingCentre? = null,
+    @SerializedName("coachingCenterId")
+    var coachingCenterId: String? = null,
+    @SerializedName("studentAccess")
+    var studentAccess: Boolean? = null,
+    @SerializedName("subject")
+    var subject: String? = null,
+    @SerializedName("branchList")
+    var branchList: List<branchItem>? = null,
+    @SerializedName("batchList")
+    var batchList: ArrayList<batchItem>? = null
 )
 
-
-data class CoachingCentre(
-    @SerializedName("id") var id: String? = null,
-    @SerializedName("coachingCentreName") var coachingCentreName: String? = null,
-    @SerializedName("mobileNumber") var mobileNumber: String? = null,
-    @SerializedName("email") var email: String? = null,
-    @SerializedName("address1") var address1: String? = null,
-    @SerializedName("address2") var address2: String? = null,
-    @SerializedName("city") var city: String? = null,
-    @SerializedName("country") var country: String? = null,
-    @SerializedName("state") var state: String? = null,
-    @SerializedName("zipCode") var zipCode: String? = null,
-    @SerializedName("expiryOn") var expiryOn: String? = null,
-    @SerializedName("status") var status: String? = null,
-    @SerializedName("coachingCenterCode") var coachingCenterCode: String? = null,
-    @SerializedName("questionLimit") var questionLimit: String? = null,
-    @SerializedName("logoUrl") var logoUrl: String? = null,
-)
 
 data class branchItem(
-    @SerializedName("id") var id: String? = null,
-    @SerializedName("coachingCenterId") var coachingCenterId: String? = null,
-    @SerializedName("branchName") var branchName: String? = null,
-    @SerializedName("email") var email: String? = null,
-    @SerializedName("address1") var address1: String? = null,
-    @SerializedName("address2") var address2: String? = null,
-    @SerializedName("city") var city: String? = null,
-    @SerializedName("country") var country: String? = null,
-    @SerializedName("state") var state: String? = null,
-    @SerializedName("zipCode") var zipCode: String? = null,
-    @SerializedName("mobileNumber") var mobileNumber: String? = null,
-    @SerializedName("status") var status: String? = null,
-    @SerializedName("isMainBranch") var isMainBranch: String? = null,
-    @SerializedName("questionLimit") var questionLimit: String? = null,
-    @SerializedName("courseIds") var courseIds: ArrayList<String>? = null,
-    @SerializedName("webexUserIds") var webexUserIds: ArrayList<String>? = null,
-    @SerializedName("webexUsers") var webexUsers: String? = null,
+    @SerializedName("id")
+    var id: String? = null,
+    @SerializedName("coachingCenterId")
+    var coachingCenterId: String? = null,
+    @SerializedName("branchName")
+    var branchName: String? = null,
+    @SerializedName("isMainBranch")
+    var isMainBranch: String? = null,
+    @SerializedName("status")
+    var status: String? = null
+)
+
+data class CoachingCentre2(
+    @SerializedName("id")
+    var id: String? = null,
+    @SerializedName("coachingCentreName")
+    var coachingCentreName: String? = null,
+    @SerializedName("status")
+    var status: String? = null,
+    @SerializedName("logoUrl")
+    var logoUrl: String? = null,
+    @SerializedName("expiryOn")
+    var expiryOn: Any? = null
+)
+data class CoachingCentre1 (
+    @SerializedName("id")
+    var id: String? = null,
+    @SerializedName("coachingCentreName")
+    var coachingCentreName: String? = null,
+    @SerializedName("status")
+    var status: String? = null,
+    @SerializedName("logoUrl")
+    var logoUrl: String? = null,
+    @SerializedName("expiryOn")
+    var expiryOn: Any? = null
+)
+
+data class CoachingCentre(
+    @SerializedName("id")
+    var id: String? = null,
+
+    @SerializedName("coachingCentreName")
+    var coachingCentreName: String? = null,
+
+    @SerializedName("status")
+    var status: String? = null,
+
+    @SerializedName("logoUrl")
+    var logoUrl: String? = null,
+
+    @SerializedName("expiryOn")
+    var expiryOn: Any? = null
 )
 
 data class batchItem(
-    @SerialName("additionalCourse")
-    val additionalCourse: AdditionalCourse? = null,
-    @SerialName("additionalCourseId")
-    val additionalCourseId: String?=null,
-    @SerialName("batchEndDate")
-    val batchEndDate: String?=null,
-    @SerialName("batchName")
-    val batchName: String?=null,
-    @SerialName("batchSize")
-    val batchSize: String?=null,
-    @SerialName("batchStartDate")
-    val batchStartDate: String?=null,
-    @SerialName("coachingCenterBranchId")
-    val coachingCenterBranchId: String?=null,
-    @SerialName("coachingCenterId")
-    val coachingCenterId: String?=null,
-    @SerialName("coachingCentre")
-    val coachingCentre: CoachingCentre?=null,
-    @SerialName("course")
-    val course: Course?=null,
-    @SerialName("courseId")
-    val courseId: String?=null,
-    @SerialName("createdAt")
-    val createdAt: Long?=null,
-    @SerialName("createdBy")
-    val createdBy: String?=null,
-    @SerialName("description")
-    val description: String?=null,
-    @SerialName("endTiming")
-    val endTiming: String?=null,
-    @SerialName("id")
-    val id: String?=null,
-    @SerialName("startTiming")
-    val startTiming: String?=null,
-    @SerialName("status")
-    val status: String?=null,
-    @SerialName("updatedAt")
-    val updatedAt: Long?=null,
-    @SerialName("updatedBy")
-    val updatedBy: String?=null
+    @SerializedName("id")
+    var id: String? = null,
+    @SerializedName("batchName")
+    var batchName: String? = null,
+    @SerializedName("coachingCentre")
+    var coachingCentre: CoachingCentre1? = null,
+    @SerializedName("coachingCenterId")
+    var coachingCenterId: String? = null,
+    @SerializedName("course")
+    var course: Course? = null,
+    @SerializedName("courseId")
+    var courseId: String? = null,
+    @SerializedName("coachingCentreBranch")
+    var coachingCentreBranch: CoachingCentreBranch1? = null,
+    @SerializedName("coachingCenterBranchId")
+    var coachingCenterBranchId: String? = null,
+    @SerializedName("description")
+    var description: String? = null,
+    @SerializedName("status")
+    var status: String? = null,
+    @SerializedName("additionalCourseId")
+    var additionalCourseId: String? = null
+)
+
+data class CoachingCentreBranch1(
+    @SerializedName("id")
+    var id: String? = null,
+
+    @SerializedName("coachingCenterId")
+    var coachingCenterId: String? = null,
+
+    @SerializedName("branchName")
+    var branchName: String? = null,
+
+    @SerializedName("isMainBranch")
+    var isMainBranch: String? = null,
+
+    @SerializedName("status")
+    var status: String? = null
 )
 
 data class Course(
@@ -151,7 +154,7 @@ data class Course(
     @SerializedName("parentName") var parentName: String? = null,
     @SerializedName("description") var description: String? = null,
     @SerializedName("status") var status: String? = null,
-    @SerializedName("coachingCentre") var coachingCentre: CoachingCentre? = null,
+    @SerializedName("coachingCentre") var coachingCentre: CoachingCentre2? = null,
     @SerializedName("coachingCentreId") var coachingCentreId: String? = null,
 )
 
@@ -263,53 +266,3 @@ data class TestStatusResponse(
     @SerialName("data")
     val `data`: String
 )
-
-class AdditionalCourse {
-    @SerializedName("id")
-    @Expose
-    var id: String? = null
-
-    @SerializedName("courseName")
-    @Expose
-    var courseName: String? = null
-
-    @SerializedName("parentId")
-    @Expose
-    var parentId: Any? = null
-
-    @SerializedName("parentName")
-    @Expose
-    var parentName: Any? = null
-
-    @SerializedName("description")
-    @Expose
-    var description: String? = null
-
-    @SerializedName("status")
-    @Expose
-    var status: String? = null
-
-    @SerializedName("coachingCentre")
-    @Expose
-    var coachingCentre: CoachingCentre? = null
-
-    @SerializedName("coachingCentreId")
-    @Expose
-    var coachingCentreId: String? = null
-
-    @SerializedName("createdAt")
-    @Expose
-    var createdAt: Long? = null
-
-    @SerializedName("updatedAt")
-    @Expose
-    var updatedAt: Long? = null
-
-    @SerializedName("createdBy")
-    @Expose
-    var createdBy: Any? = null
-
-    @SerializedName("updatedBy")
-    @Expose
-    var updatedBy: Any? = null
-}

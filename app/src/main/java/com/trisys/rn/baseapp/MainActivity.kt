@@ -108,16 +108,13 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     private fun setNavigationValue(response: LoginData) {
         var userName = ""
         if (!response.userDetail?.firstName.isNullOrEmpty()) userName =
-            response.userDetail?.firstName.toString()
-        if (!response.userDetail?.lastName.isNullOrEmpty()) {
-            userName += response.userDetail?.lastName.toString()
-        }
+            response.userDetail?.userName.toString()
         if (userName.isNotEmpty()) {
             headerLayout.name.text = userName
         }
-        if (!response.userDetail?.profileImagePath.isNullOrEmpty())
+      /*  if (!response.userDetail?.profileImagePath.isNullOrEmpty())
             imageLoader.loadFit(this, response.userDetail?.profileImagePath.toString(), headerLayout.image)
-
+*/
     }
 
 

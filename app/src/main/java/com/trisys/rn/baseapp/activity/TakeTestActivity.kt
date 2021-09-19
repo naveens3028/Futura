@@ -55,10 +55,11 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
         takeTest.setOnClickListener {
-            getTest()
+           // getTest()
         }
     }
 
+/*
     private fun getTest() {
         stateful.showProgress()
         stateful.setProgressText("Downloading Test..")
@@ -85,6 +86,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             this
         )
     }
+*/
 
     private fun assignValue(intent: Intent) {
         mockTest = intent.getParcelableExtra("mockTest")!!
@@ -136,7 +138,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             stateful.setOfflineText(response)
             stateful.setOfflineImageResource(R.drawable.icon_error)
             stateful.setOfflineRetryOnClickListener {
-                getTest()
+             //   getTest()
             }
         }
     }
