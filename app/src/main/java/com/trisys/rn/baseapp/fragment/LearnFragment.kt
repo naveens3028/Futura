@@ -78,7 +78,7 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     }
 
     private fun subjectCall(subjectList: ArrayList<Datum>) {
-        val manager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
+        val manager = FlexboxLayoutManager(requireContext(), FlexDirection.COLUMN)
         manager.justifyContent = JustifyContent.CENTER
         recyclerview.layoutManager = manager
         if (subjectList.size > 0) {

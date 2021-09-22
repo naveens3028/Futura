@@ -36,6 +36,7 @@ class VideoFragment : Fragment() {
     lateinit var myPreferences: MyPreferences
     lateinit var file: File
     lateinit var player: SimpleExoPlayer
+    lateinit var videoData: VideoMaterial
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +60,7 @@ class VideoFragment : Fragment() {
 //        player.setThrowsWhenUsingWrongThread(false)
 //        player_view.setPlayer(player)
 
-        val videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
+        videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
 //
 //        val id = videoData.description.replace("https://vimeo.com/","")
 

@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?><!--suppress ALL -->
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardsubject"
-    android:layout_width="@dimen/_120sdp"
-    android:layout_height="@dimen/_120sdp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/_8sdp"
-    app:cardBackgroundColor="@color/emerald"
-    app:cardCornerRadius="@dimen/_12sdp"
-    app:cardElevation="@dimen/_5sdp">
+    app:cardBackgroundColor="@color/cardpurpletrans"
+    app:cardCornerRadius="@dimen/_12sdp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/subjectimg"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_margin="@dimen/_5sdp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_margin="@dimen/_12sdp"
             android:src="@drawable/physics"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subjecttxt"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
             android:layout_height="@dimen/_30sdp"
-            android:layout_gravity="center"
-            android:background="@color/background_black"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:textColor="@color/white"
             android:textSize="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:drawableEnd="@drawable/ic_side_arrow"
             android:textStyle="bold"
+            android:paddingEnd="@dimen/_20sdp"
+            app:layout_constraintStart_toEndOf="@id/subjectimg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subjectimg" />
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -51,12 +51,12 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
 
         var id = intent.getStringExtra("videoId")
 
-        Log.e("popvideo", id.toString())
         if (id.isNullOrEmpty()) {
             val videoData = Gson().fromJson(
                 myPreferences.getString(Define.VIDEO_DATA),
                 VideoMaterial::class.java
             )
+            Log.e("popurl", videoData.description.toString())
             if (videoData.description?.contains("vimeo", true)!!){
                 playVideo(videoData.description!!)
             }else {
