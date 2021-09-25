@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.HomeStudyAdapter
+import com.trisys.rn.baseapp.database.AppDatabase
 import com.trisys.rn.baseapp.fragment.practiceTest.ScheduledTestFragment
 import com.trisys.rn.baseapp.model.StudyItem
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -30,7 +32,7 @@ private const val ARG_PARAM2 = "param2"
 
 class HomeFragment : Fragment() {
 
-
+    lateinit var db: AppDatabase
     private var studyList = ArrayList<StudyItem>()
 
     override fun onCreateView(
@@ -43,7 +45,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        db = AppDatabase.getInstance(requireContext())!!
         initChart()
 
         //Sample Data
@@ -102,6 +104,8 @@ class HomeFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
+
+        Log.e("popTable", db.videoDao.getAll().toString())
 
     }
 

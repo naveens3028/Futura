@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
 import com.trisys.rn.baseapp.model.CompletedLiveItem
+import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -110,10 +113,20 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
     private fun requestSessions() {
 
-      /*  val jsonObject = JSONObject()
-        jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
+        val myBatchList = JSONArray()
+        loginData.userDetail?.batchList?.forEach {
+            myBatchList.put(it.id!!)
+        }
+        val myBranchIDs = JSONArray()
+        loginData.userDetail?.branchList?.forEach {
+            myBranchIDs.put(it.id!!)
+        }
+
+
+        val jsonObject = JSONObject()
+        jsonObject.put("branchIds", myBranchIDs)
         jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-        jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
+        jsonObject.put("batchIds", myBatchList)
 
         stateful.showProgress()
         stateful.setProgressText("")
@@ -123,7 +136,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
             "completedSessions",
             ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
             this
-        )*/
+        )
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
@@ -134,12 +147,12 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
                     "soppers",
                     "responseCode: " + responseCode.toString() + "response: " + response + " tag: " + tag
                 )
-                /*  val arrayTutorialType = object : TypeToken<ArrayList<CompletedSession>>() {}.type
+                  val arrayTutorialType = object : TypeToken<ArrayList<CompletedSession>>() {}.type
                   val liveItemResponse: ArrayList<CompletedSession> = Gson().fromJson(response, arrayTutorialType)
                   liveItemResponse.let {
-                      val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList,liveItemResponse, true)
+                      val completedLiveAdapter = CompletedLiveAdapter(requireContext(), liveItemResponse)
                       recycler.adapter = completedLiveAdapter
-                  }*/
+                  }
             } else {
                 showErrorMsg("No completed sessions available")
             }

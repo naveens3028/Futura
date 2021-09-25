@@ -120,10 +120,6 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
     override fun onSubjectClicked(batchId: String,id: String, title: String) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
-        Log.e("popid", batchId.toString() )
-        Log.e("popid3", batchIds.toString() )
-        Log.e("popid1", id.toString() )
-        Log.e("popid2", title.toString() )
         intent.putExtra("id", batchId)
         intent.putExtra("batchId", id)
         intent.putExtra("title", title)

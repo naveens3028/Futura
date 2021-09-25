@@ -14,6 +14,8 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.VideoPlayActivity
+import com.trisys.rn.baseapp.database.AppDatabase
+import com.trisys.rn.baseapp.database.model.VideoPlayedItem
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.ImageLoader
@@ -37,6 +39,7 @@ class VideoFragment : Fragment() {
     lateinit var file: File
     lateinit var player: SimpleExoPlayer
     lateinit var videoData: VideoMaterial
+    lateinit var db: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +54,7 @@ class VideoFragment : Fragment() {
         sharedPreferences = requireContext().getSharedPreferences("MySharedPref", 0)
         myPreferences = MyPreferences(requireContext())
         downloadFolder = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!
+        db = AppDatabase.getInstance(requireContext())!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,6 +70,9 @@ class VideoFragment : Fragment() {
 
         ImageLoader.loadFull(requireContext(), videoData.filePath!!,videoPlaceholder)
 
+        val myClass = VideoPlayedItem(videoUrl = videoData.description.toString(), lastPlayed = "4:10", logoImg = videoData.filePath.toString() )
+
+        db.videoDao.addVideo(myClass)
 
 
 //        VimeoExtractor.getInstance()

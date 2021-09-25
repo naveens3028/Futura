@@ -55,11 +55,10 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
         takeTest.setOnClickListener {
-           // getTest()
+            getTest()
         }
     }
 
-/*
     private fun getTest() {
         stateful.showProgress()
         stateful.setProgressText("Downloading Test..")
@@ -67,7 +66,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
         try {
             jsonObject.put("testPaperId", mockTest.testPaperId)
             jsonObject.put("studentId", loginData.userDetail?.userDetailId.toString())
-            jsonObject.put("batchIds", loginData.userDetail?.batchIds.toString())
+            jsonObject.put("batchIds", loginData.userDetail?.batchList?.get(0)?.id.toString())
             jsonObject.put("status", kSTARTED)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -86,7 +85,6 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             this
         )
     }
-*/
 
     private fun assignValue(intent: Intent) {
         mockTest = intent.getParcelableExtra("mockTest")!!
@@ -138,7 +136,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
             stateful.setOfflineText(response)
             stateful.setOfflineImageResource(R.drawable.icon_error)
             stateful.setOfflineRetryOnClickListener {
-             //   getTest()
+                getTest()
             }
         }
     }

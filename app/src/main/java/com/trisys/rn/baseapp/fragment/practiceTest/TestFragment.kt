@@ -21,6 +21,7 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_test.*
+import org.json.JSONArray
 
 class TestFragment : Fragment(), OnNetworkResponse {
 
@@ -53,12 +54,12 @@ class TestFragment : Fragment(), OnNetworkResponse {
         averBatchTest = db.getAllAverageBatchTest()
 
         if (averBatchTest.isNullOrEmpty()) {
-            //requestSessions()
+            requestSessions()
         } else {
             carouselView.adapter = CarouselAdapter(requireContext(), averBatchTest)
         }
 
-        //requestSessions()
+        requestSessions()
 
         allResults.setOnClickListener {
             val intent = Intent(requireContext(), AttemptedResultsActivity::class.java)
@@ -89,12 +90,16 @@ class TestFragment : Fragment(), OnNetworkResponse {
         })
     }
 
-/*
     private fun requestSessions() {
+
+        val myBatchList = JSONArray()
+        loginData.userDetail?.batchList?.forEach {
+            myBatchList.put(it.id!!)
+        }
 
         networkHelper.getCall(
             URLHelper.averageBatchTests + "?batchId=${
-                loginData.userDetail?.batchIds?.get(0).toString()
+                loginData.userDetail?.batchList?.get(0)?.id
             }&studentId=${loginData.userDetail?.usersId.toString()}",
             "averageBatchTests",
             ApiUtils.getHeader(requireContext()),
@@ -102,7 +107,6 @@ class TestFragment : Fragment(), OnNetworkResponse {
         )
 
     }
-*/
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "averageBatchTests") {

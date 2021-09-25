@@ -58,10 +58,10 @@ class LiveFragment : Fragment(), OnNetworkResponse {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-        //requestSessions()
+        requestSessions()
 
         refreshLayout.setOnRefreshListener {
-            //requestSessions()
+            requestSessions()
             refreshLayout.isRefreshing = false
         }
 
@@ -104,11 +104,20 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
     private fun requestSessions() {
         myProgressBar.show()
+        val myBatchList = JSONArray()
+        loginData.userDetail?.batchList?.forEach {
+            myBatchList.put(it.id!!)
+        }
+        val myBranchIDs = JSONArray()
+        loginData.userDetail?.branchList?.forEach {
+            myBranchIDs.put(it.id!!)
+        }
+
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchList?.get(0)?.id))
+            jsonObject.put("branchIds", myBranchIDs)
             jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-            jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchList?.get(0)?.id))
+            jsonObject.put("batchIds", myBatchList)
             jsonObject.put("sessionTense", kLIVE)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -140,7 +149,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
                 errorLive.visibility = View.VISIBLE
                 StudyLabel.visibility = View.VISIBLE
                 retryLive.setOnClickListener {
-                    //requestSessions()
+                    requestSessions()
                 }
             }
         }else{
@@ -148,7 +157,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
             errorLive.visibility = View.VISIBLE
             StudyLabel.visibility = View.VISIBLE
             retryLive.setOnClickListener {
-                //requestSessions()
+                requestSessions()
             }
         }
     }

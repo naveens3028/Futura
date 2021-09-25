@@ -4,7 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
@@ -21,6 +23,7 @@ class SubjectsAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subjectTxt = itemView.findViewById(R.id.subjecttxt) as TextView
         val cardView = itemView.findViewById(R.id.cardsubject) as CardView
+        val subjectImg = itemView.findViewById(R.id.subjectimg) as ImageView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,10 +33,60 @@ class SubjectsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.subjectTxt.text = subjects[position].courseName
+        val items = subjects[position]
+        holder.subjectTxt.text = items.courseName
         holder.cardView.setOnClickListener {
-            subjectClickListener.onSubjectClicked(subjects[position].id.toString(),batchIds,subjects[position].courseName.toString())
+            subjectClickListener.onSubjectClicked(items.id.toString(),batchIds,items.courseName.toString())
         }
+
+        when(items.courseName){
+            "CHEMISTRY"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_chem)
+            }
+            "PHYSICS"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_physics)
+            }
+            "BIOLOGY"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_bio)
+            }
+            "TAMIL"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_tamil)
+            }
+            "URDU"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_urdu)
+            }
+            "SOCIAL"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_social)
+            }
+            "MATHEMATICS"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_math)
+            }
+            "ACCOUNTANCY"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_accoutancy)
+            }
+            "ENGLISH"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_english)
+            }
+            "HINDI"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_hindi)
+            }
+            "SCIENCE"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_science)
+            }
+            "KANNADA"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_kannadam)
+            }
+            "HISTORY"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_history)
+            }
+            "ECONOMICS"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_economics)
+            }
+            "COMPUTER SCIENCE"->{
+                holder.subjectImg.setImageResource(R.drawable.ic_comp_sci)
+            }
+        }
+
     }
 
 
