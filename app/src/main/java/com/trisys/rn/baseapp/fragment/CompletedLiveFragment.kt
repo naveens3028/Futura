@@ -1,5 +1,6 @@
 package com.trisys.rn.baseapp.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,15 +15,15 @@ import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
 import com.trisys.rn.baseapp.model.CompletedLiveItem
 import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
-import com.trisys.rn.baseapp.network.ApiUtils
-import com.trisys.rn.baseapp.network.NetworkHelper
-import com.trisys.rn.baseapp.network.OnNetworkResponse
-import com.trisys.rn.baseapp.network.URLHelper
+import com.trisys.rn.baseapp.network.*
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 import org.json.JSONArray
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -111,6 +112,28 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
             }
     }
 
+
+    fun getApiCall(context: Context) {
+        RetroFitCall.retroFitCall()
+        val service = RetroFitCall.retrofit.create(ApiInterface::class.java)
+        val call = service.getData()
+        call.enqueue(object : Callback<List<CompletedSession>> {
+            override fun onResponse(
+                call: Call<List<CompletedSession>>,
+                response: Response<List<CompletedSession>>
+            ) {
+                if (response.code() == 200) {
+                    var auditList : List<CompletedSession> = response.body()!!
+                }
+
+            }
+            override fun onFailure(call: Call<List<CompletedSession>>, t: Throwable) {
+                Toast.makeText(context, "failed", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+
     private fun requestSessions() {
 
         val myBatchList = JSONArray()
@@ -127,6 +150,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
         jsonObject.put("branchIds", myBranchIDs)
         jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
         jsonObject.put("batchIds", myBatchList)
+
 
         stateful.showProgress()
         stateful.setProgressText("")
