@@ -313,10 +313,13 @@ class NetworkHelper(context: Context) {
 
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(
-                        TAG,
-                        "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}"
-                    )
+                    try{
+                        Utils.log(
+                            TAG,
+                            "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}"
+                        )
+                    }catch (e: Exception){}
+
                     if (error is TimeoutError || error is NoConnectionError) {
                         onNetworkResponse.onNetworkResponse(
                             responseNoInternet,

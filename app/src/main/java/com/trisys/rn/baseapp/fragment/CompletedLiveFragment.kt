@@ -134,7 +134,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
             URLHelper.getCompletedSessionsSubject,
             jsonObject,
             "completedSessions",
-            ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
+            ApiUtils.getHeader(requireContext()),
             this
         )
     }
