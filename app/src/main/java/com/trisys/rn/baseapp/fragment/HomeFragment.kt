@@ -76,6 +76,12 @@ class HomeFragment : Fragment() {
             )
         )
 
+        if (db.videoDao.getAll().isNullOrEmpty()){
+            previosVideo.visibility = View.GONE
+        }else{
+            previosVideo.visibility = View.VISIBLE
+        }
+
         val videoRecyclerView = view.findViewById(R.id.playedRecycler) as RecyclerView
         val videoAdapter = VideoPlayedAdapter(requireContext(), db.videoDao.getAll())
         videoRecyclerView.adapter = videoAdapter

@@ -50,22 +50,30 @@ class VideoPlayActivity : AppCompatActivity(), OnNetworkResponse {
 
 
         var id = intent.getStringExtra("videoId")
+        var videoUrl = intent.getStringExtra("videoUrl")
 
-        if (id.isNullOrEmpty()) {
+        if (id.isNullOrEmpty() && videoUrl.isNullOrEmpty()) {
             val videoData = Gson().fromJson(
                 myPreferences.getString(Define.VIDEO_DATA),
                 VideoMaterial::class.java
             )
-            Log.e("popurl", videoData.description.toString())
             if (videoData.description?.contains("vimeo", true)!!){
                 playVideo(videoData.description!!)
             }else {
                 preparExoPlayer(videoData.description!!)
             }
         } else {
-            statefulLayout.showProgress()
-            statefulLayout.setProgressText("Loading..")
-            getVideoId(id)
+            if (id.isNullOrEmpty()){
+                if (videoUrl?.contains("vimeo", true)!!){
+                    playVideo(videoUrl)
+                }else {
+                    preparExoPlayer(videoUrl)
+                }
+            }else {
+                statefulLayout.showProgress()
+                statefulLayout.setProgressText("Loading..")
+                getVideoId(id)
+            }
         }
     }
 
