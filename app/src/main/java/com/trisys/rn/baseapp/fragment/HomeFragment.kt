@@ -19,11 +19,9 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.adapter.HomeStudyAdapter
 import com.trisys.rn.baseapp.adapter.VideoPlayedAdapter
 import com.trisys.rn.baseapp.database.AppDatabase
 import com.trisys.rn.baseapp.fragment.practiceTest.ScheduledTestFragment
-import com.trisys.rn.baseapp.model.StudyItem
 import kotlinx.android.synthetic.main.fragment_home.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,7 +32,6 @@ private const val ARG_PARAM2 = "param2"
 class HomeFragment : Fragment() {
 
     lateinit var db: AppDatabase
-    private var studyList = ArrayList<StudyItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,32 +46,8 @@ class HomeFragment : Fragment() {
         db = AppDatabase.getInstance(requireContext())!!
         initChart()
 
-        //Sample Data
-        studyList.add(
-            StudyItem(
-                "Mathematics",
-                "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.caribbean_green
-            )
-        )
-        studyList.add(
-            StudyItem(
-                "Physics", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.blue_violet_crayola
-            )
-        )
-        studyList.add(
-            StudyItem(
-                "Chemistry", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.safety_yellow
-            )
-        )
-        studyList.add(
-            StudyItem(
-                "Biology", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.light_coral
-            )
-        )
+
+        Log.e("popTable", db.videoDao.getAll().toString())
 
         if (db.videoDao.getAll().isNullOrEmpty()){
             previosVideo.visibility = View.GONE
@@ -85,10 +58,6 @@ class HomeFragment : Fragment() {
         val videoRecyclerView = view.findViewById(R.id.playedRecycler) as RecyclerView
         val videoAdapter = VideoPlayedAdapter(requireContext(), db.videoDao.getAll())
         videoRecyclerView.adapter = videoAdapter
-
-        val studyRecyclerView = view.findViewById(R.id.studyRecycler) as RecyclerView
-        val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
-        studyRecyclerView.adapter = studyAdapter
 
     }
 

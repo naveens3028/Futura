@@ -8,9 +8,7 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "VideoItems")
 data class VideoPlayedItem(
 
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "videoUrl")
     @SerializedName("videoUrl") var videoUrl: String,
 
