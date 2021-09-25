@@ -74,7 +74,7 @@ class SubjectsAdapter(
                 holder.subjectImg.setImageResource(R.drawable.ic_science)
             }
             "KANNADA"->{
-                holder.subjectImg.setImageResource(R.drawable.ic_kannadam)
+                holder.subjectImg.setImageResource(R.drawable.ic_kannada)
             }
             "HISTORY"->{
                 holder.subjectImg.setImageResource(R.drawable.ic_history)
