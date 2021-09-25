@@ -112,5 +112,6 @@
     <string name="no_live_session_found">No Live Session Found</string>
     <string name="no_completed_session_found">No Completed Session Found</string>
     <string name="qr_scanner">QR Scanner</string>
+    <string name="continue_where_you">continue where you left</string>
 
 </resources>

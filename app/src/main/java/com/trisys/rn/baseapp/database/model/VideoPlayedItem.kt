@@ -20,4 +20,7 @@ data class VideoPlayedItem(
     @ColumnInfo(name = "logoImg")
     @SerializedName("logoImg") var logoImg: String,
 
+    @ColumnInfo(name = "videoTitle")
+    @SerializedName("videoTitle") var videoTitle: String,
+
     )

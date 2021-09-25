@@ -28,6 +28,38 @@
                 app:drawableEndCompat="@drawable/ic_search"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/previosVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="@string/continue_where_you"
+                android:textSize="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search" />
+
+            <com.trisys.rn.baseapp.helper.NestedScrollableHost
+                android:id="@+id/studyRecyclerParent1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/previosVideo">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/playedRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/row_played_video" />
+
+            </com.trisys.rn.baseapp.helper.NestedScrollableHost>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/StudyLabel"
                 android:layout_width="wrap_content"
@@ -36,7 +68,7 @@
                 android:text="@string/studying"
                 android:textSize="@dimen/_16sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/search" />
+                app:layout_constraintTop_toBottomOf="@+id/studyRecyclerParent1" />
 
             <com.trisys.rn.baseapp.helper.NestedScrollableHost
                 android:id="@+id/studyRecyclerParent"

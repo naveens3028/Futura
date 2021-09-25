@@ -55,7 +55,7 @@ class SubjectsAdapter(
             "URDU"->{
                 holder.subjectImg.setImageResource(R.drawable.ic_urdu)
             }
-            "SOCIAL"->{
+            "SOCIAL SCIENCE"->{
                 holder.subjectImg.setImageResource(R.drawable.ic_social)
             }
             "MATHEMATICS"->{

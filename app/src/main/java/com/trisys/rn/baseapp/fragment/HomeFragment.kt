@@ -20,6 +20,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.HomeStudyAdapter
+import com.trisys.rn.baseapp.adapter.VideoPlayedAdapter
 import com.trisys.rn.baseapp.database.AppDatabase
 import com.trisys.rn.baseapp.fragment.practiceTest.ScheduledTestFragment
 import com.trisys.rn.baseapp.model.StudyItem
@@ -75,6 +76,10 @@ class HomeFragment : Fragment() {
             )
         )
 
+        val videoRecyclerView = view.findViewById(R.id.playedRecycler) as RecyclerView
+        val videoAdapter = VideoPlayedAdapter(requireContext(), db.videoDao.getAll())
+        videoRecyclerView.adapter = videoAdapter
+
         val studyRecyclerView = view.findViewById(R.id.studyRecycler) as RecyclerView
         val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
         studyRecyclerView.adapter = studyAdapter
@@ -105,7 +110,6 @@ class HomeFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-        Log.e("popTable", db.videoDao.getAll().toString())
 
     }
 

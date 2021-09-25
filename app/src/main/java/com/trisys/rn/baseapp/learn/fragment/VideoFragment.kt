@@ -70,7 +70,7 @@ class VideoFragment : Fragment() {
 
         ImageLoader.loadFull(requireContext(), videoData.filePath!!,videoPlaceholder)
 
-        val myClass = VideoPlayedItem(videoUrl = videoData.description.toString(), lastPlayed = "4:10", logoImg = videoData.filePath.toString() )
+        val myClass = VideoPlayedItem(videoUrl = videoData.description.toString(), lastPlayed = "4:10", logoImg = videoData.filePath.toString() , videoTitle = videoData.title.toString())
 
         db.videoDao.addVideo(myClass)
 
