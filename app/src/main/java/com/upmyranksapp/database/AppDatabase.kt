@@ -17,7 +17,7 @@ import com.upmyranksapp.model.onBoarding.AverageBatchTests
 @Database(
     entities = [NotificationItem::class, AverageBatchTests::class, TestPaperVo::class, Quesion::class, TestResultsModel::class, CompletedTest::class,
                VideoPlayedItem::class],
-    version = 4,
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(SectionsDatumConverter::class, ListTopRankerConverter::class, SectionQuestionConverter::class)

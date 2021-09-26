@@ -60,9 +60,7 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
             previosVideo.visibility = View.VISIBLE
         }
 
-        val videoRecyclerView = view.findViewById(R.id.playedRecycler) as RecyclerView
-        val videoAdapter = VideoPlayedAdapter(requireActivity(), db.videoDao.getAll(), this)
-        videoRecyclerView.adapter = videoAdapter
+
 
     }
 
@@ -89,6 +87,10 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
+
+        val videoRecyclerView = view?.findViewById(R.id.playedRecycler) as RecyclerView
+        val videoAdapter = VideoPlayedAdapter(requireActivity(), db.videoDao.getAll(), this)
+        videoRecyclerView.adapter = videoAdapter
 
 
     }
