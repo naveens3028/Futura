@@ -21,15 +21,20 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.upmyranksapp.R
 import com.upmyranksapp.adapter.VideoPlayedAdapter
 import com.upmyranksapp.database.AppDatabase
+import com.upmyranksapp.database.model.VideoPlayedItem
 import com.upmyranksapp.fragment.practiceTest.ScheduledTestFragment
+import com.upmyranksapp.helper.exoplayer.ExoUtil
 import kotlinx.android.synthetic.main.fragment_home.*
+import vimeoextractor.OnVimeoExtractionListener
+import vimeoextractor.VimeoExtractor
+import vimeoextractor.VimeoVideo
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
 
     lateinit var db: AppDatabase
 
@@ -56,7 +61,7 @@ class HomeFragment : Fragment() {
         }
 
         val videoRecyclerView = view.findViewById(R.id.playedRecycler) as RecyclerView
-        val videoAdapter = VideoPlayedAdapter(requireContext(), db.videoDao.getAll())
+        val videoAdapter = VideoPlayedAdapter(requireActivity(), db.videoDao.getAll(), this)
         videoRecyclerView.adapter = videoAdapter
 
     }
@@ -188,5 +193,36 @@ class HomeFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onVideoClickListener(videoPlayedItem: VideoPlayedItem) {
+        playVideo(videoPlayedItem.videoTitle, videoPlayedItem.videoUrl)
+    }
+    private fun playVideo(title: String, id:String){
+        val videoId = id.replace("https://vimeo.com/", "")
+        VimeoExtractor.getInstance()
+            .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
+                override fun onSuccess(video: VimeoVideo) {
+                    val hdStream = video.streams["720p"]
+                    println("VIMEO VIDEO STREAM$hdStream")
+                    hdStream?.let {
+                        requireActivity().runOnUiThread {
+                            //code that runs in main
+                            navigateVideoPlayer(title,it)
+                        }
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    Log.d("failure", throwable.message!!)
+                }
+            })
+    }
+    fun navigateVideoPlayer(title: String, url: String){
+        ExoUtil.buildMediaItems(
+            requireActivity(),
+            childFragmentManager, title,
+            url, false
+        )
     }
 }

@@ -1,5 +1,6 @@
 package com.upmyranksapp.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -10,12 +11,13 @@ import com.upmyranksapp.GlideApp
 import com.upmyranksapp.R
 import com.upmyranksapp.activity.VideoPlayActivity
 import com.upmyranksapp.database.model.VideoPlayedItem
+import com.upmyranksapp.helper.exoplayer.ExoUtil
 import kotlinx.android.synthetic.main.row_played_video.view.*
 
 class VideoPlayedAdapter(
-    val context: Context,
+    val context: Activity,
     private val studyItems: MutableList<VideoPlayedItem>
-) : RecyclerView.Adapter<VideoPlayedAdapter.ViewHolder>() {
+    , val callback: ActionCallback) : RecyclerView.Adapter<VideoPlayedAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -30,13 +32,15 @@ class VideoPlayedAdapter(
         holder.itemView.videoTitle.text = studyItem.videoTitle
         GlideApp.with(context).load(studyItem.logoImg).into(holder.itemView.videoImgs)
         holder.itemView.videoLayout.setOnClickListener {
-            val intent = Intent(context, VideoPlayActivity::class.java)
-            intent.putExtra("videoUrl", studyItem.videoUrl)
-            context.startActivity(intent)
+            callback.onVideoClickListener(studyItem)
         }
     }
 
     override fun getItemCount(): Int {
         return studyItems.size
+    }
+
+    interface ActionCallback {
+        fun onVideoClickListener(videoPlayedItem: VideoPlayedItem)
     }
 }
