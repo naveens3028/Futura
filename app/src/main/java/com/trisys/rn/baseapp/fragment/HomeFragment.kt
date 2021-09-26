@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +19,9 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.trisys.rn.baseapp.R
-import com.trisys.rn.baseapp.adapter.HomeStudyAdapter
+import com.trisys.rn.baseapp.adapter.VideoPlayedAdapter
+import com.trisys.rn.baseapp.database.AppDatabase
 import com.trisys.rn.baseapp.fragment.practiceTest.ScheduledTestFragment
-import com.trisys.rn.baseapp.model.StudyItem
 import kotlinx.android.synthetic.main.fragment_home.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,8 +31,7 @@ private const val ARG_PARAM2 = "param2"
 
 class HomeFragment : Fragment() {
 
-
-    private var studyList = ArrayList<StudyItem>()
+    lateinit var db: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,39 +43,21 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        db = AppDatabase.getInstance(requireContext())!!
         initChart()
 
-        //Sample Data
-        studyList.add(
-            StudyItem(
-                "Mathematics",
-                "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.caribbean_green
-            )
-        )
-        studyList.add(
-            StudyItem(
-                "Physics", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.blue_violet_crayola
-            )
-        )
-        studyList.add(
-            StudyItem(
-                "Chemistry", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.safety_yellow
-            )
-        )
-        studyList.add(
-            StudyItem(
-                "Biology", "L2 - Functions and Binary Operations",
-                "4 Of 8 Lesson", R.drawable.mathematics, 50, R.color.light_coral
-            )
-        )
 
-        val studyRecyclerView = view.findViewById(R.id.studyRecycler) as RecyclerView
-        val studyAdapter = HomeStudyAdapter(requireContext(), studyList)
-        studyRecyclerView.adapter = studyAdapter
+        Log.e("popTable", db.videoDao.getAll().toString())
+
+        if (db.videoDao.getAll().isNullOrEmpty()){
+            previosVideo.visibility = View.GONE
+        }else{
+            previosVideo.visibility = View.VISIBLE
+        }
+
+        val videoRecyclerView = view.findViewById(R.id.playedRecycler) as RecyclerView
+        val videoAdapter = VideoPlayedAdapter(requireContext(), db.videoDao.getAll())
+        videoRecyclerView.adapter = videoAdapter
 
     }
 
@@ -102,6 +84,7 @@ class HomeFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
+
 
     }
 

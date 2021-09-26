@@ -57,7 +57,7 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        requestTest()
+        //requestTest()
     }
 
     override fun onTestClicked(isClicked: Boolean, mockTest: MOCKTEST) {
@@ -122,7 +122,7 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == LAUNCH_SECOND_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
-                requestTest()
+                //requestTest()
             }
         }
     }
@@ -140,6 +140,7 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
 
+/*
     private fun requestTest() {
         networkHelper.getCall(
             URLHelper.scheduleTestsForStudent + "?batchId=${
@@ -151,6 +152,7 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
         )
 
     }
+*/
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         try {

@@ -147,6 +147,16 @@ dependencies {
 
     //QR Scanner
     implementation 'com.budiyev.android:code-scanner:2.1.0'
+
+    //retrofit for api call
+    implementation('com.squareup.retrofit2:retrofit:2.6.0') {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.google.code.gson:gson:2.7'
     compileOnly 'org.checkerframework:checker-qual:' + checkerframeworkVersion
     implementation("com.google.android.exoplayer:extension-cronet:2.15.0")
     implementation 'com.amazonaws:aws-android-sdk-s3:2.29.0'

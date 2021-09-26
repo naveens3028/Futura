@@ -12,7 +12,7 @@ import com.trisys.rn.baseapp.fragment.UpcomingLiveFragment
 import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.LiveResponse
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
-import com.trisys.rn.baseapp.network.ApiUtils.getAuthorizationHeader
+import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper.getSessions
@@ -20,7 +20,6 @@ import com.trisys.rn.baseapp.network.UrlConstants.kLIVE
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_live.*
-import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -104,11 +103,20 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
     private fun requestSessions() {
         myProgressBar.show()
+        val myBatchList = JSONArray()
+        loginData.userDetail?.batchList?.forEach {
+            myBatchList.put(it.id!!)
+        }
+        val myBranchIDs = JSONArray()
+        loginData.userDetail?.branchList?.forEach {
+            myBranchIDs.put(it.id!!)
+        }
+
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
+            jsonObject.put("branchIds", myBranchIDs)
             jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-            jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
+            jsonObject.put("batchIds", myBatchList)
             jsonObject.put("sessionTense", kLIVE)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -118,7 +126,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
             getSessions,
             jsonObject,
             "liveSessions",
-            getAuthorizationHeader(requireContext(), jsonObject.toString().length),
+            ApiUtils.getHeader(requireContext()),
             this
         )
     }

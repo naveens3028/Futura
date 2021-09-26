@@ -66,7 +66,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
         try {
             jsonObject.put("testPaperId", mockTest.testPaperId)
             jsonObject.put("studentId", loginData.userDetail?.userDetailId.toString())
-            jsonObject.put("batchIds", loginData.userDetail?.batchIds.toString())
+            jsonObject.put("batchIds", loginData.userDetail?.batchList?.get(0)?.id.toString())
             jsonObject.put("status", kSTARTED)
         } catch (e: JSONException) {
             e.printStackTrace()

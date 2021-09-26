@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_24px"
-        android:title="Home"
-        android:contentDescription="Home"
-        android:importantForAccessibility="yes"
-        app:showAsAction="always|withText"/>
-    <item
         android:id="@+id/navigation_learn"
         android:icon="@drawable/ic_learn"
         android:title="Learn"
@@ -17,11 +10,18 @@
         android:importantForAccessibility="yes"
         app:showAsAction="always|withText"/>
 
-
     <item
         android:id="@+id/navigation_live"
         android:icon="@drawable/ic_live_stream"
         android:title="Live"
+        app:showAsAction="always|withText"/>
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_24px"
+        android:title="Home"
+        android:contentDescription="Home"
+        android:importantForAccessibility="yes"
         app:showAsAction="always|withText"/>
 
     <item

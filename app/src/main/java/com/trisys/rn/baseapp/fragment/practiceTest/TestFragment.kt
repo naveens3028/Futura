@@ -21,6 +21,7 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.fragment_test.*
+import org.json.JSONArray
 
 class TestFragment : Fragment(), OnNetworkResponse {
 
@@ -91,9 +92,14 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
     private fun requestSessions() {
 
+        val myBatchList = JSONArray()
+        loginData.userDetail?.batchList?.forEach {
+            myBatchList.put(it.id!!)
+        }
+
         networkHelper.getCall(
             URLHelper.averageBatchTests + "?batchId=${
-                loginData.userDetail?.batchIds?.get(0).toString()
+                loginData.userDetail?.batchList?.get(0)?.id
             }&studentId=${loginData.userDetail?.usersId.toString()}",
             "averageBatchTests",
             ApiUtils.getHeader(requireContext()),

@@ -8,13 +8,16 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.trisys.rn.baseapp.database.dao.CompletedTestDAO
 import com.trisys.rn.baseapp.database.dao.TestDAO
+import com.trisys.rn.baseapp.database.dao.VideoDao
 import com.trisys.rn.baseapp.database.model.NotificationItem
+import com.trisys.rn.baseapp.database.model.VideoPlayedItem
 import com.trisys.rn.baseapp.model.*
 import com.trisys.rn.baseapp.model.onBoarding.AverageBatchTests
 
 @Database(
-    entities = [NotificationItem::class, AverageBatchTests::class, TestPaperVo::class, Quesion::class, TestResultsModel::class, CompletedTest::class],
-    version = 3,
+    entities = [NotificationItem::class, AverageBatchTests::class, TestPaperVo::class, Quesion::class, TestResultsModel::class, CompletedTest::class,
+               VideoPlayedItem::class],
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(SectionsDatumConverter::class, ListTopRankerConverter::class, SectionQuestionConverter::class)
@@ -25,6 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val resultsDao: TestResponseDao
     abstract val testDAO: TestDAO
     abstract val completedTestDAO: CompletedTestDAO
+    abstract val videoDao: VideoDao
 
     companion object {
 

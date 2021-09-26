@@ -36,6 +36,7 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_learn.*
 import java.util.*
+import java.util.HashMap
 import kotlin.collections.ArrayList
 
 
@@ -69,13 +70,21 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
         courseRecycler = view.findViewById(R.id.recyclerviewcourse) as RecyclerView
 
+        batchIds = if (loginData.userDetail?.batchList!![0].additionalCourseId.isNullOrEmpty()) {
+            loginData.userDetail?.batchList!![0].id
+        }else{
+            loginData.userDetail?.batchList!![0].additionalCourseId
+        }
+
         courseCall()
-        requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
+        if (loginData.userDetail?.batchList?.get(0)?.additionalCourseId.isNullOrEmpty()){
+            requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
+        }else requestSessions(loginData.userDetail?.batchList?.get(0)?.additionalCourseId!!)
     }
 
     private fun subjectCall(subjectList: ArrayList<Datum>) {
         stateful.showContent()
-        val manager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW)
+        val manager = FlexboxLayoutManager(requireContext(), FlexDirection.COLUMN)
         manager.justifyContent = JustifyContent.CENTER
         recyclerview.layoutManager = manager
         if (subjectList.size > 0) {
@@ -105,10 +114,12 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
 
     private fun requestSessions(batchId: String) {
         stateful.showProgress()
+        val headers = HashMap<String, String>()
+
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
             "getCourse",
-            ApiUtils.getHeader(requireContext()),
+            headers,
             this
         )
 
@@ -144,7 +155,9 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.icon_error)
         stateful.setOfflineRetryOnClickListener {
-            requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
+            if (loginData.userDetail?.batchList?.get(0)?.additionalCourseId.isNullOrEmpty()){
+                requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
+            }else requestSessions(loginData.userDetail?.batchList?.get(0)?.additionalCourseId!!)
         }
     }
 

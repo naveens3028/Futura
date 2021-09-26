@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +19,6 @@ import com.trisys.rn.baseapp.network.UrlConstants.kUPCOMING
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
-import kotlinx.android.synthetic.main.fragment_upcoming_live.stateful
-import kotlinx.android.synthetic.main.layout_recyclerview.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -55,7 +54,6 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
 
         requestSessions()
 
-
     }
 
     companion object {
@@ -80,11 +78,20 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
 
     private fun requestSessions() {
 
+        val myBatchList = JSONArray()
+        loginData.userDetail?.batchList?.forEach {
+            myBatchList.put(it.id!!)
+        }
+        val myBranchIDs = JSONArray()
+        loginData.userDetail?.branchList?.forEach {
+            myBranchIDs.put(it.id!!)
+        }
+
         val jsonObject = JSONObject()
         try {
-            jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
+            jsonObject.put("branchIds", myBranchIDs)
             jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-            jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
+            jsonObject.put("batchIds", myBatchList)
             jsonObject.put("sessionTense", kUPCOMING)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -96,7 +103,7 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             URLHelper.getSessions,
             jsonObject,
             "upcomingSessions",
-            ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
+            ApiUtils.getHeader(requireContext()),
             this
         )
     }
@@ -106,10 +113,11 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             stateful.showContent()
             if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
                 val liveItemResponse = ArrayList<CompletedSession>()
-                if (liveItemResponse.isNullOrEmpty()){
+                if (liveItemResponse.isNullOrEmpty()) {
                     showErrorMsg(resources.getString(R.string.no_upcoming_session_found))
-                }else{
-                    val completedLiveAdapter = CompletedLiveAdapter(requireContext(), liveItemResponse)
+                } else {
+                    val completedLiveAdapter =
+                        CompletedLiveAdapter(requireContext(), liveItemResponse)
                     recycler.adapter = completedLiveAdapter
                 }
             } else {

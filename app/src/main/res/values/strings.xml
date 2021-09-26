@@ -113,6 +113,7 @@
     <string name="no_completed_session_found">No Completed Session Found</string>
     <string name="qr_scanner">QR Scanner</string>
     <string name="phoneno">Phone Number</string>
+    <string name="continue_where_you">continue where you left</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confrompswd">Confirm Password</string>

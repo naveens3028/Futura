@@ -22,6 +22,8 @@ import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.VideoPlayActivity
 import com.trisys.rn.baseapp.helper.exoplayer.ExoUtil.buildMediaItems
 import com.trisys.rn.baseapp.helper.exoplayer.IntentUtil
+import com.trisys.rn.baseapp.database.AppDatabase
+import com.trisys.rn.baseapp.database.model.VideoPlayedItem
 import com.trisys.rn.baseapp.helper.exoplayer.PlaylistHolder
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.utils.Define
@@ -50,6 +52,8 @@ class VideoFragment : Fragment() {
     lateinit var myPreferences: MyPreferences
     lateinit var file: File
     var videoData : VideoMaterial? = null
+    lateinit var videoData: VideoMaterial
+    lateinit var db: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +68,7 @@ class VideoFragment : Fragment() {
         sharedPreferences = requireContext().getSharedPreferences("MySharedPref", 0)
         myPreferences = MyPreferences(requireContext())
         downloadFolder = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!
+        db = AppDatabase.getInstance(requireContext())!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,7 +85,11 @@ class VideoFragment : Fragment() {
         if(videoData != null) {
             ImageLoader.loadFull(requireContext(), videoData!!.filePath, videoPlaceholder)
         }
+        ImageLoader.loadFull(requireContext(), videoData.filePath!!,videoPlaceholder)
 
+        val myClass = VideoPlayedItem(videoUrl = videoData.description.toString(), lastPlayed = "4:10", logoImg = videoData.filePath.toString() , videoTitle = videoData.title.toString())
+
+        db.videoDao.addVideo(myClass)
 
 
 //        VimeoExtractor.getInstance()
@@ -198,7 +207,7 @@ class VideoFragment : Fragment() {
 //            })
 //    }
 
-    private fun encryptDownloadedFile() {
+ /*   private fun encryptDownloadedFile() {
         try {
             val filePath = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
             val fileData = readFile(filePath)
@@ -264,7 +273,7 @@ class VideoFragment : Fragment() {
         bos.write(fileData)
         bos.flush()
         bos.close()
-    }
+    }*/
 
 //    private fun decryptEncryptedFile() {
 //        val filePath = downloadFolder.path + "/Mobile_Medium_T1 Life span & life cycle"
@@ -277,7 +286,7 @@ class VideoFragment : Fragment() {
 //        )
 //    }
 
-    @Throws(Exception::class)
+/*    @Throws(Exception::class)
     fun decrypt(yourKey: SecretKey, fileData: ByteArray): ByteArray {
         val decrypted: ByteArray
         val cipher = Cipher.getInstance("AES", "BC")
@@ -291,5 +300,5 @@ class VideoFragment : Fragment() {
 //        player.stop()
 //        player.release()
 //        encryptDownloadedFile()
-    }
+    }*/
 }

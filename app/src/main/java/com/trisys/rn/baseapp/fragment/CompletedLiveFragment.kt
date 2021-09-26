@@ -1,5 +1,6 @@
 package com.trisys.rn.baseapp.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,18 +9,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
 import com.trisys.rn.baseapp.model.CompletedLiveItem
+import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
-import com.trisys.rn.baseapp.network.ApiUtils
-import com.trisys.rn.baseapp.network.NetworkHelper
-import com.trisys.rn.baseapp.network.OnNetworkResponse
-import com.trisys.rn.baseapp.network.URLHelper
+import com.trisys.rn.baseapp.network.*
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 import org.json.JSONArray
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -108,12 +112,45 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
             }
     }
 
+
+    fun getApiCall(context: Context) {
+        RetroFitCall.retroFitCall()
+        val service = RetroFitCall.retrofit.create(ApiInterface::class.java)
+        val call = service.getData()
+        call.enqueue(object : Callback<List<CompletedSession>> {
+            override fun onResponse(
+                call: Call<List<CompletedSession>>,
+                response: Response<List<CompletedSession>>
+            ) {
+                if (response.code() == 200) {
+                    var auditList : List<CompletedSession> = response.body()!!
+                }
+
+            }
+            override fun onFailure(call: Call<List<CompletedSession>>, t: Throwable) {
+                Toast.makeText(context, "failed", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+
     private fun requestSessions() {
 
+        val myBatchList = JSONArray()
+        loginData.userDetail?.batchList?.forEach {
+            myBatchList.put(it.id!!)
+        }
+        val myBranchIDs = JSONArray()
+        loginData.userDetail?.branchList?.forEach {
+            myBranchIDs.put(it.id!!)
+        }
+
+
         val jsonObject = JSONObject()
-        jsonObject.put("branchIds", JSONArray(loginData.userDetail?.branchIds))
+        jsonObject.put("branchIds", myBranchIDs)
         jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
-        jsonObject.put("batchIds", JSONArray(loginData.userDetail?.batchIds))
+        jsonObject.put("batchIds", myBatchList)
+
 
         stateful.showProgress()
         stateful.setProgressText("")
@@ -121,7 +158,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
             URLHelper.getCompletedSessionsSubject,
             jsonObject,
             "completedSessions",
-            ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
+            ApiUtils.getHeader(requireContext()),
             this
         )
     }
@@ -134,12 +171,12 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
                     "soppers",
                     "responseCode: " + responseCode.toString() + "response: " + response + " tag: " + tag
                 )
-                /*  val arrayTutorialType = object : TypeToken<ArrayList<CompletedSession>>() {}.type
+                  val arrayTutorialType = object : TypeToken<ArrayList<CompletedSession>>() {}.type
                   val liveItemResponse: ArrayList<CompletedSession> = Gson().fromJson(response, arrayTutorialType)
                   liveItemResponse.let {
-                      val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLiveList,liveItemResponse, true)
+                      val completedLiveAdapter = CompletedLiveAdapter(requireContext(), liveItemResponse)
                       recycler.adapter = completedLiveAdapter
-                  }*/
+                  }
             } else {
                 showErrorMsg("No completed sessions available")
             }

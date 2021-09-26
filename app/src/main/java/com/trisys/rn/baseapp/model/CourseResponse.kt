@@ -43,4 +43,6 @@ data class Datum (
 
     @SerializedName("updatedBy")
     var updatedBy: Any? = null
-)
+
+    @SerializedName("type")
+    var type: String? = null

@@ -225,28 +225,20 @@ data class CoachingCentre(
 )
 
 data class CoachingCentreBranch(
-    @SerializedName("address1") val address1: String,
-    @SerializedName("address2") val address2: String,
-    @SerializedName("branchName") val branchName: String,
-    @SerializedName("city") val city: String,
-    @SerializedName("coachingCenterId") val coachingCenterId: String,
-    @SerializedName("country") val country: String,
-    @SerializedName("courseIds") val courseIds: String,
-    @SerializedName("courseList") val courseList: String,
-    @SerializedName("createdAt") val createdAt: Long,
-    @SerializedName("createdBy") val createdBy: String,
-    @SerializedName("email") val email: String,
-    @SerializedName("id") val id: String,
-    @SerializedName("isMainBranch") val isMainBranch: String,
-    @SerializedName("mobileNumber") val mobileNumber: String,
-    @SerializedName("questionLimit") val questionLimit: String,
-    @SerializedName("state") val state: String,
-    @SerializedName("status") val status: String,
-    @SerializedName("updatedAt") val updatedAt: Long,
-    @SerializedName("updatedBy") val updatedBy: String,
-    @SerializedName("webexUserIds") val webexUserIds: String,
-    @SerializedName("webexUsers") val webexUsers: String,
-    @SerializedName("zipCode") val zipCode: String
+    @SerializedName("id")
+    var id: String? = null,
+
+    @SerializedName("coachingCenterId")
+    var coachingCenterId: String? = null,
+
+    @SerializedName("branchName")
+    var branchName: String? = null,
+
+    @SerializedName("isMainBranch")
+    var isMainBranch: String? = null,
+
+    @SerializedName("status")
+    var status: String? = null
 )
 
 data class Course(

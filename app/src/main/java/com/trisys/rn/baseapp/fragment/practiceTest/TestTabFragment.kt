@@ -93,7 +93,8 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         }
 
         val params = HashMap<String, String>()
-        params["batchId"] = loginData.userDetail?.batchIds?.get(0).toString()
+        params["batchId"] = loginData.userDetail?.batchList?.get(0)?.id.toString()
+
         params["studentId"] = loginData.userDetail?.usersId.toString()
 
 
@@ -126,7 +127,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         networkHelper.getCall(
             URLHelper.scheduleTestsForStudent + "?batchId=${
-                loginData.userDetail?.batchIds?.get(0)
+                loginData.userDetail?.batchList?.get(0)?.id
             }&studentId=${loginData.userDetail?.usersId}",
             "scheduledTest",
             ApiUtils.getHeader(requireContext()),
@@ -137,7 +138,8 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     private fun getAttemptedTest() {
         val params = HashMap<String, String>()
-        params["batchId"] = loginData.userDetail?.batchIds?.get(0).toString()
+        params["batchId"] = loginData.userDetail?.batchList?.get(0)?.id.toString()
+
         params["studentId"] = loginData.userDetail?.usersId.toString()
 
         networkHelper.call(

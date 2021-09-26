@@ -3,6 +3,7 @@ package com.trisys.rn.baseapp.database
 import android.content.Context
 import android.os.AsyncTask
 import com.trisys.rn.baseapp.database.model.NotificationItem
+import com.trisys.rn.baseapp.database.model.VideoPlayedItem
 import com.trisys.rn.baseapp.model.CompletedTest
 import com.trisys.rn.baseapp.model.Quesion
 import com.trisys.rn.baseapp.model.TestPaperVo
@@ -108,5 +109,13 @@ class DatabaseHelper(context: Context) {
 
     fun deleteTest(id:String) {
         db!!.completedTestDAO.deleteTest(id)
+    }
+
+    fun saveVideoData(sectionItem: VideoPlayedItem){
+        db!!.videoDao.addVideo(sectionItem)
+    }
+
+    fun getAllVideos() :MutableList<VideoPlayedItem>{
+        return db!!.videoDao.getAll()
     }
 }
