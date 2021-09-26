@@ -134,21 +134,11 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
             if(!downloadTracker!!.isDownloaded(mediaItems!![0])) {
                 val playlist = PlaylistHolder(mediaItems!![0].mediaId, mediaItems!!)
                 ExoUtil.onSampleDownloadButtonClicked(this,playlist,downloadTracker!!, supportFragmentManager)
-                playVideo(videoData.description!!)
+              //  playVideo(videoData.description!!)
             }else {
-                preparExoPlayer(videoData.description!!)
+               // preparExoPlayer(videoData.description!!)
             }
-        } else {
-            if (id.isNullOrEmpty()){
-                if (videoUrl?.contains("vimeo", true)!!){
-                    playVideo(videoUrl)
-                }else {
-                    preparExoPlayer(videoUrl)
-                }
-            }else{
-                Toast.makeText(applicationContext,"already downloaded", Toast.LENGTH_LONG).show()
-            }
-            }
+
         }
     }
 

@@ -52,7 +52,6 @@ class VideoFragment : Fragment() {
     lateinit var myPreferences: MyPreferences
     lateinit var file: File
     var videoData : VideoMaterial? = null
-    lateinit var videoData: VideoMaterial
     lateinit var db: AppDatabase
 
     override fun onCreateView(
@@ -83,11 +82,14 @@ class VideoFragment : Fragment() {
 //        val id = videoData.description.replace("https://vimeo.com/","")
 
         if(videoData != null) {
-            ImageLoader.loadFull(requireContext(), videoData!!.filePath, videoPlaceholder)
+            videoData!!.filePath?.let {
+                ImageLoader.loadFull(requireContext(),
+                    it, videoPlaceholder)
+            }
         }
-        ImageLoader.loadFull(requireContext(), videoData.filePath!!,videoPlaceholder)
+        ImageLoader.loadFull(requireContext(), videoData!!.filePath!!,videoPlaceholder)
 
-        val myClass = VideoPlayedItem(videoUrl = videoData.description.toString(), lastPlayed = "4:10", logoImg = videoData.filePath.toString() , videoTitle = videoData.title.toString())
+        val myClass = VideoPlayedItem(videoUrl = videoData!!.description.toString(), lastPlayed = "4:10", logoImg = videoData!!.filePath.toString() , videoTitle = videoData!!.title.toString())
 
         db.videoDao.addVideo(myClass)
 
@@ -128,12 +130,12 @@ class VideoFragment : Fragment() {
 
         videoPlaceholder.setOnClickListener {
             if(videoData != null) {
-                if (videoData!!.description.contains("vimeo", true)) {
-                    loadVMEOVideos(videoData!!.courseName,videoData!!.description)
+                if (videoData!!.description!!.contains("vimeo", true)) {
+                    loadVMEOVideos(videoData!!.courseName!!, videoData!!.description!!)
                 }else{
                     buildMediaItems(
                         requireActivity(),
-                        childFragmentManager,videoData!!.courseName,videoData!!.description,false)
+                        childFragmentManager,videoData!!.courseName!!,videoData!!.description!!,false)
                 }
             }
         }
