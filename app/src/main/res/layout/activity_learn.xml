@@ -9,7 +9,7 @@
 
     <include layout="@layout/layout_toolbar" />
 
-    <com.trisys.rn.baseapp.helper.SimpleStatefulLayout
+    <com.upmyranksapp.helper.SimpleStatefulLayout
         android:id="@+id/stateful"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -141,6 +141,6 @@
             </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.trisys.rn.baseapp.helper.SimpleStatefulLayout>
+    </com.upmyranksapp.helper.SimpleStatefulLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

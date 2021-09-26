@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.trisys.rn.baseapp.helper.SimpleStatefulLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.upmyranksapp.helper.SimpleStatefulLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/stateful"
     android:layout_width="match_parent"
@@ -34,4 +34,4 @@
             tools:listitem="@layout/row_completed_live" />
 
     </FrameLayout>
-</com.trisys.rn.baseapp.helper.SimpleStatefulLayout>
+</com.upmyranksapp.helper.SimpleStatefulLayout>

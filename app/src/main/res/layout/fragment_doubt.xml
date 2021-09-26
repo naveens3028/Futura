@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.DoubtFragment">
 
-    <com.trisys.rn.baseapp.helper.SimpleStatefulLayout
+    <com.upmyranksapp.helper.SimpleStatefulLayout
         android:id="@+id/stateful"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -232,5 +232,5 @@
                 app:layout_constraintEnd_toEndOf="parent" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.trisys.rn.baseapp.helper.SimpleStatefulLayout>
+    </com.upmyranksapp.helper.SimpleStatefulLayout>
 </FrameLayout>

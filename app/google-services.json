@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1079916578156:android:93c3cd1fddd8eeabed1f49",
         "android_client_info": {
-          "package_name": "com.trisys.rn.baseapp"
+          "package_name": "com.upmyranksapp"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "1079916578156-5eqaqdk6b0mh14pj2jt65ot14dupsmgm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.trisys.rn.baseapp",
+            "package_name": "com.upmyranksapp",
             "certificate_hash": "ed6dbb5115a7c0477df563b5434ab7b4acbf339e"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "1079916578156-igqhp5b48qac6ujrn596svirgnb27835.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.trisys.rn.baseapp",
+            "package_name": "com.upmyranksapp",
             "certificate_hash": "c6e86b77c45a0436900d06c63dff91ad20205abe"
           }
         },

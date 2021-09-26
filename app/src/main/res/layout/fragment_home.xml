@@ -39,7 +39,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search" />
 
-            <com.trisys.rn.baseapp.helper.NestedScrollableHost
+            <com.upmyranksapp.helper.NestedScrollableHost
                 android:id="@+id/studyRecyclerParent1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/row_played_video" />
 
-            </com.trisys.rn.baseapp.helper.NestedScrollableHost>
+            </com.upmyranksapp.helper.NestedScrollableHost>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/performanceAnalysis"
