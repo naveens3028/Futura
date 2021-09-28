@@ -37,7 +37,8 @@ class SubTopicsAdapter(
         holder.itemView.videoName.text = subTopicItems[position].title
         holder.itemView.setOnClickListener {
             myPreferences = MyPreferences(context)
-            myPreferences.setString(Define.VIDEO_DATA, Gson().toJson(subTopicItems[position]))
+            myPreferences.setString(Define.VIDEO_DATA, Gson().toJson(subTopicItems))
+            myPreferences.setInt(Define.VIDEO_POS, position)
             val intent = Intent(context, LearnVideoActivity::class.java)
             context.startActivity(intent)
         }

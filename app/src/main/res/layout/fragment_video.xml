@@ -80,24 +80,18 @@
                 android:textSize="@dimen/_14sdp"
                 app:layout_constraintTop_toBottomOf="@+id/videoCard" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/nextVideoCard"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_120sdp"
-                android:layout_margin="@dimen/_15sdp"
-                app:cardCornerRadius="@dimen/_12sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/upNext">
-
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/upNextRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/video_lectures" />
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/row_played_video"
+                    app:layout_constraintTop_toBottomOf="@id/upNext"
+                     />
 
-            </com.google.android.material.card.MaterialCardView>
-
+<!--
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +103,8 @@
                 android:text="@string/ask_your_doubts_here"
                 android:textColor="@color/charcoal"
                 android:textSize="@dimen/_12sdp"
-                app:layout_constraintTop_toBottomOf="@+id/nextVideoCard" />
+                app:layout_constraintTop_toBottomOf="@+id/upNextRecycler" />
+-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

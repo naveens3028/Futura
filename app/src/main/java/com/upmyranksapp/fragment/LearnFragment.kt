@@ -142,8 +142,6 @@ class LearnFragment : Fragment(), SubjectClickListener, CourseListener, OnNetwor
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "getCourse") {
             val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
-            courseResponse.data?.add(Datum(id = "test", courseName = "test", parentId = "test", parentName = "test", description = "test",
-                status = "test", "test", "test", createdAt = null, null, null))
             subjectCall(courseResponse.data!!)
         } else {
             showErrorMsg(requireActivity().getString(R.string.sfl_default_error))

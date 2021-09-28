@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:padding="@dimen/_7sdp">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -57,101 +58,23 @@
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
 
-                <LinearLayout
-                    android:id="@+id/rlt_play"
-                    android:layout_width="wrap_content"
+<!--
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/noOfMaterials"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="7dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_weight="1"
+                    android:breakStrategy="simple"
+                    android:textColor="@color/charcoal"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold" />
+-->
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/imgplay"
-                        android:layout_width="30dp"
-                        android:layout_height="29dp"
-                        android:src="@drawable/ic_plays"
-                        app:tint="@color/black" />
 
-                    <TextView
-                        android:id="@+id/noOfVideo"
-                        android:layout_width="32dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="8"
-                        android:visibility="gone"
-                        android:textAlignment="center"
-                        android:textColor="@color/charcoal"
-                        android:textSize="@dimen/_8sdp" />
 
-                </LinearLayout>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/rlt_question"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/white"
-                    android:layout_marginStart="15dp"
-                    android:layout_toRightOf="@id/rlt_play"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imgdoubts"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_question"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:layout_width="32dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/imgdoubts"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="3dp"
-                        android:text="10"
-                        android:visibility="gone"
-                        android:textAlignment="center"
-                        android:textSize="8sp"
-                        android:textColor="@color/charcoal"
-                        />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/timerLearn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/white"
-                    android:layout_marginStart="15dp"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/imgduration"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_clock"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:id="@+id/hrs"
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/imgduration"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="3dp"
-                        android:text="1h 25mins"
-                        android:visibility="gone"
-                        android:textAlignment="center"
-                        android:textColor="@color/charcoal"
-                        android:textSize="@dimen/_8sdp" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -11,6 +11,7 @@ object Define {
     val ACCESS_TOKEN = "access_token"
     val LOGIN_DATA = "login_data"
     val VIDEO_DATA = "video_data"
+    val VIDEO_POS = "video_pos"
     val VIDEO_NEXT = "video_next"
     val TAKE_TEST_MODE_OFFLINE = "take_test_mode_offline"
     val LAST_PLAYED_VIDEO = "last_payed_video"

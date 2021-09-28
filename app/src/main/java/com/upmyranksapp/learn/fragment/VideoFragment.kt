@@ -8,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.upmyranksapp.R
-import com.upmyranksapp.helper.exoplayer.ExoUtil.buildMediaItems
+import com.upmyranksapp.adapter.VideoPlayedAdapter
 import com.upmyranksapp.database.AppDatabase
 import com.upmyranksapp.database.model.VideoPlayedItem
+import com.upmyranksapp.helper.exoplayer.ExoUtil.buildMediaItems
 import com.upmyranksapp.model.VideoMaterial
 import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.ImageLoader
@@ -22,16 +25,18 @@ import vimeoextractor.OnVimeoExtractionListener
 import vimeoextractor.VimeoExtractor
 import vimeoextractor.VimeoVideo
 import java.io.*
+import java.lang.reflect.Type
 
 
-class VideoFragment : Fragment() {
+class VideoFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
 
     private lateinit var downloadFolder: File
     private lateinit var fileName: String
     lateinit var sharedPreferences: SharedPreferences
     lateinit var myPreferences: MyPreferences
     lateinit var file: File
-    var videoData : VideoMaterial? = null
+    private var pos: Int ?= null
+    var videoData = ArrayList<VideoMaterial>()
     lateinit var db: AppDatabase
 
     override fun onCreateView(
@@ -56,21 +61,40 @@ class VideoFragment : Fragment() {
 //        player = SimpleExoPlayer.Builder(requireContext()).build()
 //        player.setThrowsWhenUsingWrongThread(false)
 //        player_view.setPlayer(player)
-
-        videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), VideoMaterial::class.java)
+        val listType: Type = object : TypeToken<ArrayList<VideoMaterial?>?>() {}.getType()
+        videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), listType)
+        pos = myPreferences.getInt(Define.VIDEO_POS)
 //
+
+        val myList = ArrayList<VideoMaterial>()
+        var myPos = pos
+        val listSize = videoData.size - (pos!! +1)
+
+        for (i in 1..listSize){
+            myList.add(VideoMaterial(description = videoData[myPos!!+i].description,null, null, videoData[myPos!!+i].filePath, null, null, videoData[myPos!!+i].title, videoData[myPos!!+i].videoId ))
+        }
+
+
+        if (!myList.isNullOrEmpty()){
+            upNext.visibility = View.VISIBLE
+            setAdapter(myList)
+        }else{
+            upNext.visibility = View.GONE
+        }
+
+        Log.e("popData1", listSize.toString())
+        Log.e("popData", myList.toString())
 //        val id = videoData.description.replace("https://vimeo.com/","")
 
         if(videoData != null) {
-            videoData!!.filePath?.let {
+            videoData[pos!!].filePath?.let {
                 ImageLoader.loadFull(requireContext(),
                     it, videoPlaceholder)
             }
         }
-        ImageLoader.loadFull(requireContext(), videoData!!.filePath!!,videoPlaceholder)
+        ImageLoader.loadFull(requireContext(), videoData[pos!!].filePath!!,videoPlaceholder)
 
-        val myClass = VideoPlayedItem(videoUrl = videoData!!.description.toString(), lastPlayed = "4:10", logoImg = videoData!!.filePath.toString() , videoTitle = videoData!!.title.toString())
-
+        val myClass = VideoPlayedItem(videoUrl =videoData[pos!!].description.toString(), lastPlayed = "4:10", logoImg = videoData[pos!!].filePath.toString() , videoTitle = videoData[pos!!].title.toString())
         db.videoDao.addVideo(myClass)
 
 
@@ -110,12 +134,12 @@ class VideoFragment : Fragment() {
 
         videoPlaceholder.setOnClickListener {
             if(videoData != null) {
-                if (videoData!!.description!!.contains("vimeo", true)) {
-                    loadVMEOVideos(videoData!!.courseName!!, videoData!!.description!!)
+                if (videoData[pos!!].description!!.contains("vimeo", true)) {
+                    loadVMEOVideos(videoData[pos!!].courseName!!, videoData[pos!!].description!!)
                 }else{
                     buildMediaItems(
                         requireActivity(),
-                        childFragmentManager,videoData!!.courseName!!,videoData!!.description!!,false)
+                        childFragmentManager,videoData[pos!!].courseName!!,videoData[pos!!].description!!,false)
                 }
             }
         }
@@ -145,7 +169,17 @@ class VideoFragment : Fragment() {
             })
     }
 
+    fun setAdapter(myList: ArrayList<VideoMaterial>){
+        val videoRecyclerView = view?.findViewById(R.id.upNextRecycler) as RecyclerView
+        val videoAdapter = VideoPlayedAdapter(requireActivity(), "1",null, myList , this)
+        videoRecyclerView.adapter = videoAdapter
+    }
 
+    override fun onVideoClickListener(videoPlayedItem: VideoPlayedItem) {
+    }
+
+    override fun onVideoClickListener1(videoPlayedItem: VideoMaterial) {
+    }
 
 //    private fun download() {
 //        download.visibility = View.VISIBLE

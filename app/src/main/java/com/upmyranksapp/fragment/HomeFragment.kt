@@ -24,6 +24,7 @@ import com.upmyranksapp.database.AppDatabase
 import com.upmyranksapp.database.model.VideoPlayedItem
 import com.upmyranksapp.fragment.practiceTest.ScheduledTestFragment
 import com.upmyranksapp.helper.exoplayer.ExoUtil
+import com.upmyranksapp.model.VideoMaterial
 import kotlinx.android.synthetic.main.fragment_home.*
 import vimeoextractor.OnVimeoExtractionListener
 import vimeoextractor.VimeoExtractor
@@ -89,7 +90,7 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
         })
 
         val videoRecyclerView = view?.findViewById(R.id.playedRecycler) as RecyclerView
-        val videoAdapter = VideoPlayedAdapter(requireActivity(), db.videoDao.getAll(), this)
+        val videoAdapter = VideoPlayedAdapter(requireActivity(),"0", db.videoDao.getAll(),null, this)
         videoRecyclerView.adapter = videoAdapter
 
 
@@ -200,6 +201,10 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
     override fun onVideoClickListener(videoPlayedItem: VideoPlayedItem) {
         playVideo(videoPlayedItem.videoTitle, videoPlayedItem.videoUrl)
     }
+
+    override fun onVideoClickListener1(videoPlayedItem: VideoMaterial) {
+    }
+
     private fun playVideo(title: String, id:String){
         val videoId = id.replace("https://vimeo.com/", "")
         VimeoExtractor.getInstance()

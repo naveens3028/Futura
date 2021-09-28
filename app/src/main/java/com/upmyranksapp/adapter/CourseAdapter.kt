@@ -1,9 +1,11 @@
 package com.upmyranksapp.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +25,7 @@ class CourseAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subjectTxt = itemView.findViewById(R.id.coursetxt) as TextView
+        val rltLyt = itemView.findViewById(R.id.rltLyt) as RelativeLayout
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,13 +33,24 @@ class CourseAdapter(
         return ViewHolder(v)
     }
 
+    @SuppressLint("ResourceType")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 
         holder.subjectTxt.text = courseList[position].course!!.courseName
+        holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.purple_500))
 
         when (position) {
-            0 -> {
+            index ->{
+                holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
+                holder.rltLyt.setBackgroundColor(ContextCompat.getColor(context, R.color.purple_500))
+            }
+            else ->{
+                holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.purple_500))
+                holder.rltLyt.setBackgroundColor(ContextCompat.getColor(context, R.color.White))
+
+            }
+           /* 0 -> {
                 holder.subjectTxt.setBackgroundColor(
                     ContextCompat.getColor(
                         context,
@@ -92,9 +106,13 @@ class CourseAdapter(
                     )
                     holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
                 }
-            }
+            }*/
+
         }
+
         holder.subjectTxt.setOnClickListener {
+            holder.subjectTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
+
             if (courseList[position].additionalCourseId.isNullOrEmpty()) {
                 courseList[position].let { it1 ->
                     it1.courseId?.let { it2 ->

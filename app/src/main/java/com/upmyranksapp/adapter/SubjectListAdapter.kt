@@ -21,6 +21,7 @@ class SubjectListAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val chapternametxt = itemView.findViewById(R.id.chapternametxt) as TextView
+       // val noOfMaterials = itemView.findViewById(R.id.noOfMaterials) as TextView
         val txtIndex = itemView.findViewById(R.id.txtIndex) as TextView
     }
 
