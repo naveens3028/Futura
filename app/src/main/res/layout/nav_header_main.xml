@@ -97,7 +97,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/statusProgress" />
 
-        <com.google.android.material.card.MaterialCardView
+      <!--  <com.google.android.material.card.MaterialCardView
             android:id="@+id/videos"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
@@ -285,10 +285,10 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_18sdp" />
 
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
+
+
