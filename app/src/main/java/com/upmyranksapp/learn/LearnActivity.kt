@@ -2,6 +2,7 @@ package com.upmyranksapp.learn
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.upmyranksapp.R
 import com.upmyranksapp.activity.NotificationsActivity
 import com.upmyranksapp.adapter.SubTopicsAdapter
@@ -16,17 +18,15 @@ import com.upmyranksapp.adapter.SubTopicsTitleAdapter
 import com.upmyranksapp.model.TopicResponse
 import com.upmyranksapp.model.VideoMaterial
 import com.upmyranksapp.model.onBoarding.LoginData
-import com.upmyranksapp.network.ApiUtils
 import com.upmyranksapp.network.NetworkHelper
-import com.upmyranksapp.network.OnNetworkResponse
-import com.upmyranksapp.network.URLHelper.publishedMaterialsByChapter
 import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_learn.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import java.lang.reflect.Type
 
 
-class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener {
+class LearnActivity : AppCompatActivity(), TopicClickListener {
 
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
@@ -50,23 +50,29 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
         chapterId = intent.getStringExtra("id")!!
         batchId = intent.getStringExtra("batchID")!!
 
+        topicResponse = Gson().fromJson(intent.getStringExtra("materials"), TopicResponse::class.java)
+
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        requestChapter()
 
-    }
-
-    private fun requestChapter() {
-        stateful.showProgress()
-        stateful.setProgressText("Loading..")
-        networkHelper.getArrayCall(
-            publishedMaterialsByChapter + "?chapterId=$chapterId&batchId=$batchId",
-            "publishedMaterialsByChapter",
-            ApiUtils.getHeader(this),
-            this
-        )
+        if (topicResponse.isNotEmpty()) {
+            val titleAdapter = SubTopicsTitleAdapter(this, topicResponse, this)
+            titleRecycler.adapter = titleAdapter
+            if (topicResponse[0].materialList != null && topicResponse[0].materialList?.size!! > 0) {
+                supTopicRecycler.visibility = View.VISIBLE
+                subTopicListAdapter =
+                    SubTopicsAdapter(this, topicResponse[0].materialList!!)
+                supTopicRecycler.adapter = subTopicListAdapter
+            } else {
+                supTopicRecycler.visibility = View.GONE
+                showErrorMsg("Currently no topics available.")
+            }
+        }else {
+                supTopicRecycler.visibility = View.GONE
+                showErrorMsg("Currently no topics available.")
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -90,27 +96,6 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        stateful.showContent()
-        if (responseCode == networkHelper.responseSuccess && tag == "publishedMaterialsByChapter") {
-            val topicResponse = Gson().fromJson(response, TopicResponse::class.java)
-            if (topicResponse.isNotEmpty()) {
-                val titleAdapter = SubTopicsTitleAdapter(this, topicResponse, this)
-                titleRecycler.adapter = titleAdapter
-                if (topicResponse[0].materialList != null && topicResponse[0].materialList?.size!! > 0) {
-                    supTopicRecycler.visibility = View.VISIBLE
-                    subTopicListAdapter =
-                        SubTopicsAdapter(this, topicResponse[0].materialList!!)
-                    supTopicRecycler.adapter = subTopicListAdapter
-                } else {
-                    supTopicRecycler.visibility = View.GONE
-                    showErrorMsg("Currently no topics available.")
-                }
-            } else {
-                showErrorMsg(resources.getString(R.string.sfl_default_error))
-            }
-        }
-    }
 
     override fun onTopicSelected(subTopicItems: List<VideoMaterial>) {
         subTopicListAdapter = SubTopicsAdapter(this, subTopicItems)
@@ -121,8 +106,5 @@ class LearnActivity : AppCompatActivity(), OnNetworkResponse, TopicClickListener
         stateful.showOffline()
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.icon_error)
-        stateful.setOfflineRetryOnClickListener {
-            requestChapter()
-        }
     }
 }

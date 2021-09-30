@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.upmyranksapp.R
 import com.upmyranksapp.learn.LearnActivity
 import com.upmyranksapp.model.Datum
@@ -46,6 +47,7 @@ class SubjectListAdapter(
             intent.putExtra("title", chaptersList[position].courseName)
             intent.putExtra("id", chaptersList[position].id)
             intent.putExtra("batchID", batchId)
+            intent.putExtra("materials", Gson().toJson(topicList[position]))
             context.startActivity(intent)
         }
     }
