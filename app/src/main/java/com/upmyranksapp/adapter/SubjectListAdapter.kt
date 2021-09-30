@@ -25,7 +25,7 @@ class SubjectListAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val chapternametxt = itemView.findViewById(R.id.chapternametxt) as TextView
         val txtIndex = itemView.findViewById(R.id.txtIndex) as TextView
-        //val chapterDetails = itemView.findViewById(R.id.chapterDetails) as AppCompatTextView
+        val chapterDetails = itemView.findViewById(R.id.chapterDetails) as AppCompatTextView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,11 +38,8 @@ class SubjectListAdapter(
         holder.chapternametxt.text = (chaptersList[position].courseName)
         holder.txtIndex.text = "" + (position + 1)
 
-   /*     holder.chapterDetails.text =
-            topicList.filter { it[0].topic.parentId.equals(chaptersList[position].id) }.map {
-                it[0].materialList?.size
-            }.toString()
-*/
+        holder.chapterDetails.text = getContent(chaptersList[position].id).toString() +" Materials"
+
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LearnActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -51,6 +48,19 @@ class SubjectListAdapter(
             intent.putExtra("batchID", batchId)
             context.startActivity(intent)
         }
+    }
+
+    private fun getContent(courseId: String?): Int {
+        var data = 0
+        topicList.filter {
+            it[0].topic.parentId.equals(courseId)
+        }.map { data = if (!it[0].materialList.isNullOrEmpty()){
+            it[0].materialList!!.size
+        }else{
+            0
+        }
+        }
+        return data
     }
 
     override fun getItemCount(): Int {
