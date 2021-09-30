@@ -58,9 +58,8 @@
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
 
-<!--
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/noOfMaterials"
+                    android:id="@+id/chapterDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -71,7 +70,6 @@
                     android:textColor="@color/charcoal"
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
--->
 
 
 

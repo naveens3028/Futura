@@ -58,22 +58,17 @@ class VideoFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        player = SimpleExoPlayer.Builder(requireContext()).build()
-//        player.setThrowsWhenUsingWrongThread(false)
-//        player_view.setPlayer(player)
-        val listType: Type = object : TypeToken<ArrayList<VideoMaterial?>?>() {}.getType()
+        val listType: Type = object : TypeToken<ArrayList<VideoMaterial?>?>() {}.type
         videoData = Gson().fromJson(myPreferences.getString(Define.VIDEO_DATA), listType)
         pos = myPreferences.getInt(Define.VIDEO_POS)
-//
 
         val myList = ArrayList<VideoMaterial>()
         var myPos = pos
         val listSize = videoData.size - (pos!! +1)
 
         for (i in 1..listSize){
-            myList.add(VideoMaterial(description = videoData[myPos!!+i].description,null, null, videoData[myPos!!+i].filePath, null, null, videoData[myPos!!+i].title, videoData[myPos!!+i].videoId ))
+            myList.add(VideoMaterial(description = videoData[myPos!!+i].description,videoData[myPos!!+i].courseName, null, videoData[myPos!!+i].filePath, null, null, videoData[myPos!!+i].title, videoData[myPos!!+i].videoId ))
         }
-
 
         if (!myList.isNullOrEmpty()){
             upNext.visibility = View.VISIBLE
@@ -82,9 +77,6 @@ class VideoFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
             upNext.visibility = View.GONE
         }
 
-        Log.e("popData1", listSize.toString())
-        Log.e("popData", myList.toString())
-//        val id = videoData.description.replace("https://vimeo.com/","")
 
         if(videoData != null) {
             videoData[pos!!].filePath?.let {
@@ -179,6 +171,7 @@ class VideoFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
     }
 
     override fun onVideoClickListener1(videoPlayedItem: VideoMaterial) {
+        loadVMEOVideos(videoPlayedItem.courseName!!, videoPlayedItem.description!!)
     }
 
 //    private fun download() {

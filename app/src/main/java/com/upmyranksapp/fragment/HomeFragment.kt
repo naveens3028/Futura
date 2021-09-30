@@ -52,7 +52,6 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
         db = AppDatabase.getInstance(requireContext())!!
         initChart()
 
-
         Log.e("popTable", db.videoDao.getAll().toString())
 
         if (db.videoDao.getAll().isNullOrEmpty()){
@@ -60,8 +59,6 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
         }else{
             previosVideo.visibility = View.VISIBLE
         }
-
-
 
     }
 
@@ -173,7 +170,6 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
         lineChart.legend.form = Legend.LegendForm.LINE
         lineChart.description.isEnabled = false
         lineChart.setNoDataText("No Test yet!")
-
         lineChart.animateX(1800, Easing.EaseInExpo)
 
     }

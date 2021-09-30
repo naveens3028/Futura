@@ -466,53 +466,58 @@ class NetworkHelper(context: Context) {
         headers: HashMap<String, String>,
         onNetworkResponse: OnNetworkResponse,
     ) {
+
         val queue = Volley.newRequestQueue(context)
         if (cd.isConnectingToInternet()) {
             Utils.log(TAG, "url $url")
             Utils.log(TAG, "headers $headers")
 
-            val jsonArrayRequest = object : JsonArrayRequest(
-                Method.GET,
-                url,
-                null,
-                Response.Listener { response ->
-                    Utils.log(TAG, "response -$tag $response")
-                    onNetworkResponse.onNetworkResponse(
-                        responseSuccess,
-                        response.toString(),
-                        tag
-                    )
-                },
-                Response.ErrorListener { error: VolleyError ->
-                    Utils.log(
-                        TAG,
-                        "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}"
-                    )
-                    if (error is TimeoutError || error is NoConnectionError) {
+            try {
+                val jsonArrayRequest = object : JsonArrayRequest(
+                    Method.GET,
+                    url,
+                    null,
+                    Response.Listener { response ->
+                        Utils.log(TAG, "response -$tag $response")
                         onNetworkResponse.onNetworkResponse(
-                            responseNoInternet,
-                            "No Internet Connection..",
+                            responseSuccess,
+                            response.toString(),
                             tag
                         )
-                    } else {
-                        onNetworkResponse.onNetworkResponse(
-                            responseFailed,
-                            "Something went wrong!, Please try again..",
-                            tag
+                    },
+                    Response.ErrorListener { error: VolleyError ->
+                        Utils.log(
+                            TAG,
+                            "ErrorListener -$tag ${error.message} ${error.networkResponse}"
                         )
+                        if (error is TimeoutError || error is NoConnectionError) {
+                            onNetworkResponse.onNetworkResponse(
+                                responseNoInternet,
+                                "No Internet Connection..",
+                                tag
+                            )
+                        } else {
+                            onNetworkResponse.onNetworkResponse(
+                                responseFailed,
+                                "Something went wrong!, Please try again..",
+                                tag
+                            )
+                        }
+                    }
+                ) {
+                    override fun getHeaders(): Map<String, String> {
+                        return headers
                     }
                 }
-            ) {
-                override fun getHeaders(): Map<String, String> {
-                    return headers
-                }
-            }
-            jsonArrayRequest.retryPolicy = DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-            queue.add(jsonArrayRequest).tag = tag
+                jsonArrayRequest.retryPolicy = DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
+                queue.add(jsonArrayRequest).tag = tag
+
+            }catch (e:Exception){}
+
 
         } else {
             onNetworkResponse.onNetworkResponse(responseNoInternet, "No Internet Connection..", tag)

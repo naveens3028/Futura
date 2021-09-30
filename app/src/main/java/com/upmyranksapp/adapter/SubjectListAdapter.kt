@@ -6,23 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.upmyranksapp.R
 import com.upmyranksapp.learn.LearnActivity
 import com.upmyranksapp.model.Datum
+import com.upmyranksapp.model.TopicResponse
 
 class SubjectListAdapter(
     val context: Context,
     private val chaptersList: ArrayList<Datum>,
-    val batchId: String
+    val batchId: String,
+    private val topicList : ArrayList<TopicResponse>
 ) :
     RecyclerView.Adapter<SubjectListAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val chapternametxt = itemView.findViewById(R.id.chapternametxt) as TextView
-       // val noOfMaterials = itemView.findViewById(R.id.noOfMaterials) as TextView
         val txtIndex = itemView.findViewById(R.id.txtIndex) as TextView
+        val chapterDetails = itemView.findViewById(R.id.chapterDetails) as AppCompatTextView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,6 +38,11 @@ class SubjectListAdapter(
         holder.chapternametxt.text = (chaptersList[position].courseName)
         holder.txtIndex.text = "" + (position + 1)
 
+   /*     holder.chapterDetails.text =
+            topicList.filter { it[0].topic.parentId.equals(chaptersList[position].id) }.map {
+                it[0].materialList?.size
+            }.toString()
+*/
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LearnActivity::class.java)
             intent.putExtra("title", chaptersList[position].courseName)

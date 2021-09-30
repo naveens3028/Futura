@@ -113,9 +113,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         if (userName.isNotEmpty()) {
             headerLayout.name.text = userName
         }
-      /*  if (!response.userDetail?.profileImagePath.isNullOrEmpty())
-            imageLoader.loadFit(this, response.userDetail?.profileImagePath.toString(), headerLayout.image)
-*/
     }
 
 
@@ -286,7 +283,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 viewPager.setCurrentItem(0, true)
             }
             else -> {
-                this.finish()
+                finish()
             }
         }
     }
