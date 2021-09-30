@@ -59,6 +59,8 @@ data class Topic(
     @SerializedName("courseName")
     @Expose
     var courseName: String? = null,
+    @SerializedName("parentId")
+    var parentId: String? = null,
     @SerializedName("status")
     @Expose
     var status: String? = null

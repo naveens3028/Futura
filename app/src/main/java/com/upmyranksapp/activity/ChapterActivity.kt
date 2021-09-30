@@ -142,8 +142,12 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
                 isListLoaded = false
                 chapterResponse.data?.let { subjectListCall(it,myList) }
             }
-
-        } else {
+        }else if (responseCode == networkHelper.responseFailed && tag == "publishedMaterialsByChapter") {
+            if (isListLoaded){
+                isListLoaded = false
+                chapterResponse.data?.let { subjectListCall(it,myList) }
+            }
+        }else {
             showErrorMsg(resources.getString(R.string.sfl_default_error))
         }
     }

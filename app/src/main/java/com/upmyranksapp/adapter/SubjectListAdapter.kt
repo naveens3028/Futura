@@ -25,7 +25,7 @@ class SubjectListAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val chapternametxt = itemView.findViewById(R.id.chapternametxt) as TextView
         val txtIndex = itemView.findViewById(R.id.txtIndex) as TextView
-        val chapterDetails = itemView.findViewById(R.id.chapterDetails) as AppCompatTextView
+        //val chapterDetails = itemView.findViewById(R.id.chapterDetails) as AppCompatTextView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,6 +45,7 @@ class SubjectListAdapter(
 */
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LearnActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("title", chaptersList[position].courseName)
             intent.putExtra("id", chaptersList[position].id)
             intent.putExtra("batchID", batchId)
