@@ -286,6 +286,8 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 viewPager.setCurrentItem(0, true)
             }
             else -> {
+                this.moveTaskToBack(true)
+                System.exit(1)
                 this.finish()
             }
         }
