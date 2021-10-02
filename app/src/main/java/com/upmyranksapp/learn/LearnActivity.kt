@@ -2,7 +2,6 @@ package com.upmyranksapp.learn
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,7 +9,6 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.upmyranksapp.R
 import com.upmyranksapp.activity.NotificationsActivity
 import com.upmyranksapp.adapter.SubTopicsAdapter
@@ -23,7 +21,6 @@ import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_learn.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
-import java.lang.reflect.Type
 
 
 class LearnActivity : AppCompatActivity(), TopicClickListener {
@@ -50,7 +47,8 @@ class LearnActivity : AppCompatActivity(), TopicClickListener {
         chapterId = intent.getStringExtra("id")!!
         batchId = intent.getStringExtra("batchID")!!
 
-        topicResponse = Gson().fromJson(intent.getStringExtra("materials"), TopicResponse::class.java)
+        topicResponse =
+            Gson().fromJson(intent.getStringExtra("materials"), TopicResponse::class.java)
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
@@ -69,10 +67,10 @@ class LearnActivity : AppCompatActivity(), TopicClickListener {
                 supTopicRecycler.visibility = View.GONE
                 showErrorMsg("Currently no topics available.")
             }
-        }else {
-                supTopicRecycler.visibility = View.GONE
-                showErrorMsg("Currently no topics available.")
-            }
+        } else {
+            supTopicRecycler.visibility = View.GONE
+            showErrorMsg("Currently no topics available.")
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
