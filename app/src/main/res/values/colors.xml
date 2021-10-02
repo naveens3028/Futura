@@ -13,7 +13,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="transparentmin">#72404040</color>
-
+    <color name="tab_select_color">#2196F3</color>
     <color name="tab_default_color">#6c6c6c</color>
     <color name="toolbar_text">#2196F3</color>
     <color name="window_background">#FFFFFFFF</color>

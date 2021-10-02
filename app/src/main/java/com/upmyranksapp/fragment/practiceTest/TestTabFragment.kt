@@ -10,6 +10,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
+import com.skydoves.expandablelayout.ExpandableLayout
+import com.skydoves.expandablelayout.OnExpandListener
 import com.upmyranksapp.R
 import com.upmyranksapp.activity.TakeTestActivity
 import com.upmyranksapp.activity.TestResultActivity
@@ -38,6 +40,8 @@ import com.upmyranksapp.utils.Utils
 import kotlinx.android.synthetic.main.dialog_confirm_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.close
 import kotlinx.android.synthetic.main.fragment_test_tab.*
+import kotlinx.android.synthetic.main.test_layout_child.view.*
+import kotlinx.android.synthetic.main.test_layout_parent.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -79,11 +83,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         val nightModeFlags: Int = requireContext().resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
         when (nightModeFlags) {
-            Configuration.UI_MODE_NIGHT_YES -> {
-                arrowscheduled.setImageResource(R.drawable.downarrow_wt)
-                arrowsAttempted.setImageResource(R.drawable.downarrow_wt)
-                arrowsUnAttempted.setImageResource(R.drawable.downarrow_wt)
-            }
+
             Configuration.UI_MODE_NIGHT_NO -> {
 
             }
@@ -204,49 +204,91 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     override fun onStart() {
         super.onStart()
+        expandableScheduleTest.parentLayout.txtParentTitle.text = "Scheduled Test"
+        expandableAttemptedTest.parentLayout.txtParentTitle.text = "Attempted Test"
+        expandableUnAttemptedTest.parentLayout.txtParentTitle.text = "Un Attempted Test"
+
+        expandableScheduleTest.secondLayout.txtError.text = "No Test Found in Scheduled Test"
+        expandableAttemptedTest.secondLayout.txtError.text = "No Test Found in Attempted Test"
+        expandableUnAttemptedTest.secondLayout.txtError.text = "No Test Found in Un Attempted Test"
+
+        expandableScheduleTest.parentLayout.setOnClickListener {
+            if(expandableScheduleTest.isExpanded)
+            expandableScheduleTest.collapse()
+            else {
+                expandableScheduleTest.expand()
+                expandableAttemptedTest.collapse()
+                expandableUnAttemptedTest.collapse()
+            }
+        }
+        expandableAttemptedTest.parentLayout.setOnClickListener {
+            if(expandableAttemptedTest.isExpanded)
+                expandableAttemptedTest.collapse()
+            else {
+                expandableAttemptedTest.expand()
+                expandableScheduleTest.collapse()
+                expandableUnAttemptedTest.collapse()
+            }
+        }
+        expandableUnAttemptedTest.parentLayout.setOnClickListener {
+            if(expandableUnAttemptedTest.isExpanded)
+                expandableUnAttemptedTest.collapse()
+            else {
+                expandableUnAttemptedTest.expand()
+                expandableScheduleTest.collapse()
+                expandableAttemptedTest.collapse()
+            }
+        }
+
+
+//
+//        expandableScheduleTest.onExpandListener = object : OnExpandListener {
+//            override fun onExpand(isExpanded: Boolean) {
+//
+//            }
+//        }
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
         requestTest()
 
-        arrowscheduled.rotation = arrowscheduled.rotation + 180
 
-        layoutSchedule.setOnClickListener {
-            if (checkVisible == false) {
-                arrowscheduled.rotation = arrowscheduled.rotation + 180
-                scheduleTestRecyclerView.visibility = View.GONE
-                noTestScheduled.visibility = View.GONE
-                checkVisible = true
-            } else {
-                arrowscheduled.rotation = arrowscheduled.rotation + 180
-                scheduleTestRecyclerView.visibility = View.VISIBLE
-                noTestScheduled.visibility = View.VISIBLE
-                checkVisible = false
-            }
-        }
-
-        layoutUnAttempted.setOnClickListener {
-            if (!unAttemptedIsVisible) {
-                arrowsUnAttempted.rotation = arrowsUnAttempted.rotation + 180
-                unattemptedTestRecyclerView.visibility = View.VISIBLE
-                unAttemptedIsVisible = true
-            } else {
-                arrowsUnAttempted.rotation = arrowsUnAttempted.rotation + 180
-                unattemptedTestRecyclerView.visibility = View.GONE
-                unAttemptedIsVisible = false
-            }
-        }
-
-        layoutAttempted.setOnClickListener {
-            if (!attemptedIsVisible) {
-                arrowsAttempted.rotation = arrowsAttempted.rotation + 180
-                attemptedTestRecyclerView.visibility = View.VISIBLE
-                attemptedIsVisible = true
-            } else {
-                arrowsAttempted.rotation = arrowsAttempted.rotation + 180
-                attemptedTestRecyclerView.visibility = View.GONE
-                attemptedIsVisible = false
-            }
-        }
+//        layoutSchedule.setOnClickListener {
+//            if (checkVisible == false) {
+//                arrowscheduled.rotation = arrowscheduled.rotation + 180
+//                scheduleTestRecyclerView.visibility = View.GONE
+//                noTestScheduled.visibility = View.GONE
+//                checkVisible = true
+//            } else {
+//                arrowscheduled.rotation = arrowscheduled.rotation + 180
+//                scheduleTestRecyclerView.visibility = View.VISIBLE
+//                noTestScheduled.visibility = View.VISIBLE
+//                checkVisible = false
+//            }
+//        }
+//
+//        layoutUnAttempted.setOnClickListener {
+//            if (!unAttemptedIsVisible) {
+//                arrowsUnAttempted.rotation = arrowsUnAttempted.rotation + 180
+//                unattemptedTestRecyclerView.visibility = View.VISIBLE
+//                unAttemptedIsVisible = true
+//            } else {
+//                arrowsUnAttempted.rotation = arrowsUnAttempted.rotation + 180
+//                unattemptedTestRecyclerView.visibility = View.GONE
+//                unAttemptedIsVisible = false
+//            }
+//        }
+//
+//        layoutAttempted.setOnClickListener {
+//            if (!attemptedIsVisible) {
+//                arrowsAttempted.rotation = arrowsAttempted.rotation + 180
+//                attemptedTestRecyclerView.visibility = View.VISIBLE
+//                attemptedIsVisible = true
+//            } else {
+//                arrowsAttempted.rotation = arrowsAttempted.rotation + 180
+//                attemptedTestRecyclerView.visibility = View.GONE
+//                attemptedIsVisible = false
+//            }
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -304,80 +346,84 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         try {
-            if (responseCode == networkHelper.responseSuccess && tag == "getUnAttempted") {
-                val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
-                unAttemptedSetup(unAttempted)
-            } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
-                val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
-                if (attemptedTest?.size!! > 0) {
-                    for (attempt in attemptedTest!!) {
-                        attempted.mOCKTEST.add(
-                            AttemptedTest(
-                                "completed",
-                                attempt.testPaperVo?.correctMark!!,
-                                attempt.testPaperVo.duration,
-                                attempt.expiryDate,
-                                attempt.expiryDateTime,
-                                attempt.expiryTime,
-                                attempt.testPaperVo.name,
-                                attempt.publishDate,
-                                attempt.publishDateTime,
-                                attempt.publishTime!!,
-                                attempt.testPaperVo.questionCount,
-                                attempt.testPaperVo.status,
-                                "",
-                                loginData.userDetail?.usersId!!,
-                                loginData.userDetail?.userName!!,
-                                attempt.testPaperVo.testCode,
-                                attempt.testPaperId,
-                                attempt.testPaperVo.testType,
-                                attempt.testPaperVo.attempts,
-                                attempt.testPaperVo.duration.toString(),
-                                attempt.testPaperVo.correctMark.toString(),
+            if(requireActivity() != null) {
+                if (responseCode == networkHelper.responseSuccess && tag == "getUnAttempted") {
+                    val unAttempted = Gson().fromJson(response, UnAttempted::class.java)
+                    unAttemptedSetup(unAttempted)
+                } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
+                    val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
+                    if (attemptedTest?.size!! > 0) {
+                        for (attempt in attemptedTest!!) {
+                            attempted.mOCKTEST.add(
+                                AttemptedTest(
+                                    "completed",
+                                    attempt.testPaperVo?.correctMark!!,
+                                    attempt.testPaperVo.duration,
+                                    attempt.expiryDate,
+                                    attempt.expiryDateTime,
+                                    attempt.expiryTime,
+                                    attempt.testPaperVo.name,
+                                    attempt.publishDate,
+                                    attempt.publishDateTime,
+                                    attempt.publishTime!!,
+                                    attempt.testPaperVo.questionCount,
+                                    attempt.testPaperVo.status,
+                                    "",
+                                    loginData.userDetail?.usersId!!,
+                                    loginData.userDetail?.userName!!,
+                                    attempt.testPaperVo.testCode,
+                                    attempt.testPaperId,
+                                    attempt.testPaperVo.testType,
+                                    attempt.testPaperVo.attempts,
+                                    attempt.testPaperVo.duration.toString(),
+                                    attempt.testPaperVo.correctMark.toString(),
+                                )
                             )
+                        }
+                    }
+                    attemptedSetup(attempted)
+                } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
+                    val scheduledTestResponse =
+                        Gson().fromJson(response, ScheduledClass::class.java)
+                    if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
+                        expandableScheduleTest.secondLayout.recyclerViewChild.visibility = View.GONE
+                        expandableScheduleTest.secondLayout.txtError.visibility = View.VISIBLE
+                    } else {
+                        expandableScheduleTest.secondLayout.recyclerViewChild.visibility =
+                            View.VISIBLE
+                        expandableScheduleTest.secondLayout.txtError.visibility = View.GONE
+                        val completedList = db.getCompletedTest()
+                        completedList.forEachIndexed { _, completedListElement ->
+                            attemptedTest!!.addAll(
+                                scheduledTestResponse.MOCK_TEST.filter { it.testPaperId == completedListElement.testPaperId }
+                                    .toMutableList())
+                            scheduledTestResponse.MOCK_TEST =
+                                scheduledTestResponse.MOCK_TEST.filterNot { it.testPaperId == completedListElement.testPaperId }
+                        }
+                        val scheduledTestAdapter = ScheduledTestAdapter(
+                            requireView().context,
+                            scheduledTestResponse.MOCK_TEST,
+                            this
                         )
+                        expandableScheduleTest.secondLayout.recyclerViewChild.adapter =
+                            scheduledTestAdapter
                     }
+                    getAttemptedTest()
+                } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
+                    val submittedResult = Gson().fromJson(response, SubmittedResult::class.java)
+                    db.deleteTest(submittedResult.testPaperId)
+                    attemptedTest =
+                        attemptedTest?.filterNot { it.testPaperId == submittedResult.testPaperId } as ArrayList<MOCKTEST>?
+                    getAttemptedTest()
+                } else if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapersResult") {
+                    dialogUtils.dismissLoader()
+                    val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
+                    testResponseResult.testPaperId = testPaperId
+                    db.saveResult(testResponseResult)
+                    val intent = Intent(requireContext(), TestResultActivity::class.java)
+                    intent.putExtra("testPaperId", testPaperId)
+                    startActivity(intent)
                 }
-                attemptedSetup(attempted)
-            } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
-                val scheduledTestResponse =
-                    Gson().fromJson(response, ScheduledClass::class.java)
-                if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
-                    scheduleTestRecyclerView.visibility = View.GONE
-                    noTestScheduled.visibility = View.VISIBLE
-                } else {
-                    scheduleTestRecyclerView.visibility = View.VISIBLE
-                    noTestScheduled.visibility = View.GONE
-                    val completedList = db.getCompletedTest()
-                    completedList.forEachIndexed { _, completedListElement ->
-                        attemptedTest!!.addAll(
-                            scheduledTestResponse.MOCK_TEST.filter { it.testPaperId == completedListElement.testPaperId }
-                                .toMutableList())
-                        scheduledTestResponse.MOCK_TEST =
-                            scheduledTestResponse.MOCK_TEST.filterNot { it.testPaperId == completedListElement.testPaperId }
-                    }
-                    val scheduledTestAdapter = ScheduledTestAdapter(
-                        requireView().context,
-                        scheduledTestResponse.MOCK_TEST,
-                        this
-                    )
-                    scheduleTestRecyclerView.adapter = scheduledTestAdapter
-                }
-                getAttemptedTest()
-            } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
-                val submittedResult = Gson().fromJson(response, SubmittedResult::class.java)
-                db.deleteTest(submittedResult.testPaperId)
-                attemptedTest =
-                    attemptedTest?.filterNot { it.testPaperId == submittedResult.testPaperId } as ArrayList<MOCKTEST>?
-                getAttemptedTest()
-            } else if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapersResult") {
-                dialogUtils.dismissLoader()
-                val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
-                testResponseResult.testPaperId = testPaperId
-                db.saveResult(testResponseResult)
-                val intent = Intent(requireContext(), TestResultActivity::class.java)
-                intent.putExtra("testPaperId", testPaperId)
-                startActivity(intent)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -388,34 +434,52 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     private fun unAttemptedSetup(unAttempted: UnAttempted) {
         if (view != null) {
             if (unAttempted.mockTest != null) {
-                if (unAttempted.mockTest!!.size > 0) {
-                    noTestUnAttempted.visibility = View.VISIBLE
+                if (unAttempted.mockTest!!.isNotEmpty()) {
+                    expandableUnAttemptedTest.secondLayout.txtError.visibility = View.GONE
                     val unattemptedAdapter = UnAttemptedTestAdapter(
                         requireContext(),
                         unAttempted.mockTest!!, this
                     )
-                    unattemptedTestRecyclerView.adapter = unattemptedAdapter
+                    expandableUnAttemptedTest.secondLayout.recyclerViewChild.adapter = unattemptedAdapter
                 } else {
-                    noTestUnAttempted.visibility = View.VISIBLE
+                    expandableUnAttemptedTest.secondLayout.txtError.visibility = View.VISIBLE
                 }
             }
         }else{
-            noTestUnAttempted.visibility = View.VISIBLE
+            expandableUnAttemptedTest.secondLayout.txtError.visibility = View.VISIBLE
         }
     }
 
     private fun attemptedSetup(attempted: AttemptedResponse) {
         if (view != null) {
             if(attempted.mOCKTEST.size > 0) {
-                noTestAttempted.visibility = View.GONE
+                expandableAttemptedTest.secondLayout.txtError.visibility = View.GONE
                 val attemptedAdapter = AttemptedTestAdapter(
                     requireContext(),
                     attempted.mOCKTEST.reversed(), this
                 )
-                attemptedTestRecyclerView.adapter = attemptedAdapter
+                expandableAttemptedTest.secondLayout.recyclerViewChild.adapter = attemptedAdapter
             }else {
-                noTestAttempted.visibility = View.VISIBLE
+                expandableAttemptedTest.secondLayout.txtError.visibility = View.VISIBLE
             }
         }
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment PerformanceFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            TestTabFragment().apply {
+                arguments = Bundle().apply {
+                }
+            }
     }
 }

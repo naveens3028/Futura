@@ -6,8 +6,6 @@
         android:id="@+id/navigation_learn"
         android:icon="@drawable/ic_learn"
         android:title="Learn"
-        android:contentDescription="News Papers"
-        android:importantForAccessibility="yes"
         app:showAsAction="always|withText"/>
 
     <item
@@ -28,8 +26,6 @@
         android:id="@+id/navigation_test"
         android:icon="@drawable/ic_test"
         android:title="Test"
-        android:contentDescription="Cricket"
-        android:importantForAccessibility="yes"
         app:showAsAction="always|withText"/>
 
     <item

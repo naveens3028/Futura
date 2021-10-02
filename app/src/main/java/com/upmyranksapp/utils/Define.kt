@@ -20,4 +20,9 @@ object Define {
     val STARTPOSITION = "startPosition"
 
 
+    val HOME_SCREEN_LAST_KNOWN_TAB_POSITION = "home_screen_last_known_tab_position"
+
+
+
+
 }
