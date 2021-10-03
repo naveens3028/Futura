@@ -6,176 +6,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/layoutSchedule"
+    <com.skydoves.expandablelayout.ExpandableLayout
+        android:id="@+id/expandableScheduleTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="@dimen/_40sdp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:layout_weight="1"
-            android:text="@string/scheduled_test"
-            android:textSize="@dimen/_14sdp" />
-
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/arrowscheduled"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:layout_margin="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:src="@drawable/downarrow"
-            android:tint="@color/divider_color" />
-
-    </LinearLayout>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/scheduleTestRecyclerView"
+        app:expandable_duration="300"
+        app:expandable_isExpanded="false"
+        app:expandable_parentLayout="@layout/test_layout_parent"
+        app:expandable_secondLayout="@layout/test_layout_child"
+        app:expandable_showSpinner="true"
+        app:expandable_spinner="@drawable/ic_arrow_down"
+        app:expandable_spinner_color="@color/tab_select_color"
+        app:expandable_spinner_animate="true"
+        app:expandable_spinner_gravity="end"
+        app:expandable_spinner_margin="4dp"
+        app:expandable_spinner_size="42dp" />
+    <com.skydoves.expandablelayout.ExpandableLayout
+        android:id="@+id/expandableAttemptedTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:nestedScrollingEnabled="false"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="1"
-        tools:listitem="@layout/row_completed_live" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/noTestScheduled"
+        app:expandable_duration="300"
+        app:expandable_isExpanded="false"
+        app:expandable_parentLayout="@layout/test_layout_parent"
+        app:expandable_secondLayout="@layout/test_layout_child"
+        app:expandable_showSpinner="true"
+        app:expandable_spinner="@drawable/ic_arrow_down"
+        app:expandable_spinner_color="@color/tab_select_color"
+        app:expandable_spinner_animate="true"
+        app:expandable_spinner_gravity="end"
+        app:expandable_spinner_margin="4dp"
+        app:expandable_spinner_size="42dp" />
+    <com.skydoves.expandablelayout.ExpandableLayout
+        android:id="@+id/expandableUnAttemptedTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:minHeight="@dimen/_80sdp"
-        android:text="No Test Found"
-        android:textAlignment="center"
-        android:textSize="@dimen/_13sdp"
-        android:visibility="gone" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider_color" />
-
-    <LinearLayout
-        android:id="@+id/layoutAttempted"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="@dimen/_40sdp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:layout_weight="1"
-            android:text="@string/attempted_test"
-            android:textSize="@dimen/_14sdp" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/arrowsAttempted"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:layout_margin="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:src="@drawable/downarrow"
-            android:tint="@color/divider_color" />
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/attemptedTestRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:nestedScrollingEnabled="false"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="1"
-        tools:listitem="@layout/row_completed_live" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/noTestAttempted"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:minHeight="@dimen/_80sdp"
-        android:text="No Test Found"
-        android:textAlignment="center"
-        android:textSize="@dimen/_13sdp"
-        android:visibility="gone" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider_color" />
-
-    <LinearLayout
-        android:id="@+id/layoutUnAttempted"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="@dimen/_40sdp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:layout_weight="1"
-            android:text="Un Attempted Test"
-            android:textSize="@dimen/_14sdp" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/arrowsUnAttempted"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:layout_margin="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:src="@drawable/downarrow"
-            android:tint="@color/divider_color" />
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/unattemptedTestRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:nestedScrollingEnabled="false"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="1"
-        tools:listitem="@layout/row_completed_live" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/noTestUnAttempted"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:minHeight="@dimen/_80sdp"
-        android:text="No Test Found"
-        android:textAlignment="center"
-        android:textSize="@dimen/_13sdp"
-        android:visibility="gone" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider_color" />
+        app:expandable_duration="300"
+        app:expandable_isExpanded="false"
+        app:expandable_parentLayout="@layout/test_layout_parent"
+        app:expandable_secondLayout="@layout/test_layout_child"
+        app:expandable_showSpinner="true"
+        app:expandable_spinner="@drawable/ic_arrow_down"
+        app:expandable_spinner_color="@color/tab_select_color"
+        app:expandable_spinner_animate="true"
+        app:expandable_spinner_gravity="end"
+        app:expandable_spinner_margin="4dp"
+        app:expandable_spinner_size="42dp" />
 </LinearLayout>

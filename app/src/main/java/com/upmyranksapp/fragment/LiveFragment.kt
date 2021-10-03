@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.upmyranksapp.R
 import com.upmyranksapp.adapter.StudyAdapter
-import com.upmyranksapp.fragment.CompletedLiveFragment
-import com.upmyranksapp.fragment.UpcomingLiveFragment
+import com.upmyranksapp.fragment.practiceTest.ScheduledTestFragment
 import com.upmyranksapp.helper.MyProgressBar
 import com.upmyranksapp.model.LiveResponse
 import com.upmyranksapp.model.onBoarding.LoginData
@@ -22,6 +23,7 @@ import com.upmyranksapp.network.UrlConstants.kLIVE
 import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_live.*
+import kotlinx.android.synthetic.main.fragment_live.viewPager
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -38,6 +40,9 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     lateinit var myPreferences: MyPreferences
     lateinit var myProgressBar: MyProgressBar
 
+
+    lateinit var liveFragmentTabAdapter: LiveFragmentTabAdapter
+    private var titles = arrayOf<String>("Upcoming Live Sessions","Completed Sessions")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myPreferences = MyPreferences(requireContext())
@@ -55,6 +60,8 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        liveFragmentTabAdapter = LiveFragmentTabAdapter(requireActivity(), titles)
+        viewPager.adapter = liveFragmentTabAdapter
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
@@ -70,26 +77,32 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
     override fun onStart() {
         super.onStart()
-        childFragmentManager.beginTransaction()
-            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", "")).commit()
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.position) {
-                    0 ->
-                        childFragmentManager.beginTransaction()
-                            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", ""))
-                            .commit()
-                    1 ->
-                        childFragmentManager.beginTransaction()
-                            .replace(R.id.liveFrameLayout, CompletedLiveFragment.newInstance("", ""))
-                            .commit()
-                }
-            }
+        TabLayoutMediator(slidingTabLayout, viewPager,
+            ({ tab, position -> tab.text = titles[position] })
+        ).attach()
+        viewPager.currentItem = requireArguments().getInt("currentPosition",0)
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
+//        childFragmentManager.beginTransaction()
+//            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", "")).commit()
+//
+//        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab) {
+//                when (tab.position) {
+//                    0 ->
+//                        childFragmentManager.beginTransaction()
+//                            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", ""))
+//                            .commit()
+//                    1 ->
+//                        childFragmentManager.beginTransaction()
+//                            .replace(R.id.liveFrameLayout, CompletedLiveFragment.newInstance("", ""))
+//                            .commit()
+//                }
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab) {}
+//            override fun onTabReselected(tab: TabLayout.Tab) {}
+//        })
 
     }
 
@@ -159,6 +172,24 @@ class LiveFragment : Fragment(), OnNetworkResponse {
             StudyLabel.visibility = View.VISIBLE
             retryLive.setOnClickListener {
                 requestSessions()
+            }
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+
+        requireArguments().putInt("currentPosition", viewPager.currentItem)
+    }
+    class LiveFragmentTabAdapter(fm: FragmentActivity, val titles: Array<String>) : FragmentStateAdapter(fm) {
+        override fun getItemCount(): Int {
+            return titles.size
+        }
+        override fun createFragment(position: Int): Fragment {
+
+            return when(position){
+                0 -> UpcomingLiveFragment.newInstance(titles[position],"")
+                1 -> ScheduledTestFragment.newInstance(titles[position],"")
+                else -> ScheduledTestFragment.newInstance(titles[position],"")
             }
         }
     }

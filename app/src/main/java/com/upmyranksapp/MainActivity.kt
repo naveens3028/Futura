@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var loginResponse: LoginData
     private val imageLoader = ImageLoader
     lateinit var databaseHelper: DatabaseHelper
-
+    lateinit var myPreferences: MyPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         setSupportActionBar(toolbar)
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
+        myPreferences = MyPreferences(this)
 
         loginResponse =
             Gson().fromJson(MyPreferences(this).getString(Define.LOGIN_DATA), LoginData::class.java)
@@ -163,11 +164,11 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     if (position == 0) {
-                        navigationView.selectedItemId = R.id.navigation_home
-                    } else if (position == 1) {
                         navigationView.selectedItemId = R.id.navigation_learn
-                    } else if (position == 2) {
+                    } else if (position == 1) {
                         navigationView.selectedItemId = R.id.navigation_live
+                    } else if (position == 2) {
+                        navigationView.selectedItemId = R.id.navigation_home
                     } else if (position == 3) {
                         navigationView.selectedItemId = R.id.navigation_test
                     } else if (position == 4) {
@@ -185,19 +186,19 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         navigationView.setOnNavigationItemSelectedListener(
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
-                    R.id.navigation_home -> {
-                        viewPager.currentItem = 0
-                        supportActionBar!!.title = "Hi, ${loginResponse.userDetail?.firstName}"
-                        return@OnNavigationItemSelectedListener true
-                    }
                     R.id.navigation_learn -> {
-                        viewPager.currentItem = 1
+                        viewPager.currentItem = 0
                         supportActionBar!!.title = "Learn"
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_live -> {
-                        viewPager.currentItem = 2
+                        viewPager.currentItem = 1
                         supportActionBar!!.title = "Live"
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.navigation_home -> {
+                        viewPager.currentItem = 2
+                        supportActionBar!!.title = "Hi, ${loginResponse.userDetail?.firstName}"
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_test -> {
@@ -213,6 +214,8 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 }
                 false
             })
+
+        viewPager.currentItem = myPreferences.getInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION,2)
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
@@ -273,16 +276,23 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         val intent = Intent(this, QRCodeActivity::class.java)
         startActivity(intent)
     }
+
+    override fun onPause() {
+        super.onPause()
+        myPreferences.setInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION,viewPager.currentItem)
+
+    }
     override fun onBackPressed() {
         //Back event handled when drawer open
         when {
             drawer.isDrawerOpen(GravityCompat.START) -> {
                 drawer.closeDrawer(GravityCompat.START)
             }
-            viewPager.currentItem != 0 -> {
-                viewPager.setCurrentItem(0, true)
+            viewPager.currentItem != 2 -> {
+                viewPager.setCurrentItem(2, true)
             }
             else -> {
+                myPreferences.setInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION,2)
                 this.moveTaskToBack(true)
                 System.exit(1)
                 this.finish()

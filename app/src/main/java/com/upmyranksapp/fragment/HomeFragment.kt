@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -18,14 +20,16 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayoutMediator
 import com.upmyranksapp.R
 import com.upmyranksapp.adapter.VideoPlayedAdapter
 import com.upmyranksapp.database.AppDatabase
 import com.upmyranksapp.database.model.VideoPlayedItem
-import com.upmyranksapp.fragment.practiceTest.ScheduledTestFragment
+import com.upmyranksapp.fragment.practiceTest.*
 import com.upmyranksapp.helper.exoplayer.ExoUtil
 import com.upmyranksapp.model.VideoMaterial
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.slidingTabLayout
 import vimeoextractor.OnVimeoExtractionListener
 import vimeoextractor.VimeoExtractor
 import vimeoextractor.VimeoVideo
@@ -38,7 +42,8 @@ private const val ARG_PARAM2 = "param2"
 class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
 
     lateinit var db: AppDatabase
-
+    lateinit var homeFragmentTabAdapter: HomeFragmentTabAdapter
+    private var titles = arrayOf<String>("Upcoming Live Sessions","Scheduled Test")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +55,9 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         db = AppDatabase.getInstance(requireContext())!!
+
+        homeFragmentTabAdapter = HomeFragmentTabAdapter(requireActivity(), titles)
+        viewPager.adapter = homeFragmentTabAdapter
         initChart()
 
         Log.e("popTable", db.videoDao.getAll().toString())
@@ -65,26 +73,30 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
     override fun onStart() {
         super.onStart()
 
-        childFragmentManager.beginTransaction()
-            .replace(R.id.frameLayout, UpcomingLiveFragment.newInstance("", "")).commit()
+        TabLayoutMediator(slidingTabLayout, viewPager,
+            ({ tab, position -> tab.text = titles[position] })
+        ).attach()
+        viewPager.currentItem = requireArguments().getInt("currentPosition",0)
+//        childFragmentManager.beginTransaction()
+//            .replace(R.id.frameLayout, UpcomingLiveFragment.newInstance("", "")).commit()
 
-        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.position) {
-                    0 ->
-                        childFragmentManager.beginTransaction()
-                            .replace(R.id.frameLayout, UpcomingLiveFragment.newInstance("", ""))
-                            .commit()
-                    1 ->
-                        childFragmentManager.beginTransaction()
-                            .replace(R.id.frameLayout, ScheduledTestFragment())
-                            .commit()
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
+//        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab) {
+//                when (tab.position) {
+//                    0 ->
+//                        childFragmentManager.beginTransaction()
+//                            .replace(R.id.frameLayout, UpcomingLiveFragment.newInstance("", ""))
+//                            .commit()
+//                    1 ->
+//                        childFragmentManager.beginTransaction()
+//                            .replace(R.id.frameLayout, ScheduledTestFragment())
+//                            .commit()
+//                }
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab) {}
+//            override fun onTabReselected(tab: TabLayout.Tab) {}
+//        })
 
         val videoRecyclerView = view?.findViewById(R.id.playedRecycler) as RecyclerView
         val videoAdapter = VideoPlayedAdapter(requireActivity(),"0", db.videoDao.getAll(),null, this)
@@ -171,7 +183,6 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
         lineChart.description.isEnabled = false
         lineChart.setNoDataText("No Test yet!")
         lineChart.animateX(1800, Easing.EaseInExpo)
-
     }
 
     companion object {
@@ -227,5 +238,23 @@ class HomeFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
             childFragmentManager, title,
             url, false
         )
+    }
+    override fun onPause() {
+        super.onPause()
+
+        requireArguments().putInt("currentPosition", viewPager.currentItem)
+    }
+    class HomeFragmentTabAdapter(fm: FragmentActivity, val titles: Array<String>) : FragmentStateAdapter(fm) {
+        override fun getItemCount(): Int {
+            return titles.size
+        }
+        override fun createFragment(position: Int): Fragment {
+
+            return when(position){
+                0 -> UpcomingLiveFragment.newInstance(titles[position],"")
+                1 -> ScheduledTestFragment.newInstance(titles[position],"")
+                else -> ScheduledTestFragment.newInstance(titles[position],"")
+            }
+        }
     }
 }

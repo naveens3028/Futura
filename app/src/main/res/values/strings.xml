@@ -119,11 +119,11 @@
     <string name="confrompswd">Confirm Password</string>
     <string name="signup"> Sign Up</string>
 
-        <string name="usertype1">Select User</string>
-        <string-array name="usertype">
-            <item>Student</item>
-            <item>Institute</item>
-        </string-array>
+    <string name="usertype1">Select User</string>
+    <string-array name="usertype">
+        <item>Student</item>
+        <item>Institute</item>
+    </string-array>
 
 
     <string name="track_selection_title">Select tracks</string>
@@ -167,4 +167,6 @@
     <string name="download_ads_unsupported">IMA does not support offline ads</string>
 
     <string name="prefer_extension_decoders">Prefer extension decoders</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

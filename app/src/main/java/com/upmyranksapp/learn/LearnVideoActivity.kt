@@ -17,7 +17,7 @@ import com.upmyranksapp.R
 import com.upmyranksapp.activity.NotificationsActivity
 import com.upmyranksapp.learn.fragment.StudyMaterialFragment
 import com.upmyranksapp.learn.fragment.VideoFragment
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.activity_learn_video.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class LearnVideoActivity : AppCompatActivity() {
