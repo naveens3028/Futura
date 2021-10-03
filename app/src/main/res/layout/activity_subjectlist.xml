@@ -20,7 +20,8 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="@dimen/_30sdp"
+                android:id="@+id/rlt_subj"
+                android:layout_width="@dimen/_25sdp"
                 android:layout_height="match_parent"
                 android:background="@color/purple_300"
                 android:gravity="center">
@@ -58,18 +59,41 @@
                     android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/chapterDetails"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_weight="1"
-                    android:breakStrategy="simple"
-                    android:textColor="@color/charcoal"
-                    android:textSize="@dimen/_13sdp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/chapterDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="0dp"
+                        android:drawablePadding="@dimen/_3sdp"
+                        android:drawableStart="@drawable/ic_topic"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_weight="1"
+                        android:breakStrategy="simple"
+                        android:textColor="@color/tab_default_color" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/chapterDetailsMaterials"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_3sdp"
+                        android:drawableStart="@drawable/ic_materials"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_weight="1"
+                        android:breakStrategy="simple"
+                        android:textColor="@color/tab_default_color"
+                       />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
 
