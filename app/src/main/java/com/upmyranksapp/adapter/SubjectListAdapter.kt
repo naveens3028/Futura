@@ -2,6 +2,7 @@ package com.upmyranksapp.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +14,12 @@ import com.upmyranksapp.R
 import com.upmyranksapp.learn.LearnActivity
 import com.upmyranksapp.model.Datum
 import com.upmyranksapp.model.TopicResponse
+import com.upmyranksapp.model.chapter.ChapterResponseData
 
 class SubjectListAdapter(
     val context: Context,
-    private val chaptersList: ArrayList<Datum>,
-    val batchId: String,
-    private val topicList : ArrayList<TopicResponse>
+    private val chaptersList: List<ChapterResponseData>,
+    val batchId: String
 ) :
     RecyclerView.Adapter<SubjectListAdapter.ViewHolder>() {
 
@@ -36,33 +37,24 @@ class SubjectListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val data = chaptersList[position]
         holder.chapternametxt.text = (chaptersList[position].courseName)
+        Log.e("popPos1", position.toString())
+
         holder.txtIndex.text = "" + (position + 1)
 
-        holder.chapterDetails.text = getContent(chaptersList[position].id).toString() +" Materials"
+        holder.chapterDetails.text = data.topicMaterialResponses?.size.toString() + " Materials"
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LearnActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("title", chaptersList[position].courseName)
             intent.putExtra("id", chaptersList[position].id)
+            intent.putExtra("materials", Gson().toJson(data.topicMaterialResponses))
             intent.putExtra("batchID", batchId)
-            intent.putExtra("materials", Gson().toJson(topicList[position]))
+            Log.e("popPos", position.toString())
             context.startActivity(intent)
         }
-    }
-
-    private fun getContent(courseId: String?): Int {
-        var data = 0
-        topicList.filter {
-            it[0].topic.parentId.equals(courseId)
-        }.map { data = if (!it[0].materialList.isNullOrEmpty()){
-            it[0].materialList!!.size
-        }else{
-            0
-        }
-        }
-        return data
     }
 
     override fun getItemCount(): Int {

@@ -27,118 +27,25 @@
                 layout="@layout/layout_toolbar"
                 android:visibility="gone" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/titleRecycler"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs_material"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:tabMode="scrollable"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-                tools:itemCount="3"
-                tools:listitem="@layout/row_sub_topics_title" />
+                app:tabSelectedTextColor="@color/carolina_blue"
+                app:tabIndicatorColor="@color/carolina_blue"
+                />
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager_material"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="@dimen/_12sdp"
-                app:cardCornerRadius="@dimen/_6sdp"
-                app:cardElevation="@dimen/_4sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleRecycler">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/subTopicTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_15sdp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Trigonometry"
-                        android:textColor="@color/carolina_blue"
-                        android:textSize="@dimen/_10sdp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_2sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:text="2"
-                        android:textColor="@color/emerald"
-                        android:textSize="@dimen/_10sdp"
-                        app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
-                        app:layout_constraintEnd_toStartOf="@+id/finishedVideo"
-                        app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
-
-
-                    <View
-                        android:id="@+id/finishedVideo"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginEnd="@dimen/_15sdp"
-                        android:background="@drawable/rounded_circle_filled"
-                        android:backgroundTint="@color/emerald"
-                        app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
-                        app:layout_constraintEnd_toStartOf="@+id/pendingVideoCount"
-                        app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/pendingVideoCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_2sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:text="14"
-                        android:textColor="@color/bittersweet"
-                        android:textSize="@dimen/_10sdp"
-                        app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
-                        app:layout_constraintEnd_toStartOf="@+id/pendingVideo"
-                        app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
-
-                    <View
-                        android:id="@+id/pendingVideo"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_5sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginEnd="@dimen/_15sdp"
-                        android:background="@drawable/rounded_circle_filled"
-                        android:backgroundTint="@color/bittersweet"
-                        app:layout_constraintBottom_toBottomOf="@+id/subTopicTitle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/subTopicTitle" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/supTopicRecycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginVertical="@dimen/_16sdp"
-                        android:clipToPadding="true"
-                        android:orientation="vertical"
-                        android:overScrollMode="never"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/subTopicTitle"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/row_sub_topics_video" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
+                app:layout_constraintTop_toBottomOf="@id/tabs_material"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.upmyranksapp.helper.SimpleStatefulLayout>

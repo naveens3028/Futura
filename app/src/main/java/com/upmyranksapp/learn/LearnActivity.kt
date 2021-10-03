@@ -4,17 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.upmyranksapp.R
 import com.upmyranksapp.activity.NotificationsActivity
+import com.upmyranksapp.adapter.MaterialsPagerAdapter
 import com.upmyranksapp.adapter.SubTopicsAdapter
-import com.upmyranksapp.adapter.SubTopicsTitleAdapter
-import com.upmyranksapp.model.TopicResponse
-import com.upmyranksapp.model.VideoMaterial
+import com.upmyranksapp.model.chapter.TopicMaterialResponse
 import com.upmyranksapp.model.onBoarding.LoginData
 import com.upmyranksapp.network.NetworkHelper
 import com.upmyranksapp.utils.Define
@@ -23,12 +24,13 @@ import kotlinx.android.synthetic.main.activity_learn.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 
-class LearnActivity : AppCompatActivity(), TopicClickListener {
+class LearnActivity : AppCompatActivity() {
 
     private var loginData = LoginData()
+    lateinit var materialsPagerAdapter: MaterialsPagerAdapter
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
-    var topicResponse = TopicResponse()
+    var topicResponse: List<TopicMaterialResponse>? = null
     lateinit var subTopicListAdapter: SubTopicsAdapter
     var chapterId = ""
     var batchId = ""
@@ -47,14 +49,20 @@ class LearnActivity : AppCompatActivity(), TopicClickListener {
         chapterId = intent.getStringExtra("id")!!
         batchId = intent.getStringExtra("batchID")!!
 
-        topicResponse =
-            Gson().fromJson(intent.getStringExtra("materials"), TopicResponse::class.java)
+        val datas: List<TopicMaterialResponse> =
+            Gson().fromJson(
+                intent.getStringExtra("materials"),
+                object : TypeToken<List<TopicMaterialResponse?>?>() {}.type
+            )
+
+        topicResponse = datas
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
+/*
         if (topicResponse.isNotEmpty()) {
             val titleAdapter = SubTopicsTitleAdapter(this, topicResponse, this)
             titleRecycler.adapter = titleAdapter
@@ -71,6 +79,31 @@ class LearnActivity : AppCompatActivity(), TopicClickListener {
             supTopicRecycler.visibility = View.GONE
             showErrorMsg("Currently no topics available.")
         }
+*/
+        if (!topicResponse.isNullOrEmpty()) {
+            materialsPagerAdapter = MaterialsPagerAdapter(this, topicResponse!!)
+            view_pager_material.adapter = materialsPagerAdapter
+            view_pager_material.offscreenPageLimit = 3
+
+
+            view_pager_material.registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+            })
+
+            TabLayoutMediator(tabs_material, view_pager_material) { tab, position ->
+                tab.text = topicResponse!![position].topic?.courseName
+            }.attach()
+
+            val pageChangeCallback: ViewPager2.OnPageChangeCallback =
+                object : ViewPager2.OnPageChangeCallback() {
+
+                    override fun onPageScrollStateChanged(state: Int) {
+                        appBarLayout.setExpanded(true)
+                    }
+                }
+            view_pager_material.registerOnPageChangeCallback(pageChangeCallback)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -95,10 +128,10 @@ class LearnActivity : AppCompatActivity(), TopicClickListener {
     }
 
 
-    override fun onTopicSelected(subTopicItems: List<VideoMaterial>) {
-        subTopicListAdapter = SubTopicsAdapter(this, subTopicItems)
-        supTopicRecycler.adapter = subTopicListAdapter
-    }
+    /* override fun onTopicSelected(subTopicItems: List<VideoMaterial>) {
+         subTopicListAdapter = SubTopicsAdapter(this, subTopicItems)
+         supTopicRecycler.adapter = subTopicListAdapter
+     }*/
 
     fun showErrorMsg(errorMsg: String) {
         stateful.showOffline()

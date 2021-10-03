@@ -33,57 +33,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-<!--
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:focusableInTouchMode="true"
-                    android:outlineAmbientShadowColor="@color/charcoal"
-                    app:cardCornerRadius="@dimen/_12sdp"
-                    app:cardElevation="5dp"
-                    app:cardUseCompatPadding="true">
-
-                    <com.upmyranksapp.helper.NestedScrollableHost
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerviewcourse"
-                            android:layout_width="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false"
-                            tools:listitem="@layout/activity_course" />
-
-                    </com.upmyranksapp.helper.NestedScrollableHost>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/cardview"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:overScrollMode="never"
-                    app:spanCount="2"
-                    tools:listitem="@layout/activity_subjects" />
-
-            </RelativeLayout>
-
-        </androidx.core.widget.NestedScrollView>
--->
-
     </FrameLayout>
 
 </com.upmyranksapp.helper.SimpleStatefulLayout>

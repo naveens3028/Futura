@@ -16,10 +16,14 @@ import com.upmyranksapp.helper.MyProgressBar
 import com.upmyranksapp.model.CourseResponse
 import com.upmyranksapp.model.Datum
 import com.upmyranksapp.model.TopicResponse
+import com.upmyranksapp.model.chapter.ChapterResponse
+import com.upmyranksapp.model.chapter.ChapterResponseData
+import com.upmyranksapp.model.onBoarding.LoginData
 import com.upmyranksapp.network.ApiUtils
 import com.upmyranksapp.network.NetworkHelper
 import com.upmyranksapp.network.OnNetworkResponse
 import com.upmyranksapp.network.URLHelper
+import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -30,10 +34,10 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
     lateinit var networkHelper: NetworkHelper
     lateinit var subjectId: String
     lateinit var batchId: String
-    val myList = ArrayList<TopicResponse>()
-    lateinit var chapterResponse: CourseResponse
-    private var isListLoaded: Boolean = false
+    lateinit var chapterResponse: ChapterResponse
     lateinit var myProgressBar: MyProgressBar
+    private var loginData = LoginData()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +46,10 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
         myProgressBar = MyProgressBar(this)
+
+        loginData =
+            Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
+
 
         subjectId = intent.getStringExtra("id")!!
         batchId = intent.getStringExtra("batchId")!!
@@ -53,20 +61,21 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         actionBar?.title = intent.getStringExtra("title")
 
-        requestChapter(subjectId)
+        requestChapter(batchId)
     }
 
     private fun requestChapter(batchId: String) {
         stateful.showProgress()
         stateful.setProgressText("Chapters loading, Please wait..")
         networkHelper.getCall(
-            URLHelper.courseURL + batchId,
+            URLHelper.courseURL1  + "?id=${subjectId}&batchId=$batchId",
             "getChapter",
             ApiUtils.getHeader(this),
             this
         )
     }
 
+/*
     private fun requestChapter1(subjectList: Datum) {
         stateful.showProgress()
         stateful.setProgressText("Loading..")
@@ -77,18 +86,9 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
             this
         )
     }
+*/
 
-    private fun getTopicDataSize(subjectList: ArrayList<Datum>){
-       for (i in 0 until subjectList.size){
-            requestChapter1(subjectList[i])
-           if (i+1 == subjectList.size){
-               isListLoaded = true
-           }
-        }
-    }
-
-
-    private fun subjectListCall(subjectList: ArrayList<Datum>, myList: ArrayList<TopicResponse>) {
+    private fun subjectListCall(subjectList: List<ChapterResponseData>) {
         if (subjectList.size > 0) {
 
             supportActionBar?.subtitle = "${subjectList.size} Chapters"
@@ -96,9 +96,8 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
             recyclerView.layoutManager =
                 LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
             recyclerView.setPadding(16, 0, 16, 0)
-            val adapter = SubjectListAdapter(applicationContext, subjectList, batchId, myList)
+            val adapter = SubjectListAdapter(applicationContext, subjectList, batchId)
 
-            Log.e("popList", this.myList.toString())
             //now adding the adapter to recyclerview
             recyclerView.adapter = adapter
 
@@ -131,23 +130,10 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "getChapter") {
-            chapterResponse = Gson().fromJson(response, CourseResponse::class.java)
-            chapterResponse.data?.let { getTopicDataSize(it) }
-            myList.clear()
-        } else if (responseCode == networkHelper.responseSuccess && tag == "publishedMaterialsByChapter") {
-            val topicResponse = Gson().fromJson(response, TopicResponse::class.java)
-            myList.add(topicResponse)
-            if (isListLoaded){
-                stateful.showContent()
-                isListLoaded = false
-                chapterResponse.data?.let { subjectListCall(it,myList) }
-            }
-        }else if (responseCode == networkHelper.responseFailed && tag == "publishedMaterialsByChapter") {
-            if (isListLoaded){
-                isListLoaded = false
-                chapterResponse.data?.let { subjectListCall(it,myList) }
-            }
-        }else {
+            stateful.showContent()
+            chapterResponse = Gson().fromJson(response, ChapterResponse::class.java)
+            chapterResponse.data?.let { subjectListCall(it) }
+        } else {
             showErrorMsg(resources.getString(R.string.sfl_default_error))
         }
     }

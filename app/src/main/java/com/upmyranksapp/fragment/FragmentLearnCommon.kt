@@ -25,6 +25,7 @@ import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_common_learn.*
 import java.util.HashMap
+import kotlin.math.log
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -35,7 +36,7 @@ class FragmentLearnCommon : Fragment(), SubjectClickListener, OnNetworkResponse 
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
     var batchIds: String? = null
-    var batchId: String? = null
+    var courseId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,16 +58,28 @@ class FragmentLearnCommon : Fragment(), SubjectClickListener, OnNetworkResponse 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
+        batchIds =  if (loginData.userDetail?.batchList!![0].additionalCourseId.isNullOrEmpty() && loginData.userDetail!!.userName != "QR1001") {
+            loginData.userDetail?.batchList!![0].id
+        } else if (loginData.userDetail!!.userName == "QR1001") {
+            if (loginData.userDetail?.batchList!![1].additionalCourseId.isNullOrEmpty()){
+                loginData.userDetail?.batchList!![1].id
+            }else{
+                loginData.userDetail?.batchList!![1].additionalCourseId
+            }
+        }else {
+            loginData.userDetail?.batchList!![0].additionalCourseId
+        }
+
     }
 
 
     override fun onResume() {
         super.onResume()
         arguments?.let {
-            batchId = it.getString(ARG_PARAM2)
+            courseId = it.getString(ARG_PARAM2)
         }
-        if (!batchId.isNullOrEmpty()){
-            requestSessions(batchId!!)
+        if (!courseId.isNullOrEmpty()){
+            requestSessions(courseId!!)
         } else if (loginData.userDetail?.batchList?.get(0)?.additionalCourseId.isNullOrEmpty()) {
             requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
         } else requestSessions(loginData.userDetail?.batchList?.get(0)?.additionalCourseId!!)
@@ -114,10 +127,10 @@ class FragmentLearnCommon : Fragment(), SubjectClickListener, OnNetworkResponse 
 
     }
 
-    override fun onSubjectClicked(batchId: String, id: String, title: String) {
+    override fun onSubjectClicked(Id: String, batchId: String, title: String) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
-        intent.putExtra("id", batchId)
-        intent.putExtra("batchId", id)
+        intent.putExtra("id", Id)
+        intent.putExtra("batchId", batchId)
         intent.putExtra("title", title)
         startActivity(intent)
     }
@@ -147,7 +160,7 @@ class FragmentLearnCommon : Fragment(), SubjectClickListener, OnNetworkResponse 
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(param1: String, param2: String) =
             FragmentLearnCommon().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM2, param1)
