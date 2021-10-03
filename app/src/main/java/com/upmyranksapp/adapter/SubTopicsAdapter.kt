@@ -31,8 +31,6 @@ class SubTopicsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position == 0)
-            holder.itemView.divider.visibility = View.GONE
 
         holder.itemView.videoName.text = subTopicItems[position].title
         holder.itemView.setOnClickListener {

@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.upmyranksapp.GlideApp
-import com.upmyranksapp.model.UpcomingLiveItem
 import com.upmyranksapp.R
+import com.upmyranksapp.model.UpcomingLiveItem
 import kotlinx.android.synthetic.main.row_upcoming_live.view.*
 
 class UpcomingLiveAdapter(

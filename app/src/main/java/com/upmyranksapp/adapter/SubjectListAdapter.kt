@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.upmyranksapp.R
 import com.upmyranksapp.learn.LearnActivity
-import com.upmyranksapp.model.Datum
-import com.upmyranksapp.model.TopicResponse
 import com.upmyranksapp.model.chapter.ChapterResponseData
 
 class SubjectListAdapter(
@@ -43,7 +41,7 @@ class SubjectListAdapter(
 
         holder.txtIndex.text = "" + (position + 1)
 
-        holder.chapterDetails.text = data.topicMaterialResponses?.size.toString() + " Materials"
+        holder.chapterDetails.text = data.topicMaterialResponses?.size.toString() + " Topics, " + data.videoCount.toString() + " Materials"
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, LearnActivity::class.java)

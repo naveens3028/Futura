@@ -17,13 +17,20 @@
             android:orientation="vertical">
 
             <com.google.android.material.tabs.TabLayout
+                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                 android:id="@+id/tabs_learn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/carolina_blue"
-                app:tabIndicatorColor="@color/carolina_blue"
+                app:tabGravity="center"
+                app:tabSelectedTextColor="@color/tab_select_color"
+                app:tabIndicatorColor="@color/tab_select_color"
+                app:tabTextColor="@color/tab_default_color"
                  />
+
+            <com.upmyranksapp.helper.NestedScrollableHost
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager_learn"
@@ -31,6 +38,7 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+            </com.upmyranksapp.helper.NestedScrollableHost>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </FrameLayout>

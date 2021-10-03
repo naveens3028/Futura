@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_materials.*
 import java.util.*
 
 private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class FragmentMaterials : Fragment() {
 
@@ -54,6 +53,7 @@ class FragmentMaterials : Fragment() {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
+
     }
 
 
@@ -65,26 +65,12 @@ class FragmentMaterials : Fragment() {
                 it.getString(ARG_PARAM1),
                 TopicMaterialResponse::class.java
                 )
+
+            subTopicTitle.text = topicResponse?.topic!!.courseName.toString()
         }
 
-        Log.e("popers1", topicResponse.toString())
-        Log.e("popers1", topicResponse?.materialList.toString())
         if (!topicResponse?.materialList.isNullOrEmpty()) onTopicSelected(topicResponse?.materialList)
     }
-
-
-/*
-    fun showErrorMsg(errorMsg: String) {
-        stateful.showOffline()
-        stateful.setOfflineText(errorMsg)
-        stateful.setOfflineImageResource(R.drawable.icon_error)
-        stateful.setOfflineRetryOnClickListener {
-            if (loginData.userDetail?.batchList?.get(0)?.additionalCourseId.isNullOrEmpty()) {
-                requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
-            } else requestSessions(loginData.userDetail?.batchList?.get(0)?.additionalCourseId!!)
-        }
-    }
-*/
 
      fun onTopicSelected(subTopicItems: List<VideoMaterial>?) {
         subTopicListAdapter = SubTopicsAdapter(requireContext(), subTopicItems!!)

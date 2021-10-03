@@ -23,6 +23,7 @@
     <color name="bluishgreen">#CE14EF97</color>
     <color name="blue">#CE3F86DC</color>
     <color name="notification_badge">#FFEB3B</color>
+    <color name="fab_color">#AAAAAA</color>
 
     <color name="text_color">#464C51</color>
     <color name="triangle_color">#FFFFFFFF</color>

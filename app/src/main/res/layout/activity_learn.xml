@@ -39,14 +39,19 @@
                 app:tabIndicatorColor="@color/carolina_blue"
                 />
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager_material"
+            <com.upmyranksapp.helper.NestedScrollableHost
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tabs_material"
+                app:layout_constraintTop_toBottomOf="@id/tabs_material">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager_material"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+            </com.upmyranksapp.helper.NestedScrollableHost>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.upmyranksapp.helper.SimpleStatefulLayout>
 

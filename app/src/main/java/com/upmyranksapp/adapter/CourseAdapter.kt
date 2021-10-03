@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.upmyranksapp.R
 import com.upmyranksapp.fragment.practiceTest.CourseListener
 import com.upmyranksapp.model.onBoarding.batchItem
-import com.upmyranksapp.utils.ColorConstant
 import java.util.*
 
 class CourseAdapter(

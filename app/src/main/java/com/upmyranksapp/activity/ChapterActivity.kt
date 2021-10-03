@@ -75,32 +75,16 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         )
     }
 
-/*
-    private fun requestChapter1(subjectList: Datum) {
-        stateful.showProgress()
-        stateful.setProgressText("Loading..")
-        networkHelper.getArrayCall(
-            URLHelper.publishedMaterialsByChapter + "?chapterId=${subjectList.id}&batchId=$batchId",
-            "publishedMaterialsByChapter",
-            ApiUtils.getHeader(this),
-            this
-        )
-    }
-*/
-
     private fun subjectListCall(subjectList: List<ChapterResponseData>) {
-        if (subjectList.size > 0) {
-
+        if (subjectList.isNotEmpty()) {
             supportActionBar?.subtitle = "${subjectList.size} Chapters"
             //adding a layoutmanager
             recyclerView.layoutManager =
                 LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
             recyclerView.setPadding(16, 0, 16, 0)
             val adapter = SubjectListAdapter(applicationContext, subjectList, batchId)
-
             //now adding the adapter to recyclerview
             recyclerView.adapter = adapter
-
 
         } else {
             showErrorMsg("No chapters found, Please try again.")

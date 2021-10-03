@@ -12,6 +12,7 @@
     <color name="toolbar_text">#FFFFFFFF</color>
     <color name="window_background">#FF000000</color>
     <color name="divider_color">#aac2c2c2</color>
+    <color name="fab_color">#AAAAAA</color>
 
     <color name="text_color">#FFFFFF</color>
     <color name="triangle_color">#414141</color>

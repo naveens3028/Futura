@@ -4,7 +4,10 @@ package com.upmyranksapp.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.upmyranksapp.fragment.*
+import com.upmyranksapp.fragment.DoubtFragment
+import com.upmyranksapp.fragment.HomeFragment
+import com.upmyranksapp.fragment.LearnFragment
+import com.upmyranksapp.fragment.LiveFragment
 import com.upmyranksapp.fragment.practiceTest.TestFragment
 
 

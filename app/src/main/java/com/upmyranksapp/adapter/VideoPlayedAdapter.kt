@@ -1,17 +1,13 @@
 package com.upmyranksapp.adapter
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.upmyranksapp.GlideApp
 import com.upmyranksapp.R
-import com.upmyranksapp.activity.VideoPlayActivity
 import com.upmyranksapp.database.model.VideoPlayedItem
-import com.upmyranksapp.helper.exoplayer.ExoUtil
 import com.upmyranksapp.model.VideoMaterial
 import kotlinx.android.synthetic.main.row_played_video.view.*
 

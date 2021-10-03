@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.upmyranksapp.R
 import com.upmyranksapp.adapter.TestClickListener
-import com.upmyranksapp.model.ScheduledTestItem
 import com.upmyranksapp.model.onBoarding.MockTest
 import kotlinx.android.synthetic.main.row_scheduled_test.view.*
 import java.text.SimpleDateFormat

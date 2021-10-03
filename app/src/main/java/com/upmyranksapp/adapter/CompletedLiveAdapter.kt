@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.upmyranksapp.model.CompletedLiveItem
 import com.upmyranksapp.R
-import com.upmyranksapp.model.LiveResponse
 import com.upmyranksapp.model.onBoarding.CompletedSession
 import kotlinx.android.synthetic.main.row_completed_live.view.*
 

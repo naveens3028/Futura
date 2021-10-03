@@ -1,58 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/_15sdp">
+    android:orientation="vertical"
+    android:layout_margin="@dimen/_10sdp">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="@dimen/_1sdp"
-        android:layout_height="@dimen/_25sdp"
-        android:background="@color/alice_blue"
-        app:layout_constraintEnd_toEndOf="@+id/videoStatus"
-        app:layout_constraintStart_toStartOf="@+id/videoStatus"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/videoStatus"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:max="100"
-        android:progress="80"
-        android:rotation="180"
-        app:indicatorColor="@color/bittersweet"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:trackColor="@color/alice_blue"
-        app:trackThickness="@dimen/_2sdp" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/_16sdp"
-        android:layout_height="@dimen/_16sdp"
-        android:src="@drawable/ic_play_red"
-        app:layout_constraintBottom_toBottomOf="@+id/videoStatus"
-        app:layout_constraintEnd_toEndOf="@+id/videoStatus"
-        app:layout_constraintStart_toStartOf="@+id/videoStatus"
-        app:layout_constraintTop_toTopOf="@+id/videoStatus" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_8sdp"
-        android:ellipsize="end"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableStart="@drawable/ic_play_red"
         android:maxLines="2"
         android:id="@+id/videoName"
         android:text="Important identities in trigonometry and it's applications"
         android:textColor="@color/text_color"
-        android:textSize="@dimen/_12sdp"
-        app:layout_constraintBottom_toBottomOf="@+id/videoStatus"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/videoStatus"
-        app:layout_constraintTop_toTopOf="@+id/videoStatus" />
+        android:textSize="@dimen/_12sdp" />
 
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="2dp"
+      android:layout_marginTop="@dimen/_2sdp"
+      app:layout_constraintTop_toBottomOf="@id/videoName"
+      android:background="@drawable/ic_line_view" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
