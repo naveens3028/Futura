@@ -14,6 +14,7 @@ import com.upmyranksapp.activity.TakeTestActivity
 import com.upmyranksapp.adapter.ScheduledTestAdapter
 import com.upmyranksapp.adapter.TestClickListener
 import com.upmyranksapp.database.DatabaseHelper
+import com.upmyranksapp.fragment.UpcomingLiveFragment
 import com.upmyranksapp.model.MOCKTEST
 import com.upmyranksapp.model.ScheduledClass
 import com.upmyranksapp.model.onBoarding.AttemptedTest
@@ -186,5 +187,23 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
     override fun onDestroy() {
         super.onDestroy()
         networkHelper.cancel("scheduledTest")
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment LearnFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            ScheduledTestFragment().apply {
+                arguments = Bundle().apply {
+                }
+            }
     }
 }

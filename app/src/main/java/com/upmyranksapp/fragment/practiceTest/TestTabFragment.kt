@@ -10,8 +10,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.androidnetworking.common.Priority
 import com.google.gson.Gson
-import com.skydoves.expandablelayout.ExpandableLayout
-import com.skydoves.expandablelayout.OnExpandListener
 import com.upmyranksapp.R
 import com.upmyranksapp.activity.TakeTestActivity
 import com.upmyranksapp.activity.TestResultActivity
@@ -240,55 +238,10 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             }
         }
 
-
-//
-//        expandableScheduleTest.onExpandListener = object : OnExpandListener {
-//            override fun onExpand(isExpanded: Boolean) {
-//
-//            }
-//        }
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
         requestTest()
 
-
-//        layoutSchedule.setOnClickListener {
-//            if (checkVisible == false) {
-//                arrowscheduled.rotation = arrowscheduled.rotation + 180
-//                scheduleTestRecyclerView.visibility = View.GONE
-//                noTestScheduled.visibility = View.GONE
-//                checkVisible = true
-//            } else {
-//                arrowscheduled.rotation = arrowscheduled.rotation + 180
-//                scheduleTestRecyclerView.visibility = View.VISIBLE
-//                noTestScheduled.visibility = View.VISIBLE
-//                checkVisible = false
-//            }
-//        }
-//
-//        layoutUnAttempted.setOnClickListener {
-//            if (!unAttemptedIsVisible) {
-//                arrowsUnAttempted.rotation = arrowsUnAttempted.rotation + 180
-//                unattemptedTestRecyclerView.visibility = View.VISIBLE
-//                unAttemptedIsVisible = true
-//            } else {
-//                arrowsUnAttempted.rotation = arrowsUnAttempted.rotation + 180
-//                unattemptedTestRecyclerView.visibility = View.GONE
-//                unAttemptedIsVisible = false
-//            }
-//        }
-//
-//        layoutAttempted.setOnClickListener {
-//            if (!attemptedIsVisible) {
-//                arrowsAttempted.rotation = arrowsAttempted.rotation + 180
-//                attemptedTestRecyclerView.visibility = View.VISIBLE
-//                attemptedIsVisible = true
-//            } else {
-//                arrowsAttempted.rotation = arrowsAttempted.rotation + 180
-//                attemptedTestRecyclerView.visibility = View.GONE
-//                attemptedIsVisible = false
-//            }
-//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
