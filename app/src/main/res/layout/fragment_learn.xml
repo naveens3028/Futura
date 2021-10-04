@@ -23,8 +23,8 @@
                 android:layout_height="wrap_content"
                 app:tabMode="scrollable"
                 app:tabGravity="center"
-                app:tabSelectedTextColor="@color/tab_select_color"
-                app:tabIndicatorColor="@color/tab_select_color"
+                app:tabSelectedTextColor="@color/new_blue_dark"
+                app:tabIndicatorColor="@color/new_blue_dark"
                 app:tabTextColor="@color/tab_default_color"
                  />
 

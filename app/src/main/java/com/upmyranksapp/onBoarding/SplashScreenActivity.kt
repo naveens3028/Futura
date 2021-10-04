@@ -40,16 +40,6 @@ class SplashScreenActivity : AppCompatActivity() {
         }, 3000)
     }
 
-/*
-    private fun startAnimation() {
-        val animationZoomIn = AnimationUtils.loadAnimation(this, R.anim.zoom_in)
-        splashScreenImage.startAnimation(animationZoomIn)
-        val animationSlideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down)
-        animationSlideDown.startOffset = 1000
-        logoImage.startAnimation(animationSlideDown)
-    }
-*/
-
     private fun validateLogin() {
         if (MyPreferences(this).getString(Define.LOGIN_DATA).isNullOrEmpty()) {
             goToLoginScreen()

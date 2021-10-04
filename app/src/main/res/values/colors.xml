@@ -67,5 +67,8 @@
     <color name="card10">#ED9B20</color>
     <color name="card11">#FF03DAC5</color>
 
+    <color name="new_blue_dark">#6ec1e4</color>
+    <color name="new_blue_light">#f0f9fc</color>
+
 
 </resources>

@@ -8,34 +8,13 @@
     tools:context=".onBoarding.SplashScreenActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/splashScreenImageTop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@drawable/ic_flash"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-   <!-- <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/splashScreenImage"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:src="@drawable/ic_middle"
-        app:layout_constraintBottom_toTopOf="@id/splashScreenImageBottom"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoImage" />
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_new_splash" />
 
-    <View
-        android:id="@+id/splashScreenImageBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_100sdp"
-        android:background="@drawable/ic_bottm"
-        app:layout_constraintTop_toBottomOf="@id/splashScreenImage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
+<!--
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/logoImage"
         android:layout_width="@dimen/_180sdp"
@@ -46,6 +25,7 @@
         android:src="@drawable/upmyranks_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
+        app:layout_constraintTop_toTopOf="parent" />
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
