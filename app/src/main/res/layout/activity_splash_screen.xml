@@ -9,14 +9,15 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/splashScreenImageTop"
-        android:layout_width="@dimen/_80sdp"
-        android:layout_height="@dimen/_80sdp"
-        app:srcCompat="@drawable/ic_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/ic_flash"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <androidx.appcompat.widget.AppCompatImageView
+   <!-- <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/splashScreenImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -45,6 +46,6 @@
         android:src="@drawable/upmyranks_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
