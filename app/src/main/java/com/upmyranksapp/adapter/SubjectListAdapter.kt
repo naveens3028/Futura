@@ -50,37 +50,37 @@ class SubjectListAdapter(
 
         when{
             position.toString().last().toString().contains("0")->{
-                holder.rlt_subj.setBackgroundResource(R.color.purple_200)
+                holder.rlt_subj.setBackgroundResource(R.color.card1)
             }
             position.toString().last().toString().contains("1")->{
-                holder.rlt_subj.setBackgroundResource(R.color.light_goldenrod_yellow)
+                holder.rlt_subj.setBackgroundResource(R.color.card2)
             }
             position.toString().last().toString().contains("2")->{
-                holder.rlt_subj.setBackgroundResource(R.color.pale_pink)
+                holder.rlt_subj.setBackgroundResource(R.color.card3)
             }
             position.toString().last().toString().contains("3")->{
-                holder.rlt_subj.setBackgroundResource(R.color.light_coral)
+                holder.rlt_subj.setBackgroundResource(R.color.card4)
             }
             position.toString().last().toString().contains("4")->{
-                holder.rlt_subj.setBackgroundResource(R.color.yellow)
+                holder.rlt_subj.setBackgroundResource(R.color.card5)
             }
             position.toString().last().toString().contains("5")->{
-                holder.rlt_subj.setBackgroundResource(R.color.bluishgreen)
+                holder.rlt_subj.setBackgroundResource(R.color.card6)
             }
             position.toString().last().toString().contains("6")->{
-                holder.rlt_subj.setBackgroundResource(R.color.carolina_blue)
+                holder.rlt_subj.setBackgroundResource(R.color.card7)
             }
             position.toString().last().toString().contains("7")->{
-                holder.rlt_subj.setBackgroundResource(R.color.alice_blue)
+                holder.rlt_subj.setBackgroundResource(R.color.card8)
             }
             position.toString().last().toString().contains("8")->{
-                holder.rlt_subj.setBackgroundResource(R.color.tea_green)
+                holder.rlt_subj.setBackgroundResource(R.color.card9)
             }
             position.toString().last().toString().contains("8")->{
-                holder.rlt_subj.setBackgroundResource(R.color.safety_yellow)
+                holder.rlt_subj.setBackgroundResource(R.color.card10)
             }
             else->{
-                holder.rlt_subj.setBackgroundResource(R.color.bio_pink)
+                holder.rlt_subj.setBackgroundResource(R.color.card11)
             }
         }
 

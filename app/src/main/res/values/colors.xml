@@ -55,4 +55,17 @@
     <color name="alice_blue">#EEF4FA</color>
     <color name="background_black">#0D000000</color>
 
+    <color name="card1">#1ca69d</color>
+    <color name="card2">#EBD00A</color>
+    <color name="card3">#b35ba0</color>
+    <color name="card4">#3BB9FF</color>
+    <color name="card5">#F97363</color>
+    <color name="card6">#FFBB86FC</color>
+    <color name="card7">#D5FBD3</color>
+    <color name="card8">#7766AE</color>
+    <color name="card9">#CBEF5D8E</color>
+    <color name="card10">#ED9B20</color>
+    <color name="card11">#FF03DAC5</color>
+
+
 </resources>
