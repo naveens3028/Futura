@@ -20,7 +20,7 @@ class SubjectsAdapter(
     RecyclerView.Adapter<SubjectsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val subjectTxt = itemView.findViewById(R.id.subjecttxt) as TextView
+        val subjectTxt = itemView.findViewById(R.id.subjectTxt) as TextView
         val cardView = itemView.findViewById(R.id.cardsubject) as CardView
         val subjectImg = itemView.findViewById(R.id.subjectimg) as ImageView
     }
@@ -87,7 +87,6 @@ class SubjectsAdapter(
         }
 
     }
-
 
     override fun getItemCount(): Int {
         return subjects.size

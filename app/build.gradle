@@ -169,4 +169,6 @@ dependencies {
 
     implementation "com.github.skydoves:expandablelayout:1.0.7"
 
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.2.0'
 }

@@ -8,37 +8,106 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".fragment.HomeFragment">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.tabs.TabLayout
-                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-                android:id="@+id/tabs_learn"
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/previosVideo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:tabMode="scrollable"
-                app:tabGravity="center"
-                app:tabSelectedTextColor="@color/new_blue_dark"
-                app:tabIndicatorColor="@color/new_blue_dark"
-                app:tabTextColor="@color/tab_default_color"
-                 />
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/continue_where_you"
+                android:textSize="@dimen/_16sdp" />
+
+            <com.upmyranksapp.helper.NestedScrollableHost
+                android:id="@+id/studyRecyclerParent1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/playedRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/row_played_video" />
+
+            </com.upmyranksapp.helper.NestedScrollableHost>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/learnTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:text="@string/learn"
+                android:fontFamily="@font/roboto_bold"
+                android:textSize="@dimen/_16sdp" />
 
             <com.upmyranksapp.helper.NestedScrollableHost
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager_learn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/subjectsRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/activity_subjects"/>
 
             </com.upmyranksapp.helper.NestedScrollableHost>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardPreviousYrQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/new_blue_light"
+                app:cardCornerRadius="@dimen/_12sdp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10sdp">
+
+                    <ImageView
+                        android:id="@+id/previosYrImg"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_60sdp"
+                        android:src="@drawable/ic_practice"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/previosYrTxt"
+                        android:layout_width="match_parent"
+                        android:gravity="start"
+                        android:drawableEnd="@drawable/ic_blue_arrow"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_14sdp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/black"
+                        android:text="@string/previous_year"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.cardview.widget.CardView>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </FrameLayout>

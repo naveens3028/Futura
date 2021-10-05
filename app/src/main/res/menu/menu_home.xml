@@ -6,20 +6,22 @@
         android:id="@+id/action_menu_spinner"
         android:title="ActionBar Spinner"
         app:actionViewClass="android.widget.Spinner"
+        app:iconTint="@color/toolbar_text"
         app:showAsAction="always"
-        android:background="#ff00" />
+        android:importantForAccessibility="yes"
+        />
 
     <item
         android:id="@+id/action_qr_code"
         android:title="@string/qr_scanner"
-        android:icon="@drawable/ic_qr_code_scanner"
+        android:icon="@drawable/ic_scan_new"
         android:importantForAccessibility="yes"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_menu_notification"
         android:title=""
-        android:icon="@drawable/notification"
+        android:icon="@drawable/ic_new_notify"
         android:importantForAccessibility="yes"
         app:iconTint="@color/toolbar_text"
         app:actionLayout="@layout/layout_notification_icon"

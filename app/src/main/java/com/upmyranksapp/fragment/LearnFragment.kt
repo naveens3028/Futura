@@ -1,6 +1,7 @@
 package com.upmyranksapp.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,30 +9,57 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.upmyranksapp.R
-import com.upmyranksapp.adapter.Learn.LearnPagerAdapter
+import com.upmyranksapp.activity.ChapterActivity
+import com.upmyranksapp.activity.TestVideoActivity
+import com.upmyranksapp.adapter.SubjectClickListener
+import com.upmyranksapp.adapter.SubjectsAdapter
+import com.upmyranksapp.adapter.VideoPlayedAdapter
+import com.upmyranksapp.database.AppDatabase
+import com.upmyranksapp.database.model.VideoPlayedItem
 import com.upmyranksapp.fragment.practiceTest.CourseListener
+import com.upmyranksapp.helper.exoplayer.ExoUtil
+import com.upmyranksapp.model.CourseResponse
+import com.upmyranksapp.model.Datum
+import com.upmyranksapp.model.OnEventData
+import com.upmyranksapp.model.VideoMaterial
 import com.upmyranksapp.model.onBoarding.LoginData
 import com.upmyranksapp.network.NetworkHelper
+import com.upmyranksapp.network.OnNetworkResponse
+import com.upmyranksapp.network.URLHelper
 import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_learn.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import vimeoextractor.OnVimeoExtractionListener
+import vimeoextractor.VimeoExtractor
+import vimeoextractor.VimeoVideo
+import java.util.*
 
-class LearnFragment : Fragment(), CourseListener {
+
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
+
+class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallback,
+    OnNetworkResponse, SubjectClickListener {
 
     private lateinit var courseRecycler: RecyclerView
     private var loginData = LoginData()
     lateinit var myPreferences: MyPreferences
     lateinit var networkHelper: NetworkHelper
     var batchIds: String? = null
+    var courseId: String? = null
+    lateinit var db: AppDatabase
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myPreferences = MyPreferences(requireContext())
         networkHelper = NetworkHelper(requireContext())
+        db = AppDatabase.getInstance(requireContext())!!
     }
 
     override fun onCreateView(
@@ -48,7 +76,7 @@ class LearnFragment : Fragment(), CourseListener {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-
+        Log.e("popAns","1")
 
         batchIds = if (loginData.userDetail?.batchList!![0].additionalCourseId.isNullOrEmpty()) {
             loginData.userDetail?.batchList!![0].id
@@ -56,36 +84,46 @@ class LearnFragment : Fragment(), CourseListener {
             loginData.userDetail?.batchList!![0].additionalCourseId
         }
 
-        courseCall()
-
+        if (!courseId.isNullOrEmpty()){
+            requestSessions(courseId!!)
+        } else if (loginData.userDetail?.batchList?.get(0)?.additionalCourseId.isNullOrEmpty()) {
+            requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
+        } else requestSessions(loginData.userDetail?.batchList?.get(0)?.additionalCourseId!!)
     }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (db.videoDao.getAll().isNullOrEmpty()) {
+            previosVideo.visibility = View.GONE
+        } else {
+            previosVideo.visibility = View.VISIBLE
+        }
+        courseCall()
+    }
+
+    private fun requestSessions(batchId: String) {
+        stateful.showProgress()
+        val headers = HashMap<String, String>()
+        networkHelper.getCall(
+            URLHelper.courseURL + batchId,
+            "getCourse",
+            headers,
+            this
+        )
+    }
+
 
     @SuppressLint("WrongConstant")
     private fun courseCall() {
-        val sectionsPagerAdapter =
-            LearnPagerAdapter(
-                requireContext(),
-                requireActivity(),
-                loginData.userDetail?.batchList!!
-            )
-        val viewPager: ViewPager2 = view_pager_learn
-        viewPager.adapter = sectionsPagerAdapter
-        viewPager.offscreenPageLimit = 3
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                Log.e("pop", "1")
-            }
-        })
-        TabLayoutMediator(tabs_learn, viewPager) { tab, position ->
-            tab.text = loginData.userDetail?.batchList!![position].course?.courseName
-        }.attach()
-
-        val pageChangeCallback: ViewPager2.OnPageChangeCallback =
-            object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrollStateChanged(state: Int) {
-                }
-            }
-        viewPager.registerOnPageChangeCallback(pageChangeCallback)
+        val videoRecyclerView = view?.findViewById(R.id.playedRecycler) as RecyclerView
+        val videoAdapter =
+            VideoPlayedAdapter(requireActivity(), "0", db.videoDao.getAll(), null, this)
+        videoRecyclerView.adapter = videoAdapter
     }
 
     fun showErrorMsg(errorMsg: String) {
@@ -93,7 +131,6 @@ class LearnFragment : Fragment(), CourseListener {
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.icon_error)
         stateful.setOfflineRetryOnClickListener {
-
         }
     }
 
@@ -102,4 +139,109 @@ class LearnFragment : Fragment(), CourseListener {
         batchIds = id
     }
 
+    override fun onVideoClickListener(videoPlayedItem: VideoPlayedItem) {
+        playVideo(videoPlayedItem.videoTitle, videoPlayedItem.videoUrl)
+    }
+
+    override fun onVideoClickListener1(videoPlayedItem: VideoMaterial) {
+    }
+
+    private fun playVideo(title: String, id: String) {
+        val videoId = id.replace("https://vimeo.com/", "")
+        VimeoExtractor.getInstance()
+            .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
+                override fun onSuccess(video: VimeoVideo) {
+                    val hdStream = video.streams["720p"]
+                    println("VIMEO VIDEO STREAM$hdStream")
+                    hdStream?.let {
+                        requireActivity().runOnUiThread {
+                            //code that runs in main
+                            navigateVideoPlayer(title, it)
+                        }
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    Log.d("failure", throwable.message!!)
+                }
+            })
+    }
+
+    fun navigateVideoPlayer(title: String, url: String) {
+        ExoUtil.buildMediaItems(
+            requireActivity(),
+            childFragmentManager, title,
+            url, false
+        )
+    }
+
+    override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+        if (responseCode == networkHelper.responseSuccess && tag == "getCourse") {
+            val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
+            subjectCall(courseResponse.data!!)
+        } else {
+            showErrorMsg(requireActivity().getString(R.string.sfl_default_error))
+        }
+    }
+
+    override fun onSubjectClicked(Id: String, batchId: String, title: String) {
+        val intent = Intent(requireContext(), ChapterActivity::class.java)
+        intent.putExtra("id", Id)
+        intent.putExtra("batchId", batchIds)
+        intent.putExtra("title", title)
+        startActivity(intent)
+    }
+
+    override fun onTestClicked() {
+        val intent = Intent(requireContext(), TestVideoActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun subjectCall(subjectList: ArrayList<Datum>) {
+        stateful.showContent()
+        if (subjectList.size > 0) {
+            val adapter = SubjectsAdapter(requireContext(), subjectList, batchIds.toString(), this)
+            //now adding the adapter to recyclerview
+            subjectsRecycler.adapter = adapter
+        } else {
+            showErrorMsg("No subject found.")
+        }
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment LearnFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            FragmentLearnCommon().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: OnEventData?) {
+        Log.e("popThread","123")
+        val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
+        requestSessions(loginData.userDetail?.batchList?.get(event?.batchPosition!!)?.courseId!!)
+        batchIds = if (!data?.additionalCourseId.isNullOrEmpty()){
+            data?.additionalCourseId
+        }else{
+            data?.id
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
 }

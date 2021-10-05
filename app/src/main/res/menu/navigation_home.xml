@@ -4,34 +4,26 @@
 
     <item
         android:id="@+id/navigation_learn"
-        android:icon="@drawable/ic_learn"
+        android:icon="@drawable/ic_new_learn"
         android:title="Learn"
         app:showAsAction="always|withText"/>
 
     <item
         android:id="@+id/navigation_live"
-        android:icon="@drawable/ic_live_stream"
-        android:title="Live"
-        app:showAsAction="always|withText"/>
-
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_24px"
-        android:title="Home"
-        android:contentDescription="Home"
-        android:importantForAccessibility="yes"
+        android:icon="@drawable/ic_prac_new"
+        android:title="Practice"
         app:showAsAction="always|withText"/>
 
     <item
         android:id="@+id/navigation_test"
-        android:icon="@drawable/ic_test"
+        android:icon="@drawable/ic_new_test"
         android:title="Test"
         app:showAsAction="always|withText"/>
 
     <item
      android:id="@+id/navigation_doubts"
-     android:icon="@drawable/ic_doubts"
-     android:title="Doubts"
+     android:icon="@drawable/ic_ask_new"
+     android:title="Ask"
      android:visible="true"
      app:showAsAction="ifRoom"/>
 </menu>

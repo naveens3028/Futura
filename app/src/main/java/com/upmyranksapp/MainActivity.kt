@@ -30,6 +30,7 @@ import com.upmyranksapp.database.DatabaseHelper
 import com.upmyranksapp.doubt.AskDoubtActivity
 import com.upmyranksapp.fragment.LogOutBottomSheetFragment
 import com.upmyranksapp.helper.BottomNavigationBehavior
+import com.upmyranksapp.model.OnEventData
 import com.upmyranksapp.model.onBoarding.LoginData
 import com.upmyranksapp.network.NetworkHelper
 import com.upmyranksapp.network.OnNetworkResponse
@@ -43,6 +44,7 @@ import kotlinx.android.synthetic.main.layout_notification_icon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import org.greenrobot.eventbus.EventBus
 
 
 class MainActivity : AppCompatActivity(), OnNetworkResponse {
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     private val imageLoader = ImageLoader
     lateinit var databaseHelper: DatabaseHelper
     lateinit var myPreferences: MyPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -67,8 +70,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
         loginResponse =
             Gson().fromJson(MyPreferences(this).getString(Define.LOGIN_DATA), LoginData::class.java)
-
-        actionBar?.title = "Hi, ${loginResponse.userDetail?.firstName}"
 
 
         //Assign Drawer properties
@@ -171,11 +172,11 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                         navigationView.selectedItemId = R.id.navigation_learn
                     } else if (position == 1) {
                         navigationView.selectedItemId = R.id.navigation_live
-                    } else if (position == 2) {
+                    } /*else if (position == 2) {
                         navigationView.selectedItemId = R.id.navigation_home
-                    } else if (position == 3) {
+                    }*/ else if (position == 2) {
                         navigationView.selectedItemId = R.id.navigation_test
-                    } else if (position == 4) {
+                    } else if (position == 3) {
                         navigationView.selectedItemId = R.id.navigation_doubts
                     }
                 }
@@ -192,27 +193,27 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 when (item.itemId) {
                     R.id.navigation_learn -> {
                         viewPager.currentItem = 0
-                        supportActionBar!!.title = "Learn"
+                        supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_live -> {
                         viewPager.currentItem = 1
-                        supportActionBar!!.title = "Live"
+                        supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
-                    R.id.navigation_home -> {
+                  /*  R.id.navigation_home -> {
                         viewPager.currentItem = 2
-                        supportActionBar!!.title = "Hi, ${loginResponse.userDetail?.firstName}"
+                        supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
-                    }
+                    }*/
                     R.id.navigation_test -> {
-                        viewPager.currentItem = 3
-                        supportActionBar!!.title = "Test"
+                        viewPager.currentItem = 2
+                        supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_doubts -> {
-                        viewPager.currentItem = 4
-                        supportActionBar!!.title = "Doubts"
+                        viewPager.currentItem = 3
+                        supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
                 }
@@ -237,7 +238,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         val newList = ArrayList<String>()
         newList.apply {
             loginResponse.userDetail?.batchList?.forEach {
-                this.add(it.batchName.toString())
+                this.add(it.course?.courseName.toString())
             }
             Log.e("popData", newList.toString())
             val adapter = ArrayAdapter(applicationContext, R.layout.spinner_item, newList)
@@ -250,8 +251,9 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                     i: Int,
                     l: Long
                 ) {
-                    Log.d("Select", "You chose " + adapterView.selectedItem.toString())
-                    myPreferences.setInt("batchPosition", i)
+                    Log.e("popThread","1234")
+
+                    EventBus.getDefault().post(OnEventData(i))
                 }
 
                 override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -259,7 +261,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         }
         return true
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)

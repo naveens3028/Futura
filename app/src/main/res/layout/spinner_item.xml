@@ -6,7 +6,7 @@
 	android:textSize="@dimen/_12sdp"
 	android:gravity="start"
     android:textStyle="bold"
-	android:textColor="@color/charcoal"
+	android:textColor="@color/new_blue_dark"
 	android:singleLine="true"
 	android:ellipsize="marquee"
 	android:padding="5dip" />

@@ -1,51 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?><!--suppress ALL -->
-<androidx.cardview.widget.CardView
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardsubject"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/_20sdp"
-    android:layout_marginRight="@dimen/_20sdp"
-    android:layout_marginTop="@dimen/_10sdp"
-    android:layout_marginBottom="@dimen/_10sdp"
+    android:layout_marginLeft="@dimen/_10sdp"
+    android:orientation="vertical">
+
+<androidx.cardview.widget.CardView
+    android:id="@+id/cardsubject"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/new_blue_light"
     app:cardCornerRadius="@dimen/_12sdp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp">
 
         <ImageView
             android:id="@+id/subjectimg"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
-            android:layout_margin="@dimen/_12sdp"
             android:src="@drawable/physics"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/subjecttxt"
-            android:layout_width="0dp"
-            android:gravity="center_vertical"
-            android:layout_height="@dimen/_30sdp"
-            android:textSize="@dimen/_14sdp"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:drawableEnd="@drawable/ic_side_arrow"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="@string/app_name"
-            android:paddingEnd="@dimen/_20sdp"
-            app:layout_constraintStart_toEndOf="@id/subjectimg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/subjectTxt"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="@string/app_name"
+        android:textColorHighlight="@color/new_blue_dark"
+        android:defaultFocusHighlightEnabled="true"
+        />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
 

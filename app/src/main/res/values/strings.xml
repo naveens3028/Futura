@@ -169,4 +169,6 @@
     <string name="prefer_extension_decoders">Prefer extension decoders</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="learn">Learn</string>
+    <string name="previous_year">Previous year Question Papers</string>
 </resources>
