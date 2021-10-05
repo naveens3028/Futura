@@ -58,7 +58,12 @@ class FragmentLearnCommon : Fragment(), SubjectClickListener, OnNetworkResponse 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
-        batchIds =  if (loginData.userDetail?.batchList!![0].additionalCourseId.isNullOrEmpty() && loginData.userDetail!!.userName != "QR1001") {
+        arguments?.let {
+            courseId = it.getString(ARG_PARAM1)
+            batchIds = it.getString(ARG_PARAM2)
+        }
+
+    /*if (loginData.userDetail?.batchList!![0].additionalCourseId.isNullOrEmpty() && loginData.userDetail!!.userName != "QR1001") {
             loginData.userDetail?.batchList!![0].id
         } else if (loginData.userDetail!!.userName == "QR1001") {
             if (loginData.userDetail?.batchList!![1].additionalCourseId.isNullOrEmpty()){
@@ -68,16 +73,14 @@ class FragmentLearnCommon : Fragment(), SubjectClickListener, OnNetworkResponse 
             }
         }else {
             loginData.userDetail?.batchList!![0].additionalCourseId
-        }
+        }*/
 
     }
 
 
     override fun onResume() {
         super.onResume()
-        arguments?.let {
-            courseId = it.getString(ARG_PARAM2)
-        }
+
         if (!courseId.isNullOrEmpty()){
             requestSessions(courseId!!)
         } else if (loginData.userDetail?.batchList?.get(0)?.additionalCourseId.isNullOrEmpty()) {
@@ -130,7 +133,7 @@ class FragmentLearnCommon : Fragment(), SubjectClickListener, OnNetworkResponse 
     override fun onSubjectClicked(Id: String, batchId: String, title: String) {
         val intent = Intent(requireContext(), ChapterActivity::class.java)
         intent.putExtra("id", Id)
-        intent.putExtra("batchId", batchId)
+        intent.putExtra("batchId", batchIds)
         intent.putExtra("title", title)
         startActivity(intent)
     }
@@ -163,7 +166,8 @@ class FragmentLearnCommon : Fragment(), SubjectClickListener, OnNetworkResponse 
         fun newInstance(param1: String, param2: String) =
             FragmentLearnCommon().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM2, param1)
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
             }
     }

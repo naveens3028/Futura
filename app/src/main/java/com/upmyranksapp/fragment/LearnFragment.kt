@@ -58,7 +58,6 @@ class LearnFragment : Fragment(), CourseListener {
 
         courseCall()
 
-
     }
 
     @SuppressLint("WrongConstant")

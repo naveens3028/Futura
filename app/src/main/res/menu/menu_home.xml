@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_menu_spinner"
+        android:title="ActionBar Spinner"
+        app:actionViewClass="android.widget.Spinner"
+        app:showAsAction="always"
+        android:background="#ff00" />
+
+    <item
         android:id="@+id/action_qr_code"
         android:title="@string/qr_scanner"
         android:icon="@drawable/ic_qr_code_scanner"

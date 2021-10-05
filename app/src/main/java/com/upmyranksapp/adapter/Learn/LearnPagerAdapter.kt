@@ -23,26 +23,11 @@ class LearnPagerAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        var batchId = ""
-        if (myList?.get(position)?.additionalCourseId.isNullOrEmpty()) {
-            myList?.get(position)?.let { it1 ->
-                it1.courseId?.let { it2 ->
-                    it1.id?.let { it3 ->
-                        batchId = it2
-                    }
-                }
-            }
-        } else {
-            myList?.get(position)?.let { it1 ->
-                it1.additionalCourseId?.let { it2 ->
-                    it1.id?.let { it3 ->
-                        batchId = it2
-                    }
-                }
-            }
+        return if (!myList?.get(position)?.additionalCourseId.isNullOrEmpty()){
+            FragmentLearnCommon.newInstance(myList?.get(position)?.additionalCourseId.toString(),myList?.get(position)?.id.toString())
+        }else{
+            FragmentLearnCommon.newInstance(myList?.get(position)?.courseId.toString(),myList?.get(position)?.id.toString())
         }
-
-        return FragmentLearnCommon.newInstance(batchId,"")
     }
 
 }

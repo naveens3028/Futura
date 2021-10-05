@@ -4,10 +4,14 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
+import android.widget.Spinner
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -124,7 +128,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 R.id.logOut -> {
                     drawer.closeDrawer(GravityCompat.START)
                     val bottomSheetFragment = LogOutBottomSheetFragment()
-                    bottomSheetFragment.setStyle(DialogFragment.STYLE_NORMAL,R.style.DialogStyle)
+                    bottomSheetFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle)
                     bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
                 }
                 R.id.qrScanner -> {
@@ -215,7 +219,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 false
             })
 
-        viewPager.currentItem = myPreferences.getInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION,2)
+        viewPager.currentItem = myPreferences.getInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION, 2)
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
@@ -223,15 +227,35 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        try {
-            menuInflater.inflate(R.menu.menu_home, menu)
-            val item1 =
-                menu.findItem(R.id.action_menu_notification).actionView.findViewById(R.id.layoutNotification) as RelativeLayout
-            item1.setOnClickListener {
-                startActivity(Intent(this, NotificationsActivity::class.java))
+        menuInflater.inflate(R.menu.menu_home, menu)
+        val spinner = menu.findItem(R.id.action_menu_spinner).actionView as Spinner
+        val item1 =
+            menu.findItem(R.id.action_menu_notification).actionView.findViewById(R.id.layoutNotification) as RelativeLayout
+        item1.setOnClickListener {
+            startActivity(Intent(this, NotificationsActivity::class.java))
+        }
+        val newList = ArrayList<String>()
+        newList.apply {
+            loginResponse.userDetail?.batchList?.forEach {
+                this.add(it.batchName.toString())
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("popData", newList.toString())
+            val adapter = ArrayAdapter(applicationContext, R.layout.spinner_item, newList)
+            spinner.adapter = adapter
+
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>,
+                    view: View,
+                    i: Int,
+                    l: Long
+                ) {
+                    Log.d("Select", "You chose " + adapterView.selectedItem.toString())
+                    myPreferences.setInt("batchPosition", i)
+                }
+
+                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+            }
         }
         return true
     }
@@ -265,23 +289,28 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<out String>,grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions!!, grantResults!!)
-        if(requestCode == 100){
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 100) {
             openQRCodeScreen()
         }
     }
 
-    fun openQRCodeScreen(){
+    fun openQRCodeScreen() {
         val intent = Intent(this, QRCodeActivity::class.java)
         startActivity(intent)
     }
 
     override fun onPause() {
         super.onPause()
-        myPreferences.setInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION,viewPager.currentItem)
+        myPreferences.setInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION, viewPager.currentItem)
 
     }
+
     override fun onBackPressed() {
         //Back event handled when drawer open
         when {
@@ -292,7 +321,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 viewPager.setCurrentItem(2, true)
             }
             else -> {
-                myPreferences.setInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION,2)
+                myPreferences.setInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION, 2)
                 this.moveTaskToBack(true)
                 System.exit(1)
                 this.finish()
