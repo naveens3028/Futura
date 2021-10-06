@@ -13,7 +13,9 @@
     <color name="window_background">#FF000000</color>
     <color name="divider_color">#aac2c2c2</color>
     <color name="fab_color">#AAAAAA</color>
-
+    <color name="charcoal">#464C51</color>
+    <color name="new_blue_dark">#6ec1e4</color>
+    <color name="new_blue_light">#f0f9fc</color>
     <color name="text_color">#FFFFFF</color>
     <color name="triangle_color">#414141</color>
     <color name="arrow_color">#FFFFFF</color>

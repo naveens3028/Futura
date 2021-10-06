@@ -29,8 +29,8 @@
                 android:padding="@dimen/_10sdp"
                 android:paddingStart="@dimen/_20sdp"
                 android:paddingEnd="@dimen/_10sdp"
-                android:textColor="@color/charcoal"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textColorHint="@color/charcoal"
+                android:textColor="@color/charcoal"                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,6 +47,7 @@
                 android:padding="@dimen/_10sdp"
                 android:paddingStart="@dimen/_20sdp"
                 android:paddingEnd="@dimen/_10sdp"
+                android:textColorHint="@color/charcoal"
                 android:textColor="@color/charcoal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
