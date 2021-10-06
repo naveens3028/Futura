@@ -201,11 +201,11 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                         supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
-                  /*  R.id.navigation_home -> {
-                        viewPager.currentItem = 2
-                        supportActionBar!!.title = ""
-                        return@OnNavigationItemSelectedListener true
-                    }*/
+                    /*  R.id.navigation_home -> {
+                          viewPager.currentItem = 2
+                          supportActionBar!!.title = ""
+                          return@OnNavigationItemSelectedListener true
+                      }*/
                     R.id.navigation_test -> {
                         viewPager.currentItem = 2
                         supportActionBar!!.title = ""
@@ -251,7 +251,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                     i: Int,
                     l: Long
                 ) {
-                    Log.e("popThread","1234")
+                    Log.e("popThread", "1234")
 
                     EventBus.getDefault().post(OnEventData(i))
                 }

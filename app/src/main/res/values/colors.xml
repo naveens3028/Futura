@@ -15,7 +15,7 @@
     <color name="transparentmin">#72404040</color>
     <color name="tab_select_color">#6ec1e4</color>
     <color name="tab_default_color">#6c6c6c</color>
-    <color name="toolbar_text">#2196F3</color>
+    <color name="toolbar_text">#6ec1e4</color>
     <color name="window_background">#FFFFFFFF</color>
     <color name="divider_color">#aac2c2c2</color>
     <color name="yellow">#E8D30C</color>
