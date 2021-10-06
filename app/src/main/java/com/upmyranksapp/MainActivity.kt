@@ -220,7 +220,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 false
             })
 
-        viewPager.currentItem = myPreferences.getInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION, 2)
+        viewPager.currentItem = myPreferences.getInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION, 0)
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
