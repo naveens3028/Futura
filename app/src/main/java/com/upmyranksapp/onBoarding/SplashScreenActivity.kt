@@ -32,12 +32,20 @@ class SplashScreenActivity : AppCompatActivity() {
 //            )
 //        }
 
-       // startAnimation() //To start animations
+        startAnimation() //To start animations
 
         //Handler for splash screen delay and to start next activity
         Handler(Looper.getMainLooper()).postDelayed({
             validateLogin()
         }, 3000)
+    }
+
+    private fun startAnimation() {
+/*        val animationZoomIn = AnimationUtils.loadAnimation(this, R.anim.zoom_in)
+        SplashScreenImage.startAnimation(animationZoomIn)*/
+        val animationSlideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down)
+        animationSlideDown.startOffset = 1000
+        SplashScreenImage.startAnimation(animationSlideDown)
     }
 
     private fun validateLogin() {

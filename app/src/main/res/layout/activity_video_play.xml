@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.upmyranksapp.helper.SimpleStatefulLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.upmyranksapp.helper.SimpleStatefulLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/statefulLayout"
+    android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
 
         <com.google.android.exoplayer2.ui.StyledPlayerView
             android:id="@+id/playerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/_200sdp"
             android:background="@color/black"
+            app:resize_mode="fill"
+            app:use_controller="true"
             app:show_shuffle_button="true"
-            app:show_subtitle_button="true" />
+            app:show_subtitle_button="true" >
 
-        <ImageView
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:maxWidth="@dimen/_40sdp"
-            android:maxHeight="@dimen/_60sdp"
-            android:src="@drawable/upmyranks_logo" />
+            <ImageView
+                android:layout_gravity="bottom"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:maxWidth="@dimen/_40sdp"
+                android:maxHeight="@dimen/_60sdp"
+                android:src="@drawable/upmyranks_logo" />
+        </com.google.android.exoplayer2.ui.StyledPlayerView>
+
         <LinearLayout
             android:id="@+id/btnDownload"
             android:layout_width="wrap_content"
