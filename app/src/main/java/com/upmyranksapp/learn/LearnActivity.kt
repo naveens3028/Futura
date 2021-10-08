@@ -4,16 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.upmyranksapp.R
 import com.upmyranksapp.activity.NotificationsActivity
-import com.upmyranksapp.adapter.MaterialsPagerAdapter
+import com.upmyranksapp.adapter.Learn.LearnTopicHeaderAdapter
+import com.upmyranksapp.adapter.Learn.TopicVideoAdapter
 import com.upmyranksapp.adapter.SubTopicsAdapter
 import com.upmyranksapp.model.chapter.TopicMaterialResponse
 import com.upmyranksapp.model.onBoarding.LoginData
@@ -22,12 +22,12 @@ import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_learn.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.row_topic_items.*
 
 
 class LearnActivity : AppCompatActivity() {
 
     private var loginData = LoginData()
-    lateinit var materialsPagerAdapter: MaterialsPagerAdapter
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
     var topicResponse: List<TopicMaterialResponse>? = null
@@ -62,11 +62,11 @@ class LearnActivity : AppCompatActivity() {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
+        if (topicResponse!!.isNotEmpty()) {
+            val titleAdapter = TopicVideoAdapter(this, topicResponse)
+            tabsRecycler.adapter = titleAdapter
 /*
-        if (topicResponse.isNotEmpty()) {
-            val titleAdapter = SubTopicsTitleAdapter(this, topicResponse, this)
-            titleRecycler.adapter = titleAdapter
-            if (topicResponse[0].materialList != null && topicResponse[0].materialList?.size!! > 0) {
+            if (topicResponse!![0].materialList != null && topicResponse!![0].materialList?.size!! > 0) {
                 supTopicRecycler.visibility = View.VISIBLE
                 subTopicListAdapter =
                     SubTopicsAdapter(this, topicResponse[0].materialList!!)
@@ -75,14 +75,16 @@ class LearnActivity : AppCompatActivity() {
                 supTopicRecycler.visibility = View.GONE
                 showErrorMsg("Currently no topics available.")
             }
+*/
         } else {
-            supTopicRecycler.visibility = View.GONE
+            tabsRecycler.visibility = View.GONE
             showErrorMsg("Currently no topics available.")
         }
-*/
+/*
         if (!topicResponse.isNullOrEmpty()) {
-            materialsPagerAdapter = MaterialsPagerAdapter(this, topicResponse!!)
-            view_pager_material.adapter = materialsPagerAdapter
+        //    materialsPagerAdapter = MaterialsPagerAdapter(this, topicResponse!!)
+           */
+/* view_pager_material.adapter = materialsPagerAdapter
             view_pager_material.offscreenPageLimit = 3
 
 
@@ -101,8 +103,10 @@ class LearnActivity : AppCompatActivity() {
                         appBarLayout.setExpanded(true)
                     }
                 }
-            view_pager_material.registerOnPageChangeCallback(pageChangeCallback)
+            view_pager_material.registerOnPageChangeCallback(pageChangeCallback)*//*
+
         }
+*/
 
     }
 

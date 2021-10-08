@@ -1,17 +1,13 @@
 package com.upmyranksapp.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.upmyranksapp.R
-import com.upmyranksapp.adapter.MaterialsPagerAdapter
 import com.upmyranksapp.adapter.SubTopicsAdapter
-import com.upmyranksapp.model.TopicResponseItem
 import com.upmyranksapp.model.VideoMaterial
 import com.upmyranksapp.model.chapter.TopicMaterialResponse
 import com.upmyranksapp.model.onBoarding.LoginData

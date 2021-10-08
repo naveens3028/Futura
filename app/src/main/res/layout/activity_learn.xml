@@ -19,40 +19,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/_40sdp"
-
             tools:context=".learn.LearnActivity">
 
             <include
                 android:id="@+id/toolbarLayout"
                 layout="@layout/layout_toolbar"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabs_material"
-                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabMode="scrollable"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-                app:tabSelectedTextColor="@color/carolina_blue"
-                app:tabIndicatorColor="@color/carolina_blue"
-                />
-
-            <com.upmyranksapp.helper.NestedScrollableHost
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tabs_material">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager_material"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tabsRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_topic_items"
+                />
 
-            </com.upmyranksapp.helper.NestedScrollableHost>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.upmyranksapp.helper.SimpleStatefulLayout>
 
