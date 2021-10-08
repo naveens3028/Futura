@@ -198,3 +198,11 @@ data class TestPaper(
     @SerialName("wrongMark")
     val wrongMark: Int
 )
+
+@Serializable
+data class LeaderboardItem(
+    @SerialName("name")
+    val name: String,
+    @SerialName("average")
+    val average: String
+)

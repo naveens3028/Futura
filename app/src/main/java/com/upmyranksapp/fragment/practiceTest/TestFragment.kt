@@ -28,7 +28,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
     lateinit var db: DatabaseHelper
     lateinit var testTabFragmentAdapter: TestTabFragmentAdapter
 
-    private var titles = arrayOf<String>("Test","Practice","Performance")
+    private var titles = arrayOf<String>("Test","Performance")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -98,7 +98,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
             return when(position){
                 0 -> TestTabFragment.newInstance(titles[position],"")
-                1 -> PracticeTabFragment.newInstance(titles[position],"")
+                1 -> PerformanceFragment.newInstance(titles[position],"")
                 else -> PerformanceFragment.newInstance(titles[position],"")
             }
         }
