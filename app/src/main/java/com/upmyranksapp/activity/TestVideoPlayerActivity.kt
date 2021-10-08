@@ -1,14 +1,12 @@
 package com.upmyranksapp.activity
 
 import android.content.Intent
-import android.graphics.PixelFormat
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.MediaController
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
@@ -28,12 +26,10 @@ import com.upmyranksapp.network.OnNetworkResponse
 import com.upmyranksapp.network.URLHelper
 import com.upmyranksapp.utils.VideoCache
 import kotlinx.android.synthetic.main.activity_test_video.*
-import kotlinx.android.synthetic.main.activity_video_play.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import vimeoextractor.OnVimeoExtractionListener
 import vimeoextractor.VimeoExtractor
 import vimeoextractor.VimeoVideo
-import java.net.URL
 
 
 class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
@@ -70,7 +66,7 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
         player.setThrowsWhenUsingWrongThread(false)
         videoView.player = player
 
-        if (!videoId.isNullOrEmpty()){
+        if (!videoId.isNullOrEmpty()) {
             getVideoId(videoId!!)
             Log.e("videoid", videoId!!)
 
@@ -85,7 +81,7 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
 //            preparExoPlayer(objectURL.toString())
 ////            Toast.makeText(this,videoId.toString(),Toast.LENGTH_LONG).show()
 ////            Toast.makeText(this,baseurl+videoId+".mp4",Toast.LENGTH_LONG).show()
-        }else{
+        } else {
             url?.let { preparExoPlayer(it) }
         }
 
@@ -102,7 +98,7 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
         )
     }
 
-    private fun playVideo(id:String){
+    private fun playVideo(id: String) {
         val videoId = id.replace("https://vimeo.com/", "")
         VimeoExtractor.getInstance()
             .fetchVideoWithIdentifier(videoId, null, object : OnVimeoExtractionListener {
@@ -122,7 +118,6 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
                 }
             })
     }
-
 
 
     fun preparExoPlayerForVimeo(url: String) {
@@ -188,13 +183,17 @@ class TestVideoPlayerActivity : AppCompatActivity(), OnNetworkResponse {
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "qrcode1") {
             val qrResponse = Gson().fromJson(response, GetQRCode::class.java)
-            if (qrResponse.data.videoUrl.contains("vimeo", true)){
+            if (qrResponse.data.videoUrl.contains("vimeo", true)) {
                 playVideo(qrResponse.data.videoUrl)
-            }else {
+            } else {
                 preparExoPlayer(qrResponse.data.videoUrl)
             }
-        }else{
-            Toast.makeText(this,"Unable to view the video... Try again later...",Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(
+                this,
+                "Unable to view the video... Try again later...",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }
