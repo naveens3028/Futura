@@ -1,6 +1,7 @@
 package com.upmyranksapp.activity
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -82,6 +83,7 @@ class VideoPlayActivity : AppCompatActivity(), StyledPlayerControlView.Visibilit
             trackSelectorParameters = builder.build()
             clearStartPosition()
         }
+
     }
 
     override fun onNewIntent(intent: Intent?) {

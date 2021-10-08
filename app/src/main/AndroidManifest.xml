@@ -28,6 +28,7 @@
         <activity
             android:name=".activity.VideoPlayActivity"
             android:label="@string/title_activity_video_play"
+            android:screenOrientation="landscape"
             android:exported="true"
             android:theme="@style/AppFullScreenTheme" >
 

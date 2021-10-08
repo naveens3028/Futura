@@ -15,13 +15,18 @@
         <com.google.android.exoplayer2.ui.StyledPlayerView
             android:id="@+id/playerView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_200sdp"
+            android:layout_height="match_parent"
             android:background="@color/black"
             app:resize_mode="fill"
             app:use_controller="true"
             app:show_shuffle_button="true"
             app:show_subtitle_button="true" >
 
+        <!--    <ImageButton
+                android:id="@+id/exo_fullscreen_button"
+                style="@style/ExoMediaButton"
+                android:src="@drawable/exo_controls_fullscreen_enter"/>
+-->
             <ImageView
                 android:layout_gravity="bottom"
                 android:layout_width="@dimen/_80sdp"
