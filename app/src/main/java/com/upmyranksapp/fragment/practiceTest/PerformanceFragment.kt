@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.upmyranksapp.R
+import com.upmyranksapp.adapter.test.LeaderboardItemAdapter
+import com.upmyranksapp.model.LeaderboardItem
+import kotlinx.android.synthetic.main.fragment_performance.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +39,17 @@ class PerformanceFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_performance, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val leaderboardItems = ArrayList<LeaderboardItem>()
+        leaderboardItems.add(LeaderboardItem("Fazalu Rehman","29/30"))
+        leaderboardItems.add(LeaderboardItem("Ayesha","28/30"))
+        leaderboardItems.add(LeaderboardItem("Naveen","26/30"))
+        leaderboardItems.add(LeaderboardItem("Prabhu","23/30"))
+        recyclerViewLeaderboard.adapter = LeaderboardItemAdapter(requireContext(),leaderboardItems)
     }
 
     companion object {
