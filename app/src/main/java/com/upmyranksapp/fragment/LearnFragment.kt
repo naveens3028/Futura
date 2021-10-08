@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.upmyranksapp.R
 import com.upmyranksapp.activity.ChapterActivity
-import com.upmyranksapp.activity.TestVideoActivity
 import com.upmyranksapp.adapter.SubjectClickListener
 import com.upmyranksapp.adapter.SubjectsAdapter
 import com.upmyranksapp.adapter.VideoPlayedAdapter
@@ -136,7 +135,17 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
     }
 
     override fun onVideoClickListener(videoPlayedItem: VideoPlayedItem) {
-        playVideo(videoPlayedItem.videoTitle, videoPlayedItem.videoUrl)
+        if (videoPlayedItem.videoUrl!!.contains("vimeo", true)) {
+            playVideo(videoPlayedItem.videoTitle!!, videoPlayedItem.videoUrl!!)
+        }else{
+            ExoUtil.buildMediaItems(
+                requireActivity(),
+                childFragmentManager,
+                videoPlayedItem.videoTitle!!,
+                videoPlayedItem.videoUrl!!,
+                false
+            )
+        }
     }
 
     override fun onVideoClickListener1(videoPlayedItem: VideoMaterial) {
@@ -185,11 +194,6 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
         intent.putExtra("id", Id)
         intent.putExtra("batchId", batchIds)
         intent.putExtra("title", title)
-        startActivity(intent)
-    }
-
-    override fun onTestClicked() {
-        val intent = Intent(requireContext(), TestVideoActivity::class.java)
         startActivity(intent)
     }
 
