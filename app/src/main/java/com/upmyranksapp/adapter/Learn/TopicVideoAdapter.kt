@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.upmyranksapp.R
 import com.upmyranksapp.model.chapter.TopicMaterialResponse
 
@@ -23,6 +24,7 @@ class TopicVideoAdapter(
         val txt_topic_header = itemView.findViewById(R.id.txt_topic_header) as AppCompatTextView
         val img_topic_header = itemView.findViewById(R.id.img_topic_header) as AppCompatImageView
         val videoRecycler = itemView.findViewById(R.id.recyclerTopicSubItems) as RecyclerView
+        val mtrlView = itemView.findViewById(R.id.mtrlView) as MaterialCardView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,8 +40,10 @@ class TopicVideoAdapter(
         holder.videoRecycler.adapter = adapter
         holder.img_topic_header.setOnClickListener {
             if (holder.videoRecycler.visibility == View.VISIBLE) {
+                holder.mtrlView.visibility = View.GONE
                 holder.videoRecycler.visibility = View.GONE
             }else{
+                holder.mtrlView.visibility = View.VISIBLE
                 holder.videoRecycler.visibility = View.VISIBLE
             }
         }

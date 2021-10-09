@@ -35,7 +35,7 @@ class LearnTopicHeaderAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (isDataAvailable) {
             holder.noContTxt.visibility = View.GONE
-            holder.chapternametxt.text = subjects?.get(position)?.courseName
+            holder.chapternametxt.text = subjects?.get(position)?.title
             holder.subTopicTitleCard.setOnClickListener {
                 listener.onVideoSelected(subjects!!, position)
             }

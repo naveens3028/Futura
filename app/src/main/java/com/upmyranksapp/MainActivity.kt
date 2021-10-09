@@ -318,11 +318,11 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
             drawer.isDrawerOpen(GravityCompat.START) -> {
                 drawer.closeDrawer(GravityCompat.START)
             }
-            viewPager.currentItem != 2 -> {
-                viewPager.setCurrentItem(2, true)
+            viewPager.currentItem != 0 -> {
+                viewPager.setCurrentItem(0, true)
             }
             else -> {
-                myPreferences.setInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION, 2)
+                myPreferences.setInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION, 0)
                 this.moveTaskToBack(true)
                 System.exit(1)
                 this.finish()
