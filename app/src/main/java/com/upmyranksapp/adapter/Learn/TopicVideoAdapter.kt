@@ -14,7 +14,8 @@ import com.upmyranksapp.model.chapter.TopicMaterialResponse
 
 class TopicVideoAdapter(
     val context: Context,
-    val subjects: List<TopicMaterialResponse>?
+    val subjects: List<TopicMaterialResponse>?,
+    val listener: VideoClickListener
 ) :
     RecyclerView.Adapter<TopicVideoAdapter.ViewHolder>() {
 
@@ -33,7 +34,7 @@ class TopicVideoAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.txt_topic_header.text = subjects!![position].topic!!.courseName
-         val adapter = LearnTopicHeaderAdapter(context, subjects!![position].materialList)
+         val adapter = LearnTopicHeaderAdapter(context, subjects!![position].materialList, listener)
         holder.videoRecycler.adapter = adapter
         holder.img_topic_header.setOnClickListener {
             if (holder.videoRecycler.visibility == View.VISIBLE) {

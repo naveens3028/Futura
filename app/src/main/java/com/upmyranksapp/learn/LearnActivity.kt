@@ -65,7 +65,7 @@ class LearnActivity : AppCompatActivity(), VideoClickListener {
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
         if (topicResponse!!.isNotEmpty()) {
-            val titleAdapter = TopicVideoAdapter(this, topicResponse)
+            val titleAdapter = TopicVideoAdapter(this, topicResponse, this)
             tabsRecycler.adapter = titleAdapter
         } else {
             tabsRecycler.visibility = View.GONE
@@ -100,8 +100,11 @@ class LearnActivity : AppCompatActivity(), VideoClickListener {
         stateful.setOfflineImageResource(R.drawable.icon_error)
     }
 
-    override fun onVideoSelected(videoMaterial: VideoMaterial) {
-
-
+    override fun onVideoSelected(videoMaterial: List<VideoMaterial>, position: Int) {
+        myPreferences = MyPreferences(this)
+        myPreferences.setString(Define.VIDEO_DATA, Gson().toJson(videoMaterial))
+        myPreferences.setInt(Define.VIDEO_POS, position)
+        val intent = Intent(this, LearnVideoActivity::class.java)
+        startActivity(intent)
     }
 }
