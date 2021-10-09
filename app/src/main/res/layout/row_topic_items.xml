@@ -18,7 +18,7 @@
         layout="@layout/list_item_header_tpoic"/>
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/mtrlView"
             android:visibility="gone"
