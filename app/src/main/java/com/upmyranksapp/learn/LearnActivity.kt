@@ -14,7 +14,9 @@ import com.upmyranksapp.R
 import com.upmyranksapp.activity.NotificationsActivity
 import com.upmyranksapp.adapter.Learn.LearnTopicHeaderAdapter
 import com.upmyranksapp.adapter.Learn.TopicVideoAdapter
+import com.upmyranksapp.adapter.Learn.VideoClickListener
 import com.upmyranksapp.adapter.SubTopicsAdapter
+import com.upmyranksapp.model.VideoMaterial
 import com.upmyranksapp.model.chapter.TopicMaterialResponse
 import com.upmyranksapp.model.onBoarding.LoginData
 import com.upmyranksapp.network.NetworkHelper
@@ -25,7 +27,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.row_topic_items.*
 
 
-class LearnActivity : AppCompatActivity() {
+class LearnActivity : AppCompatActivity(), VideoClickListener {
 
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
@@ -65,49 +67,10 @@ class LearnActivity : AppCompatActivity() {
         if (topicResponse!!.isNotEmpty()) {
             val titleAdapter = TopicVideoAdapter(this, topicResponse)
             tabsRecycler.adapter = titleAdapter
-/*
-            if (topicResponse!![0].materialList != null && topicResponse!![0].materialList?.size!! > 0) {
-                supTopicRecycler.visibility = View.VISIBLE
-                subTopicListAdapter =
-                    SubTopicsAdapter(this, topicResponse[0].materialList!!)
-                supTopicRecycler.adapter = subTopicListAdapter
-            } else {
-                supTopicRecycler.visibility = View.GONE
-                showErrorMsg("Currently no topics available.")
-            }
-*/
         } else {
             tabsRecycler.visibility = View.GONE
             showErrorMsg("Currently no topics available.")
         }
-/*
-        if (!topicResponse.isNullOrEmpty()) {
-        //    materialsPagerAdapter = MaterialsPagerAdapter(this, topicResponse!!)
-           */
-/* view_pager_material.adapter = materialsPagerAdapter
-            view_pager_material.offscreenPageLimit = 3
-
-
-            view_pager_material.registerOnPageChangeCallback(object :
-                ViewPager2.OnPageChangeCallback() {
-            })
-
-            TabLayoutMediator(tabs_material, view_pager_material) { tab, position ->
-                tab.text = topicResponse!![position].topic?.courseName
-            }.attach()
-
-            val pageChangeCallback: ViewPager2.OnPageChangeCallback =
-                object : ViewPager2.OnPageChangeCallback() {
-
-                    override fun onPageScrollStateChanged(state: Int) {
-                        appBarLayout.setExpanded(true)
-                    }
-                }
-            view_pager_material.registerOnPageChangeCallback(pageChangeCallback)*//*
-
-        }
-*/
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -131,15 +94,14 @@ class LearnActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-
-    /* override fun onTopicSelected(subTopicItems: List<VideoMaterial>) {
-         subTopicListAdapter = SubTopicsAdapter(this, subTopicItems)
-         supTopicRecycler.adapter = subTopicListAdapter
-     }*/
-
     fun showErrorMsg(errorMsg: String) {
         stateful.showOffline()
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.icon_error)
+    }
+
+    override fun onVideoSelected(videoMaterial: VideoMaterial) {
+
+
     }
 }
