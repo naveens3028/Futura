@@ -143,7 +143,7 @@ dependencies {
     //vimeo video url
     implementation 'com.github.ed-george:AndroidVimeoExtractor:1.2.1'
 
-    implementation 'com.google.android.exoplayer:exoplayer:2.15.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.15.1'
 
     //QR Scanner
     implementation 'com.budiyev.android:code-scanner:2.1.0'

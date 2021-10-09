@@ -10,17 +10,19 @@
         android:id="@+id/expandableScheduleTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         app:expandable_duration="300"
         app:expandable_isExpanded="false"
         app:expandable_parentLayout="@layout/test_layout_parent"
         app:expandable_secondLayout="@layout/test_layout_child"
         app:expandable_showSpinner="true"
         app:expandable_spinner="@drawable/ic_arrow_down"
-        app:expandable_spinner_color="@color/tab_select_color"
         app:expandable_spinner_animate="true"
+        app:expandable_spinner_color="@color/new_blue_dark"
         app:expandable_spinner_gravity="end"
         app:expandable_spinner_margin="4dp"
-        app:expandable_spinner_size="42dp" />
+        app:expandable_spinner_size="40dp" />
+
     <com.skydoves.expandablelayout.ExpandableLayout
         android:id="@+id/expandableAttemptedTest"
         android:layout_width="match_parent"
@@ -31,11 +33,12 @@
         app:expandable_secondLayout="@layout/test_layout_child"
         app:expandable_showSpinner="true"
         app:expandable_spinner="@drawable/ic_arrow_down"
-        app:expandable_spinner_color="@color/tab_select_color"
         app:expandable_spinner_animate="true"
+        app:expandable_spinner_color="@color/new_blue_dark"
         app:expandable_spinner_gravity="end"
         app:expandable_spinner_margin="4dp"
         app:expandable_spinner_size="42dp" />
+
     <com.skydoves.expandablelayout.ExpandableLayout
         android:id="@+id/expandableUnAttemptedTest"
         android:layout_width="match_parent"
@@ -46,8 +49,8 @@
         app:expandable_secondLayout="@layout/test_layout_child"
         app:expandable_showSpinner="true"
         app:expandable_spinner="@drawable/ic_arrow_down"
-        app:expandable_spinner_color="@color/tab_select_color"
         app:expandable_spinner_animate="true"
+        app:expandable_spinner_color="@color/new_blue_dark"
         app:expandable_spinner_gravity="end"
         app:expandable_spinner_margin="4dp"
         app:expandable_spinner_size="42dp" />
