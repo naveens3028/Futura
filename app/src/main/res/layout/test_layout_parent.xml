@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardCornerRadius="@dimen/_7sdp"
+    app:cardElevation="@dimen/_5sdp"
+    android:minHeight="@dimen/_50sdp"
+    app:cardBackgroundColor="@color/new_blue_light"
+    android:layout_margin="@dimen/_5sdp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/_10sdp">
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/_10sdp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/txtParentTitle"
@@ -16,13 +23,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
+            android:minHeight="@dimen/_30sdp"
             android:fontFamily="@font/news_gothic"
             android:text="@string/scheduled_test"
+            android:gravity="center_vertical"
+            android:textColor="@color/new_blue_dark"
             android:textSize="@dimen/_14sdp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.4dp"
-        android:background="@color/divider_color"/>
-</androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.google.android.material.card.MaterialCardView>

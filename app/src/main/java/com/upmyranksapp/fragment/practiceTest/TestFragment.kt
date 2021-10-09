@@ -26,9 +26,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
     private var averBatchTest = mutableListOf<AverageBatchTests>()
     lateinit var myPreferences: MyPreferences
     lateinit var db: DatabaseHelper
-    lateinit var testTabFragmentAdapter: TestTabFragmentAdapter
 
-    private var titles = arrayOf<String>("Test","Performance")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,8 +44,10 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        testTabFragmentAdapter = TestTabFragmentAdapter(requireActivity(),titles)
-        viewpager.adapter = testTabFragmentAdapter
+
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fragment_frame, TestTabFragment.newInstance("", ""))
+            .commit()
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
@@ -58,11 +58,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
     override fun onStart() {
         super.onStart()
 
-        TabLayoutMediator(slidingTabLayout, viewpager,
-            ({ tab, position -> tab.text = titles[position] })
-        ).attach()
-        viewpager.currentItem = requireArguments().getInt("currentPosition",0)
-    }
+          }
 
 //    private fun requestSessions() {
 //
@@ -90,24 +86,9 @@ class TestFragment : Fragment(), OnNetworkResponse {
 //        }
     }
 
-    class TestTabFragmentAdapter(fm: FragmentActivity,val titles: Array<String>) : FragmentStateAdapter(fm) {
-        override fun getItemCount(): Int {
-            return titles.size
-        }
-        override fun createFragment(position: Int): Fragment {
-
-            return when(position){
-                0 -> TestTabFragment.newInstance(titles[position],"")
-                1 -> PerformanceFragment.newInstance(titles[position],"")
-                else -> PerformanceFragment.newInstance(titles[position],"")
-            }
-        }
-    }
-
     override fun onPause() {
         super.onPause()
 
-        requireArguments().putInt("currentPosition", viewpager.currentItem)
     }
 
     companion object {
