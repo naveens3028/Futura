@@ -211,7 +211,7 @@ data class AttemptedResponse(
     @SerializedName("MOCK_TEST")
     var mOCKTEST: MutableList<AttemptedTest>,
     @SerializedName("PRACTICE")
-    val pRACTICE: List<String>
+    var pRACTICE: MutableList<AttemptedTest>
 )
 
 @Parcelize

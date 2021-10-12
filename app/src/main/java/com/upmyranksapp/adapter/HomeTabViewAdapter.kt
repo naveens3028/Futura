@@ -8,6 +8,7 @@ import com.upmyranksapp.fragment.DoubtFragment
 import com.upmyranksapp.fragment.HomeFragment
 import com.upmyranksapp.fragment.LearnFragment
 import com.upmyranksapp.fragment.LiveFragment
+import com.upmyranksapp.fragment.practiceTest.PracticeTabFragment
 import com.upmyranksapp.fragment.practiceTest.TestFragment
 
 
@@ -24,7 +25,7 @@ class HomeTabViewAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
         if (position == 0) {
             return LearnFragment()
         } else if (position == 1) {
-            return DoubtFragment.newInstance("", "")
+            return PracticeTabFragment.newInstance("", "")
         } /*else if (position == 2) {
             return HomeFragment.newInstance("","")
         }*/ else if (position == 2) {

@@ -11,7 +11,6 @@ import com.google.android.material.card.MaterialCardView
 import com.upmyranksapp.R
 import com.upmyranksapp.model.chapter.TopicMaterialResponse
 
-
 class TopicVideoAdapter(
     val context: Context,
     val subjects: List<TopicMaterialResponse>?,

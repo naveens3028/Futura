@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 
 data class ScheduledClass(
     var MOCK_TEST: List<MOCKTEST>,
-    val PRACTICE: List<Any>
+    var PRACTICE: List<MOCKTEST>
 )
 
 @Parcelize
