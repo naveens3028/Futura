@@ -84,6 +84,8 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
         } else if (loginData.userDetail?.batchList?.get(0)?.additionalCourseId.isNullOrEmpty()) {
             requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
         } else requestSessions(loginData.userDetail?.batchList?.get(0)?.additionalCourseId!!)
+
+        selectedCourseTxt.text = "Course Name: ${loginData.userDetail?.batchList?.get(0)?.course?.courseName!!}"
     }
 
     override fun onStart() {
@@ -213,6 +215,7 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
         Log.e("popThread","123")
         val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
         requestSessions(loginData.userDetail?.batchList?.get(event?.batchPosition!!)?.courseId!!)
+        selectedCourseTxt.text = "Course Name: ${loginData.userDetail?.batchList?.get(event?.batchPosition!!)?.course?.courseName!!}"
         batchIds = if (!data?.additionalCourseId.isNullOrEmpty()){
             data?.additionalCourseId
         }else{

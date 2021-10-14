@@ -12,6 +12,7 @@ import com.androidnetworking.common.Priority
 import com.google.gson.Gson
 import com.upmyranksapp.R
 import com.upmyranksapp.activity.TakeTestActivity
+import com.upmyranksapp.activity.TestResultActivity
 import com.upmyranksapp.adapter.ScheduledTestAdapter
 import com.upmyranksapp.adapter.TestClickListener
 import com.upmyranksapp.adapter.test.AttemptedTestAdapter
@@ -19,6 +20,7 @@ import com.upmyranksapp.database.DatabaseHelper
 import com.upmyranksapp.model.MOCKTEST
 import com.upmyranksapp.model.PracticeSubjects
 import com.upmyranksapp.model.ScheduledClass
+import com.upmyranksapp.model.SubmittedResult
 import com.upmyranksapp.model.onBoarding.AttemptedResponse
 import com.upmyranksapp.model.onBoarding.AttemptedTest
 import com.upmyranksapp.model.onBoarding.LoginData
@@ -26,6 +28,7 @@ import com.upmyranksapp.network.ApiUtils
 import com.upmyranksapp.network.NetworkHelper
 import com.upmyranksapp.network.OnNetworkResponse
 import com.upmyranksapp.network.URLHelper
+import com.upmyranksapp.practiceTest.TestReviewActivity
 import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import com.upmyranksapp.utils.Utils
@@ -49,6 +52,8 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
     var clickedTestPaperId = ""
+    lateinit var testPaperId: String
+    lateinit var attempt1: AttemptedTest
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -199,6 +204,12 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
                 }
             }
             attemptedSetup(attempted)
+        } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
+            val submittedResult = Gson().fromJson(response, SubmittedResult::class.java)
+            db.deleteTest(submittedResult.testPaperId)
+            attemptedTest =
+                attemptedTest?.filterNot { it.testPaperId == submittedResult.testPaperId } as ArrayList<MOCKTEST>?
+            getAttemptedTest()
         }
     }
 
@@ -302,9 +313,21 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
         submitTest(jsonAnsObject)
     }
 
-    override fun onResultClicked(attempt: Int, studentId: String, testPaperId: String) {
+    override fun onResultClicked(attempt: Int, studentId: String, testPaperID: String) {
+        testPaperId = testPaperID
+        val intent = Intent(requireContext(), TestResultActivity::class.java)
+        intent.putExtra("attempt", attempt)
+        intent.putExtra("studentId", studentId)
+        intent.putExtra("testPaperId", testPaperID)
+        startActivity(intent)
+
     }
 
     override fun onReviewClicked(attempt: AttemptedTest) {
+        testPaperId = attempt.testPaperId
+        attempt1 = attempt
+        val intent = Intent(context, TestReviewActivity::class.java)
+        intent.putExtra("AttemptedTest", attempt)
+        startActivity(intent)
     }
 }

@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
         val newList = ArrayList<String>()
         newList.apply {
             loginResponse.userDetail?.batchList?.forEach {
-                this.add(it.course?.courseName.toString())
+                this.add(it.batchName.toString())
             }
             Log.e("popData", newList.toString())
             val adapter = ArrayAdapter(applicationContext, R.layout.spinner_item, newList)
