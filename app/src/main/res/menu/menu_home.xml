@@ -14,7 +14,8 @@
     <item
         android:id="@+id/action_qr_code"
         android:title="@string/qr_scanner"
-        android:icon="@drawable/ic_scan_new"
+        android:icon="@drawable/ic_qr_code_scanner"
+        app:iconTint="@color/toolbar_text"
         android:importantForAccessibility="yes"
         app:showAsAction="always"/>
 
