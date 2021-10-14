@@ -81,6 +81,8 @@ class VideoFragment : Fragment(),VideoPlayedAdapter.ActionCallback {
             )
         }
 
+        title.text = videoData[pos!!].title
+
         if (!myList.isNullOrEmpty()) {
             upNext.visibility = View.VISIBLE
             setAdapter(myList)

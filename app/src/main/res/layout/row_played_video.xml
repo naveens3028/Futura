@@ -37,7 +37,7 @@
             android:padding="@dimen/_8sdp"
             app:srcCompat="@drawable/ic_pla_video"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
