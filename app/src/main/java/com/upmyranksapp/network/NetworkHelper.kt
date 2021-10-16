@@ -121,19 +121,23 @@ class NetworkHelper(context: Context) {
                 }
 
                 override fun onError(error: ANError) {
-                    Utils.log(TAG, "NetworkError -$tag ${error.errorBody!!} ${error.errorCode}")
-                    if (BuildConfig.DEBUG) {
-                        val response =
-                            "URL :" + url + "\nError Code : " + error.errorCode + "response : \n" + error.errorDetail
-                        onNetworkResponse.onNetworkResponse(responseFailed, response, tag)
-                    } else {
+                    try {
+                        Utils.log(TAG, "NetworkError -$tag ${error.errorBody!!} ${error.errorCode}")
+                        if (BuildConfig.DEBUG) {
+                            val response =
+                                "URL :" + url + "\nError Code : " + error.errorCode + "response : \n" + error.errorDetail
+                            onNetworkResponse.onNetworkResponse(responseFailed, response, tag)
+                        } else {
 
-                        if (context != null)
-                            onNetworkResponse.onNetworkResponse(
-                                responseFailed,
-                                error.errorDetail,
-                                tag
-                            )
+                            if (context != null)
+                                onNetworkResponse.onNetworkResponse(
+                                    responseFailed,
+                                    error.errorDetail,
+                                    tag
+                                )
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
             })

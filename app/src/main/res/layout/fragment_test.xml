@@ -27,6 +27,7 @@
                 android:textColor="@color/new_blue_dark" />
 
             <ProgressBar
+                android:id="@+id/progressView"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentRight="true"
@@ -34,6 +35,7 @@
                 android:backgroundTint="@color/new_blue_dark"
                 android:progressTint="@color/new_blue_dark"
                 android:progressTintMode="src_atop"
+                android:visibility="gone"
                 android:secondaryProgressTint="@color/new_blue_dark"
                 android:secondaryProgressTintMode="screen" />
         </RelativeLayout>
@@ -86,17 +88,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="Out of 60 Students"
+                            android:text="Out of 0 Students"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_16sdp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtRank"
                         style="@style/TextAppearance.AppCompat.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="@dimen/_5sdp"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/new_blue_dark"
                         android:textSize="@dimen/_30sdp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -123,6 +126,7 @@
                             app:cardCornerRadius="@dimen/_7sdp">
 
                             <TextView
+                                android:id="@+id/txtYourAverage"
                                 style="@style/TextAppearance.AppCompat.Medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -130,7 +134,7 @@
                                 android:gravity="center"
                                 android:textColor="@color/white"
                                 android:minHeight="@dimen/_25sdp"
-                                android:text="100%" />
+                                android:text="0%" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -160,6 +164,7 @@
                             app:cardCornerRadius="@dimen/_7sdp">
 
                             <TextView
+                                android:id="@+id/txtClassAverage"
                                 style="@style/TextAppearance.AppCompat.Medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -167,7 +172,7 @@
                                 android:gravity="center"
                                 android:textColor="@color/white"
                                 android:minHeight="@dimen/_25sdp"
-                                android:text="100%" />
+                                android:text="0%" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -197,6 +202,7 @@
                             app:cardCornerRadius="@dimen/_7sdp">
 
                             <TextView
+                                android:id="@+id/txtTopperAverage"
                                 style="@style/TextAppearance.AppCompat.Medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -204,7 +210,7 @@
                                 android:gravity="center"
                                 android:textColor="@color/white"
                                 android:minHeight="@dimen/_25sdp"
-                                android:text="100%" />
+                                android:text="0%" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <androidx.appcompat.widget.AppCompatTextView

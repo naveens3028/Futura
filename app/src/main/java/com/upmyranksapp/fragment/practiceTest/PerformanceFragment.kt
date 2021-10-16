@@ -86,7 +86,7 @@ class PerformanceFragment : Fragment(), OnNetworkResponse {
         leaderboardItems.add(LeaderboardItem("Ayesha","28/30"))
         leaderboardItems.add(LeaderboardItem("Naveen","26/30"))
         leaderboardItems.add(LeaderboardItem("Prabhu","23/30"))
-        recyclerViewLeaderboard.adapter = LeaderboardItemAdapter(requireContext(),leaderboardItems)
+        //recyclerViewLeaderboard.adapter = LeaderboardItemAdapter(requireContext(),leaderboardItems)
     }
 
     private fun requestSessions() {

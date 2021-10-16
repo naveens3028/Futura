@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.RelativeLayout
@@ -11,6 +12,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.upmyranksapp.R
+import com.upmyranksapp.adapter.test.LeaderboardItemAdapter
 import com.upmyranksapp.helper.MyProgressBar
 import com.upmyranksapp.model.TestResultsModel
 import com.upmyranksapp.model.onBoarding.LoginData
@@ -21,6 +23,9 @@ import com.upmyranksapp.network.URLHelper
 import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_test_results.*
+import kotlinx.android.synthetic.main.activity_test_results.recyclerViewLeaderboard
+import kotlinx.android.synthetic.main.activity_test_results.txtTotalStudent
+import kotlinx.android.synthetic.main.fragment_performance.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.json.JSONObject
 
@@ -107,8 +112,8 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
             applicationContext.resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
         when (nightModeFlags) {
             Configuration.UI_MODE_NIGHT_YES -> {
-                circletxtLeader.setTextColor(Color.parseColor("#FFFFFF"))
-                yourScoreTxt.setTextColor(Color.parseColor("#FFFFFF"))
+              //  circletxtLeader.setTextColor(Color.parseColor("#FFFFFF"))
+                txtYourScore.setTextColor(Color.parseColor("#FFFFFF"))
             }
             Configuration.UI_MODE_NIGHT_NO -> {
             }
@@ -119,19 +124,23 @@ class TestResultActivity : AppCompatActivity(), OnNetworkResponse {
 
 
     private fun setValuestoUI(testResultsModel: TestResultsModel) {
+
         myProgressBar.dismiss()
-        outofStudents.text = "Out of ${testResultsModel.totalRank} Students"
-        yourScoreTxt.text = testResultsModel.totalObtainedMarks.toString()
-        rankCircle.text = testResultsModel.currentRank.toString()
-        outOfScoretxt.text = "Out of " + testResultsModel.totalQuestions.toString()
-        correctAnsTxt.text = testResultsModel.totalCorrectMarks.toString()
-        inCorrectAnsTxts.text = testResultsModel.totalWrongAttemptedQuestions.toString()
-        unansweredTxtView.text = testResultsModel.totalUnAttemptedQuestons.toString()
-        accuracTxtView.text = testResultsModel.accuracy
-        totaltimeTxt.text = testResultsModel.totalConsumeTime.toString()
-        avgtimePerQueTxt.text = testResultsModel.avgTimePerQuesByTopper.toString()
-        toppertimeTxt.text = testResultsModel.totalTimeTakenByTopper.toString()
-        totalQuestionAnsTxt.text = testResultsModel.totalAttemptedQuestions.toString()
+        txtTotalStudent.text = Html.fromHtml(
+            "Out of <font color=#6ec1e4><b> ${testResultsModel.totalRank} </font></b>Students")
+        txtYourScore.text = testResultsModel.totalObtainedMarks.toString()+"/"+testResultsModel.totalQuestions.toString()
+        txtTestRank.text = testResultsModel.currentRank.toString()
+        //outOfScoretxt.text = "Out of " + testResultsModel.totalQuestions.toString()
+        txtCorrectAns.text = testResultsModel.totalCorrectMarks.toString()
+        txtInCorrectAns.text = testResultsModel.totalWrongAttemptedQuestions.toString()
+        txtUnAnsQuestion.text = testResultsModel.totalUnAttemptedQuestons.toString()
+        txtAverage.text = testResultsModel.accuracy
+//        totaltimeTxt.text = testResultsModel.totalConsumeTime.toString()
+//        avgtimePerQueTxt.text = testResultsModel.avgTimePerQuesByTopper.toString()
+//        toppertimeTxt.text = testResultsModel.totalTimeTakenByTopper.toString()
+//        totalQuestionAnsTxt.text = testResultsModel.totalAttemptedQuestions.toString()
+
+        recyclerViewLeaderboard.adapter = LeaderboardItemAdapter(context = applicationContext,testResultsModel!!.listTopRankers!!)
     }
 
 }

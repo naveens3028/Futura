@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.upmyranksapp.R
-import com.upmyranksapp.model.LeaderboardItem
+import com.upmyranksapp.model.ListTopRanker
 import kotlinx.android.synthetic.main.row_leaderboard_item.view.*
 
 class LeaderboardItemAdapter(
     val context: Context,
-    private val leaderboardItems: List<LeaderboardItem>,
+    private val leaderboardItems: List<ListTopRanker?>,
 ) : RecyclerView.Adapter<LeaderboardItemAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -25,9 +25,9 @@ class LeaderboardItemAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val leaderboardItem = leaderboardItems[position]
-        holder.itemView.txtCount.text = "$position"
-        holder.itemView.txtName.text = leaderboardItem.name
-        holder.itemView.txtAverage.text = leaderboardItem.average
+        holder.itemView.txtCount.text = "${leaderboardItem!!.rank}"
+        holder.itemView.txtName.text = leaderboardItem.studentName
+        holder.itemView.txtAverage.text = "${leaderboardItem.totalMarks}"
     }
 
     override fun getItemCount(): Int {
