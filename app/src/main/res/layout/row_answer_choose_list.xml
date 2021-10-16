@@ -15,7 +15,7 @@
         android:id="@+id/mathView"
         android:layout_height="wrap_content">
 
-        <com.jstarczewski.pc.mathview.src.MathView
+        <WebView
             android:id="@+id/mvTest"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

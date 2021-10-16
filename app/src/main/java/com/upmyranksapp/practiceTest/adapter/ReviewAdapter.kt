@@ -37,13 +37,14 @@ class ReviewAdapter(
 
         itemView.questionNumber.text = "Question: " + (position + 1)
 
-        val question = item?.question?.replace("\n", "")?.replace("<p class=\\\"p4\\\">", "")
-        itemView.question.apply {
-            textZoom = 60
-            textColor = Color.GREEN.toString()
-            textAlign = TextAlign.LEFT
-            text = question
-        }
+//        val question = item?.question?.replace("\n", "")?.replace("<p class=\\\"p4\\\">", "")
+//        itemView.question.apply {
+//            textZoom = 60
+//            textColor = Color.GREEN.toString()
+//            textAlign = TextAlign.LEFT
+//            text = question
+//        }
+        itemView.question.loadData(item!!.question!!,"text/html", "UTF-8")
 
         val answerChooseItem = ArrayList<AnswerChooseItem>()
 
