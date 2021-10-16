@@ -431,22 +431,26 @@ class NetworkHelper(context: Context) {
 
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Utils.log(
-                        TAG,
-                        "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}"
-                    )
-                    if (error is TimeoutError || error is NoConnectionError) {
-                        onNetworkResponse.onNetworkResponse(
-                            responseNoInternet,
-                            "No Internet Connection..",
-                            tag
+                    try {
+                        Utils.log(
+                            TAG,
+                            "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}"
                         )
-                    } else {
-                        onNetworkResponse.onNetworkResponse(
-                            responseFailed,
-                            "Something went wrong!, Please try again..",
-                            tag
-                        )
+                        if (error is TimeoutError || error is NoConnectionError) {
+                            onNetworkResponse.onNetworkResponse(
+                                responseNoInternet,
+                                "No Internet Connection..",
+                                tag
+                            )
+                        } else {
+                            onNetworkResponse.onNetworkResponse(
+                                responseFailed,
+                                "Something went wrong!, Please try again..",
+                                tag
+                            )
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }) {
                 override fun getHeaders(): Map<String, String> {

@@ -29,13 +29,13 @@
                 android:id="@+id/tabsRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:padding="@dimen/_10sdp"
-                app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/row_topic_items"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
+                tools:listitem="@layout/row_topic_items" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.upmyranksapp.helper.SimpleStatefulLayout>
