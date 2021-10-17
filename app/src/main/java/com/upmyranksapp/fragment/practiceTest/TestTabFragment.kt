@@ -14,8 +14,10 @@ import com.upmyranksapp.R
 import com.upmyranksapp.activity.TakeTestActivity
 import com.upmyranksapp.activity.TestResultActivity
 import com.upmyranksapp.adapter.ScheduledTestAdapter
+import com.upmyranksapp.adapter.SubjectsAdapter
 import com.upmyranksapp.adapter.TestClickListener
 import com.upmyranksapp.adapter.test.AttemptedTestAdapter
+import com.upmyranksapp.adapter.test.TestGroupingAdapter
 import com.upmyranksapp.adapter.test.UnAttemptedTestAdapter
 import com.upmyranksapp.database.DatabaseHelper
 import com.upmyranksapp.model.*
@@ -34,6 +36,7 @@ import com.upmyranksapp.utils.MyPreferences
 import com.upmyranksapp.utils.Utils
 import kotlinx.android.synthetic.main.dialog_confirm_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.close
+import kotlinx.android.synthetic.main.fragment_practice_tab.*
 import kotlinx.android.synthetic.main.fragment_test_tab.*
 import kotlinx.android.synthetic.main.test_layout_child.view.*
 import kotlinx.android.synthetic.main.test_layout_parent.view.*
@@ -46,9 +49,6 @@ import org.json.JSONObject
 
 class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
-    private var checkVisible: Boolean? = false
-    private var unAttemptedIsVisible: Boolean = false
-    private var attemptedIsVisible: Boolean = false
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
@@ -203,29 +203,19 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         super.onStart()
         EventBus.getDefault().register(this)
 
-        expandableScheduleTest.parentLayout.txtParentTitle.text = "Scheduled Test"
+        expandableScheduleTest.text = "Scheduled Test"
         expandableAttemptedTest.parentLayout.txtParentTitle.text = "Attempted Test"
         expandableUnAttemptedTest.parentLayout.txtParentTitle.text = "Un Attempted Test"
 
-        expandableScheduleTest.secondLayout.txtError.text = "No Test Found in Scheduled Test"
+        testTxtError1.text = "No Test Found in Scheduled Test"
         expandableAttemptedTest.secondLayout.txtError.text = "No Test Found in Attempted Test"
         expandableUnAttemptedTest.secondLayout.txtError.text = "No Test Found in Un Attempted Test"
 
-        expandableScheduleTest.parentLayout.setOnClickListener {
-            if(expandableScheduleTest.isExpanded)
-            expandableScheduleTest.collapse()
-            else {
-                expandableScheduleTest.expand()
-                expandableAttemptedTest.collapse()
-                expandableUnAttemptedTest.collapse()
-            }
-        }
         expandableAttemptedTest.parentLayout.setOnClickListener {
             if(expandableAttemptedTest.isExpanded)
                 expandableAttemptedTest.collapse()
             else {
                 expandableAttemptedTest.expand()
-                expandableScheduleTest.collapse()
                 expandableUnAttemptedTest.collapse()
             }
         }
@@ -234,7 +224,6 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 expandableUnAttemptedTest.collapse()
             else {
                 expandableUnAttemptedTest.expand()
-                expandableScheduleTest.collapse()
                 expandableAttemptedTest.collapse()
             }
         }
@@ -244,6 +233,16 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         batchId = loginData.userDetail?.batchList!![0].id!!
         requestTest(batchId)
+
+        val myList =ArrayList<String>()
+        myList.apply {
+            this.add("Chapter")
+            this.add("Section")
+            this.add("Full")
+            this.add("Mock Test")
+        }
+        subjectCall(myList)
+        getAttemptedTest(batchId)
 
     }
 
@@ -314,25 +313,25 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                                 AttemptedTest(
                                     "completed",
                                     attempt.testPaperVo?.correctMark!!,
-                                    attempt.testPaperVo!!.duration,
+                                    attempt.testPaperVo.duration,
                                     attempt.expiryDate,
                                     attempt.expiryDateTime,
                                     attempt.expiryTime,
-                                    attempt.testPaperVo!!.name,
-                                    attempt.publishDate!!,
-                                    attempt.publishDateTime!!,
+                                    attempt.testPaperVo.name,
+                                    attempt.publishDate,
+                                    attempt.publishDateTime,
                                     attempt.publishTime!!,
-                                    attempt.testPaperVo!!.questionCount,
-                                    attempt.testPaperVo!!.status,
+                                    attempt.testPaperVo.questionCount,
+                                    attempt.testPaperVo.status,
                                     "",
                                     loginData.userDetail?.usersId!!,
                                     loginData.userDetail?.userName!!,
-                                    attempt.testPaperVo!!.testCode,
-                                    attempt.testPaperId!!,
-                                    attempt.testPaperVo!!.testType,
-                                    attempt.testPaperVo!!.attempts,
-                                    attempt.testPaperVo!!.duration.toString(),
-                                    attempt.testPaperVo!!.correctMark.toString(),
+                                    attempt.testPaperVo.testCode,
+                                    attempt.testPaperId,
+                                    attempt.testPaperVo.testType,
+                                    attempt.testPaperVo.attempts,
+                                    attempt.testPaperVo.duration.toString(),
+                                    attempt.testPaperVo.correctMark.toString(),
                                 )
                             )
                         }
@@ -341,13 +340,16 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 } else if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest") {
                     val scheduledTestResponse =
                         Gson().fromJson(response, ScheduledClass::class.java)
+
+
+/*
                     if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
-                        expandableScheduleTest.secondLayout.recyclerViewChild.visibility = View.GONE
-                        expandableScheduleTest.secondLayout.txtError.visibility = View.VISIBLE
+                        testRecycler1.visibility = View.GONE
+                        testTxtError1.visibility = View.VISIBLE
                     } else {
-                        expandableScheduleTest.secondLayout.recyclerViewChild.visibility =
+                        testRecycler1.visibility =
                             View.VISIBLE
-                        expandableScheduleTest.secondLayout.txtError.visibility = View.GONE
+                        testTxtError1.visibility = View.GONE
                         val completedList = db.getCompletedTest()
                         completedList.forEachIndexed { _, completedListElement ->
                             attemptedTest!!.addAll(
@@ -361,10 +363,12 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                             scheduledTestResponse.MOCK_TEST,
                             this
                         )
-                        expandableScheduleTest.secondLayout.recyclerViewChild.adapter =
+                        testRecycler1.adapter =
                             scheduledTestAdapter
                     }
-                    getAttemptedTest(batchId)
+*/
+
+
                 } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
                     val submittedResult = Gson().fromJson(response, SubmittedResult::class.java)
                     db.deleteTest(submittedResult.testPaperId)
@@ -446,6 +450,17 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         batchId = data?.id!!
         requestTest(data?.id!!)
     }
+
+    private fun subjectCall(subjectList: ArrayList<String>) {
+        if (subjectList.size > 0) {
+            val adapter = TestGroupingAdapter(requireContext(), subjectList)
+            //now adding the adapter to recyclerview
+            testRecycler1.adapter = adapter
+        } else {
+            txtError.visibility = View.VISIBLE
+        }
+    }
+
 
     override fun onStop() {
         super.onStop()

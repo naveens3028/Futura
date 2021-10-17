@@ -73,12 +73,11 @@ class TestFragment : Fragment(), OnNetworkResponse {
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
-
         requestSessions(batchId)
     }
 
     private fun requestSessions(batchId: String) {
-        /*progressView.visibility = View.VISIBLE
+        progressView.visibility = View.VISIBLE
         val myBatchList = JSONArray()
         loginData.userDetail?.batchList?.forEach {
             myBatchList.put(it.id!!)
@@ -92,7 +91,6 @@ class TestFragment : Fragment(), OnNetworkResponse {
             ApiUtils.getHeader(requireContext()),
             this
         )
-*/
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {

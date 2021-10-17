@@ -10,6 +10,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.upmyranksapp.R
+import com.upmyranksapp.activity.TakeTestActivity
 import com.upmyranksapp.activity.TestResultActivity
 import com.upmyranksapp.adapter.SubjectClickListener
 import com.upmyranksapp.adapter.SubjectsAdapter
@@ -257,12 +258,12 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
         }
         dialog.disagree.setOnClickListener {
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, false)
-            // goToTestScreen(mockTest)
+             goToTestScreen(mockTest)
             dialog.dismiss()
         }
         dialog.agree.setOnClickListener {
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, true)
-            // goToTestScreen(mockTest)
+             goToTestScreen(mockTest)
             dialog.dismiss()
         }
         dialog.show()
@@ -278,14 +279,12 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
         )
     }
 
-/*
     private fun goToTestScreen(mockTest: MOCKTEST) {
         val intent = Intent(requireContext(), TakeTestActivity::class.java)
         intent.putExtra("mockTest", mockTest)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivityForResult(intent, Utils.LAUNCH_SECOND_ACTIVITY)
     }
-*/
 
     override fun onTestClicked(isClicked: Boolean, mockTest: MOCKTEST) {
         showDialog(mockTest)
