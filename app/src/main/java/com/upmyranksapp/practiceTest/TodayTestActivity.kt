@@ -77,7 +77,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         actionBar?.title = mockTest.testPaperVo?.name
-        actionBar?.subtitle = Utils.getDateValue(mockTest.publishDate)
+        actionBar?.subtitle = Utils.getDateValue(mockTest.publishDate!!)
 
         myPreferences = MyPreferences(this)
         networkHelper = NetworkHelper(this)
@@ -89,7 +89,7 @@ class TodayTestActivity : AppCompatActivity(), OnNetworkResponse, AnswerClickLis
 
         markReview()
 
-        questionList = db.getQuestionList(mockTest.testPaperId)
+        questionList = db.getQuestionList(mockTest.testPaperId!!)
         val noCompleted = questionList.filter {
             !it.answer.isNullOrEmpty() && it.answer != "-"
         }.size

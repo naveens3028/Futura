@@ -29,7 +29,7 @@ class ScheduledTestAdapter(
         val scheduledTest = scheduledItems[position]
         holder.itemView.testName.text = scheduledTest.testPaperVo?.name
         holder.itemView.marks.text = scheduledTest.testPaperVo?.questionCount.toString()
-        holder.itemView.date.text = getDateValue(scheduledTest.publishDate)
+        holder.itemView.date.text = getDateValue(scheduledTest.publishDate!!)
         holder.itemView.duration.text = scheduledTest.testPaperVo?.duration.toString()
         holder.itemView.takeTest.setOnClickListener {
             testClickListener.onTestClicked(true, scheduledTest)

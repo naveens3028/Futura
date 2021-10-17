@@ -10,20 +10,20 @@
 
     <item
         android:id="@+id/navigation_live"
+        android:icon="@drawable/ic_live_stream"
+        android:title="Live"
+        app:showAsAction="always|withText"/>
+
+    <item
+        android:id="@+id/navigation_practice"
         android:icon="@drawable/ic_prac_new"
         android:title="Practice"
         app:showAsAction="always|withText"/>
 
     <item
-        android:id="@+id/navigation_test"
-        android:icon="@drawable/ic_new_test"
-        android:title="Test"
-        app:showAsAction="always|withText"/>
-
-    <item
-     android:id="@+id/navigation_doubts"
-     android:icon="@drawable/ic_ask_new"
-     android:title="Ask"
+     android:id="@+id/navigation_test"
+     android:icon="@drawable/ic_new_test"
+     android:title="Test"
      android:visible="true"
      app:showAsAction="ifRoom"/>
 </menu>

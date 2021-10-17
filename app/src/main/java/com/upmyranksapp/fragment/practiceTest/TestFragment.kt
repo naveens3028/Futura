@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.upmyranksapp.R
 import com.upmyranksapp.database.DatabaseHelper
+import com.upmyranksapp.model.OnEventData
 import com.upmyranksapp.model.onBoarding.AverageBatchTests
 import com.upmyranksapp.model.onBoarding.LoginData
 import com.upmyranksapp.network.ApiUtils
@@ -23,6 +24,9 @@ import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_performance.*
 import kotlinx.android.synthetic.main.fragment_test.*
 import kotlinx.android.synthetic.main.fragment_test.txtTotalStudent
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONArray
 
 class TestFragment : Fragment(), OnNetworkResponse {
@@ -32,6 +36,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
     private var averBatchTest = mutableListOf<AverageBatchTests>()
     lateinit var myPreferences: MyPreferences
     lateinit var db: DatabaseHelper
+    private var batchId =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +62,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
+        batchId = loginData.userDetail?.batchList!![0].id!!
         averBatchTest = db.getAllAverageBatchTest()
         if(!averBatchTest.isNullOrEmpty()) {
             displayData(averBatchTest[0])
@@ -66,11 +72,13 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
     override fun onStart() {
         super.onStart()
-        requestSessions()
-          }
+        EventBus.getDefault().register(this)
 
-    private fun requestSessions() {
-        progressView.visibility = View.VISIBLE
+        requestSessions(batchId)
+    }
+
+    private fun requestSessions(batchId: String) {
+        /*progressView.visibility = View.VISIBLE
         val myBatchList = JSONArray()
         loginData.userDetail?.batchList?.forEach {
             myBatchList.put(it.id!!)
@@ -78,13 +86,13 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
         networkHelper.getCall(
             URLHelper.averageBatchTests + "?batchId=${
-                loginData.userDetail?.batchList?.get(0)?.id
+                batchId
             }&studentId=${loginData.userDetail?.usersId.toString()}",
             "averageBatchTests",
             ApiUtils.getHeader(requireContext()),
             this
         )
-
+*/
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
@@ -111,7 +119,6 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
     override fun onPause() {
         super.onPause()
-
     }
 
     companion object {
@@ -131,5 +138,17 @@ class TestFragment : Fragment(), OnNetworkResponse {
 
                 }
             }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: OnEventData?) {
+        val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
+        batchId = data?.id!!
+        requestSessions(data?.id!!)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 }

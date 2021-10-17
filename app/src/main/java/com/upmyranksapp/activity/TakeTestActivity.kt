@@ -123,7 +123,7 @@ class TakeTestActivity : AppCompatActivity(), OnNetworkResponse {
         if (responseCode == networkHelper.responseSuccess && tag == "getStudentTestPaper") {
             val testPaperResponse = Gson().fromJson(response, TestPaperResponse::class.java)
             for (question in testPaperResponse.quesionList) {
-                question.testPaperId = mockTest.testPaperId
+                question.testPaperId = mockTest.testPaperId!!
                 db.addQuestions(question)
             }
             stateful.showContent()

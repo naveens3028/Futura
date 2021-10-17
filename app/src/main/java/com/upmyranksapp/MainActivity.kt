@@ -175,9 +175,9 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                     } /*else if (position == 2) {
                         navigationView.selectedItemId = R.id.navigation_home
                     }*/ else if (position == 2) {
-                        navigationView.selectedItemId = R.id.navigation_test
+                        navigationView.selectedItemId = R.id.navigation_practice
                     } else if (position == 3) {
-                        navigationView.selectedItemId = R.id.navigation_doubts
+                        navigationView.selectedItemId = R.id.navigation_test
                     }
                 }
 
@@ -206,12 +206,12 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                           supportActionBar!!.title = ""
                           return@OnNavigationItemSelectedListener true
                       }*/
-                    R.id.navigation_test -> {
+                    R.id.navigation_practice -> {
                         viewPager.currentItem = 2
                         supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
-                    R.id.navigation_doubts -> {
+                    R.id.navigation_test -> {
                         viewPager.currentItem = 3
                         supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true

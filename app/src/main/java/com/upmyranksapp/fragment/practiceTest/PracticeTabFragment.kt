@@ -17,13 +17,11 @@ import com.upmyranksapp.adapter.ScheduledTestAdapter
 import com.upmyranksapp.adapter.TestClickListener
 import com.upmyranksapp.adapter.test.AttemptedTestAdapter
 import com.upmyranksapp.database.DatabaseHelper
-import com.upmyranksapp.model.MOCKTEST
-import com.upmyranksapp.model.PracticeSubjects
-import com.upmyranksapp.model.ScheduledClass
-import com.upmyranksapp.model.SubmittedResult
+import com.upmyranksapp.model.*
 import com.upmyranksapp.model.onBoarding.AttemptedResponse
 import com.upmyranksapp.model.onBoarding.AttemptedTest
 import com.upmyranksapp.model.onBoarding.LoginData
+import com.upmyranksapp.model.onBoarding.MockTest
 import com.upmyranksapp.network.ApiUtils
 import com.upmyranksapp.network.NetworkHelper
 import com.upmyranksapp.network.OnNetworkResponse
@@ -34,9 +32,13 @@ import com.upmyranksapp.utils.MyPreferences
 import com.upmyranksapp.utils.Utils
 import kotlinx.android.synthetic.main.dialog_confirm_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.close
+import kotlinx.android.synthetic.main.fragment_learn.*
 import kotlinx.android.synthetic.main.fragment_practice_tab.*
 import kotlinx.android.synthetic.main.test_layout_child.view.*
 import kotlinx.android.synthetic.main.test_layout_parent.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -53,6 +55,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
     lateinit var myPreferences: MyPreferences
     var clickedTestPaperId = ""
     lateinit var testPaperId: String
+    private var batchId: String= ""
     lateinit var attempt1: AttemptedTest
 
     override fun onCreateView(
@@ -72,11 +75,14 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        requestTest()
+
+        batchId = loginData.userDetail?.batchList?.get(0)?.id!!
+        requestTest(batchId)
     }
 
     override fun onStart() {
         super.onStart()
+        EventBus.getDefault().register(this)
 
         expandablePracticeTest.parentLayout.txtParentTitle.text = "Practice Test"
 
@@ -106,10 +112,10 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
     }
 
 
-    fun requestTest() {
+    fun requestTest(batchId: String) {
         networkHelper.getCall(
             URLHelper.scheduleTestsForStudent + "?batchId=${
-                loginData.userDetail?.batchList?.get(1)?.id
+                batchId
             }&studentId=${loginData.userDetail?.usersId}",
             "scheduledTest1",
             ApiUtils.getHeader(requireContext()),
@@ -140,7 +146,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Utils.LAUNCH_SECOND_ACTIVITY) {
-            requestTest()
+            requestTest(batchId)
         }
     }
 
@@ -148,6 +154,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
         if (responseCode == networkHelper.responseSuccess && tag == "scheduledTest1") {
             var scheduledTestResponse =
                 Gson().fromJson(response, ScheduledClass::class.java)
+            Log.e("testCheck", scheduledTestResponse.PRACTICE.toString())
             if (scheduledTestResponse.PRACTICE.isNullOrEmpty()) {
                 expandablePracticeTest.secondLayout.recyclerViewChild.visibility = View.GONE
                 expandablePracticeTest.secondLayout.txtError.visibility = View.VISIBLE
@@ -171,7 +178,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
                 expandablePracticeTest.secondLayout.recyclerViewChild.adapter =
                     scheduledTestAdapter
             }
-            getAttemptedTest()
+            getAttemptedTest(batchId)
         } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
             val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
             if (attemptedTest?.size!! > 0) {
@@ -180,25 +187,25 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
                         AttemptedTest(
                             "completed",
                             attempt.testPaperVo?.correctMark!!,
-                            attempt.testPaperVo.duration,
+                            attempt.testPaperVo!!.duration,
                             attempt.expiryDate,
                             attempt.expiryDateTime,
                             attempt.expiryTime,
-                            attempt.testPaperVo.name,
-                            attempt.publishDate,
-                            attempt.publishDateTime,
+                            attempt.testPaperVo!!.name,
+                            attempt.publishDate!!,
+                            attempt.publishDateTime!!,
                             attempt.publishTime!!,
-                            attempt.testPaperVo.questionCount,
-                            attempt.testPaperVo.status,
+                            attempt.testPaperVo!!.questionCount,
+                            attempt.testPaperVo!!.status,
                             "",
                             loginData.userDetail?.usersId!!,
                             loginData.userDetail?.userName!!,
-                            attempt.testPaperVo.testCode,
-                            attempt.testPaperId,
-                            attempt.testPaperVo.testType,
-                            attempt.testPaperVo.attempts,
-                            attempt.testPaperVo.duration.toString(),
-                            attempt.testPaperVo.correctMark.toString(),
+                            attempt.testPaperVo!!.testCode,
+                            attempt.testPaperId!!,
+                            attempt.testPaperVo!!.testType,
+                            attempt.testPaperVo!!.attempts,
+                            attempt.testPaperVo!!.duration.toString(),
+                            attempt.testPaperVo!!.correctMark.toString(),
                         )
                     )
                 }
@@ -209,7 +216,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
             db.deleteTest(submittedResult.testPaperId)
             attemptedTest =
                 attemptedTest?.filterNot { it.testPaperId == submittedResult.testPaperId } as ArrayList<MOCKTEST>?
-            getAttemptedTest()
+            getAttemptedTest(batchId)
         }
     }
 
@@ -233,10 +240,10 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
         }
     }
 
-    private fun getAttemptedTest() {
+    private fun getAttemptedTest(batchId: String) {
         networkHelper.getCall(
             URLHelper.attemptedTests  + "?batchId=${
-                loginData.userDetail?.batchList?.get(1)?.id
+                batchId
             }&studentId=${loginData.userDetail?.usersId}",
             "getAttempted",
             ApiUtils.getHeader(requireContext()),
@@ -263,12 +270,12 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
         }
         dialog.disagree.setOnClickListener {
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, false)
-            goToTestScreen(mockTest)
+           // goToTestScreen(mockTest)
             dialog.dismiss()
         }
         dialog.agree.setOnClickListener {
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, true)
-            goToTestScreen(mockTest)
+           // goToTestScreen(mockTest)
             dialog.dismiss()
         }
         dialog.show()
@@ -284,12 +291,14 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
         )
     }
 
+/*
     private fun goToTestScreen(mockTest: MOCKTEST) {
         val intent = Intent(requireContext(), TakeTestActivity::class.java)
         intent.putExtra("mockTest", mockTest)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivityForResult(intent, Utils.LAUNCH_SECOND_ACTIVITY)
     }
+*/
 
     override fun onTestClicked(isClicked: Boolean, mockTest: MOCKTEST) {
         showDialog(mockTest)
@@ -330,4 +339,19 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
         intent.putExtra("AttemptedTest", attempt)
         startActivity(intent)
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: OnEventData?) {
+        Log.e("popThread","123")
+        val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
+        batchId = data?.id!!
+        requestTest(data?.id!!)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+
+    }
+
 }

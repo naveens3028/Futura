@@ -18,10 +18,7 @@ import com.upmyranksapp.adapter.TestClickListener
 import com.upmyranksapp.adapter.test.AttemptedTestAdapter
 import com.upmyranksapp.adapter.test.UnAttemptedTestAdapter
 import com.upmyranksapp.database.DatabaseHelper
-import com.upmyranksapp.model.MOCKTEST
-import com.upmyranksapp.model.ScheduledClass
-import com.upmyranksapp.model.SubmittedResult
-import com.upmyranksapp.model.TestResultsModel
+import com.upmyranksapp.model.*
 import com.upmyranksapp.model.onBoarding.AttemptedResponse
 import com.upmyranksapp.model.onBoarding.AttemptedTest
 import com.upmyranksapp.model.onBoarding.LoginData
@@ -40,6 +37,9 @@ import kotlinx.android.synthetic.main.dialog_jump_to_questions.close
 import kotlinx.android.synthetic.main.fragment_test_tab.*
 import kotlinx.android.synthetic.main.test_layout_child.view.*
 import kotlinx.android.synthetic.main.test_layout_parent.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -58,6 +58,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     lateinit var attempt1: AttemptedTest
     var attemptedTest: ArrayList<MOCKTEST>? = ArrayList()
     var clickedTestPaperId = ""
+    var batchId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     }
 
-    private fun requestTest() {
+    private fun requestTest(batchId: String) {
 
         val nightModeFlags: Int = requireContext().resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
         when (nightModeFlags) {
@@ -91,8 +92,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         }
 
         val params = HashMap<String, String>()
-        params["batchId"] = loginData.userDetail?.batchList?.get(0)?.id.toString()
-
+        params["batchId"] = batchId
         params["studentId"] = loginData.userDetail?.usersId.toString()
 
 
@@ -125,7 +125,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         networkHelper.getCall(
             URLHelper.scheduleTestsForStudent + "?batchId=${
-                loginData.userDetail?.batchList?.get(1)?.id
+                batchId
             }&studentId=${loginData.userDetail?.usersId}",
             "scheduledTest",
             ApiUtils.getHeader(requireContext()),
@@ -134,10 +134,9 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     }
 
-    private fun getAttemptedTest() {
+    private fun getAttemptedTest(batchId : String) {
         val params = HashMap<String, String>()
-        params["batchId"] = loginData.userDetail?.batchList?.get(0)?.id.toString()
-
+        params["batchId"] = batchId
         params["studentId"] = loginData.userDetail?.usersId.toString()
 
         networkHelper.call(
@@ -202,6 +201,8 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     override fun onStart() {
         super.onStart()
+        EventBus.getDefault().register(this)
+
         expandableScheduleTest.parentLayout.txtParentTitle.text = "Scheduled Test"
         expandableAttemptedTest.parentLayout.txtParentTitle.text = "Attempted Test"
         expandableUnAttemptedTest.parentLayout.txtParentTitle.text = "Un Attempted Test"
@@ -240,14 +241,16 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        requestTest()
+
+        batchId = loginData.userDetail?.batchList!![0].id!!
+        requestTest(batchId)
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Utils.LAUNCH_SECOND_ACTIVITY) {
-            requestTest()
+            requestTest(batchId)
         }
     }
 
@@ -311,25 +314,25 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                                 AttemptedTest(
                                     "completed",
                                     attempt.testPaperVo?.correctMark!!,
-                                    attempt.testPaperVo.duration,
+                                    attempt.testPaperVo!!.duration,
                                     attempt.expiryDate,
                                     attempt.expiryDateTime,
                                     attempt.expiryTime,
-                                    attempt.testPaperVo.name,
-                                    attempt.publishDate,
-                                    attempt.publishDateTime,
+                                    attempt.testPaperVo!!.name,
+                                    attempt.publishDate!!,
+                                    attempt.publishDateTime!!,
                                     attempt.publishTime!!,
-                                    attempt.testPaperVo.questionCount,
-                                    attempt.testPaperVo.status,
+                                    attempt.testPaperVo!!.questionCount,
+                                    attempt.testPaperVo!!.status,
                                     "",
                                     loginData.userDetail?.usersId!!,
                                     loginData.userDetail?.userName!!,
-                                    attempt.testPaperVo.testCode,
-                                    attempt.testPaperId,
-                                    attempt.testPaperVo.testType,
-                                    attempt.testPaperVo.attempts,
-                                    attempt.testPaperVo.duration.toString(),
-                                    attempt.testPaperVo.correctMark.toString(),
+                                    attempt.testPaperVo!!.testCode,
+                                    attempt.testPaperId!!,
+                                    attempt.testPaperVo!!.testType,
+                                    attempt.testPaperVo!!.attempts,
+                                    attempt.testPaperVo!!.duration.toString(),
+                                    attempt.testPaperVo!!.correctMark.toString(),
                                 )
                             )
                         }
@@ -361,13 +364,13 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                         expandableScheduleTest.secondLayout.recyclerViewChild.adapter =
                             scheduledTestAdapter
                     }
-                    getAttemptedTest()
+                    getAttemptedTest(batchId)
                 } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
                     val submittedResult = Gson().fromJson(response, SubmittedResult::class.java)
                     db.deleteTest(submittedResult.testPaperId)
                     attemptedTest =
                         attemptedTest?.filterNot { it.testPaperId == submittedResult.testPaperId } as ArrayList<MOCKTEST>?
-                    getAttemptedTest()
+                    getAttemptedTest(batchId)
                 } else if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapersResult") {
                     dialogUtils.dismissLoader()
                     val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
@@ -434,5 +437,17 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 arguments = Bundle().apply {
                 }
             }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: OnEventData?) {
+        val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
+        batchId = data?.id!!
+        requestTest(data?.id!!)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 }

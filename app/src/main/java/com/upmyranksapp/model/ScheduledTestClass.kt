@@ -3,7 +3,10 @@ package com.upmyranksapp.model
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+
 
 data class ScheduledClass(
     var MOCK_TEST: List<MOCKTEST>,
@@ -12,6 +15,9 @@ data class ScheduledClass(
 
 @Parcelize
 data class MOCKTEST(
+    var courseId: String? ,
+    var courseName: String? ,
+    var parentId: String? ,
     val batchIds: String?,
     val batchList: String?,
     val branchIds: String?,
@@ -34,6 +40,106 @@ data class MOCKTEST(
     val updatedAt: Long,
     val updatedBy: String?
 ) : Parcelable
+
+
+/*@Parcelize
+data class MOCKTEST(
+    @SerializedName("id")
+    @Expose
+    var id: String?,
+
+    @SerializedName("testPaperId")
+    @Expose
+    var testPaperId: String? ,
+
+    @SerializedName("testPaperVo")
+    @Expose
+    var testPaperVo: TestPaperVo?,
+
+    @SerializedName("coachingCenterId")
+    @Expose
+    var coachingCenterId: String?,
+
+    @SerializedName("coachingCentre")
+    @Expose
+    var coachingCentre: CoachingCentre1? ,
+
+    @SerializedName("publishDate")
+    @Expose
+    var publishDate: Long?,
+
+    @SerializedName("publishTime")
+    @Expose
+    var publishTime: String? ,
+
+    @SerializedName("publishDateTime")
+    @Expose
+    var publishDateTime: Long? ,
+
+    @SerializedName("expiryDate")
+    @Expose
+    var expiryDate: String? ,
+
+    @SerializedName("expiryTime")
+    @Expose
+    var expiryTime: String? ,
+
+    @SerializedName("expiryDateTime")
+    @Expose
+    var expiryDateTime: String? ,
+
+    @SerializedName("status")
+    @Expose
+    var status: String? ,
+
+    @SerializedName("courseName")
+    @Expose
+    var courseName: String? ,
+
+    @SerializedName("parentId")
+    @Expose
+    var parentId: String? ,
+
+    @SerializedName("courseId")
+    @Expose
+    var courseId: String? ,
+
+    @SerializedName("createdAt")
+    @Expose
+    var createdAt: Long? ,
+
+    @SerializedName("updatedAt")
+    @Expose
+    var updatedAt: Long? ,
+
+    @SerializedName("createdBy")
+    @Expose
+    var createdBy: String? ,
+
+    @SerializedName("updatedBy")
+    @Expose
+    var updatedBy: String?,
+
+    @SerializedName("branchIds")
+    @Expose
+    var branchIds: String? ,
+
+    @SerializedName("courseIds")
+    @Expose
+    var courseIds: String? ,
+
+    @SerializedName("batchIds")
+    @Expose
+    var batchIds: String? ,
+
+    @SerializedName("batchList")
+    @Expose
+    var batchList: String? ,
+
+    @SerializedName("testStatus")
+    @Expose
+    var testStatus: String?
+): Parcelable*/
 
 @Parcelize
 data class CoachingCentre1(
