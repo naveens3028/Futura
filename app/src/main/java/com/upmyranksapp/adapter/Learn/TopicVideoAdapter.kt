@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class TopicVideoAdapter(
         val txt_topic_header = itemView.findViewById(R.id.txt_topic_header) as AppCompatTextView
         val img_topic_header = itemView.findViewById(R.id.img_topic_header) as AppCompatImageView
         val videoRecycler = itemView.findViewById(R.id.recyclerTopicSubItems) as RecyclerView
+        val topicParent = itemView.findViewById(R.id.topicParent) as LinearLayout
         val mtrlView = itemView.findViewById(R.id.mtrlView) as MaterialCardView
     }
 
@@ -36,7 +38,7 @@ class TopicVideoAdapter(
         holder.txt_topic_header.text = subjects!![position].topic!!.courseName
         val adapter = LearnTopicHeaderAdapter(context, subjects[position].materialList, listener)
         holder.videoRecycler.adapter = adapter
-        holder.img_topic_header.setOnClickListener {
+        holder.topicParent.setOnClickListener {
             if (holder.videoRecycler.visibility == View.VISIBLE) {
                 holder.mtrlView.visibility = View.GONE
                 holder.videoRecycler.visibility = View.GONE

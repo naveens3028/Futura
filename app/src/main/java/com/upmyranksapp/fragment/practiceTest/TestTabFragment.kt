@@ -410,6 +410,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         if (view != null) {
             if(attempted.mOCKTEST.size > 0) {
                 expandableAttemptedTest.secondLayout.txtError.visibility = View.GONE
+                expandableAttemptedTest.secondLayout.recyclerViewChild.visibility = View.VISIBLE
                 val attemptedAdapter = AttemptedTestAdapter(
                     requireContext(),
                     attempted.mOCKTEST.reversed(), this

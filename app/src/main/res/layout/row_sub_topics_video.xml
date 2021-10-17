@@ -15,7 +15,7 @@
         android:drawablePadding="@dimen/_5sdp"
         android:maxLines="2"
         android:text="Important identities in trigonometry and it's applications"
-        android:textColor="@color/text_color"
+        android:textColor="@color/black"
         android:textSize="@dimen/_12sdp" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -26,6 +26,7 @@
         android:gravity="center"
         android:padding="@dimen/_10sdp"
         android:text="No Contents"
+        android:textColor="@color/greytext"
         android:visibility="visible" />
 
     <View

@@ -401,37 +401,37 @@ class NetworkHelper(context: Context) {
         headers: HashMap<String, String>,
         onNetworkResponse: OnNetworkResponse,
     ) {
-        try {
-            val queue = Volley.newRequestQueue(context)
-            if (cd.isConnectingToInternet()) {
-                Utils.log(TAG, "url $url")
-                Utils.log(TAG, "headers $headers")
+        val queue = Volley.newRequestQueue(context)
+        if (cd.isConnectingToInternet()) {
+            Utils.log(TAG, "url $url")
+            Utils.log(TAG, "headers $headers")
 
-                val jsonObjReq: JsonObjectRequest = object : JsonObjectRequest(
-                    Method.GET, url, null,
-                    Response.Listener { response: JSONObject ->
-                        Utils.log(TAG, "response -$tag $response")
-                        if (response.optBoolean("error")) {
-                            if (response.optString("message")
-                                    .equals("Unauthorized", ignoreCase = true)
-                            ) {
+            val jsonObjReq: JsonObjectRequest = object : JsonObjectRequest(
+                Method.GET, url, null,
+                Response.Listener { response: JSONObject ->
+                    Utils.log(TAG, "response -$tag $response")
+                    if (response.optBoolean("error")) {
+                        if (response.optString("message")
+                                .equals("Unauthorized", ignoreCase = true)
+                        ) {
 
-                            } else {
-                                onNetworkResponse.onNetworkResponse(
-                                    responseSuccess, response.toString(),
-                                    tag
-                                )
-                            }
                         } else {
                             onNetworkResponse.onNetworkResponse(
-                                responseSuccess,
-                                response.toString(),
+                                responseSuccess, response.toString(),
                                 tag
                             )
                         }
+                    } else {
+                        onNetworkResponse.onNetworkResponse(
+                            responseSuccess,
+                            response.toString(),
+                            tag
+                        )
+                    }
 
-                    },
-                    Response.ErrorListener { error: VolleyError ->
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    try {
                         Utils.log(
                             TAG,
                             "ErrorListener -$tag ${error.message} ${error.networkResponse.statusCode}"
@@ -449,25 +449,22 @@ class NetworkHelper(context: Context) {
                                 tag
                             )
                         }
-                    }) {
-                    override fun getHeaders(): Map<String, String> {
-                        return headers
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
+                }) {
+                override fun getHeaders(): Map<String, String> {
+                    return headers
                 }
-                jsonObjReq.retryPolicy = DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-                )
-                queue.add(jsonObjReq).tag = tag
-            } else {
-                onNetworkResponse.onNetworkResponse(
-                    responseNoInternet,
-                    "No Internet Connection..",
-                    tag
-                )
             }
-        } catch (e: Exception) {
+            jsonObjReq.retryPolicy = DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            queue.add(jsonObjReq).tag = tag
+        } else {
+            onNetworkResponse.onNetworkResponse(responseNoInternet, "No Internet Connection..", tag)
         }
     }
 
@@ -543,4 +540,4 @@ class NetworkHelper(context: Context) {
         AndroidNetworking.cancel(tag)
     }
 
-    }
+}

@@ -13,6 +13,8 @@ import com.upmyranksapp.R
 import com.upmyranksapp.adapter.AnswerClickListener
 import com.upmyranksapp.model.AnswerChooseItem
 import kotlinx.android.synthetic.main.row_answer_choose_list.view.*
+import kotlinx.android.synthetic.main.row_attempted_test.view.*
+import kotlinx.android.synthetic.main.row_question_list.view.*
 
 
 class AnswerChooseAdapter(
@@ -44,13 +46,14 @@ class AnswerChooseAdapter(
 
         if(answerItem.answer != null) {
             val ans = answerItem.answer!!.replace("\n", "").replace("<p class=\\\"p4\\\">", "")
-            holder.itemView.mvTest.apply {
-                textZoom = 60
-                textColor = Color.GREEN.toString()
-                textAlign = TextAlign.LEFT
-                backgroundColor = "#EEF4FA"
-                text = ans
-            }
+//            holder.itemView.mvTest.apply {
+//                textZoom = 60
+//                textColor = Color.GREEN.toString()
+//                textAlign = TextAlign.LEFT
+//                backgroundColor = "#EEF4FA"
+//                text = ans
+//            }
+            holder.itemView.mvTest.loadData(answerItem.answer!!,"text/html", "UTF-8")
         }
 
         if (!isReview) {
@@ -108,9 +111,11 @@ class AnswerChooseAdapter(
                         R.color.tea_green
                     )
                 )
-                holder.itemView.mvTest.apply {
-                    backgroundColor = "#D5FBD3"
-                }
+                holder.itemView.mvTest.setBackgroundColor(Color.parseColor("#D5FBD3"))
+
+//                holder.itemView.mvTest.apply {
+//                    backgroundColor = "#D5FBD3"
+//                }
             } else if (position == ansPosition) {
                 holder.itemView.answer.setImageResource(R.drawable.ic_close_outline)
                 holder.itemView.parentView.background.setTint(
@@ -119,9 +124,10 @@ class AnswerChooseAdapter(
                         R.color.pale_pink
                     )
                 )
-                holder.itemView.mvTest.apply {
-                    backgroundColor = "#FBD3D3"
-                }
+                holder.itemView.mvTest.setBackgroundColor(Color.parseColor("#FBD3D3"))
+//                holder.itemView.mvTest.apply {
+//                    backgroundColor = "#FBD3D3"
+//                }
             } else {
                 holder.itemView.answer.setImageResource(R.drawable.ic_circle_outline)
                 holder.itemView.parentView.background.setTint(
@@ -130,9 +136,10 @@ class AnswerChooseAdapter(
                         R.color.alice_blue
                     )
                 )
-                holder.itemView.mvTest.apply {
-                    backgroundColor = "#EEF4FA"
-                }
+                holder.itemView.mvTest.setBackgroundColor(Color.parseColor("#EEF4FA"))
+//                holder.itemView.mvTest.apply {
+//                    backgroundColor = "#EEF4FA"
+//                }
             }
         } else {
             if (answerItem.isSelected) {
@@ -143,9 +150,10 @@ class AnswerChooseAdapter(
                         R.color.tea_green
                     )
                 )
-                holder.itemView.mvTest.apply {
-                    backgroundColor = "#D5FBD3"
-                }
+                holder.itemView.mvTest.setBackgroundColor(Color.parseColor("#D5FBD3"))
+//                holder.itemView.mvTest.apply {
+//                    backgroundColor = "#D5FBD3"
+//                }
             } else {
                 holder.itemView.answer.setImageResource(R.drawable.ic_circle_outline)
                 holder.itemView.parentView.background.setTint(
@@ -154,9 +162,10 @@ class AnswerChooseAdapter(
                         R.color.alice_blue
                     )
                 )
-                holder.itemView.mvTest.apply {
-                    backgroundColor = "#EEF4FA"
-                }
+                holder.itemView.mvTest.setBackgroundColor(Color.parseColor("#EEF4FA"))
+//                holder.itemView.mvTest.apply {
+//                    backgroundColor = "#EEF4FA"
+//                }
             }
         }
     }

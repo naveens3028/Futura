@@ -39,6 +39,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:textSize="@dimen/_16sdp"
                         android:text="@string/selected_course"
+                        android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
