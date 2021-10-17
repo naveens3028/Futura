@@ -8,12 +8,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import com.androidnetworking.common.Priority
 import com.google.gson.Gson
 import com.upmyranksapp.R
-import com.upmyranksapp.activity.TakeTestActivity
 import com.upmyranksapp.activity.TestResultActivity
-import com.upmyranksapp.adapter.ScheduledTestAdapter
+import com.upmyranksapp.adapter.SubjectClickListener
+import com.upmyranksapp.adapter.SubjectsAdapter
 import com.upmyranksapp.adapter.TestClickListener
 import com.upmyranksapp.adapter.test.AttemptedTestAdapter
 import com.upmyranksapp.database.DatabaseHelper
@@ -21,7 +20,6 @@ import com.upmyranksapp.model.*
 import com.upmyranksapp.model.onBoarding.AttemptedResponse
 import com.upmyranksapp.model.onBoarding.AttemptedTest
 import com.upmyranksapp.model.onBoarding.LoginData
-import com.upmyranksapp.model.onBoarding.MockTest
 import com.upmyranksapp.network.ApiUtils
 import com.upmyranksapp.network.NetworkHelper
 import com.upmyranksapp.network.OnNetworkResponse
@@ -32,7 +30,6 @@ import com.upmyranksapp.utils.MyPreferences
 import com.upmyranksapp.utils.Utils
 import kotlinx.android.synthetic.main.dialog_confirm_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.close
-import kotlinx.android.synthetic.main.fragment_learn.*
 import kotlinx.android.synthetic.main.fragment_practice_tab.*
 import kotlinx.android.synthetic.main.test_layout_child.view.*
 import kotlinx.android.synthetic.main.test_layout_parent.view.*
@@ -45,7 +42,7 @@ import org.json.JSONObject
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
+class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, SubjectClickListener {
 
     private var subjectList = ArrayList<PracticeSubjects>()
     var attemptedTest: ArrayList<MOCKTEST>? = ArrayList()
@@ -55,7 +52,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
     lateinit var myPreferences: MyPreferences
     var clickedTestPaperId = ""
     lateinit var testPaperId: String
-    private var batchId: String= ""
+    private var batchId: String = ""
     lateinit var attempt1: AttemptedTest
 
     override fun onCreateView(
@@ -84,25 +81,15 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
         super.onStart()
         EventBus.getDefault().register(this)
 
-        expandablePracticeTest.parentLayout.txtParentTitle.text = "Practice Test"
+        expandablePracticeTxt.text = "Practice Test"
 
         expandablePracticeTestAttempted.parentLayout.txtParentTitle.text = "Attempted Test"
 
-        expandablePracticeTest.secondLayout.txtError.text = "No Test Found in Scheduled Test"
-
-        expandablePracticeTestAttempted.secondLayout.txtError.text = "No Test Found in Attempted Test"
-
-        expandablePracticeTest.parentLayout.setOnClickListener {
-            if (expandablePracticeTest.isExpanded)
-                expandablePracticeTest.collapse()
-            else {
-                expandablePracticeTest.expand()
-
-            }
-        }
+        expandablePracticeTestAttempted.secondLayout.txtError.text =
+            "No Test Found in Attempted Test"
 
         expandablePracticeTestAttempted.parentLayout.setOnClickListener {
-            if(expandablePracticeTestAttempted.isExpanded)
+            if (expandablePracticeTestAttempted.isExpanded)
                 expandablePracticeTestAttempted.collapse()
             else {
                 expandablePracticeTestAttempted.expand()
@@ -155,6 +142,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
             var scheduledTestResponse =
                 Gson().fromJson(response, ScheduledClass::class.java)
             Log.e("testCheck", scheduledTestResponse.PRACTICE.toString())
+/*
             if (scheduledTestResponse.PRACTICE.isNullOrEmpty()) {
                 expandablePracticeTest.secondLayout.recyclerViewChild.visibility = View.GONE
                 expandablePracticeTest.secondLayout.txtError.visibility = View.VISIBLE
@@ -178,6 +166,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
                 expandablePracticeTest.secondLayout.recyclerViewChild.adapter =
                     scheduledTestAdapter
             }
+*/
             getAttemptedTest(batchId)
         } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
             val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
@@ -187,25 +176,25 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
                         AttemptedTest(
                             "completed",
                             attempt.testPaperVo?.correctMark!!,
-                            attempt.testPaperVo!!.duration,
+                            attempt.testPaperVo.duration,
                             attempt.expiryDate,
                             attempt.expiryDateTime,
                             attempt.expiryTime,
-                            attempt.testPaperVo!!.name,
-                            attempt.publishDate!!,
-                            attempt.publishDateTime!!,
+                            attempt.testPaperVo.name,
+                            attempt.publishDate,
+                            attempt.publishDateTime,
                             attempt.publishTime!!,
-                            attempt.testPaperVo!!.questionCount,
-                            attempt.testPaperVo!!.status,
+                            attempt.testPaperVo.questionCount,
+                            attempt.testPaperVo.status,
                             "",
                             loginData.userDetail?.usersId!!,
                             loginData.userDetail?.userName!!,
-                            attempt.testPaperVo!!.testCode,
-                            attempt.testPaperId!!,
-                            attempt.testPaperVo!!.testType,
-                            attempt.testPaperVo!!.attempts,
-                            attempt.testPaperVo!!.duration.toString(),
-                            attempt.testPaperVo!!.correctMark.toString(),
+                            attempt.testPaperVo.testCode,
+                            attempt.testPaperId,
+                            attempt.testPaperVo.testType,
+                            attempt.testPaperVo.attempts,
+                            attempt.testPaperVo.duration.toString(),
+                            attempt.testPaperVo.correctMark.toString(),
                         )
                     )
                 }
@@ -231,8 +220,6 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
                     requireContext(),
                     attempted.pRACTICE.reversed(), this
                 )
-                expandablePracticeTestAttempted.secondLayout.recyclerViewChild.adapter = attemptedAdapter
-                expandablePracticeTestAttempted.secondLayout.recyclerViewChild.visibility = View.VISIBLE
 
             } else {
                 expandablePracticeTestAttempted.secondLayout.txtError.visibility = View.VISIBLE
@@ -242,7 +229,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
 
     private fun getAttemptedTest(batchId: String) {
         networkHelper.getCall(
-            URLHelper.attemptedTests  + "?batchId=${
+            URLHelper.attemptedTests + "?batchId=${
                 batchId
             }&studentId=${loginData.userDetail?.usersId}",
             "getAttempted",
@@ -270,12 +257,12 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
         }
         dialog.disagree.setOnClickListener {
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, false)
-           // goToTestScreen(mockTest)
+            // goToTestScreen(mockTest)
             dialog.dismiss()
         }
         dialog.agree.setOnClickListener {
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, true)
-           // goToTestScreen(mockTest)
+            // goToTestScreen(mockTest)
             dialog.dismiss()
         }
         dialog.show()
@@ -283,7 +270,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
 
     fun submitTest(jsonObject: JSONObject) {
         networkHelper.postCall(
-            URLHelper.submitTestPaper ,
+            URLHelper.submitTestPaper,
             jsonObject,
             "submitTestPaper",
             ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
@@ -340,17 +327,39 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener {
         startActivity(intent)
     }
 
+    private fun subjectCall(subjectList: ArrayList<Datum>) {
+        if (subjectList.size > 0) {
+            val adapter = SubjectsAdapter(requireContext(), subjectList, batchId, this)
+            //now adding the adapter to recyclerview
+            subjectsRecycler1.adapter = adapter
+        } else {
+            txtError.visibility = View.VISIBLE
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: OnEventData?) {
-        Log.e("popThread","123")
+        Log.e("popThread", "123")
         val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
         batchId = data?.id!!
-        requestTest(data?.id!!)
+        requestTest(data.id!!)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onLearnEvent(event: CourseResponse) {
+        Log.e("popThread", "123")
+        event.data?.let {
+            Log.e("popThread", "321")
+            subjectCall(it)
+        }
     }
 
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
+    }
+
+    override fun onSubjectClicked(batchId: String, id: String, title: String) {
 
     }
 

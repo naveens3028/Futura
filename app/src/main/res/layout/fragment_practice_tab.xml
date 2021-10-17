@@ -6,22 +6,46 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.skydoves.expandablelayout.ExpandableLayout
-        android:id="@+id/expandablePracticeTest"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/expandablePracticeTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        app:expandable_duration="300"
-        app:expandable_isExpanded="false"
-        app:expandable_parentLayout="@layout/test_layout_parent"
-        app:expandable_secondLayout="@layout/test_layout_child"
-        app:expandable_showSpinner="true"
-        app:expandable_spinner="@drawable/ic_arrow_down"
-        app:expandable_spinner_animate="true"
-        app:expandable_spinner_color="@color/new_blue_dark"
-        app:expandable_spinner_gravity="end"
-        app:expandable_spinner_margin="4dp"
-        app:expandable_spinner_size="40dp" />
+        android:text="@string/app_name"
+        android:textColor="@color/new_blue_dark"
+        android:background="@color/new_blue_light"
+        android:padding="@dimen/_8sdp"
+        android:layout_margin="@dimen/_8sdp"
+        android:fontFamily="@font/roboto_medium"/>
+
+    <com.upmyranksapp.helper.NestedScrollableHost
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/subjectsRecycler1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="3"
+            tools:listitem="@layout/activity_subjects"/>
+
+    </com.upmyranksapp.helper.NestedScrollableHost>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtError"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:text="No Test Found"
+        android:textAlignment="center"
+        android:textSize="@dimen/_13sdp"
+        android:visibility="gone" />
 
     <com.skydoves.expandablelayout.ExpandableLayout
         android:id="@+id/expandablePracticeTestAttempted"

@@ -32,4 +32,5 @@
         android:textAlignment="center"
         android:textSize="@dimen/_13sdp"
         android:visibility="visible" />
+
 </LinearLayout>

@@ -30,6 +30,7 @@ import com.upmyranksapp.network.URLHelper
 import com.upmyranksapp.utils.Define
 import com.upmyranksapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_learn.*
+import kotlinx.coroutines.delay
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -186,6 +187,7 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
         if (responseCode == networkHelper.responseSuccess && tag == "getCourse") {
             val courseResponse = Gson().fromJson(response, CourseResponse::class.java)
             subjectCall(courseResponse.data!!)
+            EventBus.getDefault().post(courseResponse)
         } else {
             showErrorMsg(requireActivity().getString(R.string.sfl_default_error))
         }
