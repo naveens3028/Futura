@@ -83,27 +83,6 @@ class LiveFragment : Fragment(), OnNetworkResponse {
         ).attach()
         viewPager.currentItem = requireArguments().getInt("currentPosition",0)
 
-//        childFragmentManager.beginTransaction()
-//            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", "")).commit()
-//
-//        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//            override fun onTabSelected(tab: TabLayout.Tab) {
-//                when (tab.position) {
-//                    0 ->
-//                        childFragmentManager.beginTransaction()
-//                            .replace(R.id.liveFrameLayout, UpcomingLiveFragment.newInstance("", ""))
-//                            .commit()
-//                    1 ->
-//                        childFragmentManager.beginTransaction()
-//                            .replace(R.id.liveFrameLayout, CompletedLiveFragment.newInstance("", ""))
-//                            .commit()
-//                }
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab) {}
-//            override fun onTabReselected(tab: TabLayout.Tab) {}
-//        })
-
     }
 
     companion object {
