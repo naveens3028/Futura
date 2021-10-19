@@ -9,7 +9,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/alice_blue"
+        app:cardBackgroundColor="@color/new_blue_light"
         app:cardCornerRadius="@dimen/_8sdp">
 
         <LinearLayout
