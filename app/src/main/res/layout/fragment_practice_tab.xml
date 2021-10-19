@@ -67,7 +67,7 @@
         app:expandable_spinner_size="42dp" />
 
 
-    <!--
+<!--
         <androidx.cardview.widget.CardView
             android:id="@+id/crd_createprac"
             android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                 android:textColor="@color/white"/>
 
         </androidx.cardview.widget.CardView>
-    -->
+-->
 
 
 <!--

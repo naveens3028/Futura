@@ -47,6 +47,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
 
     private var subjectList = ArrayList<PracticeSubjects>()
     var attemptedTest: ArrayList<MOCKTEST>? = ArrayList()
+    lateinit var scheduledTest: List<MOCKTEST>
     lateinit var db: DatabaseHelper
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
@@ -143,6 +144,9 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
             var scheduledTestResponse =
                 Gson().fromJson(response, ScheduledClass::class.java)
             Log.e("testCheck", scheduledTestResponse.PRACTICE.toString())
+
+            scheduledTest = scheduledTestResponse.PRACTICE
+
 /*
             if (scheduledTestResponse.PRACTICE.isNullOrEmpty()) {
                 expandablePracticeTest.secondLayout.recyclerViewChild.visibility = View.GONE

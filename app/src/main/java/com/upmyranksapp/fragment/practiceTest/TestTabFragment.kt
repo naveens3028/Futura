@@ -390,7 +390,6 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         }
     }
 
-
     private fun unAttemptedSetup(unAttempted: UnAttempted) {
         if (view != null) {
             if (unAttempted.mockTest != null) {
