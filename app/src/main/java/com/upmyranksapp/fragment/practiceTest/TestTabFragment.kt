@@ -391,16 +391,19 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             if (unAttempted.mockTest != null) {
                 if (unAttempted.mockTest!!.isNotEmpty()) {
                     expandableUnAttemptedTest.secondLayout.txtError.visibility = View.GONE
+                    expandableUnAttemptedTest.secondLayout.recyclerViewChild.visibility = View.VISIBLE
                     val unattemptedAdapter = UnAttemptedTestAdapter(
                         requireContext(),
                         unAttempted.mockTest!!, this
                     )
                     expandableUnAttemptedTest.secondLayout.recyclerViewChild.adapter = unattemptedAdapter
                 } else {
+                    expandableUnAttemptedTest.secondLayout.recyclerViewChild.visibility = View.GONE
                     expandableUnAttemptedTest.secondLayout.txtError.visibility = View.VISIBLE
                 }
             }
         }else{
+            expandableUnAttemptedTest.secondLayout.recyclerViewChild.visibility = View.GONE
             expandableUnAttemptedTest.secondLayout.txtError.visibility = View.VISIBLE
         }
     }
@@ -416,6 +419,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 )
                 expandableAttemptedTest.secondLayout.recyclerViewChild.adapter = attemptedAdapter
             }else {
+                expandableAttemptedTest.secondLayout.recyclerViewChild.visibility = View.GONE
                 expandableAttemptedTest.secondLayout.txtError.visibility = View.VISIBLE
             }
         }

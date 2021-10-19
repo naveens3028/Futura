@@ -87,8 +87,9 @@
             android:name=".activity.login.OtpActivity" />
         <activity
             android:name=".activity.login.CourseSelectionActivity" />
-        <activity
-            android:name=".activity.TestVideoActivity" />
+    <!--    <activity
+            android:name=".activity.TestVideoActivity" />-->
+        <activity android:name=".activity.TestGroupActivity"/>
 
         <activity
             android:name=".activity.login.PlanSelectionActivity" />
