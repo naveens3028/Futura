@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.trisys.rn.baseapp.helper.SimpleStatefulLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/stateful"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="@dimen/_450sdp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.UpcomingLiveFragment">
 
-    <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".fragment.UpcomingLiveFragment">
+        android:layout_height="@dimen/_100sdp"
+        android:gravity="center"
+        android:text="@string/no_upcoming_session_found"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:id="@+id/noCompletedSession"/>
 
-        <TextView
-            android:id="@+id/noCompletedSession"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/no_upcoming_session_found"
-            android:textStyle="bold"
-            android:visibility="gone" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:overScrollMode="never"
+        android:orientation="vertical"
+        app:spanCount="2"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="3"
+        tools:listitem="@layout/row_upcoming" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/_10sdp"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="3"
-            tools:listitem="@layout/row_completed_live" />
-
-    </FrameLayout>
-</com.trisys.rn.baseapp.helper.SimpleStatefulLayout>
+</FrameLayout>

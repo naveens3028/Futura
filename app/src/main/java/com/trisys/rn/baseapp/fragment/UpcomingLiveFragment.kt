@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
+import com.trisys.rn.baseapp.adapter.StudyAdapter
+import com.trisys.rn.baseapp.adapter.UpcomingLiveAdapter
+import com.trisys.rn.baseapp.model.LiveResponse
 import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiUtils
@@ -17,6 +20,7 @@ import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.network.UrlConstants.kUPCOMING
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import kotlinx.android.synthetic.main.fragment_live.*
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -96,44 +100,30 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
             e.printStackTrace()
         }
 
-        stateful.showProgress()
-        stateful.setProgressText("")
         networkHelper.postCall(
             URLHelper.getSessions,
             jsonObject,
             "upcomingSessions",
-            ApiUtils.getHeader(requireContext()),
+            ApiUtils.getAuthorizationHeader(requireContext(), jsonObject.toString().length),
             this
         )
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        try {
-            stateful.showContent()
-            if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
-                val liveItemResponse = ArrayList<CompletedSession>()
-                if (liveItemResponse.isNullOrEmpty()) {
-                    showErrorMsg(resources.getString(R.string.no_upcoming_session_found))
-                } else {
-                    val completedLiveAdapter =
-                        CompletedLiveAdapter(requireContext(), liveItemResponse)
-                    recycler.adapter = completedLiveAdapter
-                }
-            } else {
-                showErrorMsg(resources.getString(R.string.no_upcoming_session_found))
+        if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
+            val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
+            if (liveItemResponse.data.isNotEmpty()) {
+                val studyAdapter = UpcomingLiveAdapter(requireContext(), liveItemResponse.data)
+                recycler.adapter = studyAdapter
+                recycler.visibility = View.VISIBLE
+                noCompletedSession.visibility = View.GONE
+            }else{
+                recycler.visibility = View.GONE
+                noCompletedSession.visibility = View.VISIBLE
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-
-    fun showErrorMsg(errorMsg: String) {
-        stateful.showOffline()
-        stateful.setOfflineText(errorMsg)
-        stateful.setOfflineImageResource(R.drawable.ic_no_data)
-        stateful.setOfflineRetryOnClickListener {
-            requestSessions()
+        } else {
+            recycler.visibility = View.GONE
+            noCompletedSession.visibility = View.VISIBLE
         }
     }
 
