@@ -20,7 +20,7 @@ object ApiUtils {
         headers["access_token"] = myPreferences.getString(Define.ACCESS_TOKEN).toString()
         headers["Content-Type"] = "application/json; charset=UTF-8"
         headers["Content-Length"] = contentLength.toString()
-        headers["Host"] = "adminconsole.upmyranks.com"
+        headers["Host"] = "api.upmyranks.com"
         Utils.log(
             "NetworkHelper",
             "access_token ${myPreferences.getString(Define.ACCESS_TOKEN).toString()}"
