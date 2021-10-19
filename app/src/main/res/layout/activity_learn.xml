@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true">
     <include layout="@layout/layout_toolbar" />
 
-    <com.upmyranksapp.helper.SimpleStatefulLayout
+    <com.trisys.rn.baseapp.helper.SimpleStatefulLayout
         android:id="@+id/stateful"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,6 +38,6 @@
                 tools:listitem="@layout/row_topic_items" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.upmyranksapp.helper.SimpleStatefulLayout>
+    </com.trisys.rn.baseapp.helper.SimpleStatefulLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

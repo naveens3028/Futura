@@ -20,7 +20,7 @@
         android:layout_margin="@dimen/_8sdp"
         android:fontFamily="@font/roboto_medium"/>
 
-    <com.upmyranksapp.helper.NestedScrollableHost
+    <com.trisys.rn.baseapp.helper.NestedScrollableHost
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -36,7 +36,7 @@
             tools:itemCount="3"
             tools:listitem="@layout/activity_subjects"/>
 
-    </com.upmyranksapp.helper.NestedScrollableHost>
+    </com.trisys.rn.baseapp.helper.NestedScrollableHost>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtError"

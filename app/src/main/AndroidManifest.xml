@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.upmyranksapp">
+    package="com.trisys.rn.baseapp">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +13,7 @@
     </queries>
 
     <application
-        android:name=".MyApplication"
+        android:name="com.trisys.rn.baseapp.MyApplication"
         android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,41 +23,41 @@
         android:theme="@style/Theme.UpMyRanks"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".qrCode.QRCodeActivity"
+        <activity android:name="com.trisys.rn.baseapp.qrCode.QRCodeActivity"
             android:theme="@style/AppFullScreenTheme"/>
         <activity
-            android:name=".activity.VideoPlayActivity"
+            android:name="com.trisys.rn.baseapp.activity.VideoPlayActivity"
             android:label="@string/title_activity_video_play"
             android:screenOrientation="landscape"
             android:exported="true"
             android:theme="@style/AppFullScreenTheme" >
 
         </activity>
-        <activity android:name=".profile.ProfileActivity" />
-        <activity android:name=".learn.ImageViewActivity" />
+        <activity android:name="com.trisys.rn.baseapp.profile.ProfileActivity" />
+        <activity android:name="com.trisys.rn.baseapp.learn.ImageViewActivity" />
         <activity
-            android:name=".practiceTest.TestReviewActivity"
+            android:name="com.trisys.rn.baseapp.practiceTest.TestReviewActivity"
             android:label="Today Test Review" />
         <activity
-            android:name=".practiceTest.TodayTestActivity"
+            android:name="com.trisys.rn.baseapp.practiceTest.TodayTestActivity"
             android:label="Today Test" />
-        <activity android:name=".practiceTest.StartPracticeActivity" />
-        <activity android:name=".practiceTest.SelectedTopicActivity" />
-        <activity android:name=".practiceTest.TestTopicActivity" />
-        <activity android:name=".doubt.DoubtClarificationActivity" />
-        <activity android:name=".doubt.AskDoubtActivity" />
+        <activity android:name="com.trisys.rn.baseapp.practiceTest.StartPracticeActivity" />
+        <activity android:name="com.trisys.rn.baseapp.practiceTest.SelectedTopicActivity" />
+        <activity android:name="com.trisys.rn.baseapp.practiceTest.TestTopicActivity" />
+        <activity android:name="com.trisys.rn.baseapp.doubt.DoubtClarificationActivity" />
+        <activity android:name="com.trisys.rn.baseapp.doubt.AskDoubtActivity" />
         <activity
-            android:name=".learn.LearnVideoActivity"
+            android:name="com.trisys.rn.baseapp.learn.LearnVideoActivity"
             android:configChanges="orientation|screenSize|layoutDirection"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".learn.LearnActivity"
+            android:name="com.trisys.rn.baseapp.learn.LearnActivity"
             android:exported="true" />
-        <activity android:name=".activity.TakeTestActivity" />
-        <activity android:name=".activity.ChapterActivity" />
-        <activity android:name=".activity.TestResultActivity" />
+        <activity android:name="com.trisys.rn.baseapp.activity.TakeTestActivity" />
+        <activity android:name="com.trisys.rn.baseapp.activity.ChapterActivity" />
+        <activity android:name="com.trisys.rn.baseapp.activity.TestResultActivity" />
         <activity
-            android:name=".onBoarding.LoginActivity"
+            android:name="com.trisys.rn.baseapp.onBoarding.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
@@ -67,7 +67,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".onBoarding.SplashScreenActivity"
+            android:name="com.trisys.rn.baseapp.onBoarding.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/Theme.UpMyRanks.Splashscreen"
             android:screenOrientation="portrait"
@@ -78,31 +78,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.NotificationsActivity" />
+        <activity android:name="com.trisys.rn.baseapp.activity.NotificationsActivity" />
         <activity
-            android:name=".activity.AttemptedResultsActivity" />
+            android:name="com.trisys.rn.baseapp.activity.AttemptedResultsActivity" />
         <activity
-            android:name=".activity.RegistrationActivity" />
+            android:name="com.trisys.rn.baseapp.activity.RegistrationActivity" />
         <activity
-            android:name=".activity.login.OtpActivity" />
+            android:name="com.trisys.rn.baseapp.activity.login.OtpActivity" />
         <activity
-            android:name=".activity.login.CourseSelectionActivity" />
+            android:name="com.trisys.rn.baseapp.activity.login.CourseSelectionActivity" />
     <!--    <activity
             android:name=".activity.TestVideoActivity" />-->
-        <activity android:name=".activity.TestGroupActivity"/>
+        <activity android:name="com.trisys.rn.baseapp.activity.TestGroupActivity"/>
 
         <activity
-            android:name=".activity.login.PlanSelectionActivity" />
+            android:name="com.trisys.rn.baseapp.activity.login.PlanSelectionActivity" />
         <activity
-            android:name=".activity.TestVideoPlayerActivity"
+            android:name="com.trisys.rn.baseapp.activity.TestVideoPlayerActivity"
             android:label="@string/title_activity_video_play"
             android:screenOrientation="landscape"
             android:theme="@style/AppFullScreenTheme" />
         <activity
-            android:name=".MainActivity" />
+            android:name="com.trisys.rn.baseapp.MainActivity" />
 
 
-        <service android:name=".helper.exoplayer.DemoDownloadService"
+        <service android:name="com.trisys.rn.baseapp.helper.exoplayer.DemoDownloadService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.exoplayer.downloadService.action.RESTART"/>

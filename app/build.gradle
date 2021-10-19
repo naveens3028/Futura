@@ -12,8 +12,9 @@ android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
+
     defaultConfig {
-        applicationId "com.upmyranksapp"
+        applicationId "com.trisys.rn.baseapp"
         minSdkVersion 23
         targetSdkVersion 31
         versionCode 2

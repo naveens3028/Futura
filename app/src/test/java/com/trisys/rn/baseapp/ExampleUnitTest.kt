@@ -1,4 +1,4 @@
-package com.upmyranksapp
+package com.trisys.rn.baseapp
 
 import org.junit.Test
 

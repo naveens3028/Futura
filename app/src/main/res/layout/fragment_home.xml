@@ -40,7 +40,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search" />
 
-            <com.upmyranksapp.helper.NestedScrollableHost
+            <com.trisys.rn.baseapp.helper.NestedScrollableHost
                 android:id="@+id/studyRecyclerParent1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/row_played_video" />
 
-            </com.upmyranksapp.helper.NestedScrollableHost>
+            </com.trisys.rn.baseapp.helper.NestedScrollableHost>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/performanceAnalysis"
@@ -115,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.4dp"
                     android:background="@color/divider_color"/>
-                <com.upmyranksapp.helper.NestedScrollableHost
+                <com.trisys.rn.baseapp.helper.NestedScrollableHost
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -126,7 +126,7 @@
                         android:background="@color/window_background"
                         android:visibility="visible"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-                </com.upmyranksapp.helper.NestedScrollableHost>
+                </com.trisys.rn.baseapp.helper.NestedScrollableHost>
 
             </LinearLayout>
 
