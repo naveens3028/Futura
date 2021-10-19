@@ -1,57 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.skydoves.expandablelayout.ExpandableLayout
             android:id="@+id/expandableScheduleTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:fontFamily="@font/roboto_regular"
-            android:text="@string/app_name"
-            android:padding="@dimen/_8sdp"
-            android:textSize="@dimen/_16sdp"
-            android:layout_margin="@dimen/_8sdp"
-            android:textColor="@color/new_blue_dark"
-            android:background="@color/new_blue_light"
-       />
-
-        <com.upmyranksapp.helper.NestedScrollableHost
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/testRecycler1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/activity_test_group"/>
-
-        </com.upmyranksapp.helper.NestedScrollableHost>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/testTxtError1"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_centerInParent="true"
-            android:text="No Test Found"
-            android:textAlignment="center"
-            android:textSize="@dimen/_13sdp"
-            android:visibility="gone" />
+            app:expandable_duration="300"
+            app:expandable_isExpanded="false"
+            app:expandable_parentLayout="@layout/test_layout_parent"
+            app:expandable_secondLayout="@layout/test_layout_child"
+            app:expandable_showSpinner="true"
+            app:expandable_spinner="@drawable/ic_arrow_down"
+            app:expandable_spinner_animate="true"
+            app:expandable_spinner_color="@color/new_blue_dark"
+            app:expandable_spinner_gravity="end"
+            app:expandable_spinner_margin="4dp"
+            app:expandable_spinner_size="40dp" />
 
         <com.skydoves.expandablelayout.ExpandableLayout
             android:id="@+id/expandableAttemptedTest"

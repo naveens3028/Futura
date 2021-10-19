@@ -92,7 +92,8 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         }
 
         val params = HashMap<String, String>()
-        params["batchId"] = batchId
+        params["batchId"] = loginData.userDetail?.batchList?.get(0)?.id.toString()
+
         params["studentId"] = loginData.userDetail?.usersId.toString()
 
 
@@ -125,7 +126,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         networkHelper.getCall(
             URLHelper.scheduleTestsForStudent + "?batchId=${
-                batchId
+                loginData.userDetail?.batchList?.get(1)?.id
             }&studentId=${loginData.userDetail?.usersId}",
             "scheduledTest",
             ApiUtils.getHeader(requireContext()),
@@ -136,7 +137,8 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     private fun getAttemptedTest(batchId : String) {
         val params = HashMap<String, String>()
-        params["batchId"] = batchId
+        params["batchId"] = loginData.userDetail?.batchList?.get(0)?.id.toString()
+
         params["studentId"] = loginData.userDetail?.usersId.toString()
 
         networkHelper.call(
@@ -201,21 +203,29 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     override fun onStart() {
         super.onStart()
-        EventBus.getDefault().register(this)
-
-        expandableScheduleTest.text = "Scheduled Test"
+        expandableScheduleTest.parentLayout.txtParentTitle.text = "Scheduled Test"
         expandableAttemptedTest.parentLayout.txtParentTitle.text = "Attempted Test"
         expandableUnAttemptedTest.parentLayout.txtParentTitle.text = "Un Attempted Test"
 
-        testTxtError1.text = "No Test Found in Scheduled Test"
+        expandableScheduleTest.secondLayout.txtError.text = "No Test Found in Scheduled Test"
         expandableAttemptedTest.secondLayout.txtError.text = "No Test Found in Attempted Test"
         expandableUnAttemptedTest.secondLayout.txtError.text = "No Test Found in Un Attempted Test"
 
+        expandableScheduleTest.parentLayout.setOnClickListener {
+            if(expandableScheduleTest.isExpanded)
+            expandableScheduleTest.collapse()
+            else {
+                expandableScheduleTest.expand()
+                expandableAttemptedTest.collapse()
+                expandableUnAttemptedTest.collapse()
+            }
+        }
         expandableAttemptedTest.parentLayout.setOnClickListener {
             if(expandableAttemptedTest.isExpanded)
                 expandableAttemptedTest.collapse()
             else {
                 expandableAttemptedTest.expand()
+                expandableScheduleTest.collapse()
                 expandableUnAttemptedTest.collapse()
             }
         }
@@ -224,25 +234,14 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 expandableUnAttemptedTest.collapse()
             else {
                 expandableUnAttemptedTest.expand()
+                expandableScheduleTest.collapse()
                 expandableAttemptedTest.collapse()
             }
         }
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-
-        batchId = loginData.userDetail?.batchList!![0].id!!
         requestTest(batchId)
-
-        val myList =ArrayList<String>()
-        myList.apply {
-            this.add("Chapter")
-            this.add("Section")
-            this.add("Full")
-            this.add("Mock Test")
-        }
-        subjectCall(myList)
-        getAttemptedTest(batchId)
 
     }
 
@@ -342,14 +341,13 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                         Gson().fromJson(response, ScheduledClass::class.java)
 
 
-/*
                     if (scheduledTestResponse.MOCK_TEST.isNullOrEmpty()) {
-                        testRecycler1.visibility = View.GONE
-                        testTxtError1.visibility = View.VISIBLE
+                        expandableScheduleTest.secondLayout.recyclerViewChild.visibility = View.GONE
+                        expandableScheduleTest.secondLayout.txtError.visibility = View.VISIBLE
                     } else {
-                        testRecycler1.visibility =
+                        expandableScheduleTest.secondLayout.recyclerViewChild.visibility =
                             View.VISIBLE
-                        testTxtError1.visibility = View.GONE
+                        expandableScheduleTest.secondLayout.txtError.visibility = View.GONE
                         val completedList = db.getCompletedTest()
                         completedList.forEachIndexed { _, completedListElement ->
                             attemptedTest!!.addAll(
@@ -363,12 +361,10 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                             scheduledTestResponse.MOCK_TEST,
                             this
                         )
-                        testRecycler1.adapter =
+                        expandableScheduleTest.secondLayout.recyclerViewChild.adapter =
                             scheduledTestAdapter
                     }
-*/
-
-
+                    getAttemptedTest(batchId)
                 } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
                     val submittedResult = Gson().fromJson(response, SubmittedResult::class.java)
                     db.deleteTest(submittedResult.testPaperId)
@@ -443,22 +439,22 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
             }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: OnEventData?) {
-        val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
-        batchId = data?.id!!
-        requestTest(data?.id!!)
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    fun onMessageEvent(event: OnEventData?) {
+//        val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
+//        batchId = data?.id!!
+//        requestTest(data?.id!!)
+//    }
 
-    private fun subjectCall(subjectList: ArrayList<String>) {
-        if (subjectList.size > 0) {
-            val adapter = TestGroupingAdapter(requireContext(), subjectList)
-            //now adding the adapter to recyclerview
-            testRecycler1.adapter = adapter
-        } else {
-            txtError.visibility = View.VISIBLE
-        }
-    }
+//    private fun subjectCall(subjectList: ArrayList<String>) {
+//        if (subjectList.size > 0) {
+//            val adapter = TestGroupingAdapter(requireContext(), subjectList)
+//            //now adding the adapter to recyclerview
+//            testRecycler1.adapter = adapter
+//        } else {
+//            txtError.visibility = View.VISIBLE
+//        }
+//    }
 
 
     override fun onStop() {
