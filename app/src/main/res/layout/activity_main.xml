@@ -18,7 +18,6 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             tools:context=".MainActivity">
-
             <include layout="@layout/layout_toolbar" />
 
             <androidx.viewpager2.widget.ViewPager2

@@ -29,7 +29,8 @@ class UpcomingLiveAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val studyItem = upcomingLiveItems[position]
         holder.itemView.live_name.text = studyItem.subject.courseName
-        holder.itemView.live_start_date.text = Utils.getDateValue(studyItem.startDateTime)
+        holder.itemView.live_start_date.text = Utils.getDateTime(studyItem.startDateTime)
+        //holder.itemView.live_start_date.text = Utils.getDateValue(studyItem.startDateTime)
         holder.itemView.setOnClickListener {
             if (Utils.isPackageInstalled(context, "us.zoom.videomeetings")) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(studyItem.url))

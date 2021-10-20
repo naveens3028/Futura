@@ -167,7 +167,7 @@ class LiveFragment : Fragment(), OnNetworkResponse {
 
             return when(position){
                 0 -> UpcomingLiveFragment.newInstance(titles[position],"")
-                1 -> ScheduledTestFragment.newInstance(titles[position],"")
+                1 -> CompletedLiveFragment.newInstance(titles[position],"")
                 else -> ScheduledTestFragment.newInstance(titles[position],"")
             }
         }

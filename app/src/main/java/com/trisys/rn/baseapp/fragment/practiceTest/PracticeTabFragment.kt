@@ -325,10 +325,14 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
 
     private fun subjectCall(subjectList: ArrayList<Datum>) {
         if (subjectList.size > 0) {
+            txtError.visibility = View.GONE
+            subjectsRecycler1.visibility = View.VISIBLE
+
             val adapter = SubjectsAdapter(requireContext(), subjectList, batchId, this)
             //now adding the adapter to recyclerview
             subjectsRecycler1.adapter = adapter
         } else {
+            subjectsRecycler1.visibility = View.GONE
             txtError.visibility = View.VISIBLE
         }
     }

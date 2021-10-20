@@ -16,7 +16,7 @@ import com.trisys.rn.baseapp.fragment.practiceTest.TestFragment
 class HomeTabViewAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
 
     override fun getItemCount(): Int {
-        return 5
+        return 4
     }
 
     override fun createFragment(position: Int): Fragment {

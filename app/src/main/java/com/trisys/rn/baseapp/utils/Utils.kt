@@ -152,12 +152,13 @@ object Utils {
     fun getDateValue(date: Long): String {
         val date = Date(date)
         var dateVal = ""
+        val dfs = DateFormatSymbols()
+        val months: Array<String> = dfs.months
+        val myDate: Calendar = GregorianCalendar()
+        val dateFormat: DateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        myDate.time = date
         try {
-            val dfs = DateFormatSymbols()
-            val months: Array<String> = dfs.months
-            val myDate: Calendar = GregorianCalendar()
-            val dateFormat: DateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            myDate.time = date
+
             dateVal =
                 when {
                     myDate[Calendar.DATE] == 1 -> myDate[Calendar.DATE].toString() + "st "
@@ -167,7 +168,7 @@ object Utils {
                 }
             myDate[Calendar.MONTH]
             if (myDate[Calendar.MONTH] <= 11) {
-                dateVal = dateVal + months[myDate[Calendar.MONTH]] + ", "
+                dateVal = dateVal + months[myDate[Calendar.MONTH]] + ", " + myDate.time
             }
            // dateVal += dateFormat.format(date).uppercase(Locale.getDefault())
 
@@ -175,6 +176,14 @@ object Utils {
             e.printStackTrace()
         }
         return dateVal
+    }
+
+    fun getDateTime(date: Long) : String{
+        //val date = Date(date)
+
+        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss a")
+
+        return dateFormat.format(Date(date))
     }
 
     fun getDuration(duration: Int?): String {
