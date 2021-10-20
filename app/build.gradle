@@ -17,7 +17,7 @@ android {
         applicationId "com.trisys.rn.baseapp"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 18
+        versionCode 20
         versionName "1.28"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
