@@ -37,10 +37,10 @@ class MyApplication: MultiDexApplication() {
             .addInterceptor(GzipRequestInterceptor())
             .build()
 
-
         AndroidNetworking.initialize(applicationContext,okHttpClient)
         MultiDex.install(this)
     }
+
 
     private fun setupActivityListener() {
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
@@ -58,4 +58,6 @@ class MyApplication: MultiDexApplication() {
             override fun onActivityDestroyed(activity: Activity) {}
         })
     }
+
+
 }

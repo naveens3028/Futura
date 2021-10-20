@@ -20,7 +20,6 @@ android {
         versionCode 18
         versionName "1.28"
 
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
