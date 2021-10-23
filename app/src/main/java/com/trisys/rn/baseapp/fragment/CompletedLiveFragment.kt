@@ -144,27 +144,6 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
             }
         }
-
-
-/*
-        call.enqueue(object : Callback<List<CompletedSession>> {
-            override fun onResponse(
-                call: Call<List<CompletedSession>>,
-                response: Response<List<CompletedSession>>
-            ) {
-                if (response.code() == 200) {
-                    Log.e("retoCall", response.body().toString())
-                    var auditList : List<CompletedSession> = response.body()!!
-                }
-
-            }
-            override fun onFailure(call: Call<List<CompletedSession>>, t: Throwable) {
-                Log.e("retoCall1", t.toString())
-
-                Toast.makeText(context, "failed", Toast.LENGTH_LONG).show()
-            }
-        })
-*/
     }
 
 
