@@ -19,6 +19,9 @@ import com.trisys.rn.baseapp.network.*
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
@@ -114,7 +117,6 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
 
     fun getApiCall(context: Context) {
-        RetroFitCall.retroFitCall()
         val myBatchList = JSONArray()
         loginData.userDetail?.batchList?.forEach {
             myBatchList.put(it.id!!)
@@ -124,14 +126,27 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
             myBranchIDs.put(it.id!!)
         }
 
-
         val jsonObject = JSONObject()
         jsonObject.put("branchIds", myBranchIDs)
         jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
         jsonObject.put("batchIds", myBatchList)
 
-        val service = RetroFitCall.retrofit.create(ApiInterface::class.java)
-        val call = service.getData(jsonObject, ApiUtils.getHeader(context))
+        CoroutineScope(Dispatchers.IO).launch {
+            val service = RetroFitCall.retrofit.create(ApiInterface::class.java)
+            val response = service.getData(jsonObject, ApiUtils.getHeader(context))
+            if (response.isSuccessful){
+                if (response.code() == 200) {
+                    var auditList : List<CompletedSession> = response.body()!!
+                    Log.e("retoCall", response.body().toString())
+                }
+            }else{
+                Log.e("retoCall1", response.isSuccessful.toString())
+
+            }
+        }
+
+
+/*
         call.enqueue(object : Callback<List<CompletedSession>> {
             override fun onResponse(
                 call: Call<List<CompletedSession>>,
@@ -149,6 +164,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
                 Toast.makeText(context, "failed", Toast.LENGTH_LONG).show()
             }
         })
+*/
     }
 
 

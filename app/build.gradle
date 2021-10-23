@@ -160,15 +160,12 @@ dependencies {
     compileOnly 'org.checkerframework:checker-qual:' + checkerframeworkVersion
     implementation("com.google.android.exoplayer:extension-cronet:2.15.0")
     implementation 'com.amazonaws:aws-android-sdk-s3:2.29.0'
-//
-//    implementation 'com.amazonaws:aws-android-sdk-s3:2.29.0'
-//    implementation 'com.amazonaws:aws-android-sdk-cognito:2.29.0'
-//    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.29.0') { transitive = true }
-   // implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
-   //implementation 'com.amazonaws:aws-android-sdk-SERVICE:2.16.4'
 
     implementation "com.github.skydoves:expandablelayout:1.0.7"
 
     //EventBus
     implementation 'org.greenrobot:eventbus:3.2.0'
+
+    //Coroutine library
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 }
