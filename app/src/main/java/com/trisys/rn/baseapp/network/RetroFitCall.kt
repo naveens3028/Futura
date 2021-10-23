@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetroFitCall {
 
     lateinit var retrofit: Retrofit
-    private val BASE_URL = URLHelper.getCompletedSessionsSubject
+    private val BASE_URL = URLHelper.productionUrl
 
     fun retroFitCall() {
 

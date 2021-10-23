@@ -88,7 +88,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
             )
         )
         Log.e("completed", "success")
-        requestSessions()
+        getApiCall(requireContext())
 
     }
 
@@ -115,19 +115,37 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
     fun getApiCall(context: Context) {
         RetroFitCall.retroFitCall()
+        val myBatchList = JSONArray()
+        loginData.userDetail?.batchList?.forEach {
+            myBatchList.put(it.id!!)
+        }
+        val myBranchIDs = JSONArray()
+        loginData.userDetail?.branchList?.forEach {
+            myBranchIDs.put(it.id!!)
+        }
+
+
+        val jsonObject = JSONObject()
+        jsonObject.put("branchIds", myBranchIDs)
+        jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
+        jsonObject.put("batchIds", myBatchList)
+
         val service = RetroFitCall.retrofit.create(ApiInterface::class.java)
-        val call = service.getData()
+        val call = service.getData(jsonObject, ApiUtils.getHeader(context))
         call.enqueue(object : Callback<List<CompletedSession>> {
             override fun onResponse(
                 call: Call<List<CompletedSession>>,
                 response: Response<List<CompletedSession>>
             ) {
                 if (response.code() == 200) {
+                    Log.e("retoCall", response.body().toString())
                     var auditList : List<CompletedSession> = response.body()!!
                 }
 
             }
             override fun onFailure(call: Call<List<CompletedSession>>, t: Throwable) {
+                Log.e("retoCall1", t.toString())
+
                 Toast.makeText(context, "failed", Toast.LENGTH_LONG).show()
             }
         })
@@ -190,7 +208,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.ic_no_data)
         stateful.setOfflineRetryOnClickListener {
-            requestSessions()
+            getApiCall(requireContext())
         }
     }
 }

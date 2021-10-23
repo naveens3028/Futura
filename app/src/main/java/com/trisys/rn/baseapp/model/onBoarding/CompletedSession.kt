@@ -37,5 +37,8 @@ data class CompletedSession(
      val createdBy: Any? = null,
 
      @SerializedName("updatedBy")
-     val updatedBy: Any? = null
+     val updatedBy: Any? = null,
+
+     @SerializedName("type")
+     val type: Any? = null
 )
