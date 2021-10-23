@@ -33,7 +33,6 @@ private const val ARG_PARAM2 = "param2"
 
 class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
-    private var completedLiveList = ArrayList<CompletedLiveItem>()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
     private var loginData = LoginData()
@@ -57,40 +56,6 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Chemistry",
-                "",
-                "L2 -Chemical Reaction and Periodic Table",
-                R.color.safety_yellow
-            )
-        )
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Physics",
-                "",
-                "L3 - Universe, Galaxy and Solar System",
-                R.color.blue_violet_crayola
-            )
-        )
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Biology",
-                "",
-                "L4 - Digestive System and Human Brain",
-                R.color.light_coral
-            )
-        )
-        completedLiveList.add(
-            CompletedLiveItem(
-                "Mathematics",
-                "",
-                "L5 - Trigonometry and Functions",
-                R.color.caribbean_green
-            )
-        )
-        Log.e("completed", "success")
         getApiCall(requireContext())
 
     }
@@ -132,6 +97,7 @@ class CompletedLiveFragment : Fragment(), OnNetworkResponse {
         jsonObject.put("batchIds", myBatchList)
 
         CoroutineScope(Dispatchers.IO).launch {
+            RetroFitCall.retroFitCall()
             val service = RetroFitCall.retrofit.create(ApiInterface::class.java)
             val response = service.getData(jsonObject, ApiUtils.getHeader(context))
             if (response.isSuccessful){

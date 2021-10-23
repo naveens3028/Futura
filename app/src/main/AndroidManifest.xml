@@ -94,11 +94,6 @@
         <activity
             android:name="com.trisys.rn.baseapp.activity.login.PlanSelectionActivity" />
         <activity
-            android:name="com.trisys.rn.baseapp.activity.TestVideoPlayerActivity"
-            android:label="@string/title_activity_video_play"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppFullScreenTheme" />
-        <activity
             android:name="com.trisys.rn.baseapp.MainActivity" />
 
 
