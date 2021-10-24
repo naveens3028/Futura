@@ -6,29 +6,82 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.fragment.CompletedLiveAdapterListener
 import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
-import kotlinx.android.synthetic.main.row_completed_live.view.*
+import kotlinx.android.synthetic.main.row_complete_live.view.*
 
 
 class CompletedLiveAdapter(
     val context: Context,
-    private val completedLive : ArrayList<CompletedSession>,
+    private val completedLive : List<CompletedSession>,
+    private val listener: CompletedLiveAdapterListener
 ) : RecyclerView.Adapter<CompletedLiveAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.row_completed_live, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.row_complete_live, parent, false)
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val completedLive = completedLive[position]
-        holder.itemView.subject.text = completedLive.courseName
-        holder.itemView.backgroundColor.setBackgroundColor(context.getColor(R.color.mikado_yellow))
-        holder.itemView.lesson.text = completedLive.description
+        holder.itemView.subjectTxt.text = completedLive.courseName
+
+        holder.itemView.cardComplete.setOnClickListener {
+            listener.onClicked(completedLive)
+        }
+
+        when(completedLive.courseName){
+            "CHEMISTRY"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_color_chem)
+            }
+            "PHYSICS"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_color_phy)
+            }
+            "BIOLOGY"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_color_bio)
+            }
+            "TAMIL"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_tamil)
+            }
+            "URDU"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_urdu)
+            }
+            "SOCIAL SCIENCE"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_social)
+            }
+            "MATHEMATICS"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_color_math)
+            }
+            "ACCOUNTANCY"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_accoutancy)
+            }
+            "ENGLISH"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_english)
+            }
+            "HINDI"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_hindi)
+            }
+            "SCIENCE"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_science)
+            }
+            "KANNADA"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_kannada)
+            }
+            "HISTORY"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_history)
+            }
+            "ECONOMICS"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_economics)
+            }
+            "COMPUTER SCIENCE"->{
+                holder.itemView.subjectimg.setImageResource(R.drawable.ic_comp_sci)
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {
