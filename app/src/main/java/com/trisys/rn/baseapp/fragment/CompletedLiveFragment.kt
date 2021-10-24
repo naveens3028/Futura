@@ -1,6 +1,7 @@
 package com.trisys.rn.baseapp.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
+import com.trisys.rn.baseapp.activity.CompletedLiveActivity
 import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
 import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
@@ -138,7 +140,9 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
     }
 
     override fun onClicked(completedSession: CompletedSession) {
-
+        val intent = Intent(requireContext(), CompletedLiveActivity::class.java)
+        intent.putExtra("completedLive", Gson().toJson(completedSession))
+        requireContext().startActivity(intent)
     }
 }
 

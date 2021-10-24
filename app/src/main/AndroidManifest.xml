@@ -95,6 +95,8 @@
             android:name="com.trisys.rn.baseapp.activity.login.PlanSelectionActivity" />
         <activity
             android:name="com.trisys.rn.baseapp.MainActivity" />
+        <activity
+            android:name="com.trisys.rn.baseapp.activity.CompletedLiveActivity" />
 
 
         <service android:name="com.trisys.rn.baseapp.helper.exoplayer.DemoDownloadService"
