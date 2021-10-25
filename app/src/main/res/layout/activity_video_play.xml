@@ -59,7 +59,7 @@
                 android:paddingRight="@dimen/_16sdp"
                 android:textColor="@color/white"
                 android:background="#cc000000"
-                android:text="Watch Latter" />
+                android:text="Watch Later" />
         </LinearLayout>
     </RelativeLayout>
     <!--    <com.google.android.exoplayer2.ui.PlayerView

@@ -14,6 +14,7 @@ import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.CompletedLiveActivity
 import com.trisys.rn.baseapp.adapter.CompletedLiveAdapter
+import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
 import com.trisys.rn.baseapp.network.ApiInterface
@@ -36,10 +37,12 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
 
     lateinit var myPreferences: MyPreferences
     private var loginData = LoginData()
+    lateinit var myProgressBar: MyProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myPreferences = MyPreferences(requireContext())
+        myProgressBar = MyProgressBar(requireActivity())
     }
 
     override fun onCreateView(
@@ -55,7 +58,8 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-        getApiCall(requireContext(), this)
+       // getApiCall(requireContext(), this)
+        showErrorMsg("No Completed Live Sessions")
 
     }
 
@@ -81,6 +85,7 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
 
 
     private fun getApiCall(context: Context, listener: CompletedListener) {
+        myProgressBar.show()
         val myBatchList = JSONArray()
         loginData.userDetail?.batchList?.forEach {
             myBatchList.put(it.id!!)
@@ -99,23 +104,28 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
             RetroFitCall.retroFitCall()
             val service = RetroFitCall.retrofit.create(ApiInterface::class.java)
             val response = service.getData(jsonObject, ApiUtils.getHeader(context))
-            if (response.isSuccessful) {
-                if (response.code() == 200) {
-                    var auditList: List<CompletedSession> = response.body()!!
-                    viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
+                if (response.isSuccessful) {
+                    if (response.code() == 200) {
+                        var auditList: List<CompletedSession> = response.body()!!
+                        Log.e("retoCall1", auditList.toString())
+
                         listener.onSuccess(auditList)
+                    } else {
+                        showErrorMsg("No Completed Live Sessions")
                     }
                 } else {
+                    listener.onFailure()
                     showErrorMsg("No Completed Live Sessions")
+                    Log.e("retoCall1", response.isSuccessful.toString())
                 }
-            } else {
-                showErrorMsg("No Completed Live Sessions")
-                Log.e("retoCall1", response.isSuccessful.toString())
+
             }
         }
     }
 
     private fun setAdapter(completedLive: List<CompletedSession>) {
+        myProgressBar.dismiss()
         val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLive, this)
         val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -128,7 +138,6 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.ic_no_data)
         stateful.setOfflineRetryOnClickListener {
-            getApiCall(requireContext(), this)
         }
     }
 
@@ -137,6 +146,7 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
     }
 
     override fun onFailure() {
+        myProgressBar.dismiss()
     }
 
     override fun onClicked(completedSession: CompletedSession) {
