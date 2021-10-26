@@ -4,13 +4,13 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.trisys.rn.baseapp.model.VideoMaterial
 
-data class ChapterResponse (
+data class ChapterResponse(
     @SerializedName("data")
     @Expose
     var data: List<ChapterResponseData>? = null
 )
 
-data class ChapterResponseData (
+data class ChapterResponseData(
     @SerializedName("id")
     @Expose
     var id: String? = null,
@@ -47,6 +47,14 @@ data class ChapterResponseData (
     @Expose
     var videoCount: String? = null,
 
+    @SerializedName("createdAt")
+    @Expose
+    var createdAt: Long? = null,
+
+    @SerializedName("updatedAt")
+    @Expose
+    var updatedAt: Long? = null,
+
     @SerializedName("topic")
     @Expose
     var topic: Any? = null,
@@ -60,7 +68,7 @@ data class ChapterResponseData (
     var topicMaterialResponses: List<TopicMaterialResponse>? = null
 )
 
-data class Topic (
+data class Topic(
     @SerializedName("description")
     @Expose
     var description: String? = null,
@@ -71,10 +79,14 @@ data class Topic (
 
     @SerializedName("status")
     @Expose
-    var status: String? = null
+    var status: String? = null,
+
+    @SerializedName("createdAt")
+    @Expose
+    var createdAt: String? = null
 )
 
-data class TopicMaterialResponse (
+data class TopicMaterialResponse(
     @SerializedName("topic")
     @Expose
     var topic: Topic? = null,

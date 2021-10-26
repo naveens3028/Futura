@@ -112,7 +112,7 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         if (responseCode == networkHelper.responseSuccess && tag == "getChapter") {
             stateful.showContent()
             chapterResponse = Gson().fromJson(response, ChapterResponse::class.java)
-            chapterResponse.data?.let { subjectListCall(it) }
+            chapterResponse.data?.let { subjectListCall(it.sortedBy { it.createdAt }) }
         } else {
             showErrorMsg(resources.getString(R.string.sfl_default_error))
         }

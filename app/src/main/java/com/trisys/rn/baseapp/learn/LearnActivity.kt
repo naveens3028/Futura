@@ -62,8 +62,15 @@ class LearnActivity : AppCompatActivity(), VideoClickListener {
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
 
+        val topicData = ArrayList<TopicMaterialResponse>()
+        topicResponse!!.sortedBy {
+            it.topic?.createdAt
+        }.map {
+            topicData.add(it)
+        }
+
         if (topicResponse!!.isNotEmpty()) {
-            val titleAdapter = TopicVideoAdapter(this, topicResponse, this)
+            val titleAdapter = TopicVideoAdapter(this, topicData , this)
             tabsRecycler.adapter = titleAdapter
         } else {
             tabsRecycler.visibility = View.GONE
