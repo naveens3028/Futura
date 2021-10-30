@@ -25,6 +25,7 @@ import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.fragment_upcoming_live.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
@@ -38,6 +39,7 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
     lateinit var myPreferences: MyPreferences
     private var loginData = LoginData()
     lateinit var myProgressBar: MyProgressBar
+    lateinit var auditList: List<CompletedSession>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +60,8 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
-       // getApiCall(requireContext(), this)
-        showErrorMsg("No Completed Live Sessions")
+        getApiCall(requireContext(), this)
+        //showErrorMsg("No Completed Live Sessions")
 
     }
 
@@ -85,7 +87,23 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
 
 
     private fun getApiCall(context: Context, listener: CompletedListener) {
-        myProgressBar.show()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            myProgressBar.show()
+
+            val response = async(Dispatchers.IO) { getCompletedLiveData() }
+            response.await().let {
+                if (response.isCompleted){
+                    myProgressBar.dismiss()
+                    setAdapter(auditList)
+                }else{
+                    showErrorMsg("No Completed Live Sessions")
+                }
+            }
+        }
+    }
+
+    suspend fun getCompletedLiveData() : Boolean{
         val myBatchList = JSONArray()
         loginData.userDetail?.batchList?.forEach {
             myBatchList.put(it.id!!)
@@ -100,32 +118,24 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
         jsonObject.put("coachingCentreId", loginData.userDetail?.coachingCenterId.toString())
         jsonObject.put("batchIds", myBatchList)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            RetroFitCall.retroFitCall()
-            val service = RetroFitCall.retrofit.create(ApiInterface::class.java)
-            val response = service.getData(jsonObject, ApiUtils.getHeader(context))
-            viewLifecycleOwner.lifecycleScope.launch {
-                if (response.isSuccessful) {
-                    if (response.code() == 200) {
-                        var auditList: List<CompletedSession> = response.body()!!
-                        Log.e("retoCall1", auditList.toString())
-
-                        listener.onSuccess(auditList)
-                    } else {
-                        showErrorMsg("No Completed Live Sessions")
-                    }
+        RetroFitCall.retroFitCall()
+        val service = RetroFitCall.retrofit.create(ApiInterface::class.java)
+        val response = service.getData(jsonObject, ApiUtils.getHeader(context))
+           return if (response.isSuccessful) {
+                if (response.code() == 200) {
+                    auditList = response.body()!!
+                    Log.e("retoCall1", auditList.toString())
+                    true
                 } else {
-                    listener.onFailure()
-                    showErrorMsg("No Completed Live Sessions")
-                    Log.e("retoCall1", response.isSuccessful.toString())
+                    false
                 }
-
+            } else {
+                Log.e("retoCall1", response.isSuccessful.toString())
+               false
             }
-        }
     }
 
     private fun setAdapter(completedLive: List<CompletedSession>) {
-        myProgressBar.dismiss()
         val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLive, this)
         val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -138,6 +148,7 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.ic_no_data)
         stateful.setOfflineRetryOnClickListener {
+            getApiCall(requireContext(), this)
         }
     }
 

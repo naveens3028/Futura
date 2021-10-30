@@ -30,12 +30,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/_10sdp"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:spanCount="2"
                 tools:itemCount="3"
-                tools:listitem="@layout/row_upcoming" />
+                tools:listitem="@layout/row_complete_live" />
         </com.trisys.rn.baseapp.helper.NestedScrollableHost>
 
     </FrameLayout>
