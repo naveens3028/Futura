@@ -109,6 +109,10 @@
         <item name="android:statusBarColor">@color/window_background</item>
         <item name="android:navigationBarColor">@color/window_background</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="Theme.PdfView.SelectedTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">

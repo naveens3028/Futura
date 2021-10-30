@@ -23,12 +23,23 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallState
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.activity.NotificationsActivity
 import com.trisys.rn.baseapp.adapter.HomeTabViewAdapter
 import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.doubt.AskDoubtActivity
 import com.trisys.rn.baseapp.fragment.LogOutBottomSheetFragment
+import com.trisys.rn.baseapp.fragment.UpdateBottomSheetFragment
 import com.trisys.rn.baseapp.helper.BottomNavigationBehavior
 import com.trisys.rn.baseapp.model.OnEventData
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
@@ -39,6 +50,7 @@ import com.trisys.rn.baseapp.qrCode.QRCodeActivity
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.ImageLoader
 import com.trisys.rn.baseapp.utils.MyPreferences
+import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_notification_icon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -47,7 +59,14 @@ import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.greenrobot.eventbus.EventBus
 
 
-class MainActivity : AppCompatActivity(), OnNetworkResponse {
+class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdatedListener {
+    private lateinit var appUpdateManager: AppUpdateManager
+    lateinit var mRemoteConfig: FirebaseRemoteConfig
+    var cacheExpiration: Long = 3600
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
+        private val REQUEST_CODE_IMMEDIATE_UPDATE = 17362
+    }
 
     lateinit var homeTabViewAdapter: HomeTabViewAdapter
     lateinit var bottomNavigationBehavior: BottomNavigationBehavior
@@ -61,15 +80,32 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        appUpdateDialog()
         //Assign Appbar properties
         setSupportActionBar(toolbar)
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         myPreferences = MyPreferences(this)
+        mRemoteConfig = FirebaseRemoteConfig.getInstance()
 
         loginResponse =
             Gson().fromJson(MyPreferences(this).getString(Define.LOGIN_DATA), LoginData::class.java)
+
+
+        //in app update checker
+        appUpdateManager = AppUpdateManagerFactory.create(this)
+        // Before starting an update, register a listener for updates.
+        appUpdateManager.registerListener(this)
+        // Returns an intent object that you use to check for an update.
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+
+        appUpdateInfoTask.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(
+                    AppUpdateType.IMMEDIATE
+                )) {   //  check for the type of update flow you want
+                requestUpdate(it)
+            }
+        }
 
 
         //Assign Drawer properties
@@ -110,6 +146,10 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
             val intent = Intent(this, AskDoubtActivity::class.java)
             startActivity(intent)
         }
+
+
+        //check update via remoteconfig
+        updateViews()
     }
 
     private fun setNavigationValue(response: LoginData) {
@@ -163,7 +203,15 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
 
     override fun onStart() {
         super.onStart()
-
+        mRemoteConfig.fetch(cacheExpiration)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // task successful. Activate the fetched data
+                    mRemoteConfig.activate()
+                    //update views?
+                    updateViews()
+                }
+            }
         val pageChangeCallback: ViewPager2.OnPageChangeCallback =
             object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -309,7 +357,6 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
     override fun onPause() {
         super.onPause()
         myPreferences.setInt(Define.HOME_SCREEN_LAST_KNOWN_TAB_POSITION, viewPager.currentItem)
-
     }
 
     override fun onBackPressed() {
@@ -327,6 +374,80 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse {
                 System.exit(1)
                 this.finish()
             }
+        }
+    }
+
+    //in app update request method
+    private fun requestUpdate(appUpdateInfo: AppUpdateInfo?) {
+        try {
+            if (appUpdateInfo != null) {
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.IMMEDIATE, //  HERE specify the type of update flow you want
+                    this,   //  the instance of an activity
+                    REQUEST_CODE_IMMEDIATE_UPDATE
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        try {
+            appUpdateManager.appUpdateInfo.addOnSuccessListener {
+                if (it.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                    appUpdateManager.startUpdateFlowForResult(
+                        it,
+                        AppUpdateType.IMMEDIATE,
+                        this,
+                        REQUEST_CODE_IMMEDIATE_UPDATE
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_IMMEDIATE_UPDATE) {
+            if (resultCode != RESULT_OK) {
+                Log.e("MY_APP", "Update flow failed! Result code: $resultCode")
+                // If the update is cancelled or fails,
+                // you can request to start the update again.
+            }
+        }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        appUpdateManager.unregisterListener(this)
+    }
+    override fun onStateUpdate(state: InstallState) {
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            notifyUser()
+        }
+    }
+    private fun notifyUser() {
+        Snackbar
+            .make(toolbar, R.string.restart_to_update, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.action_restart) {
+                appUpdateManager.completeUpdate()
+                appUpdateManager.unregisterListener(this)
+            }
+            .show()
+    }
+    private fun updateViews() {
+        if (mRemoteConfig.getLong(Define.APP_VERSION_CODE) != Utils.getAppVersionCode(this)) {
+            appUpdateDialog()
+        }
+    }
+    private fun appUpdateDialog(){
+        val bottomSheetFragment = UpdateBottomSheetFragment()
+        bottomSheetFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle)
+        bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+        if(mRemoteConfig.getBoolean(Define.APP_FORCE_UPDATE)) {
+            bottomSheetFragment.isCancelable = false
         }
     }
 }
