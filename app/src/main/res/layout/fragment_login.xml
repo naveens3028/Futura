@@ -17,41 +17,80 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/logintxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:text="@string/login"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:fontFamily="@font/roboto_bold"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/usernameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:text="@string/userName"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logintxt" />
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/emailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_15sdp"
-                android:background="@drawable/rounded_circle_filled"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
                 android:hint="@string/email_address"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:padding="@dimen/_10sdp"
-                android:paddingStart="@dimen/_20sdp"
+                android:paddingStart="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_10sdp"
-                android:textColorHint="@color/charcoal"
-                android:textColor="@color/charcoal"                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/usernameTxt" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/passTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:text="@string/password"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emailAddress" />
+
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/mobileNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_15sdp"
-                android:background="@drawable/rounded_circle_filled"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
                 android:hint="@string/mobile_number"
                 android:inputType="textPassword"
                 android:maxLength="12"
                 android:maxLines="1"
-                android:padding="@dimen/_10sdp"
-                android:paddingStart="@dimen/_20sdp"
+                android:paddingStart="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_10sdp"
-                android:textColorHint="@color/charcoal"
-                android:textColor="@color/charcoal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/emailAddress" />
+                app:layout_constraintTop_toBottomOf="@+id/passTxt" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/forgetPassword"
@@ -72,26 +111,39 @@
                 android:id="@+id/continueButton"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginHorizontal="@dimen/_50sdp"
                 android:layout_marginVertical="@dimen/_20sdp"
-                android:backgroundTint="@color/carolina_blue"
-                android:text="@string/continue_label"
+                android:backgroundTint="@color/umr_purple"
+                android:text="@string/login_btn"
                 android:textAllCaps="false"
+                android:fontFamily="@font/roboto_bold"
+                style="@style/TextAppearance.AppCompat.Headline"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                app:cornerRadius="@dimen/_12sdp"
+                app:cornerRadius="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/forgetPassword" />
 
-          <!--  <TextView
-                android:id="@+id/orConnectWith"
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/termsTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_12sdp"
-                android:textColor="@color/charcoal"
-                android:textSize="@dimen/_12sdp"
-                -->
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/termsandCondtions"
+                android:textSize="@dimen/_10sdp"
+                android:textAlignment="center"
+                android:textColor="@color/greytext"
+                android:fontFamily="@font/roboto_medium"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/continueButton" />
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

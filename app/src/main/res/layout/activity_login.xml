@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <com.trisys.rn.baseapp.helper.SimpleStatefulLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,37 +7,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_login"
-        tools:context=".onBoarding.LoginActivity"
-        android:orientation="vertical">
+        android:background="@color/window_background"
+        tools:context=".onBoarding.LoginActivity">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgLog"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_login" />
-
+            android:layout_height="match_parent"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_login"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/top_corner_bg"
-            >
+            android:layout_height="0dp"
+             android:background="@drawable/top_corner_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.575">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/quote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:text="@string/let_s_learn_anywhere_anytime"
+                android:text="@string/welcome_back"
                 android:textAlignment="center"
-                android:textColor="@color/carolina_blue"
+                android:textColor="@color/umr_purple"
                 android:textSize="@dimen/_18sdp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +51,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.trisys.rn.baseapp.helper.SimpleStatefulLayout>

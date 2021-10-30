@@ -172,4 +172,9 @@
     <string name="learn">Learn</string>
     <string name="previous_year">Previous year Question Papers</string>
     <string name="selected_course">Selected course</string>
+    <string name="welcome_back">Welcome Back !</string>
+    <string name="login">Log In</string>
+    <string name="userName">User Name</string>
+    <string name="login_btn">Login</string>
+    <string name="termsandCondtions"><![CDATA[Terms & Conditions]]></string>
 </resources>
