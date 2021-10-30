@@ -69,7 +69,6 @@
         <activity
             android:name="com.trisys.rn.baseapp.onBoarding.SplashScreenActivity"
             android:exported="true"
-            android:theme="@style/Theme.UpMyRanks.Splashscreen"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>

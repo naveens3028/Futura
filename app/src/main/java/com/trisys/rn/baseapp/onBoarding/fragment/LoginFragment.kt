@@ -111,6 +111,7 @@ class LoginFragment : Fragment(), OnNetworkResponse {
     }
 
     private fun requestLogin() {
+        activity?.imgLog?.setImageResource(R.drawable.ic_login_success)
         val username = emailAddress.text.toString()
         val password = mobileNumber.text.toString()
 

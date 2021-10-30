@@ -10,7 +10,6 @@ import com.trisys.rn.baseapp.MainActivity
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
-import kotlinx.android.synthetic.main.activity_splash_screen.*
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -29,7 +28,7 @@ class SplashScreenActivity : AppCompatActivity() {
 //            )
 //        }
 
-        startAnimation() //To start animations
+       // startAnimation() //To start animations
 
         //Handler for splash screen delay and to start next activity
         Handler(Looper.getMainLooper()).postDelayed({
@@ -42,7 +41,7 @@ class SplashScreenActivity : AppCompatActivity() {
         SplashScreenImage.startAnimation(animationZoomIn)*/
         val animationSlideDown = AnimationUtils.loadAnimation(this, R.anim.zoom_in)
         animationSlideDown.startOffset = 1000
-        SplashScreenImage.startAnimation(animationSlideDown)
+        //SplashScreenImage.startAnimation(animationSlideDown)
     }
 
     private fun validateLogin() {
