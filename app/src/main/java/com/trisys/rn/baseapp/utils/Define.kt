@@ -18,6 +18,12 @@ object Define {
     val STARTAUTOPLAY = "startAutoPlay"
     val STARTWINDOW = "startWindow"
     val STARTPOSITION = "startPosition"
+    val APP_VERSION_CODE = "app_version_code"
+    val APP_UPDATE_TITLE = "app_update_title"
+    val APP_UPDATE_MESSAGE = "app_update_message"
+    val APP_FORCE_UPDATE = "app_force_update"
+    val APP_PLAY_STORE_URL = "app_play_store_url"
+    val IN_APP_UPDATE_ENABLE = "in_app_update_enable"
 
 
     val HOME_SCREEN_LAST_KNOWN_TAB_POSITION = "home_screen_last_known_tab_position"

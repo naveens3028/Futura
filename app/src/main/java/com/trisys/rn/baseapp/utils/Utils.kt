@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.text.Layout
 import android.util.Log
 import android.util.TypedValue
@@ -23,16 +24,20 @@ import java.util.*
 object Utils {
     const val LAUNCH_SECOND_ACTIVITY = 2
 
-    fun getAppVersionCode(context: Context): Int? {
-        var versonName: Int? = 0
+    fun getAppVersionCode(context: Context): Long {
+        var versionName: Long = 0
         try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            versonName = packageInfo.versionCode
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                versionName = packageInfo.longVersionCode
+            }else{
+                versionName = packageInfo.versionCode.toLong()
+            }
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
 
-        return versonName
+        return versionName
     }
 
 

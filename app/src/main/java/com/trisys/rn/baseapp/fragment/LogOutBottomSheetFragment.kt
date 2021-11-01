@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
@@ -22,6 +23,7 @@ class LogOutBottomSheetFragment : BottomSheetDialogFragment(), OnNetworkResponse
 
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
+    lateinit var mRemoteConfig: FirebaseRemoteConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
