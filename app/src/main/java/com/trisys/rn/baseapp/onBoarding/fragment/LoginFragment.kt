@@ -2,6 +2,8 @@ package com.trisys.rn.baseapp.onBoarding.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +35,7 @@ import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -52,7 +55,7 @@ class LoginFragment : Fragment(), OnNetworkResponse {
     //preference class
     lateinit var myPreferences: MyPreferences
     lateinit var myProgressBar: MyProgressBar
-
+    private var isEyeVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,6 +109,18 @@ class LoginFragment : Fragment(), OnNetworkResponse {
         signupTxt.setOnClickListener {
             val intent = Intent(requireContext(), RegistrationActivity::class.java)
             requireContext().startActivity(intent)
+        }
+
+        pastePin.setOnClickListener {
+            if (!isEyeVisible) {
+                mobileNumber.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                pastePin.setImageResource(R.drawable.ic_eye_on)
+                isEyeVisible = true
+            }else{
+                mobileNumber.transformationMethod = PasswordTransformationMethod.getInstance()
+                pastePin.setImageResource(R.drawable.ic_eye_off)
+                isEyeVisible = false
+            }
         }
 
     }
