@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        appUpdateDialog()
+
         //Assign Appbar properties
         setSupportActionBar(toolbar)
         val actionBar: ActionBar? = supportActionBar
@@ -99,11 +99,15 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
         // Returns an intent object that you use to check for an update.
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-        appUpdateInfoTask.addOnSuccessListener {
-            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(
-                    AppUpdateType.IMMEDIATE
-                )) {   //  check for the type of update flow you want
-                requestUpdate(it)
+
+        if(mRemoteConfig.getBoolean(Define.IN_APP_UPDATE_ENABLE)) {
+            appUpdateInfoTask.addOnSuccessListener {
+                if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(
+                        AppUpdateType.IMMEDIATE
+                    )
+                ) {   //  check for the type of update flow you want
+                    requestUpdate(it)
+                }
             }
         }
 

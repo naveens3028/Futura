@@ -23,6 +23,7 @@ object Define {
     val APP_UPDATE_MESSAGE = "app_update_message"
     val APP_FORCE_UPDATE = "app_force_update"
     val APP_PLAY_STORE_URL = "app_play_store_url"
+    val IN_APP_UPDATE_ENABLE = "in_app_update_enable"
 
 
     val HOME_SCREEN_LAST_KNOWN_TAB_POSITION = "home_screen_last_known_tab_position"
