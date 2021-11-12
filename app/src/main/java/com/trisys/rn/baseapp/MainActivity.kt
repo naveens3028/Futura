@@ -54,6 +54,7 @@ import com.trisys.rn.baseapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_notification_icon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_custom.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.greenrobot.eventbus.EventBus
@@ -82,9 +83,9 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
         setContentView(R.layout.activity_main)
 
         //Assign Appbar properties
-        setSupportActionBar(toolbar)
-        val actionBar: ActionBar? = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+       // setSupportActionBar(toolbar_top)
+/*        val actionBar: ActionBar? = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)*/
         myPreferences = MyPreferences(this)
         mRemoteConfig = FirebaseRemoteConfig.getInstance()
 
@@ -154,6 +155,37 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
 
         //check update via remoteconfig
         updateViews()
+
+        setMenuItems()
+    }
+
+    private fun setMenuItems() {
+        userNameTool.text = "Hello Tina,"
+
+        val newList = ArrayList<String>()
+        newList.apply {
+            loginResponse.userDetail?.batchList?.forEach {
+                this.add(it.batchName.toString())
+            }
+            Log.e("popData", newList.toString())
+            val adapter = ArrayAdapter(applicationContext, R.layout.spinner_item, newList)
+            batchSpinner.adapter = adapter
+
+            batchSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>,
+                    view: View,
+                    i: Int,
+                    l: Long
+                ) {
+                    Log.e("popThread", "1234")
+
+                    EventBus.getDefault().post(OnEventData(i))
+                }
+
+                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+            }
+        }
     }
 
     private fun setNavigationValue(response: LoginData) {
@@ -234,7 +266,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
                 }
 
                 override fun onPageScrollStateChanged(state: Int) {
-                    appBarLayout.setExpanded(true)
+                    //appBarLayout.setExpanded(true)
                     bottomNavigationBehavior.showBottomNavigationView(navigationView)
                 }
             }
@@ -245,12 +277,12 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
                 when (item.itemId) {
                     R.id.navigation_learn -> {
                         viewPager.currentItem = 0
-                        supportActionBar!!.title = ""
+                     //   supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_live -> {
                         viewPager.currentItem = 1
-                        supportActionBar!!.title = ""
+                     //   supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
                     /*  R.id.navigation_home -> {
@@ -260,12 +292,12 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
                       }*/
                     R.id.navigation_practice -> {
                         viewPager.currentItem = 2
-                        supportActionBar!!.title = ""
+                       // supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_test -> {
                         viewPager.currentItem = 3
-                        supportActionBar!!.title = ""
+                       // supportActionBar!!.title = ""
                         return@OnNavigationItemSelectedListener true
                     }
                 }
@@ -279,6 +311,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
 
     }
 
+/*
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_home, menu)
         val spinner = menu.findItem(R.id.action_menu_spinner).actionView as Spinner
@@ -313,7 +346,9 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
         }
         return true
     }
+*/
 
+/*
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
         return when (item.itemId) {
@@ -341,6 +376,7 @@ class MainActivity : AppCompatActivity(), OnNetworkResponse, InstallStateUpdated
             else -> super.onOptionsItemSelected(item)
         }
     }
+*/
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

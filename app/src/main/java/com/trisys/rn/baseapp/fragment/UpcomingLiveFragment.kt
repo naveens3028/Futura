@@ -110,10 +110,16 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
     }
 
     fun showErrorMsg(errorMsg: String) {
-        stateful.showOffline()
+      /*  stateful.showOffline()
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.ic_no_data)
         stateful.setOfflineRetryOnClickListener {
+            requestSessions()
+        }*/
+        errorTxt.text = errorMsg
+        recycler.visibility = View.GONE
+        errorUpcomingCard.visibility = View.VISIBLE
+        retryUpcoming.setOnClickListener {
             requestSessions()
         }
     }
@@ -123,17 +129,19 @@ class UpcomingLiveFragment : Fragment(), OnNetworkResponse {
         if (responseCode == networkHelper.responseSuccess && tag == "upcomingSessions") {
             val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
             if (liveItemResponse.data.isNotEmpty()) {
+                recycler.visibility = View.VISIBLE
+                errorUpcomingCard.visibility = View.GONE
                 val studyAdapter = UpcomingLiveAdapter(requireContext(), liveItemResponse.data)
                 recycler.adapter = studyAdapter
                 recycler.visibility = View.VISIBLE
                 noCompletedSession.visibility = View.GONE
             }else{
                 recycler.visibility = View.GONE
-                showErrorMsg("No upcoming sessions available")
+                showErrorMsg("You have no Upcoming Live Sessions right now")
             }
         } else {
             recycler.visibility = View.GONE
-            showErrorMsg("No upcoming sessions available")
+            showErrorMsg("You have no Upcoming Live Sessions right now")
         }
     }
 

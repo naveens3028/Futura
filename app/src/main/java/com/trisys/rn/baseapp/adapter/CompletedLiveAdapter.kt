@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.fragment.CompletedLiveAdapterListener
 import com.trisys.rn.baseapp.model.onBoarding.CompletedSession
-import kotlinx.android.synthetic.main.row_complete_live.view.*
-
+import com.trisys.rn.baseapp.utils.Utils
+import kotlinx.android.synthetic.main.row_upcoming.view.*
 
 class CompletedLiveAdapter(
     val context: Context,
-    private val completedLive : List<CompletedSession>,
+    private val completedLive: List<CompletedSession>,
     private val listener: CompletedLiveAdapterListener
 ) : RecyclerView.Adapter<CompletedLiveAdapter.ViewHolder>() {
 
@@ -21,13 +21,20 @@ class CompletedLiveAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.row_complete_live, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.row_upcoming, parent, false)
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val completedLive = completedLive[position]
+        val studyItem = completedLive[position]
+        holder.itemView.live_name.text = studyItem.courseName
+        holder.itemView.live_start_date.text = Utils.getDateTime(studyItem.updatedAt!!)
+
+        holder.itemView.setOnClickListener {
+            listener.onClicked(studyItem)
+        }
+/*        val completedLive = completedLive[position]
         holder.itemView.subjectTxt.text = completedLive.courseName
 
         holder.itemView.cardComplete.setOnClickListener {
@@ -80,11 +87,11 @@ class CompletedLiveAdapter(
             "COMPUTER SCIENCE"->{
                 holder.itemView.subjectimg.setImageResource(R.drawable.ic_comp_sci)
             }
-        }
+        }*/
 
     }
 
     override fun getItemCount(): Int {
-            return completedLive.size
+        return completedLive.size
     }
 }

@@ -18,8 +18,10 @@ import com.trisys.rn.baseapp.model.MOCKTEST
 import com.trisys.rn.baseapp.model.ScheduledClass
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
+import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
@@ -120,7 +122,7 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == LAUNCH_SECOND_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
-                //requestTest()
+                requestTest()
             }
         }
     }
@@ -138,11 +140,10 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
 
-/*
     private fun requestTest() {
         networkHelper.getCall(
             URLHelper.scheduleTestsForStudent + "?batchId=${
-                loginData.userDetail?.batchIds?.get(0)
+                loginData.userDetail?.batchList?.get(0)?.id.toString()
             }&studentId=${loginData.userDetail?.usersId}",
             "scheduledTest",
             ApiUtils.getHeader(requireContext()),
@@ -150,7 +151,6 @@ class ScheduledTestFragment : Fragment(), TestClickListener, OnNetworkResponse {
         )
 
     }
-*/
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         try {

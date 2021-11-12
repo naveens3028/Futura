@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.model.Datum
 
@@ -21,7 +22,7 @@ class SubjectsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subjectTxt = itemView.findViewById(R.id.subjectTxt) as TextView
-        val cardView = itemView.findViewById(R.id.cardsubject) as CardView
+        val cardView = itemView.findViewById(R.id.cardsubject) as MaterialCardView
         val subjectImg = itemView.findViewById(R.id.subjectimg) as ImageView
     }
 
@@ -40,13 +41,13 @@ class SubjectsAdapter(
 
         when(items.courseName){
             "CHEMISTRY"->{
-                holder.subjectImg.setImageResource(R.drawable.ic_chem)
+                holder.subjectImg.setImageResource(R.drawable.ic_chem_v1)
             }
             "PHYSICS"->{
-                holder.subjectImg.setImageResource(R.drawable.ic_physics)
+                holder.subjectImg.setImageResource(R.drawable.ic_phy_v1)
             }
             "BIOLOGY"->{
-                holder.subjectImg.setImageResource(R.drawable.ic_bio)
+                holder.subjectImg.setImageResource(R.drawable.ic_bio_v1)
             }
             "TAMIL"->{
                 holder.subjectImg.setImageResource(R.drawable.ic_tamil)
@@ -82,7 +83,7 @@ class SubjectsAdapter(
                 holder.subjectImg.setImageResource(R.drawable.ic_economics)
             }
             "COMPUTER SCIENCE"->{
-                holder.subjectImg.setImageResource(R.drawable.ic_comp_sci)
+                holder.subjectImg.setImageResource(R.drawable.ic_computer_v1)
             }
         }
 

@@ -19,13 +19,13 @@
         android:importantForAccessibility="yes"
         app:showAsAction="always"/>
 
-    <item
+   <!-- <item
         android:id="@+id/action_menu_notification"
         android:title=""
         android:icon="@drawable/ic_new_notify"
         android:importantForAccessibility="yes"
         app:iconTint="@color/toolbar_text"
         app:actionLayout="@layout/layout_notification_icon"
-        app:showAsAction="always"/>
+        app:showAsAction="always"/>-->
 
 </menu>

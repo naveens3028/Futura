@@ -88,18 +88,9 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
 
     private fun getApiCall(context: Context, listener: CompletedListener) {
 
-        CoroutineScope(Dispatchers.Main).launch {
+        this.lifecycleScope.launch {
             myProgressBar.show()
-
-            val response = async(Dispatchers.IO) { getCompletedLiveData() }
-            response.await().let {
-                if (response.isCompleted){
-                    myProgressBar.dismiss()
-                    setAdapter(auditList)
-                }else{
-                    showErrorMsg("No Completed Live Sessions")
-                }
-            }
+            getCompletedLiveData()
         }
     }
 
@@ -123,14 +114,28 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
         val response = service.getData(jsonObject, ApiUtils.getHeader(context))
            return if (response.isSuccessful) {
                 if (response.code() == 200) {
-                    auditList = response.body()!!
-                    Log.e("retoCall1", auditList.toString())
+                    this.lifecycleScope.launch {
+                        auditList = response.body()!!
+                        recycler.visibility = View.VISIBLE
+                        errorUpcomingCard.visibility = View.GONE
+                        myProgressBar.dismiss()
+                        setAdapter(auditList)
+                        Log.e("retoCall1", auditList.toString())
+                    }
                     true
                 } else {
+                    this.lifecycleScope.launch {
+                        myProgressBar.dismiss()
+                        showErrorMsg("You have no Completed Live Sessions right now")
+                    }
                     false
                 }
             } else {
-                Log.e("retoCall1", response.isSuccessful.toString())
+               this.lifecycleScope.launch {
+                   myProgressBar.dismiss()
+                   showErrorMsg("You have no Completed Live Sessions right now")
+               }
+               Log.e("retoCall1", response.isSuccessful.toString())
                false
             }
     }
@@ -138,26 +143,32 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
     private fun setAdapter(completedLive: List<CompletedSession>) {
         val completedLiveAdapter = CompletedLiveAdapter(requireContext(), completedLive, this)
         val layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recycler.layoutManager = layoutManager
         recycler.adapter = completedLiveAdapter
     }
 
     fun showErrorMsg(errorMsg: String) {
-        stateful.showOffline()
-        stateful.setOfflineText(errorMsg)
-        stateful.setOfflineImageResource(R.drawable.ic_no_data)
-        stateful.setOfflineRetryOnClickListener {
+        /*  stateful.showOffline()
+          stateful.setOfflineText(errorMsg)
+          stateful.setOfflineImageResource(R.drawable.ic_no_data)
+          stateful.setOfflineRetryOnClickListener {
+              requestSessions()
+          }*/
+        errorTxt.text = errorMsg
+        recycler.visibility = View.GONE
+        errorUpcomingCard.visibility = View.VISIBLE
+        retryUpcoming.setOnClickListener {
             getApiCall(requireContext(), this)
         }
     }
 
     override fun onSuccess(auditList: List<CompletedSession>) {
-        setAdapter(auditList)
+        //setAdapter(auditList)
     }
 
     override fun onFailure() {
-        myProgressBar.dismiss()
+       // myProgressBar.dismiss()
     }
 
     override fun onClicked(completedSession: CompletedSession) {

@@ -121,7 +121,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
         networkHelper.getCall(
             URLHelper.scheduleTestsForStudent + "?batchId=${
-                loginData.userDetail?.batchList?.get(1)?.id
+                loginData.userDetail?.batchList?.get(0)?.id
             }&studentId=${loginData.userDetail?.usersId}",
             "scheduledTest",
             ApiUtils.getHeader(requireContext()),

@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/stateful"
+    android:background="@color/umr_bg"
     android:layout_height="match_parent">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/top_corner_bg">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -17,37 +19,14 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="@dimen/_5sdp"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/selectedCourseCrd"
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                app:cardBackgroundColor="@color/new_blue_light"
-                app:cardCornerRadius="@dimen/_6sdp">
+                android:layout_height="@dimen/_150sdp"
+                android:src="@drawable/ic_card_v1"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_10sdp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/selectedCourseTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="@dimen/_16sdp"
-                        android:text="@string/selected_course"
-                        android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/previosVideo"
@@ -81,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_8sdp"
-                android:text="@string/learn"
+                android:text="Learn By Subject"
                 android:fontFamily="@font/roboto_bold"
                 android:textSize="@dimen/_16sdp" />
 
@@ -93,65 +72,15 @@
                     android:id="@+id/subjectsRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="3"
+                    android:orientation="vertical"
+                    app:spanCount="3"
+                    android:background="#3CECECEC"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    tools:itemCount="6"
                     tools:listitem="@layout/activity_subjects"/>
 
             </com.trisys.rn.baseapp.helper.NestedScrollableHost>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardPreviousYrQuestion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:cardBackgroundColor="@color/new_blue_light"
-                app:cardCornerRadius="@dimen/_12sdp">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="10"
-                    android:padding="@dimen/_10sdp">
-
-                    <ImageView
-                        android:id="@+id/previosYrImg"
-                        android:layout_width="@dimen/_60sdp"
-                        android:layout_height="@dimen/_60sdp"
-                        android:layout_weight="2"
-                        android:src="@drawable/ic_practice"
-                        />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/previosYrTxt"
-                        android:layout_width="wrap_content"
-                        android:gravity="start"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/_14sdp"
-                        android:layout_weight="7"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/black"
-                        android:text="@string/previous_year"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        />
-
-                    <ImageView
-                        android:id="@+id/previosYrImgs"
-                        android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:src="@drawable/ic_new_arrow"
-                        />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </androidx.cardview.widget.CardView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

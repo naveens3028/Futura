@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.*
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.ChapterActivity
@@ -24,6 +26,7 @@ import com.trisys.rn.baseapp.model.Datum
 import com.trisys.rn.baseapp.model.OnEventData
 import com.trisys.rn.baseapp.model.VideoMaterial
 import com.trisys.rn.baseapp.model.onBoarding.LoginData
+import com.trisys.rn.baseapp.network.ApiUtils
 import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
@@ -85,7 +88,7 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
             requestSessions(loginData.userDetail?.batchList?.get(0)?.courseId!!)
         } else requestSessions(loginData.userDetail?.batchList?.get(0)?.additionalCourseId!!)
 
-        selectedCourseTxt.text = "Course Name: ${loginData.userDetail?.batchList?.get(0)?.course?.courseName!!}"
+       // selectedCourseTxt.text = "Course Name: ${loginData.userDetail?.batchList?.get(0)?.course?.courseName!!}"
     }
 
     override fun onStart() {
@@ -105,11 +108,10 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
 
     private fun requestSessions(batchId: String) {
         stateful.showProgress()
-        val headers = HashMap<String, String>()
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
             "getCourse",
-            headers,
+            ApiUtils.getHeader(requireContext()),
             this
         )
     }
@@ -203,8 +205,15 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
     private fun subjectCall(subjectList: ArrayList<Datum>) {
         stateful.showContent()
         if (subjectList.size > 0) {
+
             val adapter = SubjectsAdapter(requireContext(), subjectList, batchIds.toString(), this)
             //now adding the adapter to recyclerview
+            val layoutManager = FlexboxLayoutManager(requireContext())
+            layoutManager.justifyContent = JustifyContent.CENTER
+            layoutManager.alignItems = AlignItems.CENTER
+            layoutManager.flexDirection = FlexDirection.ROW
+            layoutManager.flexWrap = FlexWrap.WRAP
+            subjectsRecycler.layoutManager = layoutManager
             subjectsRecycler.adapter = adapter
         } else {
             showErrorMsg("No subject found.")
@@ -216,7 +225,7 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
         Log.e("popThread","123")
         val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
         requestSessions(loginData.userDetail?.batchList?.get(event?.batchPosition!!)?.courseId!!)
-        selectedCourseTxt.text = "Course Name: ${loginData.userDetail?.batchList?.get(event?.batchPosition!!)?.course?.courseName!!}"
+        //selectedCourseTxt.text = "Course Name: ${loginData.userDetail?.batchList?.get(event?.batchPosition!!)?.course?.courseName!!}"
         batchIds = if (!data?.additionalCourseId.isNullOrEmpty()){
             data?.additionalCourseId
         }else{

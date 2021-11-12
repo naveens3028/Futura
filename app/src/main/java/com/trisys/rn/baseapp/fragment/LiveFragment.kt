@@ -135,20 +135,32 @@ class LiveFragment : Fragment(), OnNetworkResponse {
                 errorLive.visibility = View.GONE
                 recyclerScroll.visibility = View.VISIBLE
                 upcomingSession.visibility = View.VISIBLE
-                StudyLabel.visibility = View.VISIBLE
+                upcomingSession.background = null
+                //StudyLabel.visibility = View.VISIBLE
                 noUpcomingSession.visibility = View.GONE
+                retryLive.visibility =View.GONE
+                retryLive1.visibility =View.GONE
+                retryLive2.visibility =View.GONE
             }else{
+                upcomingSession.setBackgroundResource(R.drawable.ic_no_live)
                 recyclerScroll.visibility = View.GONE
                 errorLive.visibility = View.VISIBLE
-                StudyLabel.visibility = View.VISIBLE
+               // StudyLabel.visibility = View.VISIBLE
+                retryLive.visibility =View.VISIBLE
+                retryLive1.visibility =View.VISIBLE
+                retryLive2.visibility =View.VISIBLE
                 retryLive.setOnClickListener {
                     requestSessions()
                 }
             }
         }else{
+            upcomingSession.setBackgroundResource(R.drawable.ic_no_live)
             recyclerScroll.visibility = View.GONE
             errorLive.visibility = View.VISIBLE
-            StudyLabel.visibility = View.VISIBLE
+           // StudyLabel.visibility = View.VISIBLE
+            retryLive.visibility =View.VISIBLE
+            retryLive1.visibility =View.VISIBLE
+            retryLive2.visibility =View.VISIBLE
             retryLive.setOnClickListener {
                 requestSessions()
             }

@@ -50,12 +50,12 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         subjectId = intent.getStringExtra("id")!!
         batchId = intent.getStringExtra("batchId")!!
 
-        //Assign Appbar properties
+/*        //Assign Appbar properties
         setSupportActionBar(toolbar)
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-        actionBar?.title = intent.getStringExtra("title")
+        actionBar?.title = intent.getStringExtra("title")*/
 
         requestChapter(batchId)
     }
@@ -87,7 +87,7 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+   /* override fun onCreateOptionsMenu(menu: Menu): Boolean {
         try {
             menuInflater.inflate(R.menu.menu_learn, menu)
             val item1 =
@@ -107,7 +107,7 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         }
         return super.onOptionsItemSelected(item)
     }
-
+*/
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
         if (responseCode == networkHelper.responseSuccess && tag == "getChapter") {
             stateful.showContent()

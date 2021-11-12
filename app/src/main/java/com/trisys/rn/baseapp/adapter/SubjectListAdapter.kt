@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.learn.LearnActivity
@@ -26,8 +28,8 @@ class SubjectListAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val chapternametxt = itemView.findViewById(R.id.chapternametxt) as TextView
-        val rlt_subj = itemView.findViewById(R.id.rlt_subj) as RelativeLayout
-        val txtIndex = itemView.findViewById(R.id.txtIndex) as TextView
+        val rlt_subj = itemView.findViewById(R.id.cardCircle) as MaterialCardView
+        val txtIndex = itemView.findViewById(R.id.indexTxt) as AppCompatTextView
         val chapterDetails = itemView.findViewById(R.id.chapterDetails) as AppCompatTextView
         val chapterDetailsMaterials = itemView.findViewById(R.id.chapterDetailsMaterials) as AppCompatTextView
     }
@@ -50,37 +52,38 @@ class SubjectListAdapter(
 
         when{
             position.toString().last().toString().contains("0")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card1)
+           /*     holder.rlt_subj.setBackgroundResource(R.color.card1)
+                holder.rlt_subj.radius = 12.dpToPixels(context)*/
             }
             position.toString().last().toString().contains("1")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card2)
+               // holder.rlt_subj.setCardBackgroundColor(R.color.card2)
             }
             position.toString().last().toString().contains("2")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card3)
+               // holder.rlt_subj.setBackgroundResource(R.color.card3)
             }
             position.toString().last().toString().contains("3")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card4)
+              //  holder.rlt_subj.setCardBackgroundColor(R.color.card4)
             }
             position.toString().last().toString().contains("4")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card5)
+               // holder.rlt_subj.setCardBackgroundColor(R.color.card5)
             }
             position.toString().last().toString().contains("5")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card6)
+                //holder.rlt_subj.setCardBackgroundColor(R.color.card6)
             }
             position.toString().last().toString().contains("6")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card7)
+               // holder.rlt_subj.setCardBackgroundColor(R.color.card7)
             }
             position.toString().last().toString().contains("7")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card8)
+               // holder.rlt_subj.setCardBackgroundColor(R.color.card8)
             }
             position.toString().last().toString().contains("8")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card9)
+               // holder.rlt_subj.setCardBackgroundColor(R.color.card9)
             }
             position.toString().last().toString().contains("8")->{
-                holder.rlt_subj.setBackgroundResource(R.color.card10)
+                //holder.rlt_subj.setCardBackgroundColor(R.color.card10)
             }
             else->{
-                holder.rlt_subj.setBackgroundResource(R.color.card11)
+             //   holder.rlt_subj.setCardBackgroundColor(R.color.card11)
             }
         }
 

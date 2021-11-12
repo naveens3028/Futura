@@ -56,21 +56,22 @@
     <color name="alice_blue">#EEF4FA</color>
     <color name="background_black">#0D000000</color>
 
-    <color name="card1">#1ca69d</color>
-    <color name="card2">#EBD00A</color>
-    <color name="card3">#b35ba0</color>
-    <color name="card4">#3BB9FF</color>
-    <color name="card5">#F97363</color>
-    <color name="card6">#FFBB86FC</color>
+    <color name="card1">#C8FF88</color>
+    <color name="card2">#FFF4A7</color>
+    <color name="card3">#FFA4EB</color>
+    <color name="card4">#BFE8FF</color>
+    <color name="card5">#FFC1BA</color>
+    <color name="card6">#DEC3FF</color>
     <color name="card7">#D5FBD3</color>
-    <color name="card8">#7766AE</color>
-    <color name="card9">#CBEF5D8E</color>
-    <color name="card10">#ED9B20</color>
-    <color name="card11">#FF03DAC5</color>
+    <color name="card8">#CCBDFF</color>
+    <color name="card9">#CBFA9FBD</color>
+    <color name="card10">#FFDFAF</color>
+    <color name="card11">#B0FFF7</color>
 
     <color name="new_blue_dark">#6ec1e4</color>
     <color name="new_blue_light">#f0f9fc</color>
     <color name="umr_purple">#7B198C</color>
+    <color name="umr_bg">#D8FDF9FF</color>
 
 
 </resources>

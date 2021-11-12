@@ -18,12 +18,14 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             tools:context=".MainActivity">
-            <include layout="@layout/layout_toolbar" />
+
+            <include layout="@layout/layout_toolbar_custom" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:visibility="visible"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

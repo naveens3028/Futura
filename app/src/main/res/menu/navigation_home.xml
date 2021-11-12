@@ -4,25 +4,25 @@
 
     <item
         android:id="@+id/navigation_learn"
-        android:icon="@drawable/ic_new_learn"
+        android:icon="@drawable/ic_learn_v1"
         android:title="Learn"
         app:showAsAction="always|withText"/>
 
     <item
         android:id="@+id/navigation_live"
-        android:icon="@drawable/ic_live_stream"
+        android:icon="@drawable/ic_live_v1"
         android:title="Live"
         app:showAsAction="always|withText"/>
 
     <item
         android:id="@+id/navigation_practice"
-        android:icon="@drawable/ic_prac_new"
+        android:icon="@drawable/ic_prac_v1"
         android:title="Practice"
         app:showAsAction="always|withText"/>
 
     <item
      android:id="@+id/navigation_test"
-     android:icon="@drawable/ic_new_test"
+     android:icon="@drawable/ic_test_v1"
      android:title="Test"
      android:visible="true"
      app:showAsAction="ifRoom"/>
