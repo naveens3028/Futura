@@ -10,10 +10,9 @@ import com.trisys.rn.baseapp.R
 
 class MyProgressBar(val activity: Activity) {
     private var alertDialog: AlertDialog? = null
+
     fun show(){
         val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(activity,R.style.DialogTheme)
-// ...Irrelevant code for customizing the buttons and title
-// ...Irrelevant code for customizing the buttons and title
         val inflater: LayoutInflater = activity.getLayoutInflater()
         val dialogView: View = inflater.inflate(R.layout.default_placeholder_progress, null)
         dialogBuilder.setView(dialogView)
@@ -29,6 +28,10 @@ class MyProgressBar(val activity: Activity) {
         if(alertDialog != null && alertDialog!!.isShowing) {
             alertDialog!!.dismiss()
         }
+    }
+
+    fun isShowing(): Boolean{
+        return alertDialog?.isShowing == true
     }
 
 }

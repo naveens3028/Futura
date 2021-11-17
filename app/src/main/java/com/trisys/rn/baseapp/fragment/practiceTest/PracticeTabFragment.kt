@@ -11,11 +11,11 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.trisys.rn.baseapp.R
 import com.trisys.rn.baseapp.activity.TakeTestActivity
-import com.trisys.rn.baseapp.activity.TestGroupActivity
 import com.trisys.rn.baseapp.activity.TestResultActivity
+import com.trisys.rn.baseapp.adapter.ScheduledTestAdapter
 import com.trisys.rn.baseapp.adapter.SubjectClickListener
-import com.trisys.rn.baseapp.adapter.SubjectsAdapter
 import com.trisys.rn.baseapp.adapter.TestClickListener
+import com.trisys.rn.baseapp.adapter.practice.PracticeAdapter
 import com.trisys.rn.baseapp.adapter.test.AttemptedTestAdapter
 import com.trisys.rn.baseapp.database.DatabaseHelper
 import com.trisys.rn.baseapp.model.*
@@ -74,7 +74,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
         db = DatabaseHelper(requireContext())
         networkHelper = NetworkHelper(requireContext())
         myPreferences = MyPreferences(requireContext())
-        dialogUtils = DialogUtils()
+        //dialogUtils = DialogUtils()
 
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
@@ -87,9 +87,9 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
         super.onStart()
         EventBus.getDefault().register(this)
 
-        expandablePracticeTxt.text = "Practice Test"
+        expandablePracticeTxt.text = requireContext().getString(R.string.practice_by)
 
-        expandablePracticeTestAttempted.parentLayout.txtParentTitle.text = "Attempted Test"
+       /* expandablePracticeTestAttempted.parentLayout.txtParentTitle.text = "Attempted Test"
 
         expandablePracticeTestAttempted.secondLayout.txtError.text =
             "No Test Found in Attempted Test"
@@ -100,7 +100,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
             else {
                 expandablePracticeTestAttempted.expand()
             }
-        }
+        }*/
 
     }
 
@@ -161,6 +161,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
                         scheduledTestResponse.PRACTICE.filterNot { it.testPaperId == completedListElement.testPaperId }
                 }
             }
+            callAdapter(scheduledTest)
             getAttemptedTest(batchId)
         } else if (responseCode == networkHelper.responseSuccess && tag == "getAttempted") {
             val attempted = Gson().fromJson(response, AttemptedResponse::class.java)
@@ -195,7 +196,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
             }
             attemptedSetup(attempted)
 
-            dialogUtils.dismissLoader()
+            //dialogUtils.dismissLoader()
         } else if (responseCode == networkHelper.responseSuccess && tag == "submitTestPaper") {
             val submittedResult = Gson().fromJson(response, SubmittedResult::class.java)
             db.deleteTest(submittedResult.testPaperId)
@@ -210,18 +211,23 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
         Log.e("popAttempted", attempted.pRACTICE.toString())
         if (view != null) {
 
+/*
             if (attempted.pRACTICE.size > 0) {
                 expandablePracticeTestAttempted.secondLayout.txtError.visibility = View.GONE
-                expandablePracticeTestAttempted.secondLayout.recyclerViewChild.visibility = View.VISIBLE
+                expandablePracticeTestAttempted.secondLayout.recyclerViewChild.visibility =
+                    View.GONE
                 val attemptedAdapter = AttemptedTestAdapter(
                     requireContext(),
                     attempted.pRACTICE.reversed(), this
                 )
-                expandablePracticeTestAttempted.secondLayout.recyclerViewChild.adapter =attemptedAdapter
+                expandablePracticeTestAttempted.secondLayout.recyclerViewChild.adapter =
+                    attemptedAdapter
             } else {
-                expandablePracticeTestAttempted.secondLayout.recyclerViewChild.visibility = View.GONE
-                expandablePracticeTestAttempted.secondLayout.txtError.visibility = View.VISIBLE
+                expandablePracticeTestAttempted.secondLayout.recyclerViewChild.visibility =
+                    View.GONE
+                expandablePracticeTestAttempted.secondLayout.txtError.visibility = View.GONE
             }
+*/
         }
     }
 
@@ -255,12 +261,12 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
         }
         dialog.disagree.setOnClickListener {
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, false)
-             goToTestScreen(mockTest)
+            goToTestScreen(mockTest)
             dialog.dismiss()
         }
         dialog.agree.setOnClickListener {
             myPreferences.setBoolean(Define.TAKE_TEST_MODE_OFFLINE, true)
-             goToTestScreen(mockTest)
+            goToTestScreen(mockTest)
             dialog.dismiss()
         }
         dialog.show()
@@ -328,9 +334,12 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
             txtError.visibility = View.GONE
             subjectsRecycler1.visibility = View.VISIBLE
 
-            val adapter = SubjectsAdapter(requireContext(), subjectList, batchId, this)
+            val adapter = PracticeAdapter(requireContext(), subjectList, batchId, this)
             //now adding the adapter to recyclerview
             subjectsRecycler1.adapter = adapter
+
+          //
+        //  callAdapter(subjectList[0])
         } else {
             subjectsRecycler1.visibility = View.GONE
             txtError.visibility = View.VISIBLE
@@ -340,7 +349,7 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: OnEventData?) {
         Log.e("popThread", "123")
-        dialogUtils.showLoader(requireContext())
+        //dialogUtils.showLoader(requireContext())
         val data = loginData.userDetail?.batchList?.get(event?.batchPosition!!)
         batchId = data?.id!!
         requestTest(data.id!!)
@@ -361,11 +370,30 @@ class PracticeTabFragment : Fragment(), OnNetworkResponse, TestClickListener, Su
     }
 
     override fun onSubjectClicked(id: String, batchId: String, title: String) {
-        Log.e("subjectPop", title.toString())
-        val intent = Intent(requireContext(), TestGroupActivity::class.java)
-        intent.putExtra("practiceTest", Gson().toJson(scheduledTest).toString())
-        intent.putExtra("subjectName", title)
-        requireContext().startActivity(intent)
+        /*   Log.e("subjectPop", title.toString())
+           val intent = Intent(requireContext(), TestGroupActivity::class.java)
+           intent.putExtra("practiceTest", Gson().toJson(scheduledTest).toString())
+           intent.putExtra("subjectName", title)
+           requireContext().startActivity(intent)*/
+        val filteredData = scheduledTest.filter {
+            it.courseName == title
+        }
+
+        callAdapter(filteredData)
+    }
+
+    fun callAdapter(filteredData: List<MOCKTEST>) {
+
+        subjectsRecycler2.visibility =
+            View.VISIBLE
+        val scheduledTestAdapter = ScheduledTestAdapter(
+            requireContext(),
+            filteredData,
+            this
+        )
+        subjectsRecycler2.adapter =
+            scheduledTestAdapter
+
     }
 
 }

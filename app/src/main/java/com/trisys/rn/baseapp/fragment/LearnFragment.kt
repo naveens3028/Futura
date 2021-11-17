@@ -107,7 +107,7 @@ class LearnFragment : Fragment(), CourseListener, VideoPlayedAdapter.ActionCallb
     }
 
     private fun requestSessions(batchId: String) {
-        stateful.showProgress()
+        //stateful.showProgress()
         networkHelper.getCall(
             URLHelper.courseURL + batchId,
             "getCourse",

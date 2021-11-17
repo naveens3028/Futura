@@ -4,21 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingStart="@dimen/_7sdp"
-    android:paddingEnd="@dimen/_7sdp">
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/expandablePracticeTxt"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="@dimen/_16sdp"
-        android:textColor="@color/new_blue_dark"
-        android:background="@color/new_blue_light"
-        android:padding="@dimen/_8sdp"
-        android:layout_margin="@dimen/_8sdp"
-        android:fontFamily="@font/roboto_medium"/>
+        android:layout_height="@dimen/_80sdp"
+        android:background="@drawable/bottom_corner_bg"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/redtext"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/_20sdp"
+            android:text="@string/practice_test_txt"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/_7sdp"
+        android:paddingEnd="@dimen/_7sdp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/expandablePracticeTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/practice_by"
+                android:textSize="@dimen/_16sdp"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_8sdp"
+                android:layout_margin="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_bold"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/seeAllTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/see_all"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textColor="@color/greytext"
+                android:layout_alignParentEnd="true"
+                android:padding="@dimen/_8sdp"
+                android:layout_margin="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_regular"/>
+
+        </RelativeLayout>
+
 
     <com.trisys.rn.baseapp.helper.NestedScrollableHost
         android:layout_width="match_parent"
@@ -33,11 +78,30 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
-            tools:listitem="@layout/activity_subjects"/>
+            tools:listitem="@layout/practice_items"/>
 
     </com.trisys.rn.baseapp.helper.NestedScrollableHost>
 
-    <androidx.appcompat.widget.AppCompatTextView
+        <com.trisys.rn.baseapp.helper.NestedScrollableHost
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_gravity="center_vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/subjectsRecycler2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/row_scheduled_test"/>
+
+        </com.trisys.rn.baseapp.helper.NestedScrollableHost>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtError"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -49,6 +113,7 @@
         android:textSize="@dimen/_13sdp"
         android:visibility="gone" />
 
+<!--
     <com.skydoves.expandablelayout.ExpandableLayout
         android:id="@+id/expandablePracticeTestAttempted"
         android:layout_width="match_parent"
@@ -62,8 +127,10 @@
         app:expandable_spinner_animate="true"
         app:expandable_spinner_color="@color/new_blue_dark"
         app:expandable_spinner_gravity="end"
+        android:visibility="gone"
         app:expandable_spinner_margin="4dp"
         app:expandable_spinner_size="42dp" />
+-->
 
 
 <!--
@@ -125,5 +192,8 @@
         tools:itemCount="3"
         tools:listitem="@layout/practice_layout" />
 -->
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 </LinearLayout>

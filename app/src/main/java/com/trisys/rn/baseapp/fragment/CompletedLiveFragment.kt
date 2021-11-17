@@ -89,7 +89,9 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
     private fun getApiCall(context: Context, listener: CompletedListener) {
 
         this.lifecycleScope.launch {
-            myProgressBar.show()
+            if (!myProgressBar.isShowing()) {
+                myProgressBar.show()
+            }
             getCompletedLiveData()
         }
     }
@@ -118,21 +120,27 @@ class CompletedLiveFragment : Fragment(), CompletedListener, CompletedLiveAdapte
                         auditList = response.body()!!
                         recycler.visibility = View.VISIBLE
                         errorUpcomingCard.visibility = View.GONE
-                        myProgressBar.dismiss()
+                        if (myProgressBar.isShowing()) {
+                            myProgressBar.dismiss()
+                        }
                         setAdapter(auditList)
                         Log.e("retoCall1", auditList.toString())
                     }
                     true
                 } else {
                     this.lifecycleScope.launch {
-                        myProgressBar.dismiss()
+                        if (myProgressBar.isShowing()) {
+                            myProgressBar.dismiss()
+                        }
                         showErrorMsg("You have no Completed Live Sessions right now")
                     }
                     false
                 }
             } else {
                this.lifecycleScope.launch {
-                   myProgressBar.dismiss()
+                   if (myProgressBar.isShowing()) {
+                       myProgressBar.dismiss()
+                   }
                    showErrorMsg("You have no Completed Live Sessions right now")
                }
                Log.e("retoCall1", response.isSuccessful.toString())

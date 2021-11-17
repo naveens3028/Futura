@@ -18,6 +18,7 @@ import com.trisys.rn.baseapp.adapter.TestClickListener
 import com.trisys.rn.baseapp.adapter.test.AttemptedTestAdapter
 import com.trisys.rn.baseapp.adapter.test.UnAttemptedTestAdapter
 import com.trisys.rn.baseapp.database.DatabaseHelper
+import com.trisys.rn.baseapp.helper.MyProgressBar
 import com.trisys.rn.baseapp.model.*
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedResponse
 import com.trisys.rn.baseapp.model.onBoarding.AttemptedTest
@@ -32,6 +33,7 @@ import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.DialogUtils
 import com.trisys.rn.baseapp.utils.MyPreferences
 import com.trisys.rn.baseapp.utils.Utils
+import ir.mahozad.android.PieChart
 import kotlinx.android.synthetic.main.dialog_confirm_test.*
 import kotlinx.android.synthetic.main.dialog_jump_to_questions.close
 import kotlinx.android.synthetic.main.fragment_test_tab.*
@@ -41,14 +43,13 @@ import org.greenrobot.eventbus.EventBus
 import org.json.JSONArray
 import org.json.JSONObject
 
-
 class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
 
     private var loginData = LoginData()
     lateinit var networkHelper: NetworkHelper
     lateinit var myPreferences: MyPreferences
     lateinit var db: DatabaseHelper
-    lateinit var dialogUtils: DialogUtils
+    lateinit var myProgressBar: MyProgressBar
     lateinit var testPaperId: String
     lateinit var attempt1: AttemptedTest
     var attemptedTest: ArrayList<MOCKTEST>? = ArrayList()
@@ -60,7 +61,7 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
         myPreferences = MyPreferences(requireContext())
         networkHelper = NetworkHelper(requireContext())
         db = DatabaseHelper(requireContext())
-        dialogUtils = DialogUtils()
+        myProgressBar = MyProgressBar(requireActivity())
 
     }
 
@@ -74,6 +75,9 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     private fun requestTest(batchId: String) {
+        if (!myProgressBar.isShowing()){
+            myProgressBar.show()
+        }
 
         val nightModeFlags: Int = requireContext().resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)
         when (nightModeFlags) {
@@ -131,6 +135,9 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     private fun getAttemptedTest(batchId : String) {
+        if (!myProgressBar.isShowing()){
+            myProgressBar.show()
+        }
         val params = HashMap<String, String>()
         params["batchId"] = loginData.userDetail?.batchList?.get(0)?.id.toString()
 
@@ -233,7 +240,6 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                 expandableAttemptedTest.collapse()
             }
         }
-
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
         requestTest(batchId)
@@ -266,6 +272,9 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     fun submitTest(jsonObject: JSONObject) {
+        if (!myProgressBar.isShowing()){
+            myProgressBar.show()
+        }
         networkHelper.postCall(
             URLHelper.submitTestPaper,
             jsonObject,
@@ -294,6 +303,9 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
+        if (myProgressBar.isShowing()){
+            myProgressBar.dismiss()
+        }
         try {
             if(requireActivity() != null) {
                 if (responseCode == networkHelper.responseSuccess && tag == "getUnAttempted") {
@@ -367,7 +379,6 @@ class TestTabFragment : Fragment(), TestClickListener, OnNetworkResponse {
                         attemptedTest?.filterNot { it.testPaperId == submittedResult.testPaperId } as ArrayList<MOCKTEST>?
                     getAttemptedTest(batchId)
                 } else if (responseCode == networkHelper.responseSuccess && tag == "answeredTestPapersResult") {
-                    dialogUtils.dismissLoader()
                     val testResponseResult = Gson().fromJson(response, TestResultsModel::class.java)
                     testResponseResult.testPaperId = testPaperId
                     db.saveResult(testResponseResult)

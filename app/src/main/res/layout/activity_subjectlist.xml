@@ -23,7 +23,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
-                app:cardBackgroundColor="#C8FF88"
+                app:cardBackgroundColor="@color/new_blue_dark"
                 android:id="@+id/cardCircle"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_gravity="center"
@@ -34,6 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:fontFamily="@font/roboto_bold"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
                     style="@style/TextAppearance.AppCompat.Headline"

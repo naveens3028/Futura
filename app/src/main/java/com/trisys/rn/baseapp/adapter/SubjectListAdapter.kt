@@ -45,9 +45,13 @@ class SubjectListAdapter(
         val data = chaptersList[position]
         holder.chapternametxt.text = (chaptersList[position].courseName)
 
-        holder.txtIndex.text = "" + (position + 1)
+        holder.txtIndex.text = if (position<=8){
+            "0" + (position + 1)
+        }else{
+            "" + (position + 1)
+        }
 
-        holder.chapterDetails.text = data.topicMaterialResponses?.size.toString() + " Topics"
+        holder.chapterDetails.text = data.topicMaterialResponses?.size.toString() + " Topics,"
         holder.chapterDetailsMaterials.text =  data.videoCount.toString() + " Materials"
 
         when{

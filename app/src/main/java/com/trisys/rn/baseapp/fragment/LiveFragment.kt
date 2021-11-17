@@ -96,7 +96,9 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     }
 
     private fun requestSessions() {
-        myProgressBar.show()
+        if (!myProgressBar.isShowing()) {
+            myProgressBar.show()
+        }
         val myBatchList = JSONArray()
         loginData.userDetail?.batchList?.forEach {
             myBatchList.put(it.id!!)
@@ -126,7 +128,9 @@ class LiveFragment : Fragment(), OnNetworkResponse {
     }
 
     override fun onNetworkResponse(responseCode: Int, response: String, tag: String) {
-        myProgressBar.dismiss()
+        if (myProgressBar.isShowing()) {
+            myProgressBar.dismiss()
+        }
         if (responseCode == networkHelper.responseSuccess && tag == "liveSessions") {
             val liveItemResponse = Gson().fromJson(response, LiveResponse::class.java)
             if (liveItemResponse.data.isNotEmpty()) {

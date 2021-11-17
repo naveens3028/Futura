@@ -22,6 +22,7 @@ import com.trisys.rn.baseapp.network.NetworkHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
 import kotlinx.android.synthetic.main.activity_learn.*
+import kotlinx.android.synthetic.main.layout_backpress.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 
@@ -61,6 +62,15 @@ class LearnActivity : AppCompatActivity(), VideoClickListener {
         networkHelper = NetworkHelper(this)
         loginData =
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
+        nxtChapter.visibility = View.VISIBLE
+
+        nxtChapter.setOnClickListener {
+           // finish()
+        }
+
+        logoTool.setOnClickListener {
+            finish()
+        }
 
         val topicData = ArrayList<TopicMaterialResponse>()
         topicResponse!!.sortedBy {
@@ -74,7 +84,7 @@ class LearnActivity : AppCompatActivity(), VideoClickListener {
             tabsRecycler.adapter = titleAdapter
         } else {
             tabsRecycler.visibility = View.GONE
-            showErrorMsg("Currently no topics available.")
+           // showErrorMsg("Currently no topics available.")
         }
     }
 
@@ -98,12 +108,12 @@ class LearnActivity : AppCompatActivity(), VideoClickListener {
         }
         return super.onOptionsItemSelected(item)
     }
-
+/*
     fun showErrorMsg(errorMsg: String) {
         stateful.showOffline()
         stateful.setOfflineText(errorMsg)
         stateful.setOfflineImageResource(R.drawable.icon_error)
-    }
+    }*/
 
     override fun onVideoSelected(videoMaterial: List<VideoMaterial>, position: Int) {
         myPreferences = MyPreferences(this)

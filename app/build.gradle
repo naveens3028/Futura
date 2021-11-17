@@ -170,4 +170,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
     implementation 'com.google.android.play:core:1.10.2'
+
+    //circle progress chart
+    implementation("ir.mahozad.android:pie-chart:0.7.0")
+
 }

@@ -68,6 +68,7 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="test_txt">Test</string>
     <string name="practice_txt">Practice</string>
+    <string name="practice_test_txt">Practice Test</string>
     <string name="attempted_test">Attempted Test</string>
     <string name="time_remaining">Time Remaining</string>
     <string name="qs_completed">Q\'s Completed</string>
@@ -180,4 +181,6 @@
     <string name="userName">User Name</string>
     <string name="login_btn">Login</string>
     <string name="termsandCondtions"><![CDATA[Terms & Conditions]]></string>
+    <string name="practice_by">Practice By Subjects</string>
+    <string name="see_all">See All</string>
 </resources>

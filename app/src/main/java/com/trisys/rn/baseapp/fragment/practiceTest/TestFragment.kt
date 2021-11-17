@@ -1,7 +1,7 @@
 package com.trisys.rn.baseapp.fragment.practiceTest
 
+import android.graphics.Color
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +18,8 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import ir.mahozad.android.PieChart
 import kotlinx.android.synthetic.main.fragment_test.*
-import kotlinx.android.synthetic.main.fragment_test.txtTotalStudent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -60,12 +60,18 @@ class TestFragment : Fragment(), OnNetworkResponse {
             Gson().fromJson(myPreferences.getString(Define.LOGIN_DATA), LoginData::class.java)
         batchId = loginData.userDetail?.batchList!![0].id!!
         averBatchTest = db.getAllAverageBatchTest()
-        if(!averBatchTest.isNullOrEmpty()) {
+       /* if (!averBatchTest.isNullOrEmpty()) {
             displayData(averBatchTest[0])
-        }
+        }*/
+
+        pieChart.slices = listOf(
+            PieChart.Slice(0.2f, Color.BLUE),
+            PieChart.Slice(0.4f, Color.MAGENTA),
+            PieChart.Slice(0.3f, Color.YELLOW),
+            PieChart.Slice(0.1f, Color.CYAN)
+        )
 
     }
-
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
@@ -94,12 +100,12 @@ class TestFragment : Fragment(), OnNetworkResponse {
             progressView.visibility = View.GONE
             val testResponse = Gson().fromJson(response, AverageBatchTests::class.java)
             db.saveAvg(testResponse)
-            displayData(testResponse)
+           // displayData(testResponse)
             //carouselView.adapter = CarouselAdapter(requireContext(), db.getAllAverageBatchTest())
         }
     }
 
-    fun displayData(testResponse:AverageBatchTests){
+/*    fun displayData(testResponse:AverageBatchTests){
         val totalStudent = testResponse.totalStudents
         val string = Html.fromHtml(
             "Out of <font color=#6ec1e4><b> $totalStudent </font></b>Students")
@@ -109,7 +115,7 @@ class TestFragment : Fragment(), OnNetworkResponse {
         txtYourAverage.text = ""+testResponse.studentAverage+"%"
         txtClassAverage.text = ""+testResponse.classAverage+"%"
         txtTopperAverage.text = ""+testResponse.topperAverage+"%"
-    }
+    }*/
 
     override fun onPause() {
         super.onPause()

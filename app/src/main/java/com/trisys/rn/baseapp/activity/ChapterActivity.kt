@@ -21,6 +21,7 @@ import com.trisys.rn.baseapp.network.OnNetworkResponse
 import com.trisys.rn.baseapp.network.URLHelper
 import com.trisys.rn.baseapp.utils.Define
 import com.trisys.rn.baseapp.utils.MyPreferences
+import kotlinx.android.synthetic.main.layout_backpress.*
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
@@ -56,6 +57,10 @@ class ChapterActivity : AppCompatActivity(), OnNetworkResponse {
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         actionBar?.title = intent.getStringExtra("title")*/
+
+        logoTool.setOnClickListener {
+            finish()
+        }
 
         requestChapter(batchId)
     }
